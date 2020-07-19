@@ -20,10 +20,14 @@
 #include "Places.h"
 // add your own #includes here
 
+#define PLAY_CHARS	8 // how much chars a play takes for each player (w space)
+#define NUM_PLAYERS	4
+
 // TODO: ADD YOUR OWN STRUCTS HERE
 
 struct gameView {
 	// TODO: ADD FIELDS HERE
+	char *playString; // Stores all past plays (i.e. game log)
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -99,15 +103,60 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 PlaceId *GvGetMoveHistory(GameView gv, Player player,
                           int *numReturnedMoves, bool *canFree)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numReturnedMoves = 0;
+	// Steps
+	// 1) Get number of turns/moves made from playString
+	// 2) malloc a moves array
+	// 3) Locate player and find where he moved to on each round
+	// 4) find place id using functions and struc from places.h
+	// 5) store id into moves array
+	// 6) set *numReturnedMoves to the number of moves returned
+	// 7) decide whether canFree is set to T/F. Determined by the caller
+	//	  i.e. If the array is part of the  GameView  data
+	//    structure,  you may not want the caller to modify or free it.
+
+	// moves are always separated by a single space character in real pastPlays strings
+
+	// e.g. command
+	// Dracula's move/location history
+	// {
+	// 	int numMoves = 0; bool canFree = false;
+	// 	PlaceId *moves = GvGetMoveHistory(gv, PLAYER_DRACULA,
+	// 	                                  &numMoves, &canFree);
+	// 	assert(numMoves == 6);
+	// 	assert(moves[0] == STRASBOURG);
+	// 	assert(moves[1] == CITY_UNKNOWN);
+	// 	assert(moves[2] == CITY_UNKNOWN);
+	// 	assert(moves[3] == DOUBLE_BACK_3);
+	// 	assert(moves[4] == HIDE);
+	// 	assert(moves[5] == CITY_UNKNOWN);
+	// 	if (canFree) free(moves);
+	// }
+
+	gv->playString
+
+	int round = 0;
+	while (playString[playerID] have a chars in each turn) {
+		round++:
+	}
+	char *moves = malloc(sizeof(char) * round);
+	while (for every round) {
+		// Use places.h specifically its sructs and function to convert place to
+		// ID
+		increment index for player for next round
+	}
+
+	*numReturnedMoves = round;
 	*canFree = false;
-	return NULL;
+	return moves;
 }
 
 PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
                         int *numReturnedMoves, bool *canFree)
 {
+
+	// NOTE: This  function is very similar to GvGetMoveHistory, except that
+	//       it gets only the last `numMoves` moves rather than the complete
+	//       move history.
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	*numReturnedMoves = 0;
 	*canFree = false;
@@ -117,6 +166,29 @@ PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
 PlaceId *GvGetLocationHistory(GameView gv, Player player,
                               int *numReturnedLocs, bool *canFree)
 {
+	// If  the given player is a hunter, this function should behave exactly
+	// the same as GvGetMoveHistory. If the given  player  is  Dracula,  the
+	// PlaceIds  returned  should  either  correspond  to real places, or be
+	// CITY_UNKNOWN or SEA_UNKNOWN. See the comment for  GvGetPlayerLocation
+	// for more details.
+
+	// 1) determine if player is a hunter or dracula
+	// 2) if player is dracula, then reveal moves
+	// i.e.
+	// {
+	// 	int numLocs = 0; bool canFree = false;
+	// 	PlaceId *locs = GvGetLocationHistory(gv, PLAYER_DRACULA,
+	// 	                                     &numLocs, &canFree);
+	// 	assert(numLocs == 6);
+	// 	assert(locs[0] == STRASBOURG);
+	// 	assert(locs[1] == CITY_UNKNOWN);
+	// 	assert(locs[2] == CITY_UNKNOWN);
+	// 	assert(locs[3] == STRASBOURG);
+	// 	assert(locs[4] == STRASBOURG);
+	// 	assert(locs[5] == CITY_UNKNOWN);
+	// 	if (canFree) free(locs);
+	// }
+
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	*numReturnedLocs = 0;
 	*canFree = false;
@@ -126,6 +198,10 @@ PlaceId *GvGetLocationHistory(GameView gv, Player player,
 PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
                             int *numReturnedLocs, bool *canFree)
 {
+	// NOTE: This function is very similar to  GvGetLocationHistory,  except
+	// that  it gets only the last `numLocs` locations rather than the
+    // complete location history.
+
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	*numReturnedLocs = 0;
 	*canFree = false;
