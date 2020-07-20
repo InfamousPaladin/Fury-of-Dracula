@@ -27,6 +27,7 @@
 
 struct gameView {
 	// TODO: ADD FIELDS HERE
+	// Maybe: add a field for messages array here
 	char *playString; // Stores all past plays (i.e. game log)
 };
 
@@ -36,6 +37,11 @@ struct gameView {
 GameView GvNew(char *pastPlays, Message messages[])
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+
+	// Basically summarises the current state of the game
+	// pastPlays variable = gamelog
+	// messages array holds each play (same number of elements as pastPlays)
+	// first play will be at index 0.
 	GameView new = malloc(sizeof(*new));
 	if (new == NULL) {
 		fprintf(stderr, "Couldn't allocate GameView!\n");
@@ -215,7 +221,27 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
                         PlaceId from, int *numReturnedLocs)
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+
+	// First consider the two types of players, Dracula & Hunters
+	// In this function we do not consider Draculas "trail"
+	// Remember hunters can move by rail sea road
+	// Dracula can't move by rail or move to hospitals.
+
+	// Steps:
+	// 1. Consider the graph of the map, and adjacent verticies (cities)
+	// 2. Create a dynamically allocated array (depends on the amount of cities)
+	// 3. Determine the number of adjacent cities and set *numReturnedLocs
+	// 4. Consider if the player is dracula or hunter
+	// if player is dracula restrict the following...
+	// there is a hospital adjacent, remove from array, -1 numReturnedLocs
+	// if there is a connection via rail, remove from array, -1 numReturnedLocs
+
+	// NOTE: order does not matter in the array, as long as it contains
+	// unique elements.
+
+	// update this variable
 	*numReturnedLocs = 0;
+	// return locations in a dynamically allocated array.
 	return NULL;
 }
 
@@ -224,6 +250,18 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
                               bool boat, int *numReturnedLocs)
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+
+	// Basically this function considers the connection type based on the 
+	// bools inputted into the function. e.g. if road & rail = true, then
+	// only include the moves available by road & rail.
+
+	// Steps:
+	// 1. Check all available moves (road, rail, boat) using the bool.
+	// 2. Consider the graph of the map, and adjacent verticies (cities).
+	// 3. Create a dynamically allocated array.
+	// 4. Determine the number of appropiate adjacent cities.
+	// 5. Consider if player is Dracula or Hunter.
+
 	*numReturnedLocs = 0;
 	return NULL;
 }
