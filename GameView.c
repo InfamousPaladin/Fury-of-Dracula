@@ -24,10 +24,22 @@
 #define NUM_PLAYERS	4
 
 // TODO: ADD YOUR OWN STRUCTS HERE
+typedef struct player *PlayerInfo
+struct player {
+	int health;
+	Player name;
+	PlaceId currLocation;
+};
 
 struct gameView {
 	// TODO: ADD FIELDS HERE
 	// Maybe: add a field for messages array here
+	// displays what round it is.
+	Round round;
+	Map map;
+	Player currPlayer;
+	int score;
+	PlayerInfo *players[NUM_PLAYERS];
 	char *playString; // Stores all past plays (i.e. game log)
 };
 
@@ -47,13 +59,50 @@ GameView GvNew(char *pastPlays, Message messages[])
 		fprintf(stderr, "Couldn't allocate GameView!\n");
 		exit(EXIT_FAILURE);
 	}
-
+	// initialising all players in the game by turn order
+	new->players[0].name = PLAYER_LORD_GODALMING;
+	new->players[1].name = PLAYER_DR_SEWARD;
+	new->players[2].name = PLAYER_VAN_HELSING;
+	new->players[3].name = PLAYER_MINA_HARKER;
+	new->players[4].name = PLAYER_DRACULA;
+	// getting the current location of players
+	new->players[0].location = GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
+	new->players[1].location = GvGetPlayerLocation(new, PLAYER_DR_SEWARD);
+	new->players[2].location = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
+	new->players[3].location = GvGetPlayerLocation(new, PLAYER_MINA_HARKER);
+	new->players[4].location = GvGetPlayerLocation(new, PLAYER_DRACULA);
+	// the game just started
+	if (pastPlays[0] == NULL) {
+		new->score = GAME_START_SCORE;
+		new->round = 0;
+		// initialising players health at the start of the game
+		new->players[0].health = GAME_START_HUNTER_LIFE_POINTS;
+		new->players[1].health = GAME_START_HUNTER_LIFE_POINTS;
+		new->players[2].health = GAME_START_HUNTER_LIFE_POINTS;
+		new->players[3].health = GAME_START_HUNTER_LIFE_POINTS;
+		new->players[4].health = GAME_START_BLOOD_POINTS;
+	} else {
+		// the game has been going on.
+		int i = 0;
+		// pastPlays keeps track of the number of rounds, through indexs
+		while (pastPlays[i] != NULL) i++;
+		new->round = i;
+		// calculating the gamescore
+		new->score = GvGetScore(new);
+		new->players[0].health = GvGetHealth(new, PLAYER_LORD_GODALMING);
+		new->players[1].health = GvGetHealth(new, PLAYER_DR_SEWARD);
+		new->players[2].health = GvGetHealth(new, PLAYER_VAN_HELSING);
+		new->players[3].health = GvGetHealth(new, PLAYER_MINA_HARKER);
+		new->players[4].health = GvGetHealth(new, PLAYER_DRACULA);
+	}
 	return new;
 }
 
 void GvFree(GameView gv)
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	free(gv->players);
+	MapFree(gv->map);
 	free(gv);
 }
 
@@ -227,6 +276,9 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 	// Remember hunters can move by rail sea road
 	// Dracula can't move by rail or move to hospitals.
 
+	// NOTE: Remember that the distance allowed to travel by rail depends
+	// on the round number.
+
 	// Steps:
 	// 1. Consider the graph of the map, and adjacent verticies (cities)
 	// 2. Create a dynamically allocated array (depends on the amount of cities)
@@ -238,6 +290,9 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 
 	// NOTE: order does not matter in the array, as long as it contains
 	// unique elements.
+
+	PlaceId *reachable = malloc(sizeof(PlaceId) * gv->Links);
+
 
 	// update this variable
 	*numReturnedLocs = 0;
