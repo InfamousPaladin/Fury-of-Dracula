@@ -20,7 +20,8 @@
 #include "Places.h"
 // add your own #includes here
 
-#define PLAY_CHARS	8 // how much chars a play takes for each player (w space)
+#define TURN_CHARS	8	// chars each turn takes in play string (w space)
+#define ROUND_CHARS	40 	// chars each round takes in play string (w space)
 #define NUM_PLAYERS	4
 
 // TODO: ADD YOUR OWN STRUCTS HERE
@@ -141,6 +142,7 @@ PlaceId *GvGetMoveHistory(GameView gv, Player player,
 	// 	if (canFree) free(moves);
 	// }
 
+	// Test - placeholder data
 	gv->playString =
 			"GLS.... SGE.... HGE.... MGE.... DST.V.. "
 			"GCA.... SGE.... HGE.... MGE.... DC?T... "
@@ -151,19 +153,23 @@ PlaceId *GvGetMoveHistory(GameView gv, Player player,
 			"GMA.... SSTTTV.";
 	gv->round = 6;
 
-	PlaceId *moves = malloc(sizeof(PlaceId) * gv->round);
+	PlaceId *moves = malloc(sizeof(PlaceId) * (gv->round + 1));
 	int i;
 	for (i = 0; i <= gv->round; i++) {
-		int currTurn = PLAY_CHARS * player + 40 * i;
 		Place curr;
+
 		char placeAbbrev[2];
 		curr.abbrev = placeAbbrev;
+
+		// Formula to calculate index of the player location in a given round
+		int currTurn = TURN_CHARS * player + ROUND_CHARS * i;
 		curr.abbrev[0] = gv->playString[currTurn + 1]; 
 		curr.abbrev[1] = gv->playString[currTurn + 2];
+
 		curr.id = placeAbbrevToId(curr.abbrev);
 		moves[i] = curr.id;
 	}
-	*numReturnedMoves = 7;
+	*numReturnedMoves = i;
 
 	*canFree = false;
 	return moves;
@@ -176,10 +182,46 @@ PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
 	// NOTE: This  function is very similar to GvGetMoveHistory, except that
 	//       it gets only the last `numMoves` moves rather than the complete
 	//       move history.
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numReturnedMoves = 0;
+
+	// Test - placeholder data
+	gv->playString =
+			"GLS.... SGE.... HGE.... MGE.... DST.V.. "
+			"GCA.... SGE.... HGE.... MGE.... DC?T... "
+			"GGR.... SGE.... HGE.... MGE.... DC?T... "
+			"GAL.... SGE.... HGE.... MGE.... DD3T... "
+			"GSR.... SGE.... HGE.... MGE.... DHIT... "
+			"GSN.... SGE.... HGE.... MGE.... DC?T... "
+			"GMA.... SSTTTV.";
+	gv->round = 6;
+
+
+	PlaceId *moves = malloc(sizeof(PlaceId) * numMoves);
+
+	// Formula to find the last accessible move in pastPlay string 
+	int startIndex = gv->round - numMoves + 1;
+	// Error checks
+	if (startIndex < 0) startIndex = 0;
+	if (numMoves > gv->round) numMoves = gv->round;
+
+	int i;
+	for (i = 0; i < numMoves; i++, startIndex++) {
+		Place curr;
+
+		char placeAbbrev[2];
+		curr.abbrev = placeAbbrev;
+
+		// Formula to calculate index of the player location in a given round
+		int currTurn = TURN_CHARS * player + ROUND_CHARS * startIndex;
+		curr.abbrev[0] = gv->playString[currTurn + 1]; 
+		curr.abbrev[1] = gv->playString[currTurn + 2];
+		
+		curr.id = placeAbbrevToId(curr.abbrev);
+		moves[i] = curr.id;
+	}
+	*numReturnedMoves = i;
+
 	*canFree = false;
-	return NULL;
+	return moves;
 }
 
 PlaceId *GvGetLocationHistory(GameView gv, Player player,
