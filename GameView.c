@@ -22,7 +22,6 @@
 
 #define TURN_CHARS	8	// chars each turn takes in play string (w space)
 #define ROUND_CHARS	40 	// chars each round takes in play string (w space)
-#define NUM_PLAYERS	4
 
 // TODO: ADD YOUR OWN STRUCTS HERE
 
