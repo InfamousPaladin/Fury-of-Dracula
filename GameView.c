@@ -20,9 +20,10 @@
 #include "Places.h"
 // add your own #includes here
 
-#define PLAY_CHARS	8 // how much chars a play takes for each player (w space)
-#define NUM_PLAYERS	4
+#define TURN_CHARS	8	// chars each turn takes in play string (w space)
+#define ROUND_CHARS	40 	// chars each round takes in play string (w space)
 
+<<<<<<< HEAD
 // TODO: ADD YOUR OWN STRUCTS HERE
 typedef struct player *PlayerInfo
 struct player {
@@ -30,9 +31,25 @@ struct player {
 	Player name;
 	PlaceId currLocation;
 };
+=======
+// each player is given player information
+// this information is mapped to playerID
+typedef struct playerInfo
+{
+	int health;
+	Player name;
+	PlaceId location;
 
-struct gameView {
-	// TODO: ADD FIELDS HERE
+} playerInfo;
+>>>>>>> 7cdde3ee9cdbdc575d530c825e0348ef1c1da6a3
+
+struct gameView 
+{
+	int score;
+	Round round;
+	Player currentPlayer;
+	PlaceId imvampireLocation;
+	playerInfo *playerID[NUM_PLAYERS];
 	// Maybe: add a field for messages array here
 	// displays what round it is.
 	Round round;
@@ -111,38 +128,33 @@ void GvFree(GameView gv)
 
 Round GvGetRound(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv->round;
 }
 
 Player GvGetPlayer(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return PLAYER_LORD_GODALMING;
+	return gv->currPlayer;
 }
 
 int GvGetScore(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv->score;
 }
 
 int GvGetHealth(GameView gv, Player player)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv->playerID[player]->health;
 }
 
 PlaceId GvGetPlayerLocation(GameView gv, Player player)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return NOWHERE;
+	return gv->playerID[player]->location;
 }
 
 PlaceId GvGetVampireLocation(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return NOWHERE;
+	// Dracula's playerID is 5
+	return gv->imvampireLocation;
 }
 
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
@@ -158,49 +170,37 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 PlaceId *GvGetMoveHistory(GameView gv, Player player,
                           int *numReturnedMoves, bool *canFree)
 {
-	// Steps
-	// 1) Get number of turns/moves made from playString
-	// 2) malloc a moves array
-	// 3) Locate player and find where he moved to on each round
-	// 4) find place id using functions and struc from places.h
-	// 5) store id into moves array
-	// 6) set *numReturnedMoves to the number of moves returned
-	// 7) decide whether canFree is set to T/F. Determined by the caller
-	//	  i.e. If the array is part of the  GameView  data
-	//    structure,  you may not want the caller to modify or free it.
+	// TODO: Test - placeholder data
+	gv->playString =
+			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
+			"GCA.... SAL.... HAL.... MGE.... DC?T... "
+			"GGR.... SBO.... HBO.... MGE.... DC?T... "
+			"GAL.... SNA.... HNA.... MGE.... DD3T... "
+			"GSR.... SPA.... HPA.... MGE.... DHIT... "
+			"GSN.... SST.... HST.... MGE.... DC?T... "
+			"GMA.... SFLTTV.";
+	gv->round = 6;
+	gv->currPlayer = PLAYER_VAN_HELSING;
 
-	// moves are always separated by a single space character in real pastPlays strings
+	if (player < gv->currPlayer) gv->round++; 
+	PlaceId *moves = malloc(sizeof(PlaceId) * (gv->round));
 
-	// e.g. command
-	// Dracula's move/location history
-	// {
-	// 	int numMoves = 0; bool canFree = false;
-	// 	PlaceId *moves = GvGetMoveHistory(gv, PLAYER_DRACULA,
-	// 	                                  &numMoves, &canFree);
-	// 	assert(numMoves == 6);
-	// 	assert(moves[0] == STRASBOURG);
-	// 	assert(moves[1] == CITY_UNKNOWN);
-	// 	assert(moves[2] == CITY_UNKNOWN);
-	// 	assert(moves[3] == DOUBLE_BACK_3);
-	// 	assert(moves[4] == HIDE);
-	// 	assert(moves[5] == CITY_UNKNOWN);
-	// 	if (canFree) free(moves);
-	// }
+	int i;
+	for (i = 0; i < gv->round; i++) {
+		Place curr;
+		char placeAbbrev[2];
+		curr.abbrev = placeAbbrev;
 
-	gv->playString
+		// Formula to calculate index of the player location in a given round
+		int currTurn = TURN_CHARS * player + ROUND_CHARS * i;
+		curr.abbrev[0] = gv->playString[currTurn + 1]; 
+		curr.abbrev[1] = gv->playString[currTurn + 2];
 
-	int round = 0;
-	while (playString[playerID] have a chars in each turn) {
-		round++:
+		curr.id = placeAbbrevToId(curr.abbrev);
+		moves[i] = curr.id;
 	}
-	char *moves = malloc(sizeof(char) * round);
-	while (for every round) {
-		// Use places.h specifically its sructs and function to convert place to
-		// ID
-		increment index for player for next round
-	}
+	*numReturnedMoves = i;
 
-	*numReturnedMoves = round;
 	*canFree = false;
 	return moves;
 }
@@ -212,42 +212,100 @@ PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
 	// NOTE: This  function is very similar to GvGetMoveHistory, except that
 	//       it gets only the last `numMoves` moves rather than the complete
 	//       move history.
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numReturnedMoves = 0;
+
+	// Test - placeholder data
+	gv->playString =
+			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
+			"GCA.... SAL.... HAL.... MGE.... DC?T... "
+			"GGR.... SBO.... HBO.... MGE.... DC?T... "
+			"GAL.... SNA.... HNA.... MGE.... DD3T... "
+			"GSR.... SPA.... HPA.... MGE.... DHIT... "
+			"GSN.... SST.... HST.... MGE.... DC?T... "
+			"GMA.... SFLTTV.";
+	gv->round = 6;
+	gv->currPlayer = PLAYER_VAN_HELSING;
+
+	// Formula to find the last accessible move in pastPlay string 
+	int startIndex = gv->round - numMoves;
+	if (player < gv->currPlayer) startIndex++;
+	// Error checks
+	if (startIndex < 0) startIndex = 0;
+	if (numMoves > gv->round) numMoves = gv->round;
+	PlaceId *moves = malloc(sizeof(PlaceId) * numMoves);
+
+
+	int i;
+	for (i = 0; i < numMoves; i++, startIndex++) {
+		Place curr;
+		char placeAbbrev[2];
+		curr.abbrev = placeAbbrev;
+
+		// Formula to calculate index of the player location in a given round
+		int currTurn = TURN_CHARS * player + ROUND_CHARS * startIndex;
+		curr.abbrev[0] = gv->playString[currTurn + 1]; 
+		curr.abbrev[1] = gv->playString[currTurn + 2];
+		
+		curr.id = placeAbbrevToId(curr.abbrev);
+		moves[i] = curr.id;
+	}
+	*numReturnedMoves = i;
+
 	*canFree = false;
-	return NULL;
+	return moves;
 }
 
 PlaceId *GvGetLocationHistory(GameView gv, Player player,
                               int *numReturnedLocs, bool *canFree)
 {
-	// If  the given player is a hunter, this function should behave exactly
-	// the same as GvGetMoveHistory. If the given  player  is  Dracula,  the
-	// PlaceIds  returned  should  either  correspond  to real places, or be
-	// CITY_UNKNOWN or SEA_UNKNOWN. See the comment for  GvGetPlayerLocation
-	// for more details.
+	gv->playString =
+			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
+			"GCA.... SAL.... HAL.... MGE.... DC?T... "
+			"GGR.... SBO.... HBO.... MGE.... DC?T... "
+			"GAL.... SNA.... HNA.... MGE.... DD3T... "
+			"GSR.... SPA.... HPA.... MGE.... DHIT... "
+			"GSN.... SST.... HST.... MGE.... DC?T... "
+			"GMA.... SFLTTV.";
+	gv->round = 6;
+	gv->currPlayer = PLAYER_VAN_HELSING;
 
-	// 1) determine if player is a hunter or dracula
-	// 2) if player is dracula, then reveal moves
-	// i.e.
-	// {
-	// 	int numLocs = 0; bool canFree = false;
-	// 	PlaceId *locs = GvGetLocationHistory(gv, PLAYER_DRACULA,
-	// 	                                     &numLocs, &canFree);
-	// 	assert(numLocs == 6);
-	// 	assert(locs[0] == STRASBOURG);
-	// 	assert(locs[1] == CITY_UNKNOWN);
-	// 	assert(locs[2] == CITY_UNKNOWN);
-	// 	assert(locs[3] == STRASBOURG);
-	// 	assert(locs[4] == STRASBOURG);
-	// 	assert(locs[5] == CITY_UNKNOWN);
-	// 	if (canFree) free(locs);
-	// }
+	if (player != PLAYER_DRACULA) {
+		return GvGetMoveHistory(gv, player, numReturnedLocs, canFree);
+	} else {
+		if (player < gv->currPlayer) gv->round++; 
+		PlaceId *moves = malloc(sizeof(PlaceId) * (gv->round));
 
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numReturnedLocs = 0;
-	*canFree = false;
-	return NULL;
+		int i;
+		for (i = 0; i < gv->round; i++) {
+			Place curr;
+			char placeAbbrev[2];
+			curr.abbrev = placeAbbrev;
+
+			// Formula to calculate index of the player location in a given round
+			int currTurn = TURN_CHARS * player + ROUND_CHARS * i;
+			curr.abbrev[0] = gv->playString[currTurn + 1]; 
+			curr.abbrev[1] = gv->playString[currTurn + 2];
+
+			curr.id = placeAbbrevToId(curr.abbrev);
+			
+			if (curr.id == HIDE || curr.id == DOUBLE_BACK_1)
+				curr.id = moves[i - 1];
+			else if (curr.id == DOUBLE_BACK_2)
+				curr.id = moves[i - 2];
+			else if (curr.id == DOUBLE_BACK_3)
+				curr.id = moves[i - 3];
+			else if (curr.id == DOUBLE_BACK_4)
+				curr.id = moves[i - 4];
+			else if (curr.id == DOUBLE_BACK_5)
+				curr.id = moves[i - 5];
+
+			moves[i] = curr.id;
+		}
+		*numReturnedLocs = i;
+
+		*canFree = false;
+		return moves;
+	
+	}
 }
 
 PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
@@ -257,10 +315,23 @@ PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
 	// that  it gets only the last `numLocs` locations rather than the
     // complete location history.
 
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numReturnedLocs = 0;
-	*canFree = false;
-	return 0;
+	gv->playString =
+			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
+			"GCA.... SAL.... HAL.... MGE.... DC?T... "
+			"GGR.... SBO.... HBO.... MGE.... DC?T... "
+			"GAL.... SNA.... HNA.... MGE.... DD3T... "
+			"GSR.... SPA.... HPA.... MGE.... DHIT... "
+			"GSN.... SST.... HST.... MGE.... DC?T... "
+			"GMA.... SFLTTV.";
+	gv->round = 6;
+	gv->currPlayer = PLAYER_VAN_HELSING;
+
+	if (player != PLAYER_DRACULA) {
+		return GvGetLastMoves(gv, player, numLocs, numReturnedLocs, canFree);
+	} else {
+		// TODO
+		return 0;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////

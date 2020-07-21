@@ -343,26 +343,32 @@ int main(void)
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Testing move/location history\n");
 		
+		printf("============ Testing move/location history ============\n");
+	
 		char *trail =
-			"GLS.... SGE.... HGE.... MGE.... DST.V.. "
-			"GCA.... SGE.... HGE.... MGE.... DC?T... "
-			"GGR.... SGE.... HGE.... MGE.... DC?T... "
-			"GAL.... SGE.... HGE.... MGE.... DD3T... "
-			"GSR.... SGE.... HGE.... MGE.... DHIT... "
-			"GSN.... SGE.... HGE.... MGE.... DC?T... "
-			"GMA.... SSTTTV.";
+			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
+			"GCA.... SAL.... HAL.... MGE.... DC?T... "
+			"GGR.... SBO.... HBO.... MGE.... DC?T... "
+			"GAL.... SNA.... HNA.... MGE.... DD3T... "
+			"GSR.... SPA.... HPA.... MGE.... DHIT... "
+			"GSN.... SST.... HST.... MGE.... DC?T... "
+			"GMA.... SFLTTV.";
 		
 		Message messages[32] = {};
 		GameView gv = GvNew(trail, messages);
 		
-		assert(GvGetHealth(gv, PLAYER_DR_SEWARD) ==
-				GAME_START_HUNTER_LIFE_POINTS - 2 * LIFE_LOSS_TRAP_ENCOUNTER);
-		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
-		assert(GvGetVampireLocation(gv) == STRASBOURG);
+		// assert(GvGetHealth(gv, PLAYER_DR_SEWARD) ==
+		// 		GAME_START_HUNTER_LIFE_POINTS - 2 * LIFE_LOSS_TRAP_ENCOUNTER);
+		// assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		// assert(GvGetVampireLocation(gv) == STRASBOURG);
 		
-		// Lord Godalming's move/location history
+
+		printf("===> Testing GvGetMoveHistory and GvGetLastMoves Functions\n");
+		printf("==> Test Cases:\n");
+		
+		// Test Case: Lord Godalming (player is before current player)
+		printf("-> Lord Godalming's entire move history: ");
 		{
 			int numMoves = 0; bool canFree = false;
 			PlaceId *moves = GvGetMoveHistory(gv, PLAYER_LORD_GODALMING,
@@ -377,8 +383,87 @@ int main(void)
 			assert(moves[6] == MADRID);
 			if (canFree) free(moves);
 		}
+		printf("Test Passed!\n");
 		
-		// Dracula's move/location history
+		printf("-> Lord Godalming's last n move history: ");
+		{
+			int lastNMoves = 3;
+			int numMoves = 0; bool canFree = false;
+			PlaceId *moves = GvGetLastMoves(gv, PLAYER_LORD_GODALMING,
+											lastNMoves, &numMoves, &canFree);
+			assert(numMoves == 3);
+			assert(moves[0] == SARAGOSSA);
+			assert(moves[1] == SANTANDER);
+			assert(moves[2] == MADRID);
+			if (canFree) free(moves);
+		}
+		printf("Test Passed!\n");
+
+		// Test Case: Dr Seward (player is the next to current player)
+		printf("-> Dr Seward's entire move history: ");
+		{
+			int numMoves = 0; bool canFree = false;
+			PlaceId *moves = GvGetMoveHistory(gv, PLAYER_DR_SEWARD,
+			                                  &numMoves, &canFree);
+			assert(numMoves == 7);
+			assert(moves[0] == LISBON);
+			assert(moves[1] == ALICANTE);
+			assert(moves[2] == BORDEAUX);
+			assert(moves[3] == NANTES);
+			assert(moves[4] == PARIS);
+			assert(moves[5] == STRASBOURG);
+			assert(moves[6] == FLORENCE);
+			if (canFree) free(moves);
+		}
+		printf("Test Passed!\n");
+		
+		printf("-> Dr Seward's last n move history: ");
+		{
+			int lastNMoves = 3;
+			int numMoves = 0; bool canFree = false;
+			PlaceId *moves = GvGetLastMoves(gv, PLAYER_DR_SEWARD,
+											lastNMoves, &numMoves, &canFree);
+			assert(numMoves == 3);
+			assert(moves[0] == PARIS);
+			assert(moves[1] == STRASBOURG);
+			assert(moves[2] == FLORENCE);
+			if (canFree) free(moves);
+		}
+		printf("Test Passed!\n");
+
+		// Test Case: Dr Van Helsing (player is current player)
+		printf("-> Dr Van Helsing's entire move history: ");
+		{
+			int numMoves = 0; bool canFree = false;
+			PlaceId *moves = GvGetMoveHistory(gv, PLAYER_VAN_HELSING,
+			                                  &numMoves, &canFree);
+			assert(numMoves == 6);
+			assert(moves[0] == LISBON);
+			assert(moves[1] == ALICANTE);
+			assert(moves[2] == BORDEAUX);
+			assert(moves[3] == NANTES);
+			assert(moves[4] == PARIS);
+			assert(moves[5] == STRASBOURG);
+			if (canFree) free(moves);
+		}
+		printf("Test Passed!\n");
+		
+		printf("-> Dr Van Helsing's last n move history: ");
+		{
+			int lastNMoves = 3;
+			int numMoves = 0; bool canFree = false;
+			PlaceId *moves = GvGetLastMoves(gv, PLAYER_VAN_HELSING,
+											lastNMoves, &numMoves, &canFree);
+			assert(numMoves == 3);
+			assert(moves[0] == NANTES);
+			assert(moves[1] == PARIS);
+			assert(moves[2] == STRASBOURG);
+			if (canFree) free(moves);
+		}
+		printf("Test Passed!\n");
+
+		// Test Case: Dracula (player after current player)
+		printf("-> Dracula's entire move history: ");
 		{
 			int numMoves = 0; bool canFree = false;
 			PlaceId *moves = GvGetMoveHistory(gv, PLAYER_DRACULA,
@@ -392,7 +477,46 @@ int main(void)
 			assert(moves[5] == CITY_UNKNOWN);
 			if (canFree) free(moves);
 		}
+		printf("Test Passed!\n");
 		
+		printf("-> Dracula's last n move history: ");
+		{
+			int lastNMoves = 3;
+			int numMoves = 0; bool canFree = false;
+			PlaceId *moves = GvGetLastMoves(gv, PLAYER_DRACULA,
+											lastNMoves, &numMoves, &canFree);
+			assert(numMoves == 3);
+			assert(moves[0] == DOUBLE_BACK_3);
+			assert(moves[1] == HIDE);
+			assert(moves[2] == CITY_UNKNOWN);
+			if (canFree) free(moves);
+		}
+		printf("Test Passed!\n");
+		
+		printf("===> Testing GvGetLocationHistory and GvGetLastLocations Functions\n");
+		printf("==> Test Cases:\n");
+
+		// Test Case: Hunters
+		// Test to see GvGetLocationHistory functions the same as GvGetLastMoves
+		// for hunters
+		printf("-> Dr Van Helsing's entire location history: ");
+		{
+			int numLocs = 0; bool canFree = false;
+			PlaceId *locs = GvGetLocationHistory(gv, PLAYER_VAN_HELSING,
+			                                     &numLocs, &canFree);
+			assert(numLocs == 6);
+			assert(locs[0] == LISBON);
+			assert(locs[1] == ALICANTE);
+			assert(locs[2] == BORDEAUX);
+			assert(locs[3] == NANTES);
+			assert(locs[4] == PARIS);
+			assert(locs[5] == STRASBOURG);
+			if (canFree) free(locs);
+		}
+		printf("Test Passed!\n");
+
+		// Test Case: Dracula
+		printf("-> Dracula's entire location history: ");
 		{
 			int numLocs = 0; bool canFree = false;
 			PlaceId *locs = GvGetLocationHistory(gv, PLAYER_DRACULA,
@@ -406,9 +530,26 @@ int main(void)
 			assert(locs[5] == CITY_UNKNOWN);
 			if (canFree) free(locs);
 		}
-		
+
+
+		// printf("-> Dracula's entire location history: ");
+		// {
+		// 	int numLocs = 0; bool canFree = false;
+		// 	PlaceId *locs = GvGetLastLocations(gv, PLAYER_DRACULA,
+		// 	                                     &numLocs, &canFree);
+		// 	assert(numLocs == 6);
+		// 	assert(locs[0] == STRASBOURG);
+		// 	assert(locs[1] == CITY_UNKNOWN);
+		// 	assert(locs[2] == CITY_UNKNOWN);
+		// 	assert(locs[3] == STRASBOURG);
+		// 	assert(locs[4] == STRASBOURG);
+		// 	assert(locs[5] == CITY_UNKNOWN);
+		// 	if (canFree) free(locs);
+		// }
+
 		GvFree(gv);
 		printf("Test passed!\n");
+
 	}
 
 	{///////////////////////////////////////////////////////////////////
@@ -469,7 +610,7 @@ int main(void)
 			assert(numLocs == 7);
 			sortPlaces(locs, numLocs);
 			assert(locs[0] == BORDEAUX);
-			assert(locs[1] == BUCHAREST);
+			assert(locs[1] == BRUSSELS);
 			assert(locs[2] == COLOGNE);
 			assert(locs[3] == LE_HAVRE);
 			assert(locs[4] == MARSEILLES);
