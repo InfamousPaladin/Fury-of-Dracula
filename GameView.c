@@ -21,9 +21,21 @@
 // add your own #includes here
 
 // TODO: ADD YOUR OWN STRUCTS HERE
+typedef struct playerInfo
+{
+	int health;
+	Player name;
+	PlaceId location;
 
-struct gameView {
+} playerInfo;
+
+struct gameView 
+{
 	// TODO: ADD FIELDS HERE
+	int score;
+	Round round;
+	Player currentPlayer;
+	playerInfo *playerID[NUM_PLAYERS];
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -52,38 +64,33 @@ void GvFree(GameView gv)
 
 Round GvGetRound(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv->round;
 }
 
 Player GvGetPlayer(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return PLAYER_LORD_GODALMING;
+	return gv->currentPlayer;
 }
 
 int GvGetScore(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv->score;
 }
 
 int GvGetHealth(GameView gv, Player player)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv->playerID[player]->health;
 }
 
 PlaceId GvGetPlayerLocation(GameView gv, Player player)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return NOWHERE;
+	return gv->playerID[player]->location;
 }
 
 PlaceId GvGetVampireLocation(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return NOWHERE;
+	// Dracula's playerID is 5
+	return gv->playerID[5]->location;
 }
 
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
