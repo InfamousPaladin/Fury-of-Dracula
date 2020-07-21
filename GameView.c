@@ -28,6 +28,9 @@
 struct gameView {
 	// TODO: ADD FIELDS HERE
 	// Maybe: add a field for messages array here
+	int round;
+	int turn;
+
 	char *playString; // Stores all past plays (i.e. game log)
 };
 
@@ -138,20 +141,30 @@ PlaceId *GvGetMoveHistory(GameView gv, Player player,
 	// 	if (canFree) free(moves);
 	// }
 
-	gv->playString
+	gv->playString =
+			"GLS.... SGE.... HGE.... MGE.... DST.V.. "
+			"GCA.... SGE.... HGE.... MGE.... DC?T... "
+			"GGR.... SGE.... HGE.... MGE.... DC?T... "
+			"GAL.... SGE.... HGE.... MGE.... DD3T... "
+			"GSR.... SGE.... HGE.... MGE.... DHIT... "
+			"GSN.... SGE.... HGE.... MGE.... DC?T... "
+			"GMA.... SSTTTV.";
+	gv->round = 6;
 
-	int round = 0;
-	while (playString[playerID] have a chars in each turn) {
-		round++:
+	PlaceId *moves = malloc(sizeof(PlaceId) * gv->round);
+	int i;
+	for (i = 0; i <= gv->round; i++) {
+		int currTurn = PLAY_CHARS * player + 40 * i;
+		Place curr;
+		char placeAbbrev[2];
+		curr.abbrev = placeAbbrev;
+		curr.abbrev[0] = gv->playString[currTurn + 1]; 
+		curr.abbrev[1] = gv->playString[currTurn + 2];
+		curr.id = placeAbbrevToId(curr.abbrev);
+		moves[i] = curr.id;
 	}
-	char *moves = malloc(sizeof(char) * round);
-	while (for every round) {
-		// Use places.h specifically its sructs and function to convert place to
-		// ID
-		increment index for player for next round
-	}
+	*numReturnedMoves = 7;
 
-	*numReturnedMoves = round;
 	*canFree = false;
 	return moves;
 }
