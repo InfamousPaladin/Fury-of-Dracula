@@ -23,40 +23,21 @@
 #define TURN_CHARS	8	// chars each turn takes in play string (w space)
 #define ROUND_CHARS	40 	// chars each round takes in play string (w space)
 
-<<<<<<< HEAD
 // TODO: ADD YOUR OWN STRUCTS HERE
 typedef struct player *PlayerInfo
 struct player {
 	int health;
 	Player name;
-	PlaceId currLocation;
-};
-=======
-// each player is given player information
-// this information is mapped to playerID
-typedef struct playerInfo
-{
-	int health;
-	Player name;
 	PlaceId location;
-
-} playerInfo;
->>>>>>> 7cdde3ee9cdbdc575d530c825e0348ef1c1da6a3
+};
 
 struct gameView 
 {
-	int score;
-	Round round;
-	Player currentPlayer;
-	PlaceId imvampireLocation;
-	playerInfo *playerID[NUM_PLAYERS];
-	// Maybe: add a field for messages array here
-	// displays what round it is.
-	Round round;
-	Map map;
-	Player currPlayer;
-	int score;
-	PlayerInfo *players[NUM_PLAYERS];
+	Round round; // keeps track of the round
+	Map map; // map of the board
+	Player currPlayer; // whos turn
+	int score; // current score of the game
+	PlayerInfo *players[NUM_PLAYERS]; // 
 	char *playString; // Stores all past plays (i.e. game log)
 };
 
