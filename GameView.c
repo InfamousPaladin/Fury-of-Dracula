@@ -23,7 +23,8 @@
 #define TURN_CHARS	8	// chars each turn takes in play string (w space)
 #define ROUND_CHARS	40 	// chars each round takes in play string (w space)
 
-// TODO: ADD YOUR OWN STRUCTS HERE
+// each player is given player information
+// this information is mapped to playerID
 typedef struct playerInfo
 {
 	int health;
@@ -36,7 +37,8 @@ struct gameView
 {
 	int score;
 	Round round;
-	Player currPlayer;
+	Player currentPlayer;
+	PlaceId imvampireLocation;
 	playerInfo *playerID[NUM_PLAYERS];
 	// Maybe: add a field for messages array here
 	char *playString; // Stores all past plays (i.e. game log)
@@ -99,7 +101,7 @@ PlaceId GvGetPlayerLocation(GameView gv, Player player)
 PlaceId GvGetVampireLocation(GameView gv)
 {
 	// Dracula's playerID is 5
-	return gv->playerID[5]->location;
+	return gv->imvampireLocation;
 }
 
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
