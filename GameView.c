@@ -24,12 +24,22 @@
 #define ROUND_CHARS	40 	// chars each round takes in play string (w space)
 
 // TODO: ADD YOUR OWN STRUCTS HERE
+typedef struct playerInfo
+{
+	int health;
+	Player name;
+	PlaceId location;
 
-struct gameView {
-	// TODO: ADD FIELDS HERE
-	int round;			// stores current round - first round starts at 0
+} playerInfo;
+
+struct gameView 
+{
+	int score;
+	Round round;
 	Player currPlayer;
-	char *playString; 	// stores all past plays (i.e. game log)
+	playerInfo *playerID[NUM_PLAYERS];
+	// Maybe: add a field for messages array here
+	char *playString; // Stores all past plays (i.e. game log)
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -63,38 +73,33 @@ void GvFree(GameView gv)
 
 Round GvGetRound(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv->round;
 }
 
 Player GvGetPlayer(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return PLAYER_LORD_GODALMING;
+	return gv->currPlayer;
 }
 
 int GvGetScore(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv->score;
 }
 
 int GvGetHealth(GameView gv, Player player)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv->playerID[player]->health;
 }
 
 PlaceId GvGetPlayerLocation(GameView gv, Player player)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return NOWHERE;
+	return gv->playerID[player]->location;
 }
 
 PlaceId GvGetVampireLocation(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return NOWHERE;
+	// Dracula's playerID is 5
+	return gv->playerID[5]->location;
 }
 
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
