@@ -151,15 +151,16 @@ int GvGetScore(GameView gv)
 // Game History
 
 // Returns the placeId (location) of a player for a given round
-static Place getPlaceId (GameView gv, Player player, int round) {
+static Place getPlaceId (GameView gv, Player player, int round)
+{
 	Place location;
 	char placeAbbrev[2];
 	location.abbrev = placeAbbrev;
 
 	// Formula to calculate index of the player location in a given round
-	int currTurn = TURN_CHARS * player + ROUND_CHARS * round;
-	location.abbrev[0] = gv->playString[currTurn + 1]; 
-	location.abbrev[1] = gv->playString[currTurn + 2];
+	int playerTurn = TURN_CHARS * player + ROUND_CHARS * round;
+	location.abbrev[0] = gv->playString[playerTurn + 1]; 
+	location.abbrev[1] = gv->playString[playerTurn + 2];
 	
 	location.id = placeAbbrevToId(location.abbrev);
 
@@ -197,12 +198,7 @@ PlaceId *GvGetMoveHistory(GameView gv, Player player,
 PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
                         int *numReturnedMoves, bool *canFree)
 {
-
-	// NOTE: This  function is very similar to GvGetMoveHistory, except that
-	//       it gets only the last `numMoves` moves rather than the complete
-	//       move history.
-
-	// Test - placeholder data
+	// TODO: Test - placeholder data
 	gv->playString =
 			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
 			"GCA.... SAL.... HAL.... MGE.... DC?T... "
@@ -217,11 +213,12 @@ PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
 	// Formula to find the last accessible move in pastPlay string 
 	int startIndex = gv->round - numMoves;
 	if (player < gv->currPlayer) startIndex++;
-	// Error checks
+
+	// Error checks and bounds them
 	if (startIndex < 0) startIndex = 0;
 	if (numMoves > gv->round) numMoves = gv->round;
-	PlaceId *moves = malloc(sizeof(PlaceId) * numMoves);
 
+	PlaceId *moves = malloc(sizeof(PlaceId) * numMoves);
 
 	int i;
 	for (i = 0; i < numMoves; i++, startIndex++) {
@@ -233,11 +230,10 @@ PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
 	return moves;
 }
 
-
-
 PlaceId *GvGetLocationHistory(GameView gv, Player player,
                               int *numReturnedLocs, bool *canFree)
 {
+	// TODO: Test - placeholder data
 	gv->playString =
 			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
 			"GCA.... SAL.... HAL.... MGE.... DC?T... "
@@ -249,6 +245,8 @@ PlaceId *GvGetLocationHistory(GameView gv, Player player,
 	gv->round = 6;
 	gv->currPlayer = PLAYER_VAN_HELSING;
 
+	// Case where the player is a hunter, this function should behave exactly
+	// the same as GvGetMoveHistory.
 	if (player != PLAYER_DRACULA) {
 		return GvGetMoveHistory(gv, player, numReturnedLocs, canFree);
 	} else {
@@ -259,7 +257,7 @@ PlaceId *GvGetLocationHistory(GameView gv, Player player,
 		for (i = 0; i < gv->round; i++) {
 			Place curr = getPlaceId(gv, player, i);
 			
-			// Shows dracula location when performing his special moves
+			// Finds dracula location when performing his special moves
 			if (curr.id == HIDE || curr.id == DOUBLE_BACK_1)
 				curr.id = moves[i - 1];
 			else if (curr.id == DOUBLE_BACK_2)
@@ -274,19 +272,14 @@ PlaceId *GvGetLocationHistory(GameView gv, Player player,
 			moves[i] = curr.id;
 		}
 		*numReturnedLocs = i;
-
 		return moves;
-	
 	}
 }
 
 PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
                             int *numReturnedLocs, bool *canFree)
 {
-	// NOTE: This function is very similar to  GvGetLocationHistory,  except
-	// that  it gets only the last `numLocs` locations rather than the
-    // complete location history.
-
+	// TODO: Test - placeholder data
 	gv->playString =
 			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
 			"GCA.... SAL.... HAL.... MGE.... DC?T... "
@@ -297,29 +290,32 @@ PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
 			"GMA.... SFLTTV.";
 	gv->round = 6;
 	gv->currPlayer = PLAYER_VAN_HELSING;
-			
+
+	// Case where the player is a hunter, this function should behave exactly
+	// the same as GvGetLastMoves.
 	if (player != PLAYER_DRACULA) {
 		return GvGetLastMoves(gv, player, numLocs, numReturnedLocs, canFree);
 	} else {
 		bool canFreeAllMoves = true;
-		PlaceId *allMoves = GvGetLocationHistory(gv, player,
-                        	numReturnedLocs, &canFreeAllMoves);
+		PlaceId *allMoves = GvGetLocationHistory(gv, player, numReturnedLocs,
+												 &canFreeAllMoves);
 		
 		// Formula to find the last accessible move in pastPlay string 
 		int startIndex = gv->round - numLocs;
 		if (player < gv->currPlayer) startIndex++;
-		// Error checks
+		// Error checks and bounds
 		if (startIndex < 0) startIndex = 0;
 		PlaceId *lastNMoves = malloc(sizeof(PlaceId) * numLocs);
 
 		int i;
+
+		// Copy values last N moves from allMoves array to lastNMoves array
 		for (i = 0; i < numLocs; i++, startIndex++) {
 			lastNMoves[i] = allMoves[startIndex];
 		}
-
 		*numReturnedLocs = i;
-		if (canFreeAllMoves) free(allMoves);
 
+		if (canFreeAllMoves) free(allMoves);
 		return lastNMoves;
 	}
 }
@@ -355,9 +351,9 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 	// PlaceId *reachable = malloc(sizeof(PlaceId) * gv->Links);
 
 
-	// // update this variable
-	// *numReturnedLocs = 0;
-	// // return locations in a dynamically allocated array.
+	// update this variable
+	*numReturnedLocs = 0;
+	// return locations in a dynamically allocated array.
 	return NULL;
 }
 
