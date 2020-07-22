@@ -24,12 +24,12 @@
 #define ROUND_CHARS	40 	// chars each round takes in play string (w space)
 
 // TODO: ADD YOUR OWN STRUCTS HERE
-typedef struct player *PlayerInfo
-struct player {
-	int health;
-	Player name;
-	PlaceId location;
-};
+// typedef struct player *PlayerInfo
+// struct player {
+// 	int health;
+// 	Player name;
+// 	PlaceId location;
+// };
 
 struct gameView 
 {
@@ -37,71 +37,73 @@ struct gameView
 	Map map; // map of the board
 	Player currPlayer; // whos turn
 	int score; // current score of the game
-	PlayerInfo *players[NUM_PLAYERS]; // 
+	// PlayerInfo *players[NUM_PLAYERS]; // 
 	char *playString; // Stores all past plays (i.e. game log)
 };
 
+// Helper Function Prototypes
+static Place getPlaceId (GameView gv, Player player, int round);
 ////////////////////////////////////////////////////////////////////////
 // Constructor/Destructor
 
 GameView GvNew(char *pastPlays, Message messages[])
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	// // TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 
-	// Basically summarises the current state of the game
-	// pastPlays variable = gamelog
-	// messages array holds each play (same number of elements as pastPlays)
-	// first play will be at index 0.
+	// // Basically summarises the current state of the game
+	// // pastPlays variable = gamelog
+	// // messages array holds each play (same number of elements as pastPlays)
+	// // first play will be at index 0.
 	GameView new = malloc(sizeof(*new));
 	if (new == NULL) {
 		fprintf(stderr, "Couldn't allocate GameView!\n");
 		exit(EXIT_FAILURE);
 	}
-	// initialising all players in the game by turn order
-	new->players[0].name = PLAYER_LORD_GODALMING;
-	new->players[1].name = PLAYER_DR_SEWARD;
-	new->players[2].name = PLAYER_VAN_HELSING;
-	new->players[3].name = PLAYER_MINA_HARKER;
-	new->players[4].name = PLAYER_DRACULA;
-	// getting the current location of players
-	new->players[0].location = GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
-	new->players[1].location = GvGetPlayerLocation(new, PLAYER_DR_SEWARD);
-	new->players[2].location = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
-	new->players[3].location = GvGetPlayerLocation(new, PLAYER_MINA_HARKER);
-	new->players[4].location = GvGetPlayerLocation(new, PLAYER_DRACULA);
-	// the game just started
-	if (pastPlays[0] == NULL) {
-		new->score = GAME_START_SCORE;
-		new->round = 0;
-		// initialising players health at the start of the game
-		new->players[0].health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[1].health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[2].health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[3].health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[4].health = GAME_START_BLOOD_POINTS;
-	} else {
-		// the game has been going on.
-		int i = 0;
-		// pastPlays keeps track of the number of rounds, through indexs
-		while (pastPlays[i] != NULL) i++;
-		new->round = i;
-		// calculating the gamescore
-		new->score = GvGetScore(new);
-		new->players[0].health = GvGetHealth(new, PLAYER_LORD_GODALMING);
-		new->players[1].health = GvGetHealth(new, PLAYER_DR_SEWARD);
-		new->players[2].health = GvGetHealth(new, PLAYER_VAN_HELSING);
-		new->players[3].health = GvGetHealth(new, PLAYER_MINA_HARKER);
-		new->players[4].health = GvGetHealth(new, PLAYER_DRACULA);
-	}
+	// // initialising all players in the game by turn order
+	// new->players[0].name = PLAYER_LORD_GODALMING;
+	// new->players[1].name = PLAYER_DR_SEWARD;
+	// new->players[2].name = PLAYER_VAN_HELSING;
+	// new->players[3].name = PLAYER_MINA_HARKER;
+	// new->players[4].name = PLAYER_DRACULA;
+	// // getting the current location of players
+	// new->players[0].location = GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
+	// new->players[1].location = GvGetPlayerLocation(new, PLAYER_DR_SEWARD);
+	// new->players[2].location = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
+	// new->players[3].location = GvGetPlayerLocation(new, PLAYER_MINA_HARKER);
+	// new->players[4].location = GvGetPlayerLocation(new, PLAYER_DRACULA);
+	// // the game just started
+	// if (pastPlays[0] == NULL) {
+	// 	new->score = GAME_START_SCORE;
+	// 	new->round = 0;
+	// 	// initialising players health at the start of the game
+	// 	new->players[0].health = GAME_START_HUNTER_LIFE_POINTS;
+	// 	new->players[1].health = GAME_START_HUNTER_LIFE_POINTS;
+	// 	new->players[2].health = GAME_START_HUNTER_LIFE_POINTS;
+	// 	new->players[3].health = GAME_START_HUNTER_LIFE_POINTS;
+	// 	new->players[4].health = GAME_START_BLOOD_POINTS;
+	// } else {
+	// 	// the game has been going on.
+	// 	int i = 0;
+	// 	// pastPlays keeps track of the number of rounds, through indexs
+	// 	while (pastPlays[i] != NULL) i++;
+	// 	new->round = i;
+	// 	// calculating the gamescore
+	// 	new->score = GvGetScore(new);
+	// 	new->players[0].health = GvGetHealth(new, PLAYER_LORD_GODALMING);
+	// 	new->players[1].health = GvGetHealth(new, PLAYER_DR_SEWARD);
+	// 	new->players[2].health = GvGetHealth(new, PLAYER_VAN_HELSING);
+	// 	new->players[3].health = GvGetHealth(new, PLAYER_MINA_HARKER);
+	// 	new->players[4].health = GvGetHealth(new, PLAYER_DRACULA);
+	// }
 	return new;
 }
 
 void GvFree(GameView gv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	free(gv->players);
-	MapFree(gv->map);
-	free(gv);
+	// // TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	// free(gv->players);
+	// MapFree(gv->map);
+	// free(gv);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -122,31 +124,47 @@ int GvGetScore(GameView gv)
 	return gv->score;
 }
 
-int GvGetHealth(GameView gv, Player player)
-{
-	return gv->playerID[player]->health;
-}
+// int GvGetHealth(GameView gv, Player player)
+// {
+// 	return gv->playerID[player]->health;
+// }
 
-PlaceId GvGetPlayerLocation(GameView gv, Player player)
-{
-	return gv->playerID[player]->location;
-}
+// PlaceId GvGetPlayerLocation(GameView gv, Player player)
+// {
+// 	return gv->playerID[player]->location;
+// }
 
-PlaceId GvGetVampireLocation(GameView gv)
-{
-	// Dracula's playerID is 5
-	return gv->imvampireLocation;
-}
+// PlaceId GvGetVampireLocation(GameView gv)
+// {
+// 	// Dracula's playerID is 5
+// 	return gv->imvampireLocation;
+// }
 
-PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
-{
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numTraps = 0;
-	return NULL;
-}
+// PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
+// {
+// 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+// 	*numTraps = 0;
+// 	return NULL;
+// }
 
 ////////////////////////////////////////////////////////////////////////
 // Game History
+
+// Returns the placeId (location) of a player for a given round
+static Place getPlaceId (GameView gv, Player player, int round) {
+	Place location;
+	char placeAbbrev[2];
+	location.abbrev = placeAbbrev;
+
+	// Formula to calculate index of the player location in a given round
+	int currTurn = TURN_CHARS * player + ROUND_CHARS * round;
+	location.abbrev[0] = gv->playString[currTurn + 1]; 
+	location.abbrev[1] = gv->playString[currTurn + 2];
+	
+	location.id = placeAbbrevToId(location.abbrev);
+
+	return location;
+}
 
 PlaceId *GvGetMoveHistory(GameView gv, Player player,
                           int *numReturnedMoves, bool *canFree)
@@ -168,21 +186,11 @@ PlaceId *GvGetMoveHistory(GameView gv, Player player,
 
 	int i;
 	for (i = 0; i < gv->round; i++) {
-		Place curr;
-		char placeAbbrev[2];
-		curr.abbrev = placeAbbrev;
-
-		// Formula to calculate index of the player location in a given round
-		int currTurn = TURN_CHARS * player + ROUND_CHARS * i;
-		curr.abbrev[0] = gv->playString[currTurn + 1]; 
-		curr.abbrev[1] = gv->playString[currTurn + 2];
-
-		curr.id = placeAbbrevToId(curr.abbrev);
+		Place curr = getPlaceId(gv, player, i);
 		moves[i] = curr.id;
 	}
 	*numReturnedMoves = i;
 
-	*canFree = false;
 	return moves;
 }
 
@@ -217,23 +225,15 @@ PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
 
 	int i;
 	for (i = 0; i < numMoves; i++, startIndex++) {
-		Place curr;
-		char placeAbbrev[2];
-		curr.abbrev = placeAbbrev;
-
-		// Formula to calculate index of the player location in a given round
-		int currTurn = TURN_CHARS * player + ROUND_CHARS * startIndex;
-		curr.abbrev[0] = gv->playString[currTurn + 1]; 
-		curr.abbrev[1] = gv->playString[currTurn + 2];
-		
-		curr.id = placeAbbrevToId(curr.abbrev);
+		Place curr = getPlaceId(gv, player, startIndex);
 		moves[i] = curr.id;
 	}
 	*numReturnedMoves = i;
 
-	*canFree = false;
 	return moves;
 }
+
+
 
 PlaceId *GvGetLocationHistory(GameView gv, Player player,
                               int *numReturnedLocs, bool *canFree)
@@ -257,17 +257,9 @@ PlaceId *GvGetLocationHistory(GameView gv, Player player,
 
 		int i;
 		for (i = 0; i < gv->round; i++) {
-			Place curr;
-			char placeAbbrev[2];
-			curr.abbrev = placeAbbrev;
-
-			// Formula to calculate index of the player location in a given round
-			int currTurn = TURN_CHARS * player + ROUND_CHARS * i;
-			curr.abbrev[0] = gv->playString[currTurn + 1]; 
-			curr.abbrev[1] = gv->playString[currTurn + 2];
-
-			curr.id = placeAbbrevToId(curr.abbrev);
+			Place curr = getPlaceId(gv, player, i);
 			
+			// Shows dracula location when performing his special moves
 			if (curr.id == HIDE || curr.id == DOUBLE_BACK_1)
 				curr.id = moves[i - 1];
 			else if (curr.id == DOUBLE_BACK_2)
@@ -283,7 +275,6 @@ PlaceId *GvGetLocationHistory(GameView gv, Player player,
 		}
 		*numReturnedLocs = i;
 
-		*canFree = false;
 		return moves;
 	
 	}
@@ -306,12 +297,30 @@ PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
 			"GMA.... SFLTTV.";
 	gv->round = 6;
 	gv->currPlayer = PLAYER_VAN_HELSING;
-
+			
 	if (player != PLAYER_DRACULA) {
 		return GvGetLastMoves(gv, player, numLocs, numReturnedLocs, canFree);
 	} else {
-		// TODO
-		return 0;
+		bool canFreeAllMoves = true;
+		PlaceId *allMoves = GvGetLocationHistory(gv, player,
+                        	numReturnedLocs, &canFreeAllMoves);
+		
+		// Formula to find the last accessible move in pastPlay string 
+		int startIndex = gv->round - numLocs;
+		if (player < gv->currPlayer) startIndex++;
+		// Error checks
+		if (startIndex < 0) startIndex = 0;
+		PlaceId *lastNMoves = malloc(sizeof(PlaceId) * numLocs);
+
+		int i;
+		for (i = 0; i < numLocs; i++, startIndex++) {
+			lastNMoves[i] = allMoves[startIndex];
+		}
+
+		*numReturnedLocs = i;
+		if (canFreeAllMoves) free(allMoves);
+
+		return lastNMoves;
 	}
 }
 
@@ -343,12 +352,12 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 	// NOTE: order does not matter in the array, as long as it contains
 	// unique elements.
 
-	PlaceId *reachable = malloc(sizeof(PlaceId) * gv->Links);
+	// PlaceId *reachable = malloc(sizeof(PlaceId) * gv->Links);
 
 
-	// update this variable
-	*numReturnedLocs = 0;
-	// return locations in a dynamically allocated array.
+	// // update this variable
+	// *numReturnedLocs = 0;
+	// // return locations in a dynamically allocated array.
 	return NULL;
 }
 
