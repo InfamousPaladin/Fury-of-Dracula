@@ -571,14 +571,14 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Testing connections\n");
+		printf("============ Testing connections ============\n");
 		
 		char *trail = "";
 		Message messages[] = {};
 		GameView gv = GvNew(trail, messages);
-
+		printf("===> Testing GvGetReachable Functions\n");
 		{
-			printf("\tChecking Galatz all possible connections "
+			printf("Checking Galatz all possible connections "
 			       "(Lord Godalming, Round 1)\n");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
