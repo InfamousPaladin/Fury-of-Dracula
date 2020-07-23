@@ -24,7 +24,7 @@
 #define ROUND_CHARS	40 	// chars each round takes in play string (w space)
 
 // TODO: ADD YOUR OWN STRUCTS HERE
-typedef struct player *PlayerInfo
+typedef struct player *PlayerInfo;
 struct player {
 	int health;
 	Player name;
@@ -37,7 +37,7 @@ struct gameView
 	Map map; // map of the board
 	Player currPlayer; // whos turn
 	int score; // current score of the game
-	PlayerInfo *players[NUM_PLAYERS]; // 
+	PlayerInfo players[NUM_PLAYERS]; // 
 	char *playString; // Stores all past plays (i.e. game log)
 };
 
@@ -52,48 +52,52 @@ GameView GvNew(char *pastPlays, Message messages[])
 	// pastPlays variable = gamelog
 	// messages array holds each play (same number of elements as pastPlays)
 	// first play will be at index 0.
-	GameView new = malloc(sizeof(*new));
+	assert(pastPlays != NULL);
+	assert(messages != NULL);
+
+	GameView new = malloc(sizeof(struct gameView));
+	assert(new != NULL);
 	if (new == NULL) {
 		fprintf(stderr, "Couldn't allocate GameView!\n");
 		exit(EXIT_FAILURE);
 	}
-	// initialising all players in the game by turn order
-	new->players[0].name = PLAYER_LORD_GODALMING;
-	new->players[1].name = PLAYER_DR_SEWARD;
-	new->players[2].name = PLAYER_VAN_HELSING;
-	new->players[3].name = PLAYER_MINA_HARKER;
-	new->players[4].name = PLAYER_DRACULA;
+	new->map = MapNew();
+	PlayerInfo s = malloc(sizeof(PlayerInfo) * NUM_PLAYERS);
 	// getting the current location of players
-	new->players[0].location = GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
-	new->players[1].location = GvGetPlayerLocation(new, PLAYER_DR_SEWARD);
-	new->players[2].location = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
-	new->players[3].location = GvGetPlayerLocation(new, PLAYER_MINA_HARKER);
-	new->players[4].location = GvGetPlayerLocation(new, PLAYER_DRACULA);
+	new->players[0]->location = GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
+	new->players[1]->location = GvGetPlayerLocation(new, PLAYER_DR_SEWARD);
+	new->players[2]->location = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
+	new->players[3]->location = GvGetPlayerLocation(new, PLAYER_MINA_HARKER);
+	new->players[4]->location = GvGetPlayerLocation(new, PLAYER_DRACULA);
 	// the game just started
-	if (pastPlays[0] == NULL) {
+	if (pastPlays[0] == '\0') {
 		new->score = GAME_START_SCORE;
 		new->round = 0;
 		// initialising players health at the start of the game
-		new->players[0].health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[1].health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[2].health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[3].health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[4].health = GAME_START_BLOOD_POINTS;
+		new->players[0]->health = GAME_START_HUNTER_LIFE_POINTS;
+		new->players[1]->health = GAME_START_HUNTER_LIFE_POINTS;
+		new->players[2]->health = GAME_START_HUNTER_LIFE_POINTS;
+		new->players[3]->health = GAME_START_HUNTER_LIFE_POINTS;
+		new->players[4]->health = GAME_START_BLOOD_POINTS;
 	} else {
 		// the game has been going on.
 		int i = 0;
 		// pastPlays keeps track of the number of rounds, through indexs
-		while (pastPlays[i] != NULL) i++;
+		while (pastPlays[i] != '\0') i++;
 		new->round = i;
 		// calculating the gamescore
 		new->score = GvGetScore(new);
-		new->players[0].health = GvGetHealth(new, PLAYER_LORD_GODALMING);
-		new->players[1].health = GvGetHealth(new, PLAYER_DR_SEWARD);
-		new->players[2].health = GvGetHealth(new, PLAYER_VAN_HELSING);
-		new->players[3].health = GvGetHealth(new, PLAYER_MINA_HARKER);
-		new->players[4].health = GvGetHealth(new, PLAYER_DRACULA);
+		new->players[0]->health = GvGetHealth(new, PLAYER_LORD_GODALMING);
+		new->players[1]->health = GvGetHealth(new, PLAYER_DR_SEWARD);
+		new->players[2]->health = GvGetHealth(new, PLAYER_VAN_HELSING);
+		new->players[3]->health = GvGetHealth(new, PLAYER_MINA_HARKER);
+		new->players[4]->health = GvGetHealth(new, PLAYER_DRACULA);
 	}
+	// getting the current player
+	new->currPlayer = GvGetPlayer(new);
+	new->playString = pastPlays;
 	return new;
+	return NULL;
 }
 
 void GvFree(GameView gv)
@@ -124,18 +128,18 @@ int GvGetScore(GameView gv)
 
 int GvGetHealth(GameView gv, Player player)
 {
-	return gv->playerID[player]->health;
+	return gv->players[player]->health;
 }
 
 PlaceId GvGetPlayerLocation(GameView gv, Player player)
 {
-	return gv->playerID[player]->location;
+	return gv->players[player]->location;
 }
 
 PlaceId GvGetVampireLocation(GameView gv)
 {
 	// Dracula's playerID is 5
-	return gv->imvampireLocation;
+	return MIN_REAL_PLACE;
 }
 
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
@@ -343,13 +347,71 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 	// NOTE: order does not matter in the array, as long as it contains
 	// unique elements.
 
-	PlaceId *reachable = malloc(sizeof(PlaceId) * gv->Links);
+	// NOTE: Refering to the map is very usefull, also look at testGameView.c
+	assert(gv != NULL);
+	assert(placeIsReal(from));
+	// getting the connections from a location
+	ConnList reached = MapGetConnections(gv->map, from);
+	// dynamically allocating memory in an array
+	int numLinks = MapNumConnections(gv->map, ANY);
+	PlaceId *reachable = malloc(sizeof(PlaceId) * numLinks);
+	// the case where the player is dracula
+	if (player == PLAYER_DRACULA) {
 
+		// getting the list of connections from a given place
+		// getting the appropiate transportation types
+		int i = 0;
+		while (reached != NULL) {
+			// if it reaches hospital, reject it.
+			if (reached->p != HOSPITAL_PLACE) {
+				// dracula can use these methods of travel
+				if (reached->type == ROAD || reached->type == BOAT) {
+					// filling the reachable array
+					reachable[i] = reached->p;
+				}
+			}
+			i++;
+			reached = reached->next;
+		}
+		*numReturnedLocs = i + 1;
+		return reachable;
+	}
+	// the player is a hunter
+	int i = 0;
+	// getting the appropiate hunter numbers from each player
+	// the max distance allowed by rail.
+	int railDist = (round + player) % 4;
+	// calculating the distance allowed to travel by rail
+	while (reached != NULL) {
+		if (railDist > 1 && reached->type == RAIL) {
+			// depending on rail dist, add all possible cities connected
+			// by rail
+			
+			PlaceId railways = reached->p;
+			// branching out to get rail connections based on railDist
+			for (int j = 1; j <= railDist; j++) {
+				// would need to re-initalise this
+				ConnList getRail = MapGetConnections(gv->map, railways);
+				railways = getRail->p;
+				while (getRail != NULL) {
+					if (getRail->type == RAIL) {
+						reachable[i] = reached->p;
+					}
+				}
+			}
+		} else if (reached->type == ROAD || reached->type == BOAT) {
+			reachable[i] = reached->p;
+		} else if (reached->type == RAIL && railDist == 1) {
+			reachable[i] = reached->p;
+		}
+		i++;
+		reached = reached->next;
+	}
+	*numReturnedLocs = i + 1;
 
 	// update this variable
-	*numReturnedLocs = 0;
 	// return locations in a dynamically allocated array.
-	return NULL;
+	return reachable;
 }
 
 PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
@@ -368,7 +430,24 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 	// 3. Create a dynamically allocated array.
 	// 4. Determine the number of appropiate adjacent cities.
 	// 5. Consider if player is Dracula or Hunter.
+	PlaceId *reached = GvGetReachable(gv, player, round, from, numReturnedLocs);
+	if (road == TRUE && boat == TRUE && rail == TRUE) {
+		return reached;
+	} else if (road == TRUE && rail == TRUE) {
+		int numLinks = MapNumConnections(gv, ROAD) + MapNumConnections(gv, RAIL);
+		PlaceId *type = malloc(sizeof(PlaceId) * numLinks);
+	} else if (road == TRUE && boat == TRUE) {
+		int numLinks = MapNumConnections(gv, ROAD) + MapNumConnections(gv, BOAT);
+		PlaceId *type = malloc(sizeof(PlaceId) * numLinks);
+	} else if (boat == TRUE && rail == TRUE) 
+		int numLinks = MapNumConnections(gv, BOAT) + MapNumConnections(gv, RAIL);
+		PlaceId *type = malloc(sizeof(PlaceId) * numLinks);
+	} else if (road == TRUE) {
+		int numLinks = MapNumConnections(gv, ROAD);
+		PlaceId *type = malloc(sizeof(PlaceId) * numLinks);
+	} else if (rail == TRUE) {
 
+	}
 	*numReturnedLocs = 0;
 	return NULL;
 }
