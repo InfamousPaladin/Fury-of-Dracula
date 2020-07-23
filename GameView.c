@@ -29,18 +29,12 @@
 // each player is given player information
 // this information is mapped to playerID
 typedef struct playerInfo {
-
-
-	
 	int health;
 	Player name;
 	Place location;
 } playerInfo;
 
 struct gameView {
-
-
-
 	int score;
 	Round round;
 	Player currPlayer;
