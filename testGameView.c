@@ -345,6 +345,7 @@ int main(void)
 	
 		printf("============ Testing move/location history ============\n");
 	
+		// TODO : add test for teleport
 		char *trail =
 			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
 			"GCA.... SAL.... HAL.... MGE.... DC?T... "
