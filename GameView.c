@@ -19,9 +19,12 @@
 #include "Map.h"
 #include "Places.h"
 // add your own #includes here
+#include "Queue.h"
 
 #define TURN_CHARS	8	// chars each turn takes in play string (w space)
 #define ROUND_CHARS	40 	// chars each round takes in play string (w space)
+#define	START_RAIL_DIST	1
+#define UNDECLARED	-1
 
 // TODO: ADD YOUR OWN STRUCTS HERE
 typedef struct playerinformation *PlayerInfo;
@@ -40,10 +43,17 @@ struct gameView
 	int score; // current score of the game
 	PlayerInfo players[NUM_PLAYERS]; // 
 	char *playString; // Stores all past plays (i.e. game log)
+	int nPlaces; // number of places/cities in map
 };
 
 // Helper Function Prototypes
 static Place getPlaceId (GameView gv, Player player, int round);
+static int findValidRailMove(
+	GameView gv,
+	struct connNode reachable[],
+	int visited[],
+	PlaceId from,
+	int nElement);
 ////////////////////////////////////////////////////////////////////////
 // Constructor/Destructor
 
@@ -66,41 +76,41 @@ GameView GvNew(char *pastPlays, Message messages[])
 		exit(EXIT_FAILURE);
 	}
 
-	new->map = MapNew();
-	// PlayerInfo s = malloc(sizeof(PlayerInfo) * NUM_PLAYERS);
-	// getting the current location of players
-	new->players[0]->location = GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
-	new->players[1]->location = GvGetPlayerLocation(new, PLAYER_DR_SEWARD);
-	new->players[2]->location = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
-	new->players[3]->location = GvGetPlayerLocation(new, PLAYER_MINA_HARKER);
-	new->players[4]->location = GvGetPlayerLocation(new, PLAYER_DRACULA);
-	// the game just started
-	if (pastPlays[0] == '\0') {
-		new->score = GAME_START_SCORE;
-		new->round = 0;
-		// initialising players health at the start of the game
-		new->players[0]->health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[1]->health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[2]->health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[3]->health = GAME_START_HUNTER_LIFE_POINTS;
-		new->players[4]->health = GAME_START_BLOOD_POINTS;
-	} else {
-		// the game has been going on.
-		int i = 0;
-		// pastPlays keeps track of the number of rounds, through indexs
-		while (pastPlays[i] != '\0') i++;
-		new->round = i;
-		// calculating the gamescore
-		new->score = GvGetScore(new);
-		new->players[0]->health = GvGetHealth(new, PLAYER_LORD_GODALMING);
-		new->players[1]->health = GvGetHealth(new, PLAYER_DR_SEWARD);
-		new->players[2]->health = GvGetHealth(new, PLAYER_VAN_HELSING);
-		new->players[3]->health = GvGetHealth(new, PLAYER_MINA_HARKER);
-		new->players[4]->health = GvGetHealth(new, PLAYER_DRACULA);
-	}
-	// getting the current player
-	new->currPlayer = GvGetPlayer(new);
-	new->playString = pastPlays;
+	// new->map = MapNew();
+	// // PlayerInfo s = malloc(sizeof(PlayerInfo) * NUM_PLAYERS);
+	// // getting the current location of players
+	// new->players[0]->location = GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
+	// new->players[1]->location = GvGetPlayerLocation(new, PLAYER_DR_SEWARD);
+	// new->players[2]->location = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
+	// new->players[3]->location = GvGetPlayerLocation(new, PLAYER_MINA_HARKER);
+	// new->players[4]->location = GvGetPlayerLocation(new, PLAYER_DRACULA);
+	// // the game just started
+	// if (pastPlays[0] == '\0') {
+	// 	new->score = GAME_START_SCORE;
+	// 	new->round = 0;
+	// 	// initialising players health at the start of the game
+	// 	new->players[0]->health = GAME_START_HUNTER_LIFE_POINTS;
+	// 	new->players[1]->health = GAME_START_HUNTER_LIFE_POINTS;
+	// 	new->players[2]->health = GAME_START_HUNTER_LIFE_POINTS;
+	// 	new->players[3]->health = GAME_START_HUNTER_LIFE_POINTS;
+	// 	new->players[4]->health = GAME_START_BLOOD_POINTS;
+	// } else {
+	// 	// the game has been going on.
+	// 	int i = 0;
+	// 	// pastPlays keeps track of the number of rounds, through indexs
+	// 	while (pastPlays[i] != '\0') i++;
+	// 	new->round = i;
+	// 	// calculating the gamescore
+	// 	new->score = GvGetScore(new);
+	// 	new->players[0]->health = GvGetHealth(new, PLAYER_LORD_GODALMING);
+	// 	new->players[1]->health = GvGetHealth(new, PLAYER_DR_SEWARD);
+	// 	new->players[2]->health = GvGetHealth(new, PLAYER_VAN_HELSING);
+	// 	new->players[3]->health = GvGetHealth(new, PLAYER_MINA_HARKER);
+	// 	new->players[4]->health = GvGetHealth(new, PLAYER_DRACULA);
+	// }
+	// // getting the current player
+	// new->currPlayer = GvGetPlayer(new);
+	// new->playString = pastPlays;
 	return new;
 }
 
@@ -317,96 +327,115 @@ PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
 ////////////////////////////////////////////////////////////////////////
 // Making a Move
 
+// Find all valid rail moves using a breadth first search and return the
+// total number of elements in reachable array.
+static int findValidRailMove(GameView gv, struct connNode reachable[],
+				  int visited[], PlaceId from, int nElement) {
+
+	Queue railLocs = newQueue();
+
+	// Add all rail transport from the starting point to the queue
+	for (int curr = 0; curr < nElement; curr++) {
+		if (reachable[curr].type == RAIL) {
+			visited[reachable[curr].p] = from;
+			QueueJoin(railLocs, reachable[curr].p);
+		}
+	}
+
+	int railDist = (gv->round + gv->currPlayer) % 4;
+
+	while (!QueueIsEmpty(railLocs)) {
+		Item currCity = QueueLeave(railLocs);
+
+		int currRailDist = START_RAIL_DIST;
+		int pathIndex = currCity;
+		// Check rail distance from currCity to `from` (starting point)
+		while (visited[pathIndex] != from) {
+			pathIndex = visited[pathIndex];
+			currRailDist++;
+		}
+		
+		if (currRailDist < railDist) {
+			ConnList reachFromRail = MapGetConnections(gv->map, currCity);
+			ConnList nextCity = reachFromRail;
+			while (nextCity != NULL) {
+				// Filter out cities that dont have rail connections from
+				// currCity.
+				if (nextCity->type == RAIL && visited[nextCity->p] == UNDECLARED) {
+					reachable[nElement].p = nextCity->p;
+					reachable[nElement].type = nextCity->type;
+					reachable[nElement].next = NULL;
+
+					visited[nextCity->p] = currCity;
+					QueueJoin(railLocs, nextCity->p);
+					nElement++;
+				}
+				nextCity = nextCity->next;
+			}
+		}
+	}
+	return nElement;
+}
+
 PlaceId *GvGetReachable(GameView gv, Player player, Round round,
                         PlaceId from, int *numReturnedLocs)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 
-	// First consider the two types of players, Dracula & Hunters
-	// In this function we do not consider Draculas "trail"
-	// Remember hunters can move by rail sea road
-	// Dracula can't move by rail or move to hospitals.
+	// TODO - test data
+	gv->currPlayer = player;
+	gv->round = 3;
+	gv->map = MapNew();
+	gv->nPlaces = MapNumPlaces(gv->map);
 
-	// NOTE: Remember that the distance allowed to travel by rail depends
-	// on the round number.
+	// get availiable connections
+	ConnList startReached = MapGetConnections(gv->map, from);
+	struct connNode reachable[gv->nPlaces];
 
-	// Steps:
-	// 1. Consider the graph of the map, and adjacent verticies (cities)
-	// 2. Create a dynamically allocated array (depends on the amount of cities)
-	// 3. Determine the number of adjacent cities and set *numReturnedLocs
-	// 4. Consider if the player is dracula or hunter
-	// if player is dracula restrict the following...
-	// there is a hospital adjacent, remove from array, -1 numReturnedLocs
-	// if there is a connection via rail, remove from array, -1 numReturnedLocs
+	// Initialise visited array
+	int visited[gv->nPlaces];
+	for (int i = 0; i < gv->nPlaces; i++) {
+		visited[i] = UNDECLARED;
+	}		
 
-	// NOTE: order does not matter in the array, as long as it contains
-	// unique elements.
-
-	// NOTE: Refering to the map is very usefull, also look at testGameView.c
-	assert(gv != NULL);
-	assert(placeIsReal(from));
-	// getting the connections from a location
-	ConnList reached = MapGetConnections(gv->map, from);
-	// dynamically allocating memory in an array
-	int numLinks = MapNumConnections(gv->map, ANY);
-	PlaceId *reachable = malloc(sizeof(PlaceId) * numLinks);
-	// the case where the player is dracula
-	if (player == PLAYER_DRACULA) {
-
-		// getting the list of connections from a given place
-		// getting the appropiate transportation types
-		int i = 0;
-		while (reached != NULL) {
-			// if it reaches hospital, reject it.
-			if (reached->p != HOSPITAL_PLACE) {
-				// dracula can use these methods of travel
-				if (reached->type == ROAD || reached->type == BOAT) {
-					// filling the reachable array
-					reachable[i] = reached->p;
-				}
-			}
-			i++;
-			reached = reached->next;
-		}
-		*numReturnedLocs = i + 1;
-		return reachable;
-	}
-	// the player is a hunter
 	int i = 0;
-	// getting the appropiate hunter numbers from each player
-	// the max distance allowed by rail.
-	int railDist = (round + player) % 4;
-	// calculating the distance allowed to travel by rail
-	while (reached != NULL) {
-		if (railDist > 1 && reached->type == RAIL) {
-			// depending on rail dist, add all possible cities connected
-			// by rail
-			
-			PlaceId railways = reached->p;
-			// branching out to get rail connections based on railDist
-			for (int j = 1; j <= railDist; j++) {
-				// would need to re-initalise this
-				ConnList getRail = MapGetConnections(gv->map, railways);
-				railways = getRail->p;
-				while (getRail != NULL) {
-					if (getRail->type == RAIL) {
-						reachable[i] = reached->p;
-					}
-				}
+	// If player is a hunter, consider rail moves
+	if (player != PLAYER_DRACULA) {
+		ConnList curr = startReached;
+		// Goes through startReached list and store values in array
+		while (curr != NULL) {
+			if (visited[curr->p] == -1) {
+				reachable[i].p = curr->p;
+				reachable[i].type = curr->type;
+				reachable[i].next = NULL;
+				visited[curr->p] = from;
+				i++;
 			}
-		} else if (reached->type == ROAD || reached->type == BOAT) {
-			reachable[i] = reached->p;
-		} else if (reached->type == RAIL && railDist == 1) {
-			reachable[i] = reached->p;
+			curr = curr->next;
 		}
-		i++;
-		reached = reached->next;
+		i = findValidRailMove(gv, reachable, visited, from, i);
+	} 
+	// Otherwise, moves of dracula must not be `HOSPITAL_PLACE` and rail moves
+	else {
+		ConnList curr = startReached;
+		while (curr != NULL) {
+			if (reachable[i].p != HOSPITAL_PLACE && visited[curr->p] == -1) {
+				reachable[i].p = curr->p;
+				reachable[i].type = curr->type;
+				reachable[i].next = NULL;
+				visited[curr->p] = from;
+				i++;
+			}
+			curr = curr->next;
+		}
 	}
-	*numReturnedLocs = i + 1;
 
-	// update this variable
-	// return locations in a dynamically allocated array.
-	return reachable;
+	PlaceId *allReachable = malloc(sizeof(PlaceId) * i);
+	for (int j = 0; j < i; j++) {
+		allReachable[j] = reachable[j].p;
+	}
+
+	*numReturnedLocs = i;
+	return allReachable;
 }
 
 PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
