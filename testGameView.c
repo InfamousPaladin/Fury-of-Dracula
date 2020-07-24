@@ -343,7 +343,7 @@ int main(void)
 		printf("Test passed!\n");
 	}
 	
-	{///////////////////////////////////////////////////////////////////
+	/*{///////////////////////////////////////////////////////////////////
 	
 		printf("============ Testing move/location history ============\n");
 	
@@ -595,7 +595,7 @@ int main(void)
 		GvFree(gvNew);
 		printf("\n");
 
-	} 
+	} */
 
 	{///////////////////////////////////////////////////////////////////
 	
@@ -657,6 +657,24 @@ int main(void)
 
 		printf("===> Testing GvGetReachableByType Function\n");
 		printf("==> Test Cases:\n");
+
+		{
+			printf("\t-> Checking multiple connection types Hunter");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachableByType(gv, PLAYER_DRACULA,
+											1, BORDEAUX, &numLocs);
+
+			assert(numLocs == 6);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == BAY_OF_BISCAY);
+			assert(locs[1] == BORDEAUX);
+			assert(locs[2] == CLERMONT_FERRAND);
+			assert(locs[3] == NANTES);
+			assert(locs[4] == SARAGOSSA);
+			assert(locs[5] == TOULOUSE);
+		}
+
+		printf("Test Passed!\n");
 		{
 			printf("\t-> Checking Draculas Rail connections (none): ");
 			int numLocs = -1;
@@ -664,24 +682,24 @@ int main(void)
 											1, BORDEAUX, false, true,
 											false, &numLocs);
 			assert(numLocs == 1);
-			assert(locs[1] == BORDEAUX);
+			assert(locs[0] == BORDEAUX);
 		}
 		printf("Test Passed!\n");
 
 		{
-			printf("\tChecking rounds where hunters cant use RAIL"
-					"LORD_GODALMING ROUND 4: ");
+			printf("\t-> Checking rounds where hunters cant use rail"
+					" Lord Godalming, Round 4: ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
 												4, PARIS, false, true,
 												false, &numLocs);
 			assert(numLocs == 1);
-			assert(locs[1] == PARIS);
+			assert(locs[0] == PARIS);
 		}
 		printf("Test Passed!\n");
 
 		{
-			printf("\tChecking Galatz road connections "
+			printf("\t-> Checking Galatz road connections "
 			       "(Lord Godalming, Round 1): ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
@@ -700,7 +718,7 @@ int main(void)
 		printf("Test Passed!\n");
 
 		{
-			printf("\tChecking Ionian Sea boat connections "
+			printf("\t-> Checking Ionian Sea boat connections "
 			       "(Lord Godalming, Round 1): ");
 			
 			int numLocs = -1;
@@ -722,7 +740,7 @@ int main(void)
 		printf("Test Passed!\n");
 
 		{
-			printf("\tChecking Paris rail connections "
+			printf("\t-> Checking Paris rail connections "
 			       "(Lord Godalming, Round 2): ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
@@ -743,7 +761,7 @@ int main(void)
 		printf("Test Passed!\n");
 		
 		{
-			printf("\tChecking Athens rail connections (none): ");
+			printf("\t-> Checking Athens rail connections (none): ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
 			                                     1, ATHENS, false, true,

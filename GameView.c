@@ -655,6 +655,7 @@ static int findValidRailMove(GameView gv, struct connNode reachable[],
 	}
 
 	int railDist = (round + player) % 4;
+	if (railDist == 0) return 0;
 
 	while (!QueueIsEmpty(railLocs)) {
 		Item currCity = QueueLeave(railLocs);
@@ -759,23 +760,19 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 
 	// Basically this function considers the connection type based on the 
 	// bools inputted into the function. e.g. if road & rail = true, then
-	// only include the moves available by road & rail.
-
-	// Steps:
-	// 1. Check all available moves (road, rail, boat) using the bool.
-	// 2. Consider the graph of the map, and adjacent verticies (cities).
-	// 3. Create a dynamically allocated array.
-	// 4. Determine the number of appropiate adjacent cities.
-	// 5. Consider if player is Dracula or Hunter.
-
-
-	
+	// only include the moves available by road & rail.	
 	if (road && boat && rail) {
 		PlaceId *reached = GvGetReachable(gv, player, round, from, numReturnedLocs);
 		return reached;
 	} 
+			// TODO - test data
+	gv->currPlayer = player;
+	gv->round = round;
+	gv->map = MapNew();
+	gv->nPlaces = MapNumPlaces(gv->map);
+
 	// get availiable connections
-	/*ConnList startReached = MapGetConnections(gv->map, from);
+	ConnList startReached = MapGetConnections(gv->map, from);
 	struct connNode reachable[gv->nPlaces];
 
 	// Initialise visited array
@@ -783,15 +780,91 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 	for (int i = 0; i < gv->nPlaces; i++) {
 		visited[i] = UNINTIALISED;
 	}
-	if (player == PLAYER_DRACULA) {
+	visited[from] = from;	
+
+	int i = 0;
+	// If player is a hunter, consider rail moves
+	if (player != PLAYER_DRACULA) {
 		ConnList curr = startReached;
-		while (curr != NULL) {
-			if (visited[curr->p] == UNINTIALISED) {
-				
+		// Getting all the rail connections
+		if (rail) {
+			while (curr != NULL) {
+				if (visited[curr->p] == UNINTIALISED && curr->type == RAIL) {
+					reachable[i].p = curr->p;
+					visited[curr->p] = from;
+					i++;
+				}
+				curr = curr->next;
 			}
-			curr = curr->next;
+			i = findValidRailMove(gv, reachable, visited, from,
+										i, round, player);
 		}
-	}*/
+		// getting all the road connections
+		curr = startReached;
+		if (road) {
+			while (curr != NULL) {
+				if (visited[curr->p] == -1 && curr->type == ROAD) {
+					reachable[i].p = curr->p;
+					reachable[i].type = curr->type;
+					i++;
+				}
+				curr = curr->next;
+			}
+		}
+		// getting all the sea connections
+		curr = startReached;
+		if (boat) {
+			while (curr != NULL) {
+				if (visited[curr->p] == -1 && curr->type == BOAT) {
+					reachable[i].p = curr->p;
+					reachable[i].type = curr->type;
+					i++;
+				}
+				curr = curr->next;
+			}
+		}
+	} else {
+		// Otherwise, dracula (cannot move to hospital, or via rail)
+		
+		if (road) {
+			ConnList curr = startReached;
+			while (curr != NULL) {
+				if (curr->p != HOSPITAL_PLACE && curr->type == ROAD
+				&& visited[curr->p] == UNINTIALISED) {
+					reachable[i].p = curr->p;
+					visited[curr->p] = from;
+					i++;
+				}
+				curr = curr->next;
+			}
+		}
+		// getting boat connections
+		
+		if (boat) {
+			ConnList curr = startReached;
+			while (curr != NULL) {
+				if (curr->p != HOSPITAL_PLACE && curr->type == BOAT
+				&& visited[curr->p] == UNINTIALISED) {
+					reachable[i].p = curr->p;
+					visited[curr->p] = from;
+					i++;
+				}
+				curr = curr->next;
+			}
+		}
+	}
+
+	PlaceId *allReachable = malloc(sizeof(PlaceId) * i + 1);
+	int j;
+	for (j = 0; j < i; j++) {
+		allReachable[j] = reachable[j].p;
+	}
+	
+	// Append starting location to array
+	i++;
+	allReachable[j] = from;
+	*numReturnedLocs = i;
+	return allReachable;
 	return 0;
 }
 
