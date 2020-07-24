@@ -730,7 +730,7 @@ int main(void)
 
 	}
 	
-	/*{///////////////////////////////////////////////////////////////////
+	{///////////////////////////////////////////////////////////////////
 	
 		printf("============ Testing move/location history ============\n");
 	
@@ -1008,7 +1008,7 @@ int main(void)
 		GvFree(gvNew);
 		printf("\n");
 
-	} */
+	}
 
 	{///////////////////////////////////////////////////////////////////
 	
@@ -1079,7 +1079,7 @@ int main(void)
 
 		{
 			printf("\t-> Checking simultaneous connection types Hunters"
-					" (Road and Boat)");
+					" (Road and Boat): ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachableByType(gv, PLAYER_DRACULA,
 												1, BORDEAUX, true, false,
@@ -1094,11 +1094,13 @@ int main(void)
 			assert(locs[4] == SARAGOSSA);
 			assert(locs[5] == TOULOUSE);
 		}
-		printf(" Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		{
 			printf("\t-> Checking simultaneous connection types Hunters"
-					" (Boat and Rail)");
+					" (Boat and Rail): ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
 												1, LE_HAVRE, false, true,
@@ -1111,11 +1113,13 @@ int main(void)
 			assert(locs[2] == PARIS);
 		}
 
-		printf(" Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		{
 			printf("\t-> Checking simultaneous connection types Hunters"
-					" (Road and Rail)");
+					" (Road and Rail): ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
 												2, PARIS, true, true,
@@ -1136,7 +1140,9 @@ int main(void)
 			assert(locs[10] == STRASBOURG);
 		}
 
-		printf(" Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		{
 			printf("\t-> Checking Draculas Rail connections (none): ");
@@ -1152,7 +1158,7 @@ int main(void)
 		printf("\033[0m");
 
 		{
-			printf("\t-> Checking rounds where hunters cant use rail"
+			printf("\t-> Checking rounds where hunters cant use rail "
 					" Lord Godalming, Round 4: ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
