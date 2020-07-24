@@ -770,7 +770,9 @@ int main(void)
 			assert(moves[6] == MADRID);
 			if (canFree) free(moves);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 		
 		printf("\t-> Lord Godalming's last N move history: ");
 		{
@@ -784,7 +786,9 @@ int main(void)
 			assert(moves[2] == MADRID);
 			if (canFree) free(moves);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		// Test Case: Dr Seward (player is the next to current player)
 		printf("\t-> Dr Seward's entire move history: ");
@@ -802,7 +806,9 @@ int main(void)
 			assert(moves[6] == FLORENCE);
 			if (canFree) free(moves);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 		
 		printf("\t-> Dr Seward's last N move history: ");
 		{
@@ -816,7 +822,9 @@ int main(void)
 			assert(moves[2] == FLORENCE);
 			if (canFree) free(moves);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		// Test Case: Dr Van Helsing (player is current player)
 		printf("\t-> Dr Van Helsing's entire move history: ");
@@ -833,7 +841,9 @@ int main(void)
 			assert(moves[5] == STRASBOURG);
 			if (canFree) free(moves);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 		
 		printf("\t-> Dr Van Helsing's last N move history: ");
 		{
@@ -847,7 +857,9 @@ int main(void)
 			assert(moves[2] == STRASBOURG);
 			if (canFree) free(moves);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		// Test Case: Dracula (player after current player)
 		printf("\t-> Dracula's entire move history: ");
@@ -864,7 +876,9 @@ int main(void)
 			assert(moves[5] == CITY_UNKNOWN);
 			if (canFree) free(moves);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 		
 		printf("\t-> Dracula's last N move history: ");
 		{
@@ -878,7 +892,9 @@ int main(void)
 			assert(moves[2] == CITY_UNKNOWN);
 			if (canFree) free(moves);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 		
 		printf("===> Testing GvGetLocationHistory and GvGetLastLocations Functions\n");
 		printf("==> Test Cases:\n");
@@ -900,7 +916,9 @@ int main(void)
 			assert(locs[5] == STRASBOURG);
 			if (canFree) free(locs);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		// Test Case: Dracula
 		printf("\t-> Dracula's entire location history: ");
@@ -917,7 +935,9 @@ int main(void)
 			assert(locs[5] == CITY_UNKNOWN);
 			if (canFree) free(locs);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		GvFree(gv);
 
@@ -947,7 +967,9 @@ int main(void)
 			assert(moves[5] == CITY_UNKNOWN);
 			if (canFree) free(moves);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		printf("\t-> Dracula's entire location history with teleport: ");
 		{
@@ -963,7 +985,9 @@ int main(void)
 			assert(locs[5] == CITY_UNKNOWN);
 			if (canFree) free(locs);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		printf("\t-> Dracula's last N location history with teleport: ");
 		{
@@ -977,7 +1001,9 @@ int main(void)
 			assert(locs[2] == CITY_UNKNOWN);
 			if (canFree) free(locs);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		GvFree(gvNew);
 		printf("\n");
@@ -1009,7 +1035,9 @@ int main(void)
 			assert(locs[4] == SARAGOSSA);
 			assert(locs[5] == TOULOUSE);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		{
 			printf("\t-> Checking Hunter rail connections: ");
@@ -1029,7 +1057,9 @@ int main(void)
 			assert(locs[7] == SANTANDER);
 			assert(locs[8] == SARAGOSSA);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		{
 			printf("\t-> Checking Dracula can't reach the hospital: ");
@@ -1040,7 +1070,9 @@ int main(void)
 				assert(locs[i] != HOSPITAL_PLACE);
 			}
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		printf("===> Testing GvGetReachableByType Function\n");
 		printf("==> Test Cases:\n");
@@ -1115,7 +1147,9 @@ int main(void)
 			assert(numLocs == 1);
 			assert(locs[0] == BORDEAUX);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		{
 			printf("\t-> Checking rounds where hunters cant use rail"
@@ -1127,7 +1161,9 @@ int main(void)
 			assert(numLocs == 1);
 			assert(locs[0] == PARIS);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		{
 			printf("\t-> Checking Galatz road connections "
@@ -1146,7 +1182,9 @@ int main(void)
 			assert(locs[4] == KLAUSENBURG);
 			free(locs);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		{
 			printf("\t-> Checking Ionian Sea boat connections "
@@ -1168,7 +1206,9 @@ int main(void)
 			assert(locs[6] == VALONA);
 			free(locs);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		{
 			printf("\t-> Checking Paris rail connections "
@@ -1189,7 +1229,9 @@ int main(void)
 			assert(locs[6] == SARAGOSSA);
 			free(locs);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 		
 		{
 			printf("\t-> Checking Athens rail connections (none): ");
@@ -1202,7 +1244,9 @@ int main(void)
 			assert(locs[0] == ATHENS);
 			free(locs);
 		}
-		printf("Test Passed!\n");
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
 
 		GvFree(gv);
 	}

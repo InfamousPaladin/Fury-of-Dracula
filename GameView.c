@@ -20,7 +20,9 @@
 #include "Map.h"
 #include "Places.h"
 
-// add your own #includes here
+// The following ADT has adapted for use in this program from the COMP2521 labs.
+// It was written by UNSW staff and for the purpose of the assignment, has been
+// used to utilise the ADT. Queue.h has been adapted from COMP2521 lab05 2020T2.
 #include "Queue.h"
 
 #define TURN_CHARS	8	// chars each turn takes in play string (w space)

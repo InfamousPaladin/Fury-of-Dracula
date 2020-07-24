@@ -1,3 +1,10 @@
+// The following program file has adapted for use in this assignment from the
+// COMP2521 labs. It was written by UNSW staff and for the purpose of the 
+// assignment, and has been used to utilise as an ADT.
+
+// Queue.h has been adapted from COMP2521 lab05 2020T2.
+
+
 // Queue.c ... implementation of Queue ADT
 // Written by John Shepherd, March 2013
 
