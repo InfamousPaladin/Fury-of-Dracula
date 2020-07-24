@@ -344,7 +344,8 @@ int main(void)
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("============ Testing move/location history ============\n");
+		
+	// 	printf("============ Testing move/location history ============\n");
 	
 		// TODO : add test for teleport
 		char *trail =
@@ -386,7 +387,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Lord Godalming's last N move history: ");
+		printf("-> Lord Godalming's last n move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -418,7 +419,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Dr Seward's last N move history: ");
+		printf("-> Dr Seward's last n move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -449,7 +450,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Dr Van Helsing's last N move history: ");
+		printf("-> Dr Van Helsing's last n move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -480,7 +481,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Dracula's last N move history: ");
+		printf("-> Dracula's last n move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -494,13 +495,12 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("===> Testing GvGetLocationHistory and "
-			   		 "GvGetLastLocations Functions\n");
+		printf("===> Testing GvGetLocationHistory and GvGetLastLocations Functions\n");
 		printf("==> Test Cases:\n");
 
 		// Test Case: Hunters
-		// Test to see GvGetLocationHistory functions the same as
-		// GvGetMoveHistory for hunters
+		// Test to see GvGetLocationHistory functions the same as GvGetLastMoves
+		// for hunters
 		printf("-> Dr Van Helsing's entire location history: ");
 		{
 			int numLocs = 0; bool canFree = false;
@@ -513,22 +513,6 @@ int main(void)
 			assert(locs[3] == NANTES);
 			assert(locs[4] == PARIS);
 			assert(locs[5] == STRASBOURG);
-			if (canFree) free(locs);
-		}
-		printf("Test Passed!\n");
-
-		// Test to see GvGetLastLocations functions the same as GvGetLastMoves
-		// for hunters
-		printf("-> Dr Van Helsing's last N location history: ");
-		{
-			int lastNMoves = 3;
-			int numLocs = 0; bool canFree = false;
-			PlaceId *locs = GvGetLastLocations(gv, PLAYER_VAN_HELSING,
-											   lastNMoves, &numLocs, &canFree);
-			assert(numLocs == 3);
-			assert(locs[0] == NANTES);
-			assert(locs[1] == PARIS);
-			assert(locs[2] == STRASBOURG);
 			if (canFree) free(locs);
 		}
 		printf("Test Passed!\n");
@@ -548,9 +532,27 @@ int main(void)
 			assert(locs[5] == CITY_UNKNOWN);
 			if (canFree) free(locs);
 		}
-		printf("Test passed!\n");
 
+<<<<<<< HEAD
 		// GvFree(gv);
+=======
+
+		/* printf("-> Dracula's entire location history: ");
+		{
+		int numLocs = 0; bool canFree = false;
+		PlaceId *locs = GvGetLastLocations(gv, PLAYER_DRACULA,
+	 	                                     &numLocs, &canFree);
+			assert(numLocs == 6);
+			assert(locs[0] == STRASBOURG);
+		 	assert(locs[1] == CITY_UNKNOWN);
+		 	assert(locs[2] == CITY_UNKNOWN);
+		 	assert(locs[3] == STRASBOURG);
+		 	assert(locs[4] == STRASBOURG);
+		 	assert(locs[5] == CITY_UNKNOWN);
+		 	if (canFree) free(locs);
+		} */
+		GvFree(gv);
+>>>>>>> da5d1553929852ef22cd8eb3bba11935a42a16a2
 		// char *test =
 		// 	"GLS.... SLS.... HLS.... MGE.... DTP.V.. "
 		// 	"GCA.... SAL.... HAL.... MGE.... DC?T... "
@@ -583,11 +585,12 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("============ Testing connections ============\n");
+		printf("Testing connections\n");
 		
 		char *trail = "";
 		Message messages[] = {};
 		GameView gv = GvNew(trail, messages);
+<<<<<<< HEAD
 		printf("===> Testing GvGetReachable Functions\n");
 		{
 			printf("Checking Galatz all possible connections "
@@ -601,6 +604,8 @@ int main(void)
 			}
 			free(locs);
 		}
+=======
+>>>>>>> da5d1553929852ef22cd8eb3bba11935a42a16a2
 
 		{
 			printf("\tChecking Galatz road connections "
@@ -672,6 +677,75 @@ int main(void)
 			assert(locs[0] == ATHENS);
 			free(locs);
 		}
+
+	// own test
+		{
+			printf("\tChecking Draculas moveable\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_DRACULA,
+											1, BORDEAUX, &numLocs);
+
+			assert(numLocs == 6);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == BAY_OF_BISCAY);
+			assert(locs[1] == BORDEAUX);
+			assert(locs[2] == CLERMONT_FERRAND);
+			assert(locs[3] == NANTES);
+			assert(locs[4] == SARAGOSSA);
+			assert(locs[5] == TOULOUSE);
+		}
+
+		{
+			printf("\tChecking Hunter rail connections\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
+											3, ALICANTE, &numLocs);
+
+			assert(numLocs == 9);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == ALICANTE);
+			assert(locs[1] == BARCELONA);
+			assert(locs[2] == BORDEAUX);
+			assert(locs[3] == GRANADA);
+			assert(locs[4] == LISBON);
+			assert(locs[5] == MADRID);
+			assert(locs[6] == MEDITERRANEAN_SEA);
+			assert(locs[7] == SANTANDER);
+			assert(locs[8] == SARAGOSSA);
+
+		}
+
+		{
+			printf("\tChecking Draculas Rail connections (none)\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachableByType(gv, PLAYER_DRACULA,
+											1, BORDEAUX, false, true,
+											false, &numLocs);
+			assert(numLocs == 1);
+			assert(locs[1] == BORDEAUX);
+		}
+
+		{
+			printf("\tChecking Dracula can't reach the hospital\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_DRACULA,
+										1, BELGRADE, &numLocs);
+			for (int i = 0; i < numLocs; i++) {
+				assert(locs[i] != HOSPITAL_PLACE);
+			}
+		}
+
+		{
+			printf("\tChecking rounds where hunters cant use RAIL"
+					"LORD_GODALMING ROUND 4\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
+												4, PARIS, false, true,
+												false, &numLocs);
+			assert(numLocs == 1);
+			assert(locs[1] == PARIS);
+		}
+
 
 		GvFree(gv);
 		printf("Test passed!\n");
