@@ -550,7 +550,7 @@ int main(void)
 		}
 		printf("Test passed!\n");
 
-		GvFree(gv);
+		// GvFree(gv);
 		// char *test =
 		// 	"GLS.... SLS.... HLS.... MGE.... DTP.V.. "
 		// 	"GCA.... SAL.... HAL.... MGE.... DC?T... "
@@ -594,7 +594,8 @@ int main(void)
 			       "(Lord Godalming, Round 1)\n");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
-			                                     1, BORDEAUX, &numLocs);
+			                            	3, ALICANTE, &numLocs);
+			sortPlaces(locs, numLocs);
 			for (int i = 0; i < numLocs; i++) {
 				printf("%d\n", locs[i]);
 			}

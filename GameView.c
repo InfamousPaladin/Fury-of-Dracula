@@ -610,7 +610,7 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 
 	// TODO - test data
 	gv->currPlayer = player;
-	gv->round = 3;
+	gv->round = round;
 	gv->map = MapNew();
 	gv->nPlaces = MapNumPlaces(gv->map);
 
@@ -622,15 +622,17 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 	int visited[gv->nPlaces];
 	for (int i = 0; i < gv->nPlaces; i++) {
 		visited[i] = UNDECLARED;
-	}		
+	}
+	visited[from] = from;	
 
 	int i = 0;
 	// If player is a hunter, consider rail moves
 	if (player != PLAYER_DRACULA) {
 		ConnList curr = startReached;
-		// Goes through startReached list and store values in array
+		// Goes through startReached list and store values in array only for
+		// rail moves.
 		while (curr != NULL) {
-			if (visited[curr->p] == -1) {
+			if (visited[curr->p] == -1 && curr->type == RAIL) {
 				reachable[i].p = curr->p;
 				reachable[i].type = curr->type;
 				reachable[i].next = NULL;
@@ -640,7 +642,17 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 			curr = curr->next;
 		}
 		i = findValidRailMove(gv, reachable, visited, from, i);
-	} 
+		// Now add all reachable locations
+		curr = startReached;
+		while (curr != NULL) {
+			if (visited[curr->p] == -1) {
+				reachable[i].p = curr->p;
+				reachable[i].type = curr->type;
+				i++;
+			}
+			curr = curr->next;
+		}
+	}
 	// Otherwise, moves of dracula must not be `HOSPITAL_PLACE` and rail moves
 	else {
 		ConnList curr = startReached;
