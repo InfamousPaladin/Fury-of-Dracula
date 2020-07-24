@@ -645,7 +645,8 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 	else {
 		ConnList curr = startReached;
 		while (curr != NULL) {
-			if (reachable[i].p != HOSPITAL_PLACE && visited[curr->p] == -1) {
+			if (curr->p != HOSPITAL_PLACE && curr->type != RAIL
+			&& visited[curr->p] == -1) {
 				reachable[i].p = curr->p;
 				reachable[i].type = curr->type;
 				reachable[i].next = NULL;
@@ -656,10 +657,16 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 		}
 	}
 
-	PlaceId *allReachable = malloc(sizeof(PlaceId) * i);
-	for (int j = 0; j < i; j++) {
+	PlaceId *allReachable = malloc(sizeof(PlaceId) * i + 1);
+	int j;
+	for (j = 0; j < i; j++) {
 		allReachable[j] = reachable[j].p;
 	}
+
+	// Append starting location to array
+	i++;
+	allReachable[j] = from;
+
 
 	*numReturnedLocs = i;
 	return allReachable;
