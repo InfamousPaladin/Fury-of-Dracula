@@ -91,7 +91,7 @@ GameView GvNew(char *pastPlays, Message messages[]) {
 	// getting the current round of the game
 	new->round = GvGetRound(new);
 	// Updating the information of the players
-	new->playerID[0].location.id =  GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
+	new->playerID[0].location.id = GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
 	new->playerID[1].location.id = GvGetPlayerLocation(new, PLAYER_DR_SEWARD);
 	new->playerID[2].location.id = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
 	new->playerID[3].location.id = GvGetPlayerLocation(new, PLAYER_MINA_HARKER);
@@ -106,12 +106,12 @@ GameView GvNew(char *pastPlays, Message messages[]) {
 	// getting the current player
 	new->currPlayer = GvGetPlayer(new);
 	// getting traps on the map and storing it in gv struct
-	PlaceId *TrapLocs = GvGetTrapLocations(new, 0);
-	int i = 0;
-	while (TrapLocs[i] != '\0') {
-		new->trapLocations[i].id = TrapLocs[i];
-		i++;
-	}
+	// PlaceId *TrapLocs = GvGetTrapLocations(new, 0);
+	// int i = 0;
+	// while (TrapLocs[i] != '\0') {
+	// 	new->trapLocations[i].id = TrapLocs[i];
+	// 	i++;
+	// }
 	// getting vampire locations
 	new->imvampireLocation.id = GvGetVampireLocation(new);
 	return new;
@@ -391,23 +391,12 @@ static Place getPlaceId (GameView gv, Player player, int round)
 PlaceId *GvGetMoveHistory(GameView gv, Player player,
                           int *numReturnedMoves, bool *canFree)
 {
-	// TODO: Test - placeholder data
-	gv->playString =
-			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
-			"GCA.... SAL.... HAL.... MGE.... DC?T... "
-			"GGR.... SBO.... HBO.... MGE.... DC?T... "
-			"GAL.... SNA.... HNA.... MGE.... DD3T... "
-			"GSR.... SPA.... HPA.... MGE.... DHIT... "
-			"GSN.... SST.... HST.... MGE.... DC?T... "
-			"GMA.... SFLTTV.";
-	gv->round = 6;
-	gv->currPlayer = PLAYER_VAN_HELSING;
-
-	if (player < gv->currPlayer) gv->round++; 
-	PlaceId *moves = malloc(sizeof(PlaceId) * (gv->round));
+	int nMoves = gv->round;
+	if (player < gv->currPlayer) nMoves++; 
+	PlaceId *moves = malloc(sizeof(PlaceId) * (nMoves));
 
 	int i;
-	for (i = 0; i < gv->round; i++) {
+	for (i = 0; i < nMoves; i++) {
 		Place curr = getPlaceId(gv, player, i);
 		moves[i] = curr.id;
 	}
@@ -419,18 +408,6 @@ PlaceId *GvGetMoveHistory(GameView gv, Player player,
 PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
                         int *numReturnedMoves, bool *canFree)
 {
-	// TODO: Test - placeholder data
-	gv->playString =
-			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
-			"GCA.... SAL.... HAL.... MGE.... DC?T... "
-			"GGR.... SBO.... HBO.... MGE.... DC?T... "
-			"GAL.... SNA.... HNA.... MGE.... DD3T... "
-			"GSR.... SPA.... HPA.... MGE.... DHIT... "
-			"GSN.... SST.... HST.... MGE.... DC?T... "
-			"GMA.... SFLTTV.";
-	gv->round = 6;
-	gv->currPlayer = PLAYER_VAN_HELSING;
-
 	// Formula to find the last accessible move in pastPlay string 
 	int startIndex = gv->round - numMoves;
 	if (player < gv->currPlayer) startIndex++;
@@ -454,28 +431,17 @@ PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
 PlaceId *GvGetLocationHistory(GameView gv, Player player,
                               int *numReturnedLocs, bool *canFree)
 {
-	// TODO: Test - placeholder data
-	gv->playString =
-			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
-			"GCA.... SAL.... HAL.... MGE.... DC?T... "
-			"GGR.... SBO.... HBO.... MGE.... DC?T... "
-			"GAL.... SNA.... HNA.... MGE.... DD3T... "
-			"GSR.... SPA.... HPA.... MGE.... DHIT... "
-			"GSN.... SST.... HST.... MGE.... DC?T... "
-			"GMA.... SFLTTV.";
-	gv->round = 6;
-	gv->currPlayer = PLAYER_VAN_HELSING;
-
+	int nMoves = gv->round;
 	// Case where the player is a hunter, this function should behave exactly
 	// the same as GvGetMoveHistory.
 	if (player != PLAYER_DRACULA) {
 		return GvGetMoveHistory(gv, player, numReturnedLocs, canFree);
 	} else {
-		if (player < gv->currPlayer) gv->round++; 
-		PlaceId *moves = malloc(sizeof(PlaceId) * (gv->round));
+		if (player < gv->currPlayer) nMoves++; 
+		PlaceId *moves = malloc(sizeof(PlaceId) * (nMoves));
 
 		int i;
-		for (i = 0; i < gv->round; i++) {
+		for (i = 0; i < nMoves; i++) {
 			Place curr = getPlaceId(gv, player, i);
 			
 			// Finds dracula location when performing his special moves
@@ -502,18 +468,6 @@ PlaceId *GvGetLocationHistory(GameView gv, Player player,
 PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
                             int *numReturnedLocs, bool *canFree)
 {
-	// TODO: Test - placeholder data
-	gv->playString =
-			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
-			"GCA.... SAL.... HAL.... MGE.... DC?T... "
-			"GGR.... SBO.... HBO.... MGE.... DC?T... "
-			"GAL.... SNA.... HNA.... MGE.... DD3T... "
-			"GSR.... SPA.... HPA.... MGE.... DHIT... "
-			"GSN.... SST.... HST.... MGE.... DC?T... "
-			"GMA.... SFLTTV.";
-	gv->round = 6;
-	gv->currPlayer = PLAYER_VAN_HELSING;
-
 	// Case where the player is a hunter, this function should behave exactly
 	// the same as GvGetLastMoves.
 	if (player != PLAYER_DRACULA) {
