@@ -1040,7 +1040,7 @@ int main(void)
 		printf("\033[0m");
 
 		{
-			printf("\t-> Checking Hunter rail connections: ");
+			printf("\t-> Checking Hunter rail connections (max distance): ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
 											3, ALICANTE, &numLocs);
@@ -1056,6 +1056,44 @@ int main(void)
 			assert(locs[6] == MEDITERRANEAN_SEA);
 			assert(locs[7] == SANTANDER);
 			assert(locs[8] == SARAGOSSA);
+		}
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+		{
+			printf("\t-> Checking Hunter rail connections (min distance): ");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
+											1, FLORENCE, &numLocs);
+
+			assert(numLocs == 5);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == FLORENCE);
+			assert(locs[1] == GENOA);
+			assert(locs[2] == MILAN);
+			assert(locs[3] == ROME);
+			assert(locs[4] == VENICE);
+		}
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+		{
+			printf("\t-> Checking Boat connections: ");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
+											1, MEDITERRANEAN_SEA, &numLocs);
+
+			assert(numLocs == 7);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == ALICANTE);
+			assert(locs[1] == ATLANTIC_OCEAN);
+			assert(locs[2] == BARCELONA);
+			assert(locs[3] == CAGLIARI);
+			assert(locs[4] == MARSEILLES);
+			assert(locs[5] == MEDITERRANEAN_SEA);
+			assert(locs[6] == TYRRHENIAN_SEA);
 		}
 		printf("\033[1;32m");
 		printf("Test passed!\n");
