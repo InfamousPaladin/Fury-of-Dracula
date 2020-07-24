@@ -31,9 +31,10 @@
 #define UNDECLARED	-1	// path not found yet
 
 
-#define IMMATURE_VAMPIRE 'V'
-#define TRAP     	     'T'
-#define NOT_A_TRAP       '.'
+#define IMMATURE_VAMPIRE   'V'
+#define TRAP     	       'T'
+#define TRAP_EXPIRED       'M'
+#define MAX_TRAP_LOCATIONS 18
 
 // TODO: ADD YOUR OWN STRUCTS HERE
 // each player is given player information
@@ -55,7 +56,6 @@ struct gameView
 	char *playString; // Stores all past plays (i.e. game log)
 	int nPlaces; // number of places/cities in map
 	Place imvampireLocation; // keeps track of vampires
-	char *trapLocations; // an array of traps and their locations
 };
 
 // Helper Function Prototypes
@@ -178,15 +178,17 @@ int GvGetScore(GameView gv)
 {
 	// Check all ways scores can be reduced
 	// Each round that goes by that Dracula is alive
-	if (gv->players[4]->health > 0) gv->score -= SCORE_LOSS_DRACULA_TURN;
+	if (gv->playerID[4].health > 0) gv->score -= SCORE_LOSS_DRACULA_TURN;
 	// Hunters dying
 	for (int i = 0; i < NUM_PLAYERS; i++) {
-		if (gv->players[i]->health <= 0) gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
+		if (gv->playerID[i].health <= 0) gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
 	} 
 	// A vampire matures
 	if (GvGetVampireLocation(gv) != NOWHERE) {
 		PlaceId vampLocation = GvGetVampireLocation(gv);
-		PlaceId dracTrail = GvGetLastMoves(gv, PLAYER_DRACULA, TRAIL_SIZE, TRAIL_SIZE, true);
+		int trail = TRAIL_SIZE;
+		bool condition = true;
+		PlaceId *dracTrail = GvGetLastMoves(gv, PLAYER_DRACULA, TRAIL_SIZE, &trail, &condition);
 		// Check trail if the immature vampire is still on the trail
 		int vampMature = 1;
 		for (int i = 0; i < TRAIL_SIZE; i++) {
@@ -203,7 +205,7 @@ int GvGetHealth(GameView gv, Player player)
 	// Return the health of the given player
 	// String to hold location initials
 	Place location;
-	char placeAbbrev[2];
+	char placeAbbrev[3];
 	location.abbrev = placeAbbrev;
 	// First get the round number
 	gv->round = GvGetRound(gv);
@@ -222,23 +224,23 @@ int GvGetHealth(GameView gv, Player player)
 			for (int j = 3; j < 7; j++) {
 				if (gv->playString[i + j] != '.') {
 					if (gv->playString[i + j] == TRAP) {
-						gv->players[player]->health -= LIFE_LOSS_TRAP_ENCOUNTER;
+						gv->playerID[player].health -= LIFE_LOSS_TRAP_ENCOUNTER;
 					} else if (gv->playString[i + j] == IMMATURE_VAMPIRE) {
 						// I'm not sure what happens here
 					} else if (gv->playString[i + j] == 'D') {
-						gv->players[player]->health -= LIFE_LOSS_DRACULA_ENCOUNTER;
-						gv->players[4]->health -= LIFE_LOSS_HUNTER_ENCOUNTER;
+						gv->playerID[player].health -= LIFE_LOSS_DRACULA_ENCOUNTER;
+						gv->playerID[4].health -= LIFE_LOSS_HUNTER_ENCOUNTER;
 					}
 				} 
 				// Check if the health is below 0
-				if (gv->players[4]->health <= 0) {
+				if (gv->playerID[4].health <= 0) {
 					// Dracula is dead (game is over)
 					break;
 				}
-				if (gv->players[player]->health <= 0) {
-					gv->players[player]->health = 0;
+				if (gv->playerID[player].health <= 0) {
+					gv->playerID[player].health = 0;
 					// The player is dead and is teleported to the hospital
-					gv->players[player]->location = HOSPITAL_PLACE;
+					gv->playerID[player].location.id = HOSPITAL_PLACE;
 					break;
 				}
 			}
@@ -247,11 +249,11 @@ int GvGetHealth(GameView gv, Player player)
 				if (gv->playString[i + 1] == gv->playString[i + 1 - 32]) {
 					if (gv->playString[i + 2] == gv->playString[i + 2 - 32]) {
 						// This means the hunter stayed in the same location
-						gv->players[player]->health += LIFE_GAIN_REST;
+						gv->playerID[player].health += LIFE_GAIN_REST;
 					}
 				}
 				// Cap the hunter's health at 9 if they get above it
-				if (gv->players[player]->health > 9) gv->players[player]->health = 9;
+				if (gv->playerID[player].health > GAME_START_HUNTER_LIFE_POINTS) gv->playerID[player].health = GAME_START_HUNTER_LIFE_POINTS;
 			}
 		} 
 		// Check Dracula's POV
@@ -259,23 +261,24 @@ int GvGetHealth(GameView gv, Player player)
 			// Check if Dracula TP to his castle
 			location.abbrev[0] = gv->playString[i + 1];
 			location.abbrev[1] = gv->playString[i + 2];
+			location.abbrev[2] = '\0';
 			// Convert the abbrev to name
-			location.id = placeAbbrevToId(traps.abbrev);
+			location.id = placeAbbrevToId(location.abbrev);
 			if (location.id == TELEPORT || location.id == CASTLE_DRACULA) {
-				gv->players[player]->location = CASTLE_DRACULA;
-				gv->players[player]->health += LIFE_GAIN_CASTLE_DRACULA;
+				gv->playerID[player].location.id = CASTLE_DRACULA;
+				gv->playerID[player].health += LIFE_GAIN_CASTLE_DRACULA;
 			// Check if Dracula is at sea
 			} else if (placeIsSea(location.id) == true) {
-				gv->players[player]->health -= LIFE_LOSS_SEA;
+				gv->playerID[player].health -= LIFE_LOSS_SEA;
 			}
 			// Check if Dracula is dead
-			if (gv->players[4]->health <= 0) {
+			if (gv->playerID[4].health <= 0) {
 				// Dracula is dead (game is over)
-				break;
+				return gv->playerID[4].health;
 			}
 		}
 	}
-	return gv->players[player]->health;
+	return gv->playerID[player].health;
 }
 
 // helper function for GvGetPlayerLocation()
@@ -464,11 +467,12 @@ PlaceId GvGetVampireLocation(GameView gv) {
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	PlaceId *trapLocations = malloc(sizeof(PlaceId) * (MAX_TRAP_LOCATIONS));
 	// Number of traps in playStrings ('T')
 	*numTraps = 0;
 	// String to hold location initials
 	Place traps;
-	char placeAbbrev[2];
+	char placeAbbrev[3];
 	traps.abbrev = placeAbbrev;
 	// Counter for location storage
 	int counterLocation = 0;
@@ -481,24 +485,24 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 			// Extract the location name
 			traps.abbrev[0] = gv->playString[i + 1];
 			traps.abbrev[1] = gv->playString[i + 2];
+			traps.abbrev[2] = '\0';
 			// Convert the abbrev to name
 			traps.id = placeAbbrevToId(traps.abbrev);
 			// Store the location in the array
-			gv->trapLocations[counterLocation] = traps.id;
+			trapLocations[counterLocation] = traps.id;
 			counterLocation++;
 		}
 		// Decrease the numTraps if the trap has expired
-		if (gv->playString[i + 5] == 'M') {
+		if (gv->playString[i + 5] == TRAP_EXPIRED) {
 			numTraps--;
 			// Remove the oldest location (first element)
 			for (int j = 1; j < counterLocation; j++) {
-				gv->trapLocations[j - 1] = gv->trapLocations[j];
+				trapLocations[j - 1] = trapLocations[j];
 			}
 		}
 	}
 	// Variable to store last known location of the trap
-	PlaceId lastKnownTrap = gv->trapLocations[counterLocation - 1];
-	return lastKnownTrap;
+	return trapLocations;
 }
 
 ////////////////////////////////////////////////////////////////////////
