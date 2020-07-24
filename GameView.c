@@ -23,6 +23,10 @@
 #define TURN_CHARS	8	// chars each turn takes in play string (w space)
 #define ROUND_CHARS	40 	// chars each round takes in play string (w space)
 
+#define IMMATURE_VAMPIRE 'V'
+#define TRAP     	     'T'
+#define NOT_A_TRAP       '.'
+
 // TODO: ADD YOUR OWN STRUCTS HERE
 typedef struct player *PlayerInfo
 struct player {
@@ -39,6 +43,8 @@ struct gameView
 	int score; // current score of the game
 	PlayerInfo *players[NUM_PLAYERS]; // 
 	char *playString; // Stores all past plays (i.e. game log)
+	char *trapLocations; // Stores all the locations where traps are 
+	// (can store multiple copies of a place if there is more than one trap)
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -119,12 +125,106 @@ Player GvGetPlayer(GameView gv)
 
 int GvGetScore(GameView gv)
 {
+	// Check all ways scores can be reduced
+	// Each round that goes by that Dracula is alive
+	if (gv->players[4]->health > 0) gv->score -= SCORE_LOSS_DRACULA_TURN;
+	// Hunters dying
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+		if (gv->players[i]->health <= 0) gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
+	} 
+	// A vampire matures
+	if (GvGetVampireLocation(gv) != NOWHERE) {
+		PlaceId vampLocation = GvGetVampireLocation(gv);
+		PlaceId dracTrail = GvGetLastMoves(gv, PLAYER_DRACULA, TRAIL_SIZE, TRAIL_SIZE, /* FIX */);
+		// Check trail if the immature vampire is still on the trail
+		int vampMature = 1;
+		for (int i = 0; i < TRAIL_SIZE; i++) {
+			// If it is there, then the vampire isn't matured yet
+			if (vampLocation == dracTrail[i]) vampMature = 0;
+		}
+		if (vampMature == 1) gv->score -= SCORE_LOSS_VAMPIRE_MATURES;
+	}
 	return gv->score;
 }
 
 int GvGetHealth(GameView gv, Player player)
 {
-	return gv->playerID[player]->health;
+	// Return the health of the given player
+	// String to hold location initials
+	Place location;
+	char placeAbbrev[2];
+	location.abbrev = placeAbbrev;
+	// First get the round number
+	gv->round = GvGetRound(gv);
+	// Extract intial of player
+	int playerID = player;
+	if (playerID == 0) playerID = 'G';
+	if (playerID == 1) playerID = 'S';
+	if (playerID == 2) playerID = 'H';
+	if (playerID == 3) playerID = 'M';
+	if (playerID == 4) playerID = 'D';
+	// Traverse through playString round to find 'G', 'S', 'H' or 'M'
+	for (int i = 8 * gv->round; gv->playString[i] != '\0'; i += 8) {
+		// Check the hunter's POV
+		if (gv->playString[i] == playerID && playerID != 'D') {
+			// Check the last four characters to see if anything has happened
+			for (int j = 3; j < 7; j++) {
+				if (gv->playString[i + j] != '.') {
+					if (gv->playString[i + j] == TRAP) {
+						gv->players[player]->health -= LIFE_LOSS_TRAP_ENCOUNTER;
+					} else if (gv->playString[i + j] == IMMATURE_VAMPIRE) {
+						// I'm not sure what happens here
+					} else if (gv->playString[i + j] == 'D') {
+						gv->players[player]->health -= LIFE_LOSS_DRACULA_ENCOUNTER;
+						gv->players[4]->health -= LIFE_LOSS_HUNTER_ENCOUNTER;
+					}
+				} 
+				// Check if the health is below 0
+				if (gv->players[4]->health <= 0) {
+					// Dracula is dead (game is over)
+					break;
+				}
+				if (gv->players[player]->health <= 0) {
+					gv->players[player]->health = 0;
+					// The player is dead and is teleported to the hospital
+					gv->players[player]->location = HOSPITAL_PLACE;
+					break;
+				}
+			}
+			// Check if the hunter rested
+			if (gv->round != 0) {
+				if (gv->playString[i + 1] == gv->playString[i + 1 - 32]) {
+					if (gv->playString[i + 2] == gv->playString[i + 2 - 32]) {
+						// This means the hunter stayed in the same location
+						gv->players[player]->health += LIFE_GAIN_REST;
+					}
+				}
+				// Cap the hunter's health at 9 if they get above it
+				if (gv->players[player]->health > 9) gv->players[player]->health = 9;
+			}
+		} 
+		// Check Dracula's POV
+		if (gv->playString[i] == playerID && playerID == 'D') {
+			// Check if Dracula TP to his castle
+			location.abbrev[0] = gv->playString[i + 1];
+			location.abbrev[1] = gv->playString[i + 2];
+			// Convert the abbrev to name
+			location.id = placeAbbrevToId(traps.abbrev);
+			if (location.id == TELEPORT || location.id == CASTLE_DRACULA) {
+				gv->players[player]->location = CASTLE_DRACULA;
+				gv->players[player]->health += LIFE_GAIN_CASTLE_DRACULA;
+			// Check if Dracula is at sea
+			} else if (placeIsSea(location.id) == true) {
+				gv->players[player]->health -= LIFE_LOSS_SEA;
+			}
+			// Check if Dracula is dead
+			if (gv->players[4]->health <= 0) {
+				// Dracula is dead (game is over)
+				break;
+			}
+		}
+	}
+	return gv->players[player]->health;
 }
 
 PlaceId GvGetPlayerLocation(GameView gv, Player player)
@@ -141,8 +241,41 @@ PlaceId GvGetVampireLocation(GameView gv)
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	// Number of traps in playStrings ('T')
 	*numTraps = 0;
-	return NULL;
+	// String to hold location initials
+	Place traps;
+	char placeAbbrev[2];
+	traps.abbrev = placeAbbrev;
+	// Counter for location storage
+	int counterLocation = 0;
+	// Transverses through the stirng at the position 'D'
+	for (int i = 32; gv->playString[i] != '\0'; i += 32) {
+		// Check every D for a 'T'
+		if (gv->playString[i + 3] == TRAP) {
+			// Increase the number of traps
+			numTraps++;
+			// Extract the location name
+			traps.abbrev[0] = gv->playString[i + 1];
+			traps.abbrev[1] = gv->playString[i + 2];
+			// Convert the abbrev to name
+			traps.id = placeAbbrevToId(traps.abbrev);
+			// Store the location in the array
+			gv->trapLocations[counterLocation] = traps.id;
+			counterLocation++;
+		}
+		// Decrease the numTraps if the trap has expired
+		if (gv->playString[i + 5] == 'M') {
+			numTraps--;
+			// Remove the oldest location (first element)
+			for (int j = 1; j < counterLocation; j++) {
+				gv->trapLocations[j - 1] = gv->trapLocations[j];
+			}
+		}
+	}
+	// Variable to store last known location of the trap
+	PlaceId lastKnownTrap = gv->trapLocations[counterLocation - 1];
+	return lastKnownTrap;
 }
 
 ////////////////////////////////////////////////////////////////////////
