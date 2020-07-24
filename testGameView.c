@@ -345,6 +345,7 @@ int main(void)
 	
 		printf("============ Testing move/location history ============\n");
 	
+		// TODO : add test for teleport
 		char *trail =
 			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
 			"GCA.... SAL.... HAL.... MGE.... DC?T... "
@@ -384,7 +385,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Lord Godalming's last n move history: ");
+		printf("-> Lord Godalming's last N move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -416,7 +417,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Dr Seward's last n move history: ");
+		printf("-> Dr Seward's last N move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -447,7 +448,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Dr Van Helsing's last n move history: ");
+		printf("-> Dr Van Helsing's last N move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -478,7 +479,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Dracula's last n move history: ");
+		printf("-> Dracula's last N move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -492,12 +493,13 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("===> Testing GvGetLocationHistory and GvGetLastLocations Functions\n");
+		printf("===> Testing GvGetLocationHistory and "
+			   		 "GvGetLastLocations Functions\n");
 		printf("==> Test Cases:\n");
 
 		// Test Case: Hunters
-		// Test to see GvGetLocationHistory functions the same as GvGetLastMoves
-		// for hunters
+		// Test to see GvGetLocationHistory functions the same as
+		// GvGetMoveHistory for hunters
 		printf("-> Dr Van Helsing's entire location history: ");
 		{
 			int numLocs = 0; bool canFree = false;
@@ -510,6 +512,22 @@ int main(void)
 			assert(locs[3] == NANTES);
 			assert(locs[4] == PARIS);
 			assert(locs[5] == STRASBOURG);
+			if (canFree) free(locs);
+		}
+		printf("Test Passed!\n");
+
+		// Test to see GvGetLastLocations functions the same as GvGetLastMoves
+		// for hunters
+		printf("-> Dr Van Helsing's last N location history: ");
+		{
+			int lastNMoves = 3;
+			int numLocs = 0; bool canFree = false;
+			PlaceId *locs = GvGetLastLocations(gv, PLAYER_VAN_HELSING,
+											   lastNMoves, &numLocs, &canFree);
+			assert(numLocs == 3);
+			assert(locs[0] == NANTES);
+			assert(locs[1] == PARIS);
+			assert(locs[2] == STRASBOURG);
 			if (canFree) free(locs);
 		}
 		printf("Test Passed!\n");
@@ -529,26 +547,26 @@ int main(void)
 			assert(locs[5] == CITY_UNKNOWN);
 			if (canFree) free(locs);
 		}
+		printf("Test passed!\n");
 
 
-		// printf("-> Dracula's entire location history: ");
-		// {
-		// 	int numLocs = 0; bool canFree = false;
-		// 	PlaceId *locs = GvGetLastLocations(gv, PLAYER_DRACULA,
-		// 	                                     &numLocs, &canFree);
-		// 	assert(numLocs == 6);
-		// 	assert(locs[0] == STRASBOURG);
-		// 	assert(locs[1] == CITY_UNKNOWN);
-		// 	assert(locs[2] == CITY_UNKNOWN);
-		// 	assert(locs[3] == STRASBOURG);
-		// 	assert(locs[4] == STRASBOURG);
-		// 	assert(locs[5] == CITY_UNKNOWN);
-		// 	if (canFree) free(locs);
-		// }
+		printf("-> Dracula's last N location history: ");
+		{
+			int lastNMoves = 3;
+			int numLocs = 0; bool canFree = false;
+			PlaceId *locs = GvGetLastLocations(gv, PLAYER_DRACULA, lastNMoves,
+			                                     &numLocs, &canFree);
+			assert(numLocs == 3);
+			assert(locs[0] == STRASBOURG);
+			assert(locs[1] == STRASBOURG);
+			assert(locs[2] == CITY_UNKNOWN);
+			if (canFree) free(locs);
+		}
 
 		GvFree(gv);
 		printf("Test passed!\n");
-	}
+
+	} 
 
 	// {///////////////////////////////////////////////////////////////////
 	
@@ -608,7 +626,7 @@ int main(void)
 	// 		assert(numLocs == 7);
 	// 		sortPlaces(locs, numLocs);
 	// 		assert(locs[0] == BORDEAUX);
-	// 		assert(locs[1] == BUCHAREST);
+	// 		assert(locs[1] == BRUSSELS);
 	// 		assert(locs[2] == COLOGNE);
 	// 		assert(locs[3] == LE_HAVRE);
 	// 		assert(locs[4] == MARSEILLES);
@@ -631,7 +649,7 @@ int main(void)
 
 	// 	GvFree(gv);
 	// 	printf("Test passed!\n");
-	//	}
+	// }
 
 	return EXIT_SUCCESS;
 }
