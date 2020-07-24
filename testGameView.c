@@ -690,7 +690,6 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DC?T... "
 			"GGE.... SGE.... HGE.... MGE.... DC?T...";
 			
-
 		Message messages[35] = {};
 		GameView gv = GvNew(trail, messages);
 
@@ -716,7 +715,6 @@ int main(void)
 			"GGE.... SGE.... HGE.... MZU.... DC?T... "
 			"GGE.... SGE.... HGE.... MZU.... DC?T...";
 			
-
 		Message messages[35] = {};
 		GameView gv = GvNew(trail, messages);
 
