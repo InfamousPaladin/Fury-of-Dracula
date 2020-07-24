@@ -645,8 +645,8 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 	else {
 		ConnList curr = startReached;
 		while (curr != NULL) {
-			if (curr->p != HOSPITAL_PLACE && curr->type != RAIL
-			&& visited[curr->p] == -1) {
+			if (curr->p != HOSPITAL_PLACE && curr->type != RAIL &&
+				visited[curr->p] == UNDECLARED) {
 				reachable[i].p = curr->p;
 				reachable[i].type = curr->type;
 				reachable[i].next = NULL;
