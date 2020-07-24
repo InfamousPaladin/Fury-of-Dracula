@@ -1,0 +1,22 @@
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   GameView.c
+	new file:   most
+	new file:   testDraculaView
+	new file:   testGameView
+	modified:   testGameView.c
+	new file:   testHunterView
+	new file:   testMap
+
+[master 7aaffe2] Gabriel - finish game hisory and cleaned up functions - code comment out so I can test my functions
+ 7 files changed, 776 insertions(+), 752 deletions(-)
+ create mode 100644 most
+ create mode 100755 testDraculaView
+ create mode 100755 testGameView
+ rewrite testGameView.c (64%)
+ create mode 100755 testHunterView
+ create mode 100755 testMap
