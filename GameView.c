@@ -19,8 +19,9 @@
 #include "GameView.h"
 #include "Map.h"
 #include "Places.h"
-#include "Queue.h"
+
 // add your own #includes here
+#include "Queue.h"
 
 #define TURN_CHARS	8	// chars each turn takes in play string (w space)
 #define ROUND_CHARS	40 	// chars each round takes in play string (w space)
@@ -54,25 +55,30 @@ struct gameView
 };
 
 // Helper Function Prototypes
-static Place getPlaceId (GameView gv, Player player, int round);
+static Place getPlaceId(GameView gv, Player player, int round);
 static int findValidRailMove(
 	GameView gv,
 	struct connNode reachable[],
 	int visited[],
 	PlaceId from,
 	int nElement);
-
+static PlaceId GvDraculaDoubleBack(
+	GameView gv,
+	Place playerLoc,
+	int roundBack);
 
 ////////////////////////////////////////////////////////////////////////
 // Constructor/Destructor
 
 GameView GvNew(char *pastPlays, Message messages[]) {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-
+	// // TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	// Basically summarises the current state of the game
 	// pastPlays variable = gamelog
 	// messages array holds each play (same number of elements as pastPlays)
 	// first play will be at index 0.
+	assert(pastPlays != NULL);
+	assert(messages != NULL);
+
 	GameView new = malloc(sizeof(struct gameView));
 	if (new == NULL) {
 		fprintf(stderr, "Couldn't allocate GameView!\n");
@@ -107,13 +113,15 @@ GameView GvNew(char *pastPlays, Message messages[]) {
 		i++;
 	}
 	// getting vampire locations
-	new->imvampireLocation.id = GvGetVampireLocation;
+	new->imvampireLocation.id = GvGetVampireLocation(new);
 	return new;
 }
 
 void GvFree(GameView gv) {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	free(gv);
+	// // TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	// free(gv->players);
+	// MapFree(gv->map);
+	// free(gv);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -678,7 +686,7 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 		return reached;
 	} 
 	// get availiable connections
-	ConnList startReached = MapGetConnections(gv->map, from);
+	/*ConnList startReached = MapGetConnections(gv->map, from);
 	struct connNode reachable[gv->nPlaces];
 
 	// Initialise visited array
@@ -694,7 +702,7 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 			}
 			curr = curr->next;
 		}
-	}
+	}*/
 	return 0;
 }
 
