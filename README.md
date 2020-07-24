@@ -17,3 +17,8 @@ Member #3: Tam Trung Do
     -> Github username: InfamousPaladin
     -> zID: z5312910
     -> TUT Code: F11A
+
+Member #4: Prathamesh Alankar Jagtap
+    -> Github username: praths7
+    -> zID: z5312886
+    -> TUT Code: F11A
