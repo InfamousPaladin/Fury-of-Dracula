@@ -135,7 +135,7 @@ int GvGetScore(GameView gv)
 	// A vampire matures
 	if (GvGetVampireLocation(gv) != NOWHERE) {
 		PlaceId vampLocation = GvGetVampireLocation(gv);
-		PlaceId dracTrail = GvGetLastMoves(gv, PLAYER_DRACULA, TRAIL_SIZE, TRAIL_SIZE, /* FIX */);
+		PlaceId dracTrail = GvGetLastMoves(gv, PLAYER_DRACULA, TRAIL_SIZE, TRAIL_SIZE, true);
 		// Check trail if the immature vampire is still on the trail
 		int vampMature = 1;
 		for (int i = 0; i < TRAIL_SIZE; i++) {
