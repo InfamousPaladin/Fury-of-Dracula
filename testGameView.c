@@ -533,26 +533,7 @@ int main(void)
 			if (canFree) free(locs);
 		}
 
-<<<<<<< HEAD
 		// GvFree(gv);
-=======
-
-		/* printf("-> Dracula's entire location history: ");
-		{
-		int numLocs = 0; bool canFree = false;
-		PlaceId *locs = GvGetLastLocations(gv, PLAYER_DRACULA,
-	 	                                     &numLocs, &canFree);
-			assert(numLocs == 6);
-			assert(locs[0] == STRASBOURG);
-		 	assert(locs[1] == CITY_UNKNOWN);
-		 	assert(locs[2] == CITY_UNKNOWN);
-		 	assert(locs[3] == STRASBOURG);
-		 	assert(locs[4] == STRASBOURG);
-		 	assert(locs[5] == CITY_UNKNOWN);
-		 	if (canFree) free(locs);
-		} */
-		GvFree(gv);
->>>>>>> da5d1553929852ef22cd8eb3bba11935a42a16a2
 		// char *test =
 		// 	"GLS.... SLS.... HLS.... MGE.... DTP.V.. "
 		// 	"GCA.... SAL.... HAL.... MGE.... DC?T... "
@@ -590,7 +571,6 @@ int main(void)
 		char *trail = "";
 		Message messages[] = {};
 		GameView gv = GvNew(trail, messages);
-<<<<<<< HEAD
 		printf("===> Testing GvGetReachable Functions\n");
 		{
 			printf("Checking Galatz all possible connections "
@@ -604,8 +584,6 @@ int main(void)
 			}
 			free(locs);
 		}
-=======
->>>>>>> da5d1553929852ef22cd8eb3bba11935a42a16a2
 
 		{
 			printf("\tChecking Galatz road connections "
