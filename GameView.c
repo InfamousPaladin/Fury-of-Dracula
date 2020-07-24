@@ -19,17 +19,20 @@
 #include "GameView.h"
 #include "Map.h"
 #include "Places.h"
-// add your own #includes here
 #include "Queue.h"
+// add your own #includes here
 
 #define TURN_CHARS	8	// chars each turn takes in play string (w space)
 #define ROUND_CHARS	40 	// chars each round takes in play string (w space)
 #define POS_ACTIONS 6 	// player actions; 2 for location; 4 for rest
-#define PLRACT_STRING 7 
+#define PLRACT_STRING 7 // each player string length
 #define	START_RAIL_DIST	1
 #define UNDECLARED	-1
 
+
 // TODO: ADD YOUR OWN STRUCTS HERE
+// each player is given player information
+// this information is mapped to playerInfo
 typedef struct playerInfo {
 	int health;
 	Player name;
@@ -58,72 +61,33 @@ static int findValidRailMove(
 	PlaceId from,
 	int nElement);
 
+
 ////////////////////////////////////////////////////////////////////////
 // Constructor/Destructor
 
-GameView GvNew(char *pastPlays, Message messages[])
-{
-	// // TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+GameView GvNew(char *pastPlays, Message messages[]) {
+	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 
 	// Basically summarises the current state of the game
 	// pastPlays variable = gamelog
 	// messages array holds each play (same number of elements as pastPlays)
 	// first play will be at index 0.
-	assert(pastPlays != NULL);
-	assert(messages != NULL);
-
 	GameView new = malloc(sizeof(struct gameView));
-	assert(new != NULL);
-
+	new->playString = pastPlays;
+	/*
+	GameView new = malloc(sizeof(*new));
 	if (new == NULL) {
 		fprintf(stderr, "Couldn't allocate GameView!\n");
 		exit(EXIT_FAILURE);
 	}
+	*/
 
-	// new->map = MapNew();
-	// // PlayerInfo s = malloc(sizeof(PlayerInfo) * NUM_PLAYERS);
-	// // getting the current location of players
-	// new->players[0]->location = GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
-	// new->players[1]->location = GvGetPlayerLocation(new, PLAYER_DR_SEWARD);
-	// new->players[2]->location = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
-	// new->players[3]->location = GvGetPlayerLocation(new, PLAYER_MINA_HARKER);
-	// new->players[4]->location = GvGetPlayerLocation(new, PLAYER_DRACULA);
-	// // the game just started
-	// if (pastPlays[0] == '\0') {
-	// 	new->score = GAME_START_SCORE;
-	// 	new->round = 0;
-	// 	// initialising players health at the start of the game
-	// 	new->players[0]->health = GAME_START_HUNTER_LIFE_POINTS;
-	// 	new->players[1]->health = GAME_START_HUNTER_LIFE_POINTS;
-	// 	new->players[2]->health = GAME_START_HUNTER_LIFE_POINTS;
-	// 	new->players[3]->health = GAME_START_HUNTER_LIFE_POINTS;
-	// 	new->players[4]->health = GAME_START_BLOOD_POINTS;
-	// } else {
-	// 	// the game has been going on.
-	// 	int i = 0;
-	// 	// pastPlays keeps track of the number of rounds, through indexs
-	// 	while (pastPlays[i] != '\0') i++;
-	// 	new->round = i;
-	// 	// calculating the gamescore
-	// 	new->score = GvGetScore(new);
-	// 	new->players[0]->health = GvGetHealth(new, PLAYER_LORD_GODALMING);
-	// 	new->players[1]->health = GvGetHealth(new, PLAYER_DR_SEWARD);
-	// 	new->players[2]->health = GvGetHealth(new, PLAYER_VAN_HELSING);
-	// 	new->players[3]->health = GvGetHealth(new, PLAYER_MINA_HARKER);
-	// 	new->players[4]->health = GvGetHealth(new, PLAYER_DRACULA);
-	// }
-	// // getting the current player
-	// new->currPlayer = GvGetPlayer(new);
-	// new->playString = pastPlays;
 	return new;
 }
 
-void GvFree(GameView gv)
-{
-	// // TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	// free(gv->players);
-	// MapFree(gv->map);
-	// free(gv);
+void GvFree(GameView gv) {
+	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	free(gv);
 }
 
 ////////////////////////////////////////////////////////////////////////
