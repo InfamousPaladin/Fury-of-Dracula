@@ -825,7 +825,6 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 		}
 	} else {
 		// Otherwise, dracula (cannot move to hospital, or via rail)
-		
 		if (road) {
 			ConnList curr = startReached;
 			while (curr != NULL) {
