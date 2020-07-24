@@ -26,7 +26,7 @@
 
 int main(void)
 {
-	/*{///////////////////////////////////////////////////////////////////	
+	{///////////////////////////////////////////////////////////////////	
 		printf("Basic initialisation\n");
 
 		char *trail = "";
@@ -534,7 +534,7 @@ int main(void)
 		}
 
 
-		printf("-> Dracula's entire location history: ");
+		/* printf("-> Dracula's entire location history: ");
 		{
 		int numLocs = 0; bool canFree = false;
 		PlaceId *locs = GvGetLastLocations(gv, PLAYER_DRACULA,
@@ -547,11 +547,11 @@ int main(void)
 		 	assert(locs[4] == STRASBOURG);
 		 	assert(locs[5] == CITY_UNKNOWN);
 		 	if (canFree) free(locs);
-		} 
+		} */
 		GvFree(gv);
 		printf("Test passed!\n");
 
-	} */
+	} 
 
 	{///////////////////////////////////////////////////////////////////
 	
@@ -561,7 +561,7 @@ int main(void)
 		Message messages[] = {};
 		GameView gv = GvNew(trail, messages);
 
-		/*{
+		{
 			printf("\tChecking Galatz road connections "
 			       "(Lord Godalming, Round 1)\n");
 			int numLocs = -1;
@@ -630,7 +630,7 @@ int main(void)
 			assert(numLocs == 1);
 			assert(locs[0] == ATHENS);
 			free(locs);
-		}*/
+		}
 
 	// own test
 		{
@@ -647,6 +647,26 @@ int main(void)
 			assert(locs[3] == NANTES);
 			assert(locs[4] == SARAGOSSA);
 			assert(locs[5] == TOULOUSE);
+		}
+
+		{
+			printf("\tChecking Hunter rail connections\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
+											3, ALICANTE, &numLocs);
+
+			assert(numLocs == 9);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == ALICANTE);
+			assert(locs[1] == BARCELONA);
+			assert(locs[2] == BORDEAUX);
+			assert(locs[3] == GRANADA);
+			assert(locs[4] == LISBON);
+			assert(locs[5] == MADRID);
+			assert(locs[6] == MEDITERRANEAN_SEA);
+			assert(locs[7] == SANTANDER);
+			assert(locs[8] == SARAGOSSA);
+
 		}
 
 		{
@@ -677,8 +697,9 @@ int main(void)
 												4, PARIS, false, true,
 												false, &numLocs);
 			assert(numLocs == 1);
-			assert(locs[1] == NOWHERE);
+			assert(locs[1] == PARIS);
 		}
+
 
 		GvFree(gv);
 		printf("Test passed!\n");
