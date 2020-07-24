@@ -26,44 +26,44 @@
 
 int main(void)
 {
-	// {///////////////////////////////////////////////////////////////////
-	
-	//	printf("Basic initialisation\n");
+	// {///////////////////////////////////////////////////////////////////	
+	// 	printf("Basic initialisation\n");
 
-	//  char *trail = "";
-	//  Message messages[] = {};
-	//  GameView gv = GvNew(trail, messages);
+	// 	char *trail = "";
+	// 	Message messages[] = {};
+	// 	GameView gv = GvNew(trail, messages);
 
-	//  assert(GvGetRound(gv) == 0);
-	//  assert(GvGetPlayer(gv) == PLAYER_LORD_GODALMING);
+	// 	assert(GvGetRound(gv) == 0);
+	// 	assert(GvGetPlayer(gv) == PLAYER_LORD_GODALMING);
 	// 	assert(GvGetScore(gv) == GAME_START_SCORE);
 	// 	assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
 	// 	assert(GvGetHealth(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
-	//	assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == NOWHERE);
-	//	assert(GvGetVampireLocation(gv) == NOWHERE);
+	// 	assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == NOWHERE);
+	// 	assert(GvGetVampireLocation(gv) == NOWHERE);
 
 	// 	GvFree(gv);
-	//	printf("Test passed!\n");
+	// 	printf("Test passed!\n");
 	// }
+
 	
 	// {///////////////////////////////////////////////////////////////////
 	
-	//	printf("After Lord Godalming's turn\n");
+	// 	printf("After Lord Godalming's turn\n");
 
-	//	char *trail =
-	//		"GST....";
+	// 	char *trail =
+	// 		"GST....";
 		
-	//	Message messages[1] = {};
-	//	GameView gv = GvNew(trail, messages);
+	// 	Message messages[1] = {};
+	// 	GameView gv = GvNew(trail, messages);
 
-	//	assert(GvGetRound(gv) == 0);
-	//	assert(GvGetPlayer(gv) == PLAYER_DR_SEWARD);
+	// 	assert(GvGetRound(gv) == 0);
+	// 	assert(GvGetPlayer(gv) == PLAYER_DR_SEWARD);
 	// 	assert(GvGetScore(gv) == GAME_START_SCORE);
-	//	assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == STRASBOURG);
-	//	assert(GvGetPlayerLocation(gv, PLAYER_DR_SEWARD) == NOWHERE);
+	// 	assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == STRASBOURG);
+	// 	assert(GvGetPlayerLocation(gv, PLAYER_DR_SEWARD) == NOWHERE);
 
 	// 	GvFree(gv);
-	//	printf("Test passed!\n");
+	// 	printf("Test passed!\n");
 	// }
 	
 	// {///////////////////////////////////////////////////////////////////
@@ -115,7 +115,7 @@ int main(void)
 	// 	assert(GvGetVampireLocation(gv) == CITY_UNKNOWN);
 
 	// 	GvFree(gv);
-	//	printf("Test passed!\n");
+	// 	printf("Test passed!\n");
 	// }
 
 	// {///////////////////////////////////////////////////////////////////
@@ -147,29 +147,29 @@ int main(void)
 
 	// {///////////////////////////////////////////////////////////////////
 	
-	//	printf("Test for Dracula doubling back at sea, "
-	//	       "and losing blood points (Hunter View)\n");
+	// 	printf("Test for Dracula doubling back at sea, "
+	// 	       "and losing blood points (Hunter View)\n");
 
-	//	char *trail =
-	//		"GGE.... SGE.... HGE.... MGE.... DS?.... "
-	//		"GST.... SST.... HST.... MST.... DD1....";
+	// 	char *trail =
+	// 		"GGE.... SGE.... HGE.... MGE.... DS?.... "
+	// 		"GST.... SST.... HST.... MST.... DD1....";
 		
-	//	Message messages[] = {
-	//		"Party at Geneva", "Okay", "Sure", "Let's go", "Mwahahahaha",
-	//		"", "", "", "", "Back I go"
-	//	};
+	// 	Message messages[] = {
+	// 		"Party at Geneva", "Okay", "Sure", "Let's go", "Mwahahahaha",
+	// 		"", "", "", "", "Back I go"
+	// 	};
 		
-	//	GameView gv = GvNew(trail, messages);
+	// 	GameView gv = GvNew(trail, messages);
 
-	//	assert(GvGetRound(gv) == 2);
-	//	assert(GvGetPlayer(gv) == PLAYER_LORD_GODALMING);
+	// 	assert(GvGetRound(gv) == 2);
+	// 	assert(GvGetPlayer(gv) == PLAYER_LORD_GODALMING);
 	// 	assert(GvGetScore(gv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
 	// 	assert(GvGetHealth(gv, PLAYER_DRACULA) ==
 	// 			GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
-	//	assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == SEA_UNKNOWN);
+	// 	assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == SEA_UNKNOWN);
 
 	// 	GvFree(gv);
-	//	printf("Test passed!\n");
+	// 	printf("Test passed!\n");
 	// }
 
 
@@ -217,7 +217,7 @@ int main(void)
 	// 	printf("Test passed!\n");
 	// }
 	
-	// {/////////////////////////////////////////////////////////////////// IMPORTANT
+	// {///////////////////////////////////////////////////////////////////
 	
 	// 	printf("Testing a hunter 'dying'\n");
 		
@@ -318,33 +318,34 @@ int main(void)
 	
 	// {///////////////////////////////////////////////////////////////////
 	
-	//	printf("Testing a vampire maturing\n");
+	// 	printf("Testing a vampire maturing\n");
 		
-	//	char *trail =
-	//		"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
-	//		"GGE.... SGE.... HGE.... MGE.... DC?T... "
-	//		"GGE.... SGE.... HGE.... MGE.... DC?T... "
-	//		"GGE.... SGE.... HGE.... MGE.... DC?T... "
-	//		"GGE.... SGE.... HGE.... MGE.... DC?T... "
-	//		"GGE.... SGE.... HGE.... MGE.... DC?T... "
-	//		"GGE.... SGE.... HGE.... MGE.... DC?T.V.";
+	// 	char *trail =
+	// 		"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
+	// 		"GGE.... SGE.... HGE.... MGE.... DC?T... "
+	// 		"GGE.... SGE.... HGE.... MGE.... DC?T... "
+	// 		"GGE.... SGE.... HGE.... MGE.... DC?T... "
+	// 		"GGE.... SGE.... HGE.... MGE.... DC?T... "
+	// 		"GGE.... SGE.... HGE.... MGE.... DC?T... "
+	// 		"GGE.... SGE.... HGE.... MGE.... DC?T.V.";
 		
-	//	Message messages[35] = {};
-	//	GameView gv = GvNew(trail, messages);
+	// 	Message messages[35] = {};
+	// 	GameView gv = GvNew(trail, messages);
 		
 	// 	assert(GvGetScore(gv) == GAME_START_SCORE
 	// 	                         - 7 * SCORE_LOSS_DRACULA_TURN
 	// 	                         - SCORE_LOSS_VAMPIRE_MATURES);
-	//	assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
+	// 	assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
 	// 	assert(GvGetVampireLocation(gv) == NOWHERE);
 		
 	// 	GvFree(gv);
-	//	printf("Test passed!\n");
+	// 	printf("Test passed!\n");
 	// }
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("============ Testing move/location history ============\n");
+		
+	// 	printf("============ Testing move/location history ============\n");
 	
 		// TODO : add test for teleport
 		char *trail =
@@ -386,7 +387,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Lord Godalming's last N move history: ");
+		printf("-> Lord Godalming's last n move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -418,7 +419,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Dr Seward's last N move history: ");
+		printf("-> Dr Seward's last n move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -449,7 +450,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Dr Van Helsing's last N move history: ");
+		printf("-> Dr Van Helsing's last n move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -480,7 +481,7 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("-> Dracula's last N move history: ");
+		printf("-> Dracula's last n move history: ");
 		{
 			int lastNMoves = 3;
 			int numMoves = 0; bool canFree = false;
@@ -494,13 +495,12 @@ int main(void)
 		}
 		printf("Test Passed!\n");
 		
-		printf("===> Testing GvGetLocationHistory and "
-			   		 "GvGetLastLocations Functions\n");
+		printf("===> Testing GvGetLocationHistory and GvGetLastLocations Functions\n");
 		printf("==> Test Cases:\n");
 
 		// Test Case: Hunters
-		// Test to see GvGetLocationHistory functions the same as
-		// GvGetMoveHistory for hunters
+		// Test to see GvGetLocationHistory functions the same as GvGetLastMoves
+		// for hunters
 		printf("-> Dr Van Helsing's entire location history: ");
 		{
 			int numLocs = 0; bool canFree = false;
@@ -513,22 +513,6 @@ int main(void)
 			assert(locs[3] == NANTES);
 			assert(locs[4] == PARIS);
 			assert(locs[5] == STRASBOURG);
-			if (canFree) free(locs);
-		}
-		printf("Test Passed!\n");
-
-		// Test to see GvGetLastLocations functions the same as GvGetLastMoves
-		// for hunters
-		printf("-> Dr Van Helsing's last N location history: ");
-		{
-			int lastNMoves = 3;
-			int numLocs = 0; bool canFree = false;
-			PlaceId *locs = GvGetLastLocations(gv, PLAYER_VAN_HELSING,
-											   lastNMoves, &numLocs, &canFree);
-			assert(numLocs == 3);
-			assert(locs[0] == NANTES);
-			assert(locs[1] == PARIS);
-			assert(locs[2] == STRASBOURG);
 			if (canFree) free(locs);
 		}
 		printf("Test Passed!\n");
@@ -548,30 +532,41 @@ int main(void)
 			assert(locs[5] == CITY_UNKNOWN);
 			if (canFree) free(locs);
 		}
-		printf("Test passed!\n");
 
+		// GvFree(gv);
+		// char *test =
+		// 	"GLS.... SLS.... HLS.... MGE.... DTP.V.. "
+		// 	"GCA.... SAL.... HAL.... MGE.... DC?T... "
+		// 	"GGR.... SBO.... HBO.... MGE.... DC?T... "
+		// 	"GAL.... SNA.... HNA.... MGE.... DD3T... "
+		// 	"GSR.... SPA.... HPA.... MGE.... DHIT... "
+		// 	"GSN.... SST.... HST.... MGE.... DC?T... "
+		// 	"GMA.... SFLTTV.";
+		
+		// Message h[32] = {};
+		// GameView g = GvNew(test, h);
 
-		printf("-> Dracula's last N location history: ");
-		{
-			int lastNMoves = 3;
-			int numLocs = 0; bool canFree = false;
-			PlaceId *locs = GvGetLastLocations(gv, PLAYER_DRACULA, lastNMoves,
-			                                     &numLocs, &canFree);
-			assert(numLocs == 3);
-			assert(locs[0] == STRASBOURG);
-			assert(locs[1] == STRASBOURG);
-			assert(locs[2] == CITY_UNKNOWN);
-			if (canFree) free(locs);
-		}
+		// printf("-> Dracula's last N location history: ");
+		// {
+		// 	int lastNMoves = 3;
+		// 	int numLocs = 0; bool canFree = false;
+		// 	PlaceId *locs = GvGetLastLocations(g, PLAYER_DRACULA, lastNMoves,
+		// 	                                     &numLocs, &canFree);
+		// 	assert(numLocs == 3);
+		// 	assert(locs[0] == CASTLE_DRACULA);
+		// 	assert(locs[1] == CASTLE_DRACULA);
+		// 	assert(locs[2] == CITY_UNKNOWN);
+		// 	if (canFree) free(locs);
+		// }
 
-		GvFree(gv);
+		// GvFree(g);
 		printf("Test passed!\n");
 
 	} 
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("============ Testing connections ============\n");
+		printf("Testing connections\n");
 		
 		char *trail = "";
 		Message messages[] = {};
@@ -582,83 +577,153 @@ int main(void)
 			       "(Lord Godalming, Round 1)\n");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
-			                                     1, GALATZ, &numLocs);
+			                            	3, ALICANTE, &numLocs);
+			sortPlaces(locs, numLocs);
 			for (int i = 0; i < numLocs; i++) {
 				printf("%d\n", locs[i]);
 			}
 			free(locs);
 		}
 
-		// {
-		// 	printf("\tChecking Galatz road connections "
-		// 	       "(Lord Godalming, Round 1)\n");
-		// 	int numLocs = -1;
-		// 	PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
-		// 	                                     1, GALATZ, true, false,
-		// 	                                     false, &numLocs);
+		{
+			printf("\tChecking Galatz road connections "
+			       "(Lord Godalming, Round 1)\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
+			                                     1, GALATZ, true, false,
+			                                     false, &numLocs);
 
-		// 	assert(numLocs == 5);
-		// 	sortPlaces(locs, numLocs);
-		// 	assert(locs[0] == BUCHAREST);
-		// 	assert(locs[1] == CASTLE_DRACULA);
-		// 	assert(locs[2] == CONSTANTA);
-		// 	assert(locs[3] == GALATZ);
-		// 	assert(locs[4] == KLAUSENBURG);
-		// 	free(locs);
-		// }
+			assert(numLocs == 5);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == BUCHAREST);
+			assert(locs[1] == CASTLE_DRACULA);
+			assert(locs[2] == CONSTANTA);
+			assert(locs[3] == GALATZ);
+			assert(locs[4] == KLAUSENBURG);
+			free(locs);
+		}
 
-		// {
-		// 	printf("\tChecking Ionian Sea boat connections "
-		// 	       "(Lord Godalming, Round 1)\n");
+		{
+			printf("\tChecking Ionian Sea boat connections "
+			       "(Lord Godalming, Round 1)\n");
 			
-		// 	int numLocs = -1;
-		// 	PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
-		// 	                                     1, IONIAN_SEA, false, false,
-		// 	                                     true, &numLocs);
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
+			                                     1, IONIAN_SEA, false, false,
+			                                     true, &numLocs);
 			
-		// 	assert(numLocs == 7);
-		// 	sortPlaces(locs, numLocs);
-		// 	assert(locs[0] == ADRIATIC_SEA);
-		// 	assert(locs[1] == ATHENS);
-		// 	assert(locs[2] == BLACK_SEA);
-		// 	assert(locs[3] == IONIAN_SEA);
-		// 	assert(locs[4] == SALONICA);
-		// 	assert(locs[5] == TYRRHENIAN_SEA);
-		// 	assert(locs[6] == VALONA);
-		// 	free(locs);
-		// }
+			assert(numLocs == 7);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == ADRIATIC_SEA);
+			assert(locs[1] == ATHENS);
+			assert(locs[2] == BLACK_SEA);
+			assert(locs[3] == IONIAN_SEA);
+			assert(locs[4] == SALONICA);
+			assert(locs[5] == TYRRHENIAN_SEA);
+			assert(locs[6] == VALONA);
+			free(locs);
+		}
 
-		// {
-		// 	printf("\tChecking Paris rail connections "
-		// 	       "(Lord Godalming, Round 2)\n");
-		// 	int numLocs = -1;
-		// 	PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
-		// 	                                     2, PARIS, false, true,
-		// 	                                     false, &numLocs);
+		{
+			printf("\tChecking Paris rail connections "
+			       "(Lord Godalming, Round 2)\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
+			                                     2, PARIS, false, true,
+			                                     false, &numLocs);
 			
-		// 	assert(numLocs == 7);
-		// 	sortPlaces(locs, numLocs);
-		// 	assert(locs[0] == BORDEAUX);
-		// 	assert(locs[1] == BRUSSELS);
-		// 	assert(locs[2] == COLOGNE);
-		// 	assert(locs[3] == LE_HAVRE);
-		// 	assert(locs[4] == MARSEILLES);
-		// 	assert(locs[5] == PARIS);
-		// 	assert(locs[6] == SARAGOSSA);
-		// 	free(locs);
-		// }
+			assert(numLocs == 7);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == BORDEAUX);
+			assert(locs[1] == BRUSSELS);
+			assert(locs[2] == COLOGNE);
+			assert(locs[3] == LE_HAVRE);
+			assert(locs[4] == MARSEILLES);
+			assert(locs[5] == PARIS);
+			assert(locs[6] == SARAGOSSA);
+			free(locs);
+		}
 		
-		// {
-		// 	printf("\tChecking Athens rail connections (none)\n");
-		// 	int numLocs = -1;
-		// 	PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
-		// 	                                     1, ATHENS, false, true,
-		// 	                                     false, &numLocs);
+		{
+			printf("\tChecking Athens rail connections (none)\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
+			                                     1, ATHENS, false, true,
+			                                     false, &numLocs);
 			
-		// 	assert(numLocs == 1);
-		// 	assert(locs[0] == ATHENS);
-		// 	free(locs);
-		// }
+			assert(numLocs == 1);
+			assert(locs[0] == ATHENS);
+			free(locs);
+		}
+
+	// own test
+		{
+			printf("\tChecking Draculas moveable\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_DRACULA,
+											1, BORDEAUX, &numLocs);
+
+			assert(numLocs == 6);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == BAY_OF_BISCAY);
+			assert(locs[1] == BORDEAUX);
+			assert(locs[2] == CLERMONT_FERRAND);
+			assert(locs[3] == NANTES);
+			assert(locs[4] == SARAGOSSA);
+			assert(locs[5] == TOULOUSE);
+		}
+
+		{
+			printf("\tChecking Hunter rail connections\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
+											3, ALICANTE, &numLocs);
+
+			assert(numLocs == 9);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == ALICANTE);
+			assert(locs[1] == BARCELONA);
+			assert(locs[2] == BORDEAUX);
+			assert(locs[3] == GRANADA);
+			assert(locs[4] == LISBON);
+			assert(locs[5] == MADRID);
+			assert(locs[6] == MEDITERRANEAN_SEA);
+			assert(locs[7] == SANTANDER);
+			assert(locs[8] == SARAGOSSA);
+
+		}
+
+		{
+			printf("\tChecking Draculas Rail connections (none)\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachableByType(gv, PLAYER_DRACULA,
+											1, BORDEAUX, false, true,
+											false, &numLocs);
+			assert(numLocs == 1);
+			assert(locs[1] == BORDEAUX);
+		}
+
+		{
+			printf("\tChecking Dracula can't reach the hospital\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_DRACULA,
+										1, BELGRADE, &numLocs);
+			for (int i = 0; i < numLocs; i++) {
+				assert(locs[i] != HOSPITAL_PLACE);
+			}
+		}
+
+		{
+			printf("\tChecking rounds where hunters cant use RAIL"
+					"LORD_GODALMING ROUND 4\n");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachableByType(gv, PLAYER_LORD_GODALMING,
+												4, PARIS, false, true,
+												false, &numLocs);
+			assert(numLocs == 1);
+			assert(locs[1] == PARIS);
+		}
+
 
 		GvFree(gv);
 		printf("Test passed!\n");
