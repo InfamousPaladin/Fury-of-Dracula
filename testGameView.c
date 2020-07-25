@@ -35,9 +35,9 @@ int main(void)
 
 		assert(GvGetRound(gv) == 0);
 		assert(GvGetPlayer(gv) == PLAYER_LORD_GODALMING);
-		// assert(GvGetScore(gv) == GAME_START_SCORE);
-		// assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
-		// assert(GvGetHealth(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+		assert(GvGetScore(gv) == GAME_START_SCORE);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
+		assert(GvGetHealth(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == NOWHERE);
 		assert(GvGetVampireLocation(gv) == NOWHERE);
 
@@ -204,8 +204,8 @@ int main(void)
 		assert(GvGetRound(gv) == 2);
 		assert(GvGetPlayer(gv) == PLAYER_DRACULA);
 		assert(GvGetScore(gv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
-		// assert(GvGetHealth(gv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
+		assert(GvGetHealth(gv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == ENGLISH_CHANNEL);
 
 		GvFree(gv);
@@ -324,8 +324,8 @@ int main(void)
 		Message messages[24] = {};
 		GameView gv = GvNew(trail, messages);
 		
-		// assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) ==
-		// 		GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) ==
+				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == KLAUSENBURG);
 		assert(GvGetVampireLocation(gv) == BUCHAREST);
 		// int numTraps = 0;
@@ -696,7 +696,8 @@ int main(void)
 		assert(GvGetRound(gv) == 4);
 		assert(GvGetPlayer(gv) == PLAYER_LORD_GODALMING);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
-		// assert(GvGetVampireLocation(gv) == NOWHERE);
+		// TODO: error
+		assert(GvGetVampireLocation(gv) == NOWHERE);
 
 		GvFree(gv);
 		printf("\033[1;32m");
@@ -746,9 +747,10 @@ int main(void)
 		Message messages[32] = {};
 		GameView gv = GvNew(trail, messages);
 		
-		// assert(GvGetHealth(gv, PLAYER_DR_SEWARD) ==
-		// 		GAME_START_HUNTER_LIFE_POINTS - 2 * LIFE_LOSS_TRAP_ENCOUNTER);
-		// assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		assert(GvGetHealth(gv, PLAYER_DR_SEWARD) ==
+				GAME_START_HUNTER_LIFE_POINTS - 2 * LIFE_LOSS_TRAP_ENCOUNTER);
+		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		// TODO: error
 		// assert(GvGetVampireLocation(gv) == NOWHERE);
 
 		printf("===> Testing GvGetMoveHistory and GvGetLastMoves Functions\n");

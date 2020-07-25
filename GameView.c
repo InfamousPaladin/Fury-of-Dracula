@@ -130,9 +130,9 @@ GameView GvNew(char *pastPlays, Message messages[]) {
 }
 
 void GvFree(GameView gv) {
-	free(gv->playerID);
-	MapFree(gv->map);
-	free(gv);
+	// free(gv->playerID);
+	// MapFree(gv->map);
+	// free(gv);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -231,6 +231,7 @@ int GvGetHealth(GameView gv, Player player)
 	if (playerID == 2) playerID = 'H';
 	if (playerID == 3) playerID = 'M';
 	if (playerID == 4) playerID = 'D';
+	bool playerDead = false;
 	// Traverse through playString round to find 'G', 'S', 'H' or 'M'
 	for (int i = 0; gv->playString[i] != '\0'; i += TURN_CHARS) {
 		// Check the hunter's POV
@@ -246,9 +247,11 @@ int GvGetHealth(GameView gv, Player player)
 					gv->playerID[player].health = 0;
 					// The player is dead and is teleported to the hospital
 					gv->playerID[player].location.id = HOSPITAL_PLACE;
+					playerDead = true;
 					break;
 				}
 			}
+			if (playerDead == true) break;
 			// Check if the hunter rested
 			if (gv->round != 0) {
 				if (gv->playString[i + 1] == gv->playString[i + 1 - ROUND_CHARS]) {
@@ -274,7 +277,8 @@ int GvGetHealth(GameView gv, Player player)
 			if (gv->playerID[player].location.id == TELEPORT || gv->playerID[player].location.id == CASTLE_DRACULA) {
 				gv->playerID[player].health += LIFE_GAIN_CASTLE_DRACULA;
 			// Check if Dracula is at sea
-			} else if (placeIsSea(gv->playerID[player].location.id) == true) {
+			}
+			if (placeIsSea(gv->playerID[player].location.id) == true) {
 				gv->playerID[player].health -= LIFE_LOSS_SEA;
 			}
 			// Check if Dracula is dead
@@ -283,6 +287,7 @@ int GvGetHealth(GameView gv, Player player)
 				return gv->playerID[player].health;
 			}
 		}
+		if (gv->playString[i + 7] == '\0') break;
 	}
 	return gv->playerID[player].health;
 }
