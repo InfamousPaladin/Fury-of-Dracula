@@ -60,7 +60,7 @@ int main(void)
 
 		assert(GvGetRound(gv) == 0);
 		assert(GvGetPlayer(gv) == PLAYER_DR_SEWARD);
-		// assert(GvGetScore(gv) == GAME_START_SCORE);
+		assert(GvGetScore(gv) == GAME_START_SCORE);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == STRASBOURG);
 		assert(GvGetPlayerLocation(gv, PLAYER_DR_SEWARD) == NOWHERE);
 
@@ -82,7 +82,7 @@ int main(void)
 
 		assert(GvGetRound(gv) == 0);
 		assert(GvGetPlayer(gv) == PLAYER_DRACULA);
-		// assert(GvGetScore(gv) == GAME_START_SCORE);
+		assert(GvGetScore(gv) == GAME_START_SCORE);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == STRASBOURG);
 		assert(GvGetPlayerLocation(gv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
 		assert(GvGetPlayerLocation(gv, PLAYER_VAN_HELSING) == ZURICH);
@@ -110,9 +110,9 @@ int main(void)
 
 		assert(GvGetRound(gv) == 1);
 		assert(GvGetPlayer(gv) == PLAYER_LORD_GODALMING);
-		// assert(GvGetScore(gv) == GAME_START_SCORE - SCORE_LOSS_DRACULA_TURN);
-		// assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
-		// assert(GvGetHealth(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+		assert(GvGetScore(gv) == GAME_START_SCORE - SCORE_LOSS_DRACULA_TURN);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
+		assert(GvGetHealth(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == STRASBOURG);
 		assert(GvGetPlayerLocation(gv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
 		assert(GvGetPlayerLocation(gv, PLAYER_VAN_HELSING) == ZURICH);
@@ -141,10 +141,10 @@ int main(void)
 		
 		GameView gv = GvNew(trail, messages);
 		
-		// assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) ==
-		// 		GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_DRACULA_ENCOUNTER);
-		// assert(GvGetHealth(gv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) ==
+				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_DRACULA_ENCOUNTER);
+		assert(GvGetHealth(gv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == GENEVA);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == GENEVA);
 		assert(GvGetVampireLocation(gv) == NOWHERE);
@@ -173,9 +173,9 @@ int main(void)
 
 		assert(GvGetRound(gv) == 2);
 		assert(GvGetPlayer(gv) == PLAYER_LORD_GODALMING);
-		// assert(GvGetScore(gv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
-		// assert(GvGetHealth(gv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
+		assert(GvGetScore(gv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
+		assert(GvGetHealth(gv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == SEA_UNKNOWN);
 
 		GvFree(gv);
@@ -203,7 +203,7 @@ int main(void)
 
 		assert(GvGetRound(gv) == 2);
 		assert(GvGetPlayer(gv) == PLAYER_DRACULA);
-		// assert(GvGetScore(gv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
+		assert(GvGetScore(gv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
 		// assert(GvGetHealth(gv, PLAYER_DRACULA) ==
 		// 		GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == ENGLISH_CHANNEL);
@@ -225,7 +225,7 @@ int main(void)
 		Message messages[6] = {};
 		GameView gv = GvNew(trail, messages);
 	
-		// assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
 		
 		GvFree(gv);
 		printf("\033[1;32m");
@@ -247,10 +247,10 @@ int main(void)
 		Message messages[21] = {};
 		GameView gv = GvNew(trail, messages);
 		
-		// assert(GvGetScore(gv) == GAME_START_SCORE
-		//                          - 4 * SCORE_LOSS_DRACULA_TURN
-		//                          - SCORE_LOSS_HUNTER_HOSPITAL);
-		// assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == 0);
+		assert(GvGetScore(gv) == GAME_START_SCORE
+		                         - 4 * SCORE_LOSS_DRACULA_TURN
+		                         - SCORE_LOSS_HUNTER_HOSPITAL);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == 0);
 		// TODO: error
 		// assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == STRASBOURG);
@@ -272,8 +272,8 @@ int main(void)
 		Message messages[10] = {};
 		GameView gv = GvNew(trail, messages);
 		
-		// assert(GvGetHealth(gv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS + (2 * LIFE_GAIN_CASTLE_DRACULA));
+		assert(GvGetHealth(gv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS + (2 * LIFE_GAIN_CASTLE_DRACULA));
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CASTLE_DRACULA);
 		
 		GvFree(gv);
@@ -1040,7 +1040,7 @@ int main(void)
 		printf("\033[0m");
 
 		{
-			printf("\t-> Checking Hunter rail connections: ");
+			printf("\t-> Checking Hunter rail connections (max distance): ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
 											3, ALICANTE, &numLocs);
@@ -1056,6 +1056,44 @@ int main(void)
 			assert(locs[6] == MEDITERRANEAN_SEA);
 			assert(locs[7] == SANTANDER);
 			assert(locs[8] == SARAGOSSA);
+		}
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+		{
+			printf("\t-> Checking Hunter rail connections (min distance): ");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
+											1, FLORENCE, &numLocs);
+
+			assert(numLocs == 5);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == FLORENCE);
+			assert(locs[1] == GENOA);
+			assert(locs[2] == MILAN);
+			assert(locs[3] == ROME);
+			assert(locs[4] == VENICE);
+		}
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+		{
+			printf("\t-> Checking Boat connections: ");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
+											1, MEDITERRANEAN_SEA, &numLocs);
+
+			assert(numLocs == 7);
+			sortPlaces(locs, numLocs);
+			assert(locs[0] == ALICANTE);
+			assert(locs[1] == ATLANTIC_OCEAN);
+			assert(locs[2] == BARCELONA);
+			assert(locs[3] == CAGLIARI);
+			assert(locs[4] == MARSEILLES);
+			assert(locs[5] == MEDITERRANEAN_SEA);
+			assert(locs[6] == TYRRHENIAN_SEA);
 		}
 		printf("\033[1;32m");
 		printf("Test passed!\n");
