@@ -250,6 +250,7 @@ int main(void)
 		assert(GvGetScore(gv) == GAME_START_SCORE
 		                         - 4 * SCORE_LOSS_DRACULA_TURN
 		                         - SCORE_LOSS_HUNTER_HOSPITAL);
+
 		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == 0);
 		// TODO: error
 		// assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
@@ -696,7 +697,6 @@ int main(void)
 		assert(GvGetRound(gv) == 4);
 		assert(GvGetPlayer(gv) == PLAYER_LORD_GODALMING);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
-		// TODO: error
 		assert(GvGetVampireLocation(gv) == NOWHERE);
 
 		GvFree(gv);
