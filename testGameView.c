@@ -35,9 +35,9 @@ int main(void)
 
 		assert(GvGetRound(gv) == 0);
 		assert(GvGetPlayer(gv) == PLAYER_LORD_GODALMING);
-		// assert(GvGetScore(gv) == GAME_START_SCORE);
-		// assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
-		// assert(GvGetHealth(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+		assert(GvGetScore(gv) == GAME_START_SCORE);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
+		assert(GvGetHealth(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == NOWHERE);
 		assert(GvGetVampireLocation(gv) == NOWHERE);
 
@@ -204,8 +204,8 @@ int main(void)
 		assert(GvGetRound(gv) == 2);
 		assert(GvGetPlayer(gv) == PLAYER_DRACULA);
 		assert(GvGetScore(gv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
-		// assert(GvGetHealth(gv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
+		assert(GvGetHealth(gv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == ENGLISH_CHANNEL);
 
 		GvFree(gv);
@@ -297,12 +297,12 @@ int main(void)
 		
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == GALATZ);
 		assert(GvGetVampireLocation(gv) == CASTLE_DRACULA);
-		// int numTraps = 0;
-		// PlaceId *traps = GvGetTrapLocations(gv, &numTraps);
-		// assert(numTraps == 2);
-		// sortPlaces(traps, numTraps);
-		// assert(traps[0] == GALATZ && traps[1] == KLAUSENBURG);
-		// free(traps);
+		int numTraps = 0;
+		PlaceId *traps = GvGetTrapLocations(gv, &numTraps);
+		assert(numTraps == 2);
+		sortPlaces(traps, numTraps);
+		assert(traps[0] == GALATZ && traps[1] == KLAUSENBURG);
+		free(traps);
 		
 		GvFree(gv);
 		printf("\033[1;32m");
@@ -324,16 +324,16 @@ int main(void)
 		Message messages[24] = {};
 		GameView gv = GvNew(trail, messages);
 		
-		// assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) ==
-		// 		GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) ==
+				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == KLAUSENBURG);
 		assert(GvGetVampireLocation(gv) == BUCHAREST);
-		// int numTraps = 0;
-		// PlaceId *traps = GvGetTrapLocations(gv, &numTraps);
-		// assert(numTraps == 2);
-		// sortPlaces(traps, numTraps);
-		// assert(traps[0] == CONSTANTA && traps[1] == GALATZ);
-		// free(traps);
+		int numTraps = 0;
+		PlaceId *traps = GvGetTrapLocations(gv, &numTraps);
+		assert(numTraps == 2);
+		sortPlaces(traps, numTraps);
+		assert(traps[0] == CONSTANTA && traps[1] == GALATZ);
+		free(traps);
 		
 		GvFree(gv);
 		printf("\033[1;32m");
@@ -357,9 +357,9 @@ int main(void)
 		Message messages[35] = {};
 		GameView gv = GvNew(trail, messages);
 		
-		// assert(GvGetScore(gv) == GAME_START_SCORE
-		//                          - 7 * SCORE_LOSS_DRACULA_TURN
-		//                          - SCORE_LOSS_VAMPIRE_MATURES);
+		assert(GvGetScore(gv) == GAME_START_SCORE
+		                         - 7 * SCORE_LOSS_DRACULA_TURN
+		                         - SCORE_LOSS_VAMPIRE_MATURES);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
 		assert(GvGetVampireLocation(gv) == NOWHERE);
 		
@@ -746,8 +746,8 @@ int main(void)
 		Message messages[32] = {};
 		GameView gv = GvNew(trail, messages);
 		
-		// assert(GvGetHealth(gv, PLAYER_DR_SEWARD) ==
-		// 		GAME_START_HUNTER_LIFE_POINTS - 2 * LIFE_LOSS_TRAP_ENCOUNTER);
+		assert(GvGetHealth(gv, PLAYER_DR_SEWARD) ==
+				GAME_START_HUNTER_LIFE_POINTS - 2 * LIFE_LOSS_TRAP_ENCOUNTER);
 		// assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
 		// assert(GvGetVampireLocation(gv) == NOWHERE);
 
