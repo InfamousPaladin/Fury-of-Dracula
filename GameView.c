@@ -47,7 +47,6 @@ typedef struct playerInfo {
 	Place location;
 } playerInfo;
 
-
 struct gameView 
 {
 	Round round; // keeps track of the round
@@ -61,6 +60,7 @@ struct gameView
 };
 
 // Helper Function Prototypes
+static PlaceId GvDraculaDoubleBack(GameView gv, Place playerLoc, int roundBack);
 static Place getPlaceId(GameView gv, Player player, int round);
 static int findValidRailMove(
 	GameView gv,
@@ -484,9 +484,7 @@ PlaceId GvGetVampireLocation(GameView gv) {
 	}
 
 	// immvampire not found
-	if (foundLocation == false) {
-		return NOWHERE;
-	}
+	if (foundLocation == false) return NOWHERE;
 
 	// checks if hunter has been in the same place as the
 	// immvampire for the last 6 rounds and kills the vampire if yes
