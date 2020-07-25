@@ -95,6 +95,11 @@ GameView GvNew(char *pastPlays, Message messages[]) {
 	// getting the current round of the game
 	new->round = GvGetRound(new);
 	// Updating the information of the players
+	new->playerID[0].name = PLAYER_LORD_GODALMING;
+	new->playerID[1].name = PLAYER_DR_SEWARD;
+	new->playerID[2].name = PLAYER_VAN_HELSING;
+	new->playerID[3].name = PLAYER_MINA_HARKER;
+	new->playerID[4].name = PLAYER_DRACULA;
 	new->playerID[0].location.id = GvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
 	new->playerID[1].location.id = GvGetPlayerLocation(new, PLAYER_DR_SEWARD);
 	new->playerID[2].location.id = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
@@ -176,39 +181,47 @@ Player GvGetPlayer(GameView gv) {
 
 int GvGetScore(GameView gv)
 {
+	gv->score = GAME_START_SCORE;
 	// Check all ways scores can be reduced
 	// Each round that goes by that Dracula is alive
-	if (gv->playerID[4].health > 0) gv->score -= SCORE_LOSS_DRACULA_TURN;
+	gv->score -= gv->round * SCORE_LOSS_DRACULA_TURN;
+	// for (int i = ROUND_CHARS; gv->playString[i - 1] != '\0'; i += ROUND_CHARS) {
+	// 	if (gv->playerID[PLAYER_DRACULA].health > 0) gv->score -= SCORE_LOSS_DRACULA_TURN;
+	// }
 	// Hunters dying
-	for (int i = 0; i < NUM_PLAYERS; i++) {
-		if (gv->playerID[i].health <= 0) gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
+	for (int j = 0; j < NUM_PLAYERS - 1; j++) {
+		if (GvGetHealth(gv, gv->playerID[j].name) <= 0) gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
 	} 
 	// A vampire matures
-	if (GvGetVampireLocation(gv) != NOWHERE) {
-		PlaceId vampLocation = GvGetVampireLocation(gv);
-		int trail = TRAIL_SIZE;
-		bool condition = true;
-		PlaceId *dracTrail = GvGetLastMoves(gv, PLAYER_DRACULA, TRAIL_SIZE, &trail, &condition);
-		// Check trail if the immature vampire is still on the trail
-		int vampMature = 1;
-		for (int i = 0; i < TRAIL_SIZE; i++) {
-			// If it is there, then the vampire isn't matured yet
-			if (vampLocation == dracTrail[i]) vampMature = 0;
+	for (int i = ROUND_CHARS; gv->playString[i] != '\0'; i += ROUND_CHARS) {
+		if (GvGetVampireLocation(gv) != NOWHERE) {
+			PlaceId vampLocation = GvGetVampireLocation(gv);
+			int trail = TRAIL_SIZE;
+			bool condition = true;
+			PlaceId *dracTrail = GvGetLastMoves(gv, PLAYER_DRACULA, TRAIL_SIZE, &trail, &condition);
+			// Check trail if the immature vampire is still on the trail
+			int vampMature = 1;
+			for (int i = 0; i < TRAIL_SIZE; i++) {
+				// If it is there, then the vampire isn't matured yet
+				if (vampLocation == dracTrail[i]) vampMature = 0;
+			}
+			if (vampMature == 1) gv->score -= SCORE_LOSS_VAMPIRE_MATURES;
 		}
-		if (vampMature == 1) gv->score -= SCORE_LOSS_VAMPIRE_MATURES;
-	}
+	} 
 	return gv->score;
 }
 
 int GvGetHealth(GameView gv, Player player)
 {
+	// Set all the hunters health points
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+		if (i != PLAYER_DRACULA) {
+			gv->playerID[i].health = GAME_START_HUNTER_LIFE_POINTS;
+		} else {
+			gv->playerID[i].health = GAME_START_BLOOD_POINTS;
+		}
+	}
 	// Return the health of the given player
-	// String to hold location initials
-	Place location;
-	char placeAbbrev[3];
-	location.abbrev = placeAbbrev;
-	// First get the round number
-	gv->round = GvGetRound(gv);
 	// Extract intial of player
 	int playerID = player;
 	if (playerID == 0) playerID = 'G';
@@ -217,25 +230,15 @@ int GvGetHealth(GameView gv, Player player)
 	if (playerID == 3) playerID = 'M';
 	if (playerID == 4) playerID = 'D';
 	// Traverse through playString round to find 'G', 'S', 'H' or 'M'
-	for (int i = 8 * gv->round; gv->playString[i] != '\0'; i += 8) {
+	for (int i = 0; gv->playString[i] != '\0'; i += TURN_CHARS) {
 		// Check the hunter's POV
 		if (gv->playString[i] == playerID && playerID != 'D') {
 			// Check the last four characters to see if anything has happened
-			for (int j = 3; j < 7; j++) {
-				if (gv->playString[i + j] != '.') {
-					if (gv->playString[i + j] == TRAP) {
-						gv->playerID[player].health -= LIFE_LOSS_TRAP_ENCOUNTER;
-					} else if (gv->playString[i + j] == IMMATURE_VAMPIRE) {
-						// I'm not sure what happens here
-					} else if (gv->playString[i + j] == 'D') {
-						gv->playerID[player].health -= LIFE_LOSS_DRACULA_ENCOUNTER;
-						gv->playerID[4].health -= LIFE_LOSS_HUNTER_ENCOUNTER;
-					}
-				} 
-				// Check if the health is below 0
-				if (gv->playerID[4].health <= 0) {
-					// Dracula is dead (game is over)
-					break;
+			for (int j = 3; j < 8; j++) {
+				if (gv->playString[i + j] == TRAP) {
+					gv->playerID[player].health -= LIFE_LOSS_TRAP_ENCOUNTER;
+				} else if (gv->playString[i + j] == 'D') {
+					gv->playerID[player].health -= LIFE_LOSS_DRACULA_ENCOUNTER;
 				}
 				if (gv->playerID[player].health <= 0) {
 					gv->playerID[player].health = 0;
@@ -246,8 +249,8 @@ int GvGetHealth(GameView gv, Player player)
 			}
 			// Check if the hunter rested
 			if (gv->round != 0) {
-				if (gv->playString[i + 1] == gv->playString[i + 1 - 32]) {
-					if (gv->playString[i + 2] == gv->playString[i + 2 - 32]) {
+				if (gv->playString[i + 1] == gv->playString[i + 1 - ROUND_CHARS]) {
+					if (gv->playString[i + 2] == gv->playString[i + 2 - ROUND_CHARS]) {
 						// This means the hunter stayed in the same location
 						gv->playerID[player].health += LIFE_GAIN_REST;
 					}
@@ -258,23 +261,24 @@ int GvGetHealth(GameView gv, Player player)
 		} 
 		// Check Dracula's POV
 		if (gv->playString[i] == playerID && playerID == 'D') {
+			// Check if Dracula encountered a hunter
+			for (int j = 0; j < 30; j++) {
+				if (gv->playString[i - 30 + j] == 'D') {
+					gv->playerID[player].health -= LIFE_LOSS_HUNTER_ENCOUNTER;
+				}
+			}
 			// Check if Dracula TP to his castle
-			location.abbrev[0] = gv->playString[i + 1];
-			location.abbrev[1] = gv->playString[i + 2];
-			location.abbrev[2] = '\0';
-			// Convert the abbrev to name
-			location.id = placeAbbrevToId(location.abbrev);
-			if (location.id == TELEPORT || location.id == CASTLE_DRACULA) {
-				gv->playerID[player].location.id = CASTLE_DRACULA;
+			gv->playerID[player].location.id = GvGetPlayerLocation(gv, player);
+			if (gv->playerID[player].location.id == TELEPORT || gv->playerID[player].location.id == CASTLE_DRACULA) {
 				gv->playerID[player].health += LIFE_GAIN_CASTLE_DRACULA;
 			// Check if Dracula is at sea
-			} else if (placeIsSea(location.id) == true) {
+			} else if (placeIsSea(gv->playerID[player].location.id) == true) {
 				gv->playerID[player].health -= LIFE_LOSS_SEA;
 			}
 			// Check if Dracula is dead
-			if (gv->playerID[4].health <= 0) {
+			if (gv->playerID[player].health <= 0) {
 				// Dracula is dead (game is over)
-				return gv->playerID[4].health;
+				return gv->playerID[player].health;
 			}
 		}
 	}
