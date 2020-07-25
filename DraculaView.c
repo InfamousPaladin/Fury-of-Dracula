@@ -29,7 +29,7 @@ typedef struct playerInfo
 } playerInfo;
 
 struct draculaView {
-	GameView gv;						// Stores current game state
+	GameView gameState;					// Stores current game state
 
 	char *playString; 					// Stores all past plays
 	Message *messages;					// TODO: pointer to messages
@@ -60,7 +60,7 @@ DraculaView DvNew(char *pastPlays, Message messages[])
 		fprintf(stderr, "Couldn't allocate DraculaView\n");
 		exit(EXIT_FAILURE);
 	}
-	new->gv = GvNew(pastPlays, messages);
+	new->gameState = GvNew(pastPlays, messages);
 	new->currRound = DvGetRound(new);
 	new->score = DvGetScore(new);
 
@@ -84,7 +84,7 @@ void DvFree(DraculaView dv)
 
 Round DvGetRound(DraculaView dv)
 {
-	dv->currRound = GvGetRound(dv->gv);
+	dv->currRound = GvGetRound(dv->gameState);
 	return dv->currRound;
 }
 
@@ -109,16 +109,14 @@ PlaceId DvGetPlayerLocation(DraculaView dv, Player player)
 // TODO: Gabriel
 PlaceId DvGetVampireLocation(DraculaView dv)
 {
-	dv->imVampireLoc = GvGetVampireLocation(dv->gv);
+	dv->imVampireLoc = GvGetVampireLocation(dv->gameState);
 	return dv->imVampireLoc;
 }
 
 // TODO: Gabriel
 PlaceId *DvGetTrapLocations(DraculaView dv, int *numTraps)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numTraps = 0;
-	return NULL;
+	return GvGetTrapLocations(dv->gameState, &*numTraps);
 }
 
 ////////////////////////////////////////////////////////////////////////
