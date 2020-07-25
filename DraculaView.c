@@ -21,22 +21,30 @@
 // add your own #includes here
 
 // TODO: ADD YOUR OWN STRUCTS HERE
-typedef struct playerInfo {
-	int health;
-	Player name;
-	Place location;
+typedef struct playerInfo
+{
+	Player name;						// name of player
+	PlaceId location;					// current location of player
+	int health;							// current player health
 } playerInfo;
 
 struct draculaView {
-	GameView gv;
-	Round round; // keeps track of the round
-	Map map; // map of the board
-	Player currPlayer; // whos turn
-	int score; // current score of the game
-	playerInfo playerID[NUM_PLAYERS];
-	char *playString; // Stores all past plays (i.e. game log)
-	int nPlaces; // number of places/cities in map
-	Place vampireLocs; // keeps track of vampires
+	GameView gv;						// Stores current game state
+
+	char *playString; 					// Stores all past plays
+	Message *messages;					// TODO: pointer to messages
+	Map map; 							// map of the board
+	int nMapLocs; 						// number of locations on map
+	
+	Round currRound; 					// current round of game
+	Player currPlayer; 					// whos turn
+	int score; 							// current score of the game
+
+	playerInfo playerID[NUM_PLAYERS];	// array that contains each player info
+	PlaceId imVampireLoc; 				// location of immature vampires
+
+	PlaceId *activeTrapLocs;			// locations of all active traps
+	int nTraps;							// number of active traps
 
 };
 
@@ -53,7 +61,12 @@ DraculaView DvNew(char *pastPlays, Message messages[])
 		exit(EXIT_FAILURE);
 	}
 	new->gv = GvNew(pastPlays, messages);
-	new->round = DvGetRound(new);
+	new->currRound = DvGetRound(new);
+	new->score = DvGetScore(new);
+
+	new->nTraps = 0;
+	new->activeTrapLocs = DvGetTrapLocations(new, &new->nTraps);
+
 
 
 	return new;
@@ -71,8 +84,8 @@ void DvFree(DraculaView dv)
 
 Round DvGetRound(DraculaView dv)
 {
-	dv->round = GvGetRound(dv->gv);
-	return dv->round;
+	dv->currRound = GvGetRound(dv->gv);
+	return dv->currRound;
 }
 
 int DvGetScore(DraculaView dv)
@@ -96,8 +109,8 @@ PlaceId DvGetPlayerLocation(DraculaView dv, Player player)
 // TODO: Gabriel
 PlaceId DvGetVampireLocation(DraculaView dv)
 {
-	dv->vampireLocs.id = GvGetVampireLocation(dv->gv);
-	return dv->vampireLocs.id;
+	dv->imVampireLoc = GvGetVampireLocation(dv->gv);
+	return dv->imVampireLoc;
 }
 
 // TODO: Gabriel
