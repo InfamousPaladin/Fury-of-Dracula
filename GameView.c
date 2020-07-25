@@ -110,13 +110,26 @@ GameView GvNew(char *pastPlays, Message messages[]) {
 	new->playerID[2].location.id = GvGetPlayerLocation(new, PLAYER_VAN_HELSING);
 	new->playerID[3].location.id = GvGetPlayerLocation(new, PLAYER_MINA_HARKER);
 	new->playerID[4].location.id = GvGetPlayerLocation(new, PLAYER_DRACULA);
+
+	/*
 	new->playerID[0].health = GvGetHealth(new, PLAYER_LORD_GODALMING);
 	new->playerID[1].health = GvGetHealth(new, PLAYER_DR_SEWARD);
 	new->playerID[2].health = GvGetHealth(new, PLAYER_VAN_HELSING);
 	new->playerID[3].health = GvGetHealth(new, PLAYER_MINA_HARKER);
 	new->playerID[4].health = GvGetHealth(new, PLAYER_DRACULA);
+	*/
+
+	new->playerID[0].health = GAME_START_HUNTER_LIFE_POINTS;
+	new->playerID[1].health = GAME_START_HUNTER_LIFE_POINTS;
+	new->playerID[2].health = GAME_START_HUNTER_LIFE_POINTS;
+	new->playerID[3].health = GAME_START_HUNTER_LIFE_POINTS;
+	new->playerID[4].health = GAME_START_BLOOD_POINTS;
+
 	// getting the current score of the game
+	/*
 	new->score = GvGetScore(new);
+	*/
+	new->score = GAME_START_SCORE;
 	// getting the current player
 	new->currPlayer = GvGetPlayer(new);
 	// getting traps on the map and storing it in gv struct
@@ -189,7 +202,7 @@ int GvGetScore(GameView gv)
 	gv->score = GAME_START_SCORE;
 	// Check all ways scores can be reduced
 	// Each round that goes by that Dracula is alive
-	gv->score -= gv->round * SCORE_LOSS_DRACULA_TURN;
+	gv->score -= (gv->round) * SCORE_LOSS_DRACULA_TURN;
 	// for (int i = ROUND_CHARS; gv->playString[i - 1] != '\0'; i += ROUND_CHARS) {
 	// 	if (gv->playerID[PLAYER_DRACULA].health > 0) gv->score -= SCORE_LOSS_DRACULA_TURN;
 	// }
@@ -234,13 +247,16 @@ int GvGetHealth(GameView gv, Player player)
 	if (playerID == 2) playerID = 'H';
 	if (playerID == 3) playerID = 'M';
 	if (playerID == 4) playerID = 'D';
+
+	bool playerDead = false;
+
 	// Traverse through playString round to find 'G', 'S', 'H' or 'M'
 	for (int i = 0; gv->playString[i] != '\0'; i += TURN_CHARS) {
 		// Check the hunter's POV
 		if (gv->playString[i] == playerID && playerID != 'D') {
 			// Check the last four characters to see if anything has happened
-			for (int j = 3; j < 8; j++) {
-				if (gv->playString[i + j] == TRAP) {
+			for (int j = 3; j <= 6; j++) {
+				if (gv->playString[i + j] == 'T') {
 					gv->playerID[player].health -= LIFE_LOSS_TRAP_ENCOUNTER;
 				} else if (gv->playString[i + j] == 'D') {
 					gv->playerID[player].health -= LIFE_LOSS_DRACULA_ENCOUNTER;
@@ -249,9 +265,11 @@ int GvGetHealth(GameView gv, Player player)
 					gv->playerID[player].health = 0;
 					// The player is dead and is teleported to the hospital
 					gv->playerID[player].location.id = HOSPITAL_PLACE;
+					playerDead = true;
 					break;
 				}
 			}
+			if (playerDead == true) break;
 			// Check if the hunter rested
 			if (gv->round != 0) {
 				if (gv->playString[i + 1] == gv->playString[i + 1 - ROUND_CHARS]) {
