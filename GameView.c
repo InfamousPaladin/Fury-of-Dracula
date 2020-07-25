@@ -365,13 +365,17 @@ PlaceId GvGetPlayerLocation(GameView gv, Player player) {
 
 	// return Hospital if dead
 	if (player != PLAYER_DRACULA) {
-		if (GvGetHealth(gv, PLAYER_LORD_GODALMING) == 0) {
+		if (player == PLAYER_DR_SEWARD && 
+			GvGetHealth(gv, PLAYER_DR_SEWARD) == 0) {
 			return HOSPITAL_PLACE;
-		} else if (GvGetHealth(gv, PLAYER_DR_SEWARD) == 0) {
+		} else if (player == PLAYER_VAN_HELSING && 
+			GvGetHealth(gv, PLAYER_VAN_HELSING) == 0) {
 			return HOSPITAL_PLACE;
-		} else if (GvGetHealth(gv, PLAYER_VAN_HELSING) == 0) {
+		} else if (player == PLAYER_MINA_HARKER && 
+			GvGetHealth(gv, PLAYER_MINA_HARKER) == 0) {
 			return HOSPITAL_PLACE;
-		} else if (GvGetHealth(gv, PLAYER_MINA_HARKER) == 0) {
+		} else if (player == PLAYER_LORD_GODALMING && 
+			GvGetHealth(gv, PLAYER_LORD_GODALMING) == 0) {
 			return HOSPITAL_PLACE;
 		}
 	}
