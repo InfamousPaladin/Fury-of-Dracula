@@ -137,7 +137,6 @@ static PlaceId HvDraculaDoubleBack(HunterView hv, Place playerLoc, int roundBack
 
 	int numMoves = 0;
 	for (int i = 0; hv->playString[i] != '\0'; i++) {
-
 		// calculates number of moves in a given
 		// range of rounds
 		if (hv->playString[i] == ' ') numMoves++;
@@ -161,6 +160,8 @@ static PlaceId HvDraculaDoubleBack(HunterView hv, Place playerLoc, int roundBack
 			playerLoc.id = placeAbbrevToId(playerLoc.abbrev);
 		}
 	}
+
+	// printf("%s\n", placeIdToName(playerLoc.id));
 
 	return playerLoc.id;
 }
@@ -360,9 +361,21 @@ PlaceId HvGetVampireLocation(HunterView hv)
 
 PlaceId HvGetLastKnownDraculaLocation(HunterView hv, Round *round)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*round = 0;
-	return NOWHERE;
+	Place playerLoc;
+	char playerPlace[3];
+	playerLoc.abbrev = playerPlace;
+	int roundBack = HvGetRound(hv) - 1;
+	playerLoc.id = HvGetPlayerLocation(hv, PLAYER_DRACULA);
+
+	while (playerLoc.id > ZURICH) {
+		// can't find a location
+		if (roundBack < 0) return NOWHERE;
+		playerLoc.id = HvDraculaDoubleBack(hv, playerLoc, roundBack);
+		roundBack--;
+	}
+
+	*round = roundBack;
+	return playerLoc.id;
 }
 
 PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
