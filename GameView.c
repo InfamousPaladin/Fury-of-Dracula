@@ -202,30 +202,20 @@ int GvGetScore(GameView gv)
 	gv->score = GAME_START_SCORE;
 	// Check all ways scores can be reduced
 	// Each round that goes by that Dracula is alive
-	gv->score -= (gv->round) * SCORE_LOSS_DRACULA_TURN;
-	// for (int i = ROUND_CHARS; gv->playString[i - 1] != '\0'; i += ROUND_CHARS) {
-	// 	if (gv->playerID[PLAYER_DRACULA].health > 0) gv->score -= SCORE_LOSS_DRACULA_TURN;
-	// }
+	gv->score -= gv->round * SCORE_LOSS_DRACULA_TURN;
 	// Hunters dying
 	for (int j = 0; j < NUM_PLAYERS - 1; j++) {
 		if (GvGetHealth(gv, gv->playerID[j].name) <= 0) gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
 	} 
 	// A vampire matures
-	for (int i = ROUND_CHARS; gv->playString[i] != '\0'; i += ROUND_CHARS) {
-		if (GvGetVampireLocation(gv) != NOWHERE) {
-			PlaceId vampLocation = GvGetVampireLocation(gv);
-			int trail = TRAIL_SIZE;
-			bool condition = true;
-			PlaceId *dracTrail = GvGetLastMoves(gv, PLAYER_DRACULA, TRAIL_SIZE, &trail, &condition);
-			// Check trail if the immature vampire is still on the trail
-			int vampMature = 1;
-			for (int i = 0; i < TRAIL_SIZE; i++) {
-				// If it is there, then the vampire isn't matured yet
-				if (vampLocation == dracTrail[i]) vampMature = 0;
-			}
-			if (vampMature == 1) gv->score -= SCORE_LOSS_VAMPIRE_MATURES;
+	for (int i = 0; gv->playString[i] != '\0'; i += TURN_CHARS) {
+		// Check for Dracula move
+		if (gv->playString[i] == 'D') {
+			// Check for the 'V' character
+			if (gv->playString[i + 5] == IMMATURE_VAMPIRE) gv->score -= SCORE_LOSS_VAMPIRE_MATURES; 
 		}
-	} 
+		if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
+	}
 	return gv->score;
 }
 
@@ -247,16 +237,14 @@ int GvGetHealth(GameView gv, Player player)
 	if (playerID == 2) playerID = 'H';
 	if (playerID == 3) playerID = 'M';
 	if (playerID == 4) playerID = 'D';
-
 	bool playerDead = false;
-
 	// Traverse through playString round to find 'G', 'S', 'H' or 'M'
 	for (int i = 0; gv->playString[i] != '\0'; i += TURN_CHARS) {
 		// Check the hunter's POV
 		if (gv->playString[i] == playerID && playerID != 'D') {
 			// Check the last four characters to see if anything has happened
-			for (int j = 3; j <= 6; j++) {
-				if (gv->playString[i + j] == 'T') {
+			for (int j = 3; j < 7; j++) {
+				if (gv->playString[i + j] == TRAP) {
 					gv->playerID[player].health -= LIFE_LOSS_TRAP_ENCOUNTER;
 				} else if (gv->playString[i + j] == 'D') {
 					gv->playerID[player].health -= LIFE_LOSS_DRACULA_ENCOUNTER;
@@ -304,6 +292,7 @@ int GvGetHealth(GameView gv, Player player)
 				return gv->playerID[player].health;
 			}
 		}
+		if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
 	}
 	return gv->playerID[player].health;
 }
@@ -542,29 +531,57 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 	// Counter for location storage
 	int counterLocation = 0;
 	// Transverses through the stirng at the position 'D'
-	for (int i = 32; gv->playString[i] != '\0'; i += 32) {
+	for (int i = 0; gv->playString[i] != '\0'; i += TURN_CHARS) {
 		// Check every D for a 'T'
-		if (gv->playString[i + 3] == TRAP) {
-			// Increase the number of traps
-			numTraps++;
-			// Extract the location name
-			traps.abbrev[0] = gv->playString[i + 1];
-			traps.abbrev[1] = gv->playString[i + 2];
-			traps.abbrev[2] = '\0';
-			// Convert the abbrev to name
-			traps.id = placeAbbrevToId(traps.abbrev);
-			// Store the location in the array
-			trapLocations[counterLocation] = traps.id;
-			counterLocation++;
-		}
-		// Decrease the numTraps if the trap has expired
-		if (gv->playString[i + 5] == TRAP_EXPIRED) {
-			numTraps--;
-			// Remove the oldest location (first element)
-			for (int j = 1; j < counterLocation; j++) {
-				trapLocations[j - 1] = trapLocations[j];
+		if (gv->playString[i] == 'D') {
+			if (gv->playString[i + 3] == TRAP) {
+				// Increase the number of traps
+				++*numTraps;
+				// Extract the location name
+				traps.abbrev[0] = gv->playString[i + 1];
+				traps.abbrev[1] = gv->playString[i + 2];
+				traps.abbrev[2] = '\0';
+				// Convert the abbrev to name
+				traps.id = placeAbbrevToId(traps.abbrev);
+				// Store the location in the array
+				trapLocations[counterLocation] = traps.id;
+				counterLocation++;
+			}
+			// Decrease the numTraps if the trap has expired
+			if (gv->playString[i + 5] == TRAP_EXPIRED) {
+				--*numTraps;
+				// Remove the oldest location (first element)
+				for (int j = 1; j < counterLocation; j++) {
+					trapLocations[j - 1] = trapLocations[j];
+				}
+			}
+		// Means it is a hunter and check if they stepped on a trap
+		} else {
+			// They stepped on a trap
+			if (gv->playString[i + 3] == TRAP) {
+				// Remove it
+				--*numTraps;
+				// Extract the location name
+				traps.abbrev[0] = gv->playString[i + 1];
+				traps.abbrev[1] = gv->playString[i + 2];
+				traps.abbrev[2] = '\0';
+				// Convert the abbrev to name
+				traps.id = placeAbbrevToId(traps.abbrev);
+				// Find what position the trap is in and remove it
+				int j;
+				for (j = 0; j < *numTraps; j++) {
+					if (trapLocations[j] == traps.id) break;
+				}
+				// If at the start of array
+				if (j == 0) {
+					for (int k = 1; k < counterLocation; k++) trapLocations[k - 1] = trapLocations[k];
+				// It is in the middle or end
+				} else {
+					for (int k = 0; k < *numTraps; k++) trapLocations[k] = trapLocations[k+ 1];
+				}
 			}
 		}
+		if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
 	}
 	// Variable to store last known location of the trap
 	return trapLocations;
