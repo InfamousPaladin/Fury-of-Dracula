@@ -152,7 +152,7 @@ Round GvGetRound(GameView gv)
 
 Player GvGetPlayer(GameView gv)
 {
-	int playerNum = 1;
+	int playerNum = 0;
 	for (int i = 0; gv->playString[i] != '\0'; i++) {
 		
 		// calculates which player is next in turn
@@ -163,21 +163,11 @@ Player GvGetPlayer(GameView gv)
 			playerNum++;
 		}
 
-		// returns back to playerID 1 after playerID 5
-		if (playerNum == NUM_PLAYERS + 1) playerNum = 1;
+		// returns back to playerID 0 after playerID 4
+		if (playerNum == NUM_PLAYERS) playerNum = 0;
 	}
 
-	if (playerNum == 1) {
-		gv->currPlayer = PLAYER_LORD_GODALMING;
-	} else if (playerNum == 2) {
-		gv->currPlayer = PLAYER_DR_SEWARD;
-	} else if (playerNum == 3) {
-		gv->currPlayer = PLAYER_VAN_HELSING;
-	} else if (playerNum == 4) {
-		gv->currPlayer = PLAYER_MINA_HARKER;
-	} else if (playerNum == 5) {
-		gv->currPlayer = PLAYER_DRACULA;
-	}
+	gv->currPlayer = playerNum;
 
 	return gv->currPlayer;
 }
@@ -185,6 +175,7 @@ Player GvGetPlayer(GameView gv)
 int GvGetScore(GameView gv)
 {
 	gv->score = GAME_START_SCORE;
+
 
 	// Consider all ways scores can be reduced
 
@@ -214,15 +205,13 @@ int GvGetScore(GameView gv)
 
 int GvGetHealth(GameView gv, Player player)
 {
-	// Set all the hunters health points
-	for (int i = 0; i < NUM_PLAYERS; i++) {
-		if (i != PLAYER_DRACULA) {
-			gv->playerID[i].health = GAME_START_HUNTER_LIFE_POINTS;
-		} else {
-			gv->playerID[i].health = GAME_START_BLOOD_POINTS;
-		}
-	}
-	
+	// Set initial health points
+	if (player != PLAYER_DRACULA) {
+		gv->playerID[player].health = GAME_START_HUNTER_LIFE_POINTS;
+	} else {
+		gv->playerID[player].health = GAME_START_BLOOD_POINTS;
+	}	
+
 	// Extract intial of player
 	int playerID = player;
 	if (playerID == 0) playerID = 'G';
@@ -515,6 +504,12 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 	traps.abbrev = placeAbbrev;
 	// Counter for location storage
 	int counterLocation = 0;
+
+	// Get past locations of dracula
+	int nMoves = 0;	bool canFree = true;
+	PlaceId *moves = GvGetLocationHistory(gv, PLAYER_DRACULA, &nMoves, &canFree);
+	int round = 0;
+
 	// Transverses through the stirng at the position 'D'
 	for (int i = 0; gv->playString[i] != '\0'; i += TURN_CHARS) {
 		// Check every D for a 'T'
@@ -528,6 +523,21 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 				traps.abbrev[2] = '\0';
 				// Convert the abbrev to name
 				traps.id = placeAbbrevToId(traps.abbrev);
+
+				// Show true location of traps for dracula from past locations  
+				if (traps.id == HIDE || traps.id == DOUBLE_BACK_1)
+					traps.id = moves[round - 1];
+				else if (traps.id == DOUBLE_BACK_2)
+					traps.id = moves[round - 2];
+				else if (traps.id == DOUBLE_BACK_3)
+					traps.id = moves[round - 3];
+				else if (traps.id == DOUBLE_BACK_4)
+					traps.id = moves[round - 4];
+				else if (traps.id == DOUBLE_BACK_5)
+					traps.id = moves[round - 5];
+				else if (traps.id == TELEPORT)
+					traps.id = CASTLE_DRACULA;
+
 				// Store the location in the array
 				trapLocations[counterLocation] = traps.id;
 				counterLocation++;
@@ -540,6 +550,7 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 					trapLocations[j - 1] = trapLocations[j];
 				}
 			}
+			round++;
 		// Means it is a hunter and check if they stepped on a trap
 		} else {
 			// They stepped on a trap
@@ -552,6 +563,8 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 				traps.abbrev[2] = '\0';
 				// Convert the abbrev to name
 				traps.id = placeAbbrevToId(traps.abbrev);
+
+
 				// Find what position the trap is in and remove it
 				int j;
 				for (j = 0; j < *numTraps; j++) {
@@ -572,6 +585,7 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 		}
 		if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
 	}
+	if (canFree) free(moves);
 	// Variable to store last known location of the trap
 	return trapLocations;
 }
@@ -582,13 +596,14 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 static Place getPlaceId (GameView gv, Player player, int round)
 {
 	Place location;
-	char placeAbbrev[2];
+	char placeAbbrev[3];
 	location.abbrev = placeAbbrev;
 
 	// Formula to calculate index of the player location in a given round
 	int playerTurn = TURN_CHARS * player + ROUND_CHARS * round;
 	location.abbrev[0] = gv->playString[playerTurn + 1]; 
 	location.abbrev[1] = gv->playString[playerTurn + 2];
+	location.abbrev[2] = '\0';
 	
 	location.id = placeAbbrevToId(location.abbrev);
 

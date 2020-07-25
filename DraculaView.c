@@ -60,14 +60,45 @@ DraculaView DvNew(char *pastPlays, Message messages[])
 		fprintf(stderr, "Couldn't allocate DraculaView\n");
 		exit(EXIT_FAILURE);
 	}
+
 	new->gameState = GvNew(pastPlays, messages);
+	new->playString = pastPlays;
+	new->messages = messages;		// TODO: recheck if right
+	
+
+	// initialising a new map and number of places on map
+	new->map = MapNew();
+	new->nMapLocs = MapNumPlaces(new->map);
+
+	// set up current state of game
 	new->currRound = DvGetRound(new);
+
+	// set up current information of the players
+	new->playerID[0].name = PLAYER_LORD_GODALMING;
+	new->playerID[1].name = PLAYER_DR_SEWARD;
+	new->playerID[2].name = PLAYER_VAN_HELSING;
+	new->playerID[3].name = PLAYER_MINA_HARKER;
+	new->playerID[4].name = PLAYER_DRACULA;
+	new->playerID[0].location = DvGetPlayerLocation(new, PLAYER_LORD_GODALMING);
+	new->playerID[1].location = DvGetPlayerLocation(new, PLAYER_DR_SEWARD);
+	new->playerID[2].location = DvGetPlayerLocation(new, PLAYER_VAN_HELSING);
+	new->playerID[3].location = DvGetPlayerLocation(new, PLAYER_MINA_HARKER);
+	new->playerID[4].location = DvGetPlayerLocation(new, PLAYER_DRACULA);
+	new->playerID[0].health = DvGetHealth(new, PLAYER_LORD_GODALMING);
+	new->playerID[1].health = DvGetHealth(new, PLAYER_DR_SEWARD);
+	new->playerID[2].health = DvGetHealth(new, PLAYER_VAN_HELSING);
+	new->playerID[3].health = DvGetHealth(new, PLAYER_MINA_HARKER);
+	new->playerID[4].health = DvGetHealth(new, PLAYER_DRACULA);
+
+	// get the current score of the game
 	new->score = DvGetScore(new);
 
+	// get traps on the map
 	new->nTraps = 0;
 	new->activeTrapLocs = DvGetTrapLocations(new, &new->nTraps);
 
-
+	// getting vampire locations
+	new->imVampireLoc = DvGetVampireLocation(new);
 
 	return new;
 }
@@ -109,8 +140,7 @@ PlaceId DvGetPlayerLocation(DraculaView dv, Player player)
 // TODO: Gabriel
 PlaceId DvGetVampireLocation(DraculaView dv)
 {
-	dv->imVampireLoc = GvGetVampireLocation(dv->gameState);
-	return dv->imVampireLoc;
+	return GvGetVampireLocation(dv->gameState);
 }
 
 // TODO: Gabriel
@@ -133,6 +163,7 @@ PlaceId *DvWhereCanIGo(DraculaView dv, int *numReturnedLocs)
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	*numReturnedLocs = 0;
+
 	return NULL;
 }
 
@@ -148,9 +179,8 @@ PlaceId *DvWhereCanIGoByType(DraculaView dv, bool road, bool boat,
 PlaceId *DvWhereCanTheyGo(DraculaView dv, Player player,
                           int *numReturnedLocs)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	*numReturnedLocs = 0;
-	return NULL;
+	return GvGetReachable(dv->gameState, player, dv->currRound, dv->playerID[player].location, &*numReturnedLocs);
 }
 
 // TODO: Gabriel
@@ -158,9 +188,10 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
                                 bool road, bool rail, bool boat,
                                 int *numReturnedLocs)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	*numReturnedLocs = 0;
-	return NULL;
+	return GvGetReachableByType(dv->gameState, player, dv->currRound, 
+								dv->playerID[player].location, 
+								road, rail, boat, &*numReturnedLocs);
 }
 
 ////////////////////////////////////////////////////////////////////////
