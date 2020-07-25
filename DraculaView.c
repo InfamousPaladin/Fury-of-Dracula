@@ -21,14 +21,29 @@
 // add your own #includes here
 
 // TODO: ADD YOUR OWN STRUCTS HERE
+typedef struct playerInfo {
+	int health;
+	Player name;
+	Place location;
+} playerInfo;
 
 struct draculaView {
-	// TODO: ADD FIELDS HERE
+	GameView gv;
+	Round round; // keeps track of the round
+	Map map; // map of the board
+	Player currPlayer; // whos turn
+	int score; // current score of the game
+	playerInfo playerID[NUM_PLAYERS];
+	char *playString; // Stores all past plays (i.e. game log)
+	int nPlaces; // number of places/cities in map
+	Place vampireLocs; // keeps track of vampires
+
 };
 
 ////////////////////////////////////////////////////////////////////////
 // Constructor/Destructor
 
+// TODO: Gabriel
 DraculaView DvNew(char *pastPlays, Message messages[])
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
@@ -37,10 +52,14 @@ DraculaView DvNew(char *pastPlays, Message messages[])
 		fprintf(stderr, "Couldn't allocate DraculaView\n");
 		exit(EXIT_FAILURE);
 	}
+	new->gv = GvNew(pastPlays, messages);
+	new->round = DvGetRound(new);
+
 
 	return new;
 }
 
+// TODO: Gabriel
 void DvFree(DraculaView dv)
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
@@ -52,8 +71,8 @@ void DvFree(DraculaView dv)
 
 Round DvGetRound(DraculaView dv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	dv->round = GvGetRound(dv->gv);
+	return dv->round;
 }
 
 int DvGetScore(DraculaView dv)
@@ -74,12 +93,14 @@ PlaceId DvGetPlayerLocation(DraculaView dv, Player player)
 	return NOWHERE;
 }
 
+// TODO: Gabriel
 PlaceId DvGetVampireLocation(DraculaView dv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return NOWHERE;
+	dv->vampireLocs.id = GvGetVampireLocation(dv->gv);
+	return dv->vampireLocs.id;
 }
 
+// TODO: Gabriel
 PlaceId *DvGetTrapLocations(DraculaView dv, int *numTraps)
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
@@ -112,6 +133,7 @@ PlaceId *DvWhereCanIGoByType(DraculaView dv, bool road, bool boat,
 	return NULL;
 }
 
+// TODO: Gabriel
 PlaceId *DvWhereCanTheyGo(DraculaView dv, Player player,
                           int *numReturnedLocs)
 {
@@ -120,6 +142,7 @@ PlaceId *DvWhereCanTheyGo(DraculaView dv, Player player,
 	return NULL;
 }
 
+// TODO: Gabriel
 PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
                                 bool road, bool rail, bool boat,
                                 int *numReturnedLocs)

@@ -38,7 +38,6 @@
 #define TRAP_EXPIRED       'M'
 #define MAX_TRAP_LOCATIONS 18
 
-// TODO: ADD YOUR OWN STRUCTS HERE
 // each player is given player information
 // this information is mapped to playerInfo
 typedef struct playerInfo {
@@ -79,7 +78,6 @@ static PlaceId GvDraculaDoubleBack(
 // Constructor/Destructor
 
 GameView GvNew(char *pastPlays, Message messages[]) {
-	// // TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	// Basically summarises the current state of the game
 	// pastPlays variable = gamelog
 	// messages array holds each play (same number of elements as pastPlays)
@@ -127,10 +125,9 @@ GameView GvNew(char *pastPlays, Message messages[]) {
 }
 
 void GvFree(GameView gv) {
-	// // TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	// free(gv->players);
-	// MapFree(gv->map);
-	// free(gv);
+	free(gv->playerID);
+	MapFree(gv->map);
+	free(gv);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -471,7 +468,6 @@ PlaceId GvGetVampireLocation(GameView gv) {
 
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	PlaceId *trapLocations = malloc(sizeof(PlaceId) * (MAX_TRAP_LOCATIONS));
 	// Number of traps in playStrings ('T')
 	*numTraps = 0;
@@ -758,8 +754,6 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
                               PlaceId from, bool road, bool rail,
                               bool boat, int *numReturnedLocs)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-
 	// Basically this function considers the connection type based on the 
 	// bools inputted into the function. e.g. if road & rail = true, then
 	// only include the moves available by road & rail.	
