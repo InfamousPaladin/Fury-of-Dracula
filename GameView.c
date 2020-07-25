@@ -423,11 +423,15 @@ PlaceId GvGetPlayerLocation(GameView gv, Player player) {
 
 PlaceId GvGetVampireLocation(GameView gv) {
 
+	Place playerLoc;
+	char playerPlace[3];
 	char placeAbbrev[3];
 	Place immvampireLoc;
 	bool foundLocation = false;
+	playerLoc.abbrev = playerPlace;
 	immvampireLoc.abbrev = placeAbbrev;
 
+	// finding immvampires location
 	for (int i = 0; gv->playString[i] != '\0'; i++) {
 
 		if (gv->playString[i] == 'D' && gv->playString[i + 4] == 'V') {
@@ -449,18 +453,35 @@ PlaceId GvGetVampireLocation(GameView gv) {
 		}
 	}
 
-	// cases where vampire is not present
-	// or hunter killed it before it matured
+	// immvampire not found
 	if (foundLocation == false) {
 		return NOWHERE;
-	} else if (GvGetPlayerLocation(gv, PLAYER_DR_SEWARD) == immvampireLoc.id) {
-		if (GvGetRound(gv) < 6) return NOWHERE;
-	} else if (GvGetPlayerLocation(gv, PLAYER_VAN_HELSING) == immvampireLoc.id) {
-		if (GvGetRound(gv) < 6) return NOWHERE;
-	} else if (GvGetPlayerLocation(gv, PLAYER_MINA_HARKER) == immvampireLoc.id) {
-		if (GvGetRound(gv) < 6) return NOWHERE;
-	} else if (GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == immvampireLoc.id) {
-		if (GvGetRound(gv) < 6) return NOWHERE;
+	}
+
+	// checks if hunter has been in the same place as the
+	// immvampire for the last 6 rounds and kills the vampire if yes
+	// therefore, location of immvampire is NOWHERE as he is dead
+	for (int i = 0; gv->playString[i] != '\0'; i++) {
+		
+		// need to fix this dual-condition thing
+		if (gv->playString[i] == 'G' || gv->playString[i] == 'S' ||
+            gv->playString[i] == 'H' || gv->playString[i] == 'M') {
+
+			// obtain two initials of place
+			playerLoc.abbrev[0] = gv->playString[i + 1];
+			playerLoc.abbrev[1] = gv->playString[i + 2];
+			playerLoc.abbrev[2] = '\0';
+
+			// get placeID
+			playerLoc.id = placeAbbrevToId(playerLoc.abbrev);
+
+			// immvampire encountered and killed instantly
+			if (playerLoc.id == immvampireLoc.id) {
+				if (GvGetRound(gv) < 6) return NOWHERE;
+			}
+			//playerNum++;
+			i += POS_ACTIONS;
+		}
 	}
 
 	gv->imvampireLocation.id = immvampireLoc.id;
