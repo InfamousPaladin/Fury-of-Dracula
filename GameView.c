@@ -128,9 +128,8 @@ GameView GvNew(char *pastPlays, Message messages[]) {
 
 void GvFree(GameView gv) {
 	// // TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	// free(gv->players);
-	// MapFree(gv->map);
-	// free(gv);
+	MapFree(gv->map);
+	free(gv);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -767,12 +766,6 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 		PlaceId *reached = GvGetReachable(gv, player, round, from, numReturnedLocs);
 		return reached;
 	} 
-			// TODO - test data
-	gv->currPlayer = player;
-	gv->round = round;
-	gv->map = MapNew();
-	gv->nPlaces = MapNumPlaces(gv->map);
-
 	// get availiable connections
 	ConnList startReached = MapGetConnections(gv->map, from);
 	struct connNode reachable[gv->nPlaces];
@@ -840,7 +833,6 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 			}
 		}
 		// getting boat connections
-		
 		if (boat) {
 			ConnList curr = startReached;
 			while (curr != NULL) {
@@ -860,7 +852,6 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 	for (j = 0; j < i; j++) {
 		allReachable[j] = reachable[j].p;
 	}
-	
 	// Append starting location to array
 	i++;
 	allReachable[j] = from;
