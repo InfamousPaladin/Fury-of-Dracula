@@ -776,7 +776,7 @@ int main(void)
 		printf("Test passed!\n");
 		printf("\033[0m");
 	}
-	
+
 	printf("\n============ Testing move/location history ============\n");
 	{///////////////////////////////////////////////////////////////////
 		char *trail =

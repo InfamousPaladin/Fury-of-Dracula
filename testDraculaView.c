@@ -152,19 +152,90 @@ int main(void)
 		Message messages[24] = {};
 		DraculaView dv = DvNew(trail, messages);
 		
+		// int numLocs = -1;
+		// PlaceId *locs = DvWhereCanIGo(dv, &numLocs);
+		// assert(numLocs == 4);
+		// sortPlaces(locs, numLocs);
+		// assert(locs[0] == BELGRADE);
+		// assert(locs[1] == CONSTANTA);
+		// assert(locs[2] == GALATZ);
+		// assert(locs[3] == SOFIA);
+		// free(locs);
+		
+		printf("Test passed!\n");
+		DvFree(dv);
+	}
+
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("\t-> Test for DvWhereCanTheyGo where rail distance is 0: \n");
+		
+		char *trail =
+			"GMA.... SGE.... HGE.... MGE.... DKL.V.. "
+			"GSN.... SGE.... HGE.... MGE.... DD1T... "
+			"GBB.... SGE.... HGE.... MGE.... DBCT... "
+			"GNA.... SGE.... HGE.... MGE.... DHIT... "
+			"GPA.... SGE.... HGE.... MGE....";
+		
+		Message messages[24] = {};
+		DraculaView dv = DvNew(trail, messages);
+		
 		int numLocs = -1;
-		PlaceId *locs = DvWhereCanIGo(dv, &numLocs);
-		assert(numLocs == 4);
+		PlaceId *locs = DvWhereCanTheyGo(dv, PLAYER_LORD_GODALMING, &numLocs);
 		sortPlaces(locs, numLocs);
-		assert(locs[0] == BELGRADE);
-		assert(locs[1] == CONSTANTA);
-		assert(locs[2] == GALATZ);
-		assert(locs[3] == SOFIA);
+		printf("%d", numLocs);
+		assert(numLocs == 7);
+		assert(locs[0] == BRUSSELS);
+		assert(locs[1] == CLERMONT_FERRAND);
+		assert(locs[2] == GENEVA);
+		assert(locs[3] == LE_HAVRE);
+		assert(locs[4] == NANTES);
+		assert(locs[5] == PARIS);
+		assert(locs[6] == STRASBOURG);
+
 		free(locs);
 		
 		printf("Test passed!\n");
 		DvFree(dv);
 	}
 
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("\t-> Test for DvWhereCanTheyGo where rail distance is 3: \n");
+		
+		char *trail =
+			"GSN.... SGE.... HGE.... MGE.... DKL.V.. "
+			"GBB.... SGE.... HGE.... MGE.... DD1T... "
+			"GNA.... SGE.... HGE.... MGE.... DBCT... "
+			"GPA.... SGE.... HGE.... MGE....";
+		
+		Message messages[24] = {};
+		DraculaView dv = DvNew(trail, messages);
+		
+		int numLocs = -1;
+		PlaceId *locs = DvWhereCanTheyGo(dv, PLAYER_LORD_GODALMING, &numLocs);
+		sortPlaces(locs, numLocs);
+		printf("%d", numLocs);
+		assert(numLocs == 14);
+		assert(locs[0] == BARCELONA);
+		assert(locs[1] == BORDEAUX);
+		assert(locs[2] == BRUSSELS);
+		assert(locs[3] == CLERMONT_FERRAND);
+		assert(locs[4] == COLOGNE);
+		assert(locs[5] == FRANKFURT);
+		assert(locs[6] == GENEVA);
+		assert(locs[7] == LE_HAVRE);
+		assert(locs[8] == MADRID);
+		assert(locs[9] == MARSEILLES);
+		assert(locs[10] == NANTES);
+		assert(locs[11] == PARIS);
+		assert(locs[12] == SARAGOSSA);
+		assert(locs[13] == STRASBOURG);
+
+		free(locs);
+		
+		printf("Test passed!\n");
+		DvFree(dv);
+	}
 	return EXIT_SUCCESS;
 }
