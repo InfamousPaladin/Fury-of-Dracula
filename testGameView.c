@@ -26,9 +26,10 @@
 
 int main(void)
 {
-
+	printf("============ Game State Information ============\n");
+	printf("===> Test Cases\n");
 	{///////////////////////////////////////////////////////////////////	
-		printf("Basic initialisation\n");
+		printf("\t-> Basic initialisation: ");
 
 		char *trail = "";
 		Message messages[] = {};
@@ -50,7 +51,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("After Lord Godalming's turn\n");
+		printf("\t-> After Lord Godalming's turn: ");
 
 		char *trail =
 			"GST....";
@@ -72,7 +73,7 @@ int main(void)
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("After Mina Harker's turn\n");
+		printf("\t-> After Mina Harker's turn: ");
 
 		char *trail =
 			"GST.... SAO.... HZU.... MBB....";
@@ -97,7 +98,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("After Dracula's turn\n");
+		printf("\t-> After Dracula's turn: ");
 
 		char *trail =
 			"GST.... SAO.... HZU.... MBB.... DC?.V..";
@@ -128,7 +129,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Encountering Dracula\n");
+		printf("\t-> Encountering Dracula: ");
 
 		char *trail =
 			"GST.... SAO.... HCD.... MAO.... DGE.V.. "
@@ -157,8 +158,8 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Test for Dracula doubling back at sea, "
-		       "and losing blood points (Hunter View)\n");
+		printf("\t-> Test for Dracula doubling back at sea, "
+		       "and losing blood points (Hunter View): ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DS?.... "
@@ -187,8 +188,8 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Test for Dracula doubling back at sea, "
-			   "and losing blood points (Dracula View)\n");
+		printf("\t-> Test for Dracula doubling back at sea, "
+			   "and losing blood points (Dracula View): ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DEC.... "
@@ -213,10 +214,10 @@ int main(void)
 		printf("Test passed!\n");
 		printf("\033[0m");
 	}
-
+	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Checking that hunters' health points are capped\n");
+		printf("\t-> Checking that hunters' health points are capped: ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -235,7 +236,7 @@ int main(void)
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Testing a hunter 'dying'\n");
+		printf("\t-> Testing a hunter 'dying': ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -253,7 +254,6 @@ int main(void)
 
 		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == 0);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
-		GvGetPlayerLocation(gv, PLAYER_DRACULA);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == STRASBOURG);
 		
 		GvFree(gv);
@@ -264,7 +264,7 @@ int main(void)
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Testing Dracula doubling back to Castle Dracula\n");
+		printf("\t-> Testing Dracula doubling back to Castle Dracula: ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DCD.V.. "
@@ -285,7 +285,7 @@ int main(void)
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Testing vampire/trap locations\n");
+		printf("\t-> Testing vampire/trap locations: ");
 		
 		char *trail =
 			"GVI.... SGE.... HGE.... MGE.... DCD.V.. "
@@ -313,7 +313,7 @@ int main(void)
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Testing trap locations after one is destroyed\n");
+		printf("\t-> Testing trap locations after one is destroyed: ");
 		
 		char *trail =
 			"GVI.... SGE.... HGE.... MGE.... DBC.V.. "
@@ -344,7 +344,7 @@ int main(void)
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Testing a vampire maturing\n");
+		printf("\t-> Testing a vampire maturing: ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -372,7 +372,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: get round 1\n");
+		printf("\t-> Personal testing - get round 1: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -397,7 +397,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: get round 2\n");
+		printf("\t-> Personal testing - get round 2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -419,7 +419,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: get player 1\n");
+		printf("\t-> Personal testing - get player 1: ");
 
 		char *trail =
 			"GGE....";
@@ -438,7 +438,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: get player 2\n");
+		printf("\t-> Personal testing - get player 2: ");
 
 		char *trail =
 			"GGE.... SGE....";
@@ -457,7 +457,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: get player 3\n");
+		printf("\t-> Personal testing - get player 3: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE....";
@@ -476,7 +476,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: get player 4\n");
+		printf("\t-> Personal testing: get player 4: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE....";
@@ -495,7 +495,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: get player 5\n");
+		printf("\t-> Personal testing - get player 5: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V..";
@@ -515,7 +515,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: DOUBLE_BACK_1\n");
+		printf("\t-> Personal testing - DOUBLE_BACK_1: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -543,7 +543,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: DOUBLE_BACK_2\n");
+		printf("\t-> Personal testing: DOUBLE_BACK_2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -571,7 +571,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: DOUBLE_BACK_3\n");
+		printf("\t-> Personal testing: DOUBLE_BACK_3: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -599,7 +599,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: DOUBLE_BACK_4\n");
+		printf("\t-> Personal testing: DOUBLE_BACK_4: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -627,7 +627,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: DOUBLE_BACK_5\n");
+		printf("\t-> Personal testing: DOUBLE_BACK_5: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -655,7 +655,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: DOUBLE_BACK_SPECIAL\n");
+		printf("\t-> Personal testing: DOUBLE_BACK_SPECIAL: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DGR.V.. "
@@ -683,7 +683,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: get immvampire location when dead\n");
+		printf("\t-> Personal testing: get immvampire location when dead: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
@@ -708,7 +708,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("Personal testing: get immvampire location when dead 2\n");
+		printf("\t-> Personal testing: get immvampire location when dead 2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
@@ -731,10 +731,8 @@ int main(void)
 
 	}
 	
+	printf("\n============ Testing move/location history ============\n");
 	{///////////////////////////////////////////////////////////////////
-	
-		printf("============ Testing move/location history ============\n");
-	
 		char *trail =
 			"GLS.... SLS.... HLS.... MGE.... DST.V.. "
 			"GCA.... SAL.... HAL.... MGE.... DC?T... "
@@ -749,7 +747,8 @@ int main(void)
 		
 		assert(GvGetHealth(gv, PLAYER_DR_SEWARD) ==
 				GAME_START_HUNTER_LIFE_POINTS - 2 * LIFE_LOSS_TRAP_ENCOUNTER);
-		// assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		// TODO
 		// assert(GvGetVampireLocation(gv) == NOWHERE);
 
 		printf("===> Testing GvGetMoveHistory and GvGetLastMoves Functions\n");
