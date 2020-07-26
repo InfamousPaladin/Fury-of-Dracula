@@ -35,9 +35,9 @@ int main(void)
 
 		assert(HvGetRound(hv) == 0);
 		assert(HvGetPlayer(hv) == PLAYER_LORD_GODALMING);
-		// assert(HvGetScore(hv) == GAME_START_SCORE);
-		// assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
-		// assert(HvGetHealth(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+		assert(HvGetScore(hv) == GAME_START_SCORE);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
+		assert(HvGetHealth(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 		assert(HvGetVampireLocation(hv) == NOWHERE);
 
 		HvFree(hv);
@@ -57,8 +57,8 @@ int main(void)
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 0);
-		// assert(HvGetPlayer(hv) == PLAYER_DR_SEWARD);
-		// assert(HvGetScore(hv) == GAME_START_SCORE);
+		assert(HvGetPlayer(hv) == PLAYER_DR_SEWARD);
+		assert(HvGetScore(hv) == GAME_START_SCORE);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == STRASBOURG);
 		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == NOWHERE);
 
@@ -80,7 +80,7 @@ int main(void)
 
 		assert(HvGetRound(hv) == 0);
 		assert(HvGetPlayer(hv) == PLAYER_MINA_HARKER);
-		// assert(HvGetScore(hv) == GAME_START_SCORE);
+		assert(HvGetScore(hv) == GAME_START_SCORE);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == STRASBOURG);
 		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
 		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == ZURICH);
@@ -108,8 +108,8 @@ int main(void)
 
 		assert(HvGetRound(hv) == 1);
 		assert(HvGetPlayer(hv) == PLAYER_LORD_GODALMING);
-		// assert(HvGetScore(hv) == GAME_START_SCORE - SCORE_LOSS_DRACULA_TURN);
-		// assert(HvGetHealth(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+		assert(HvGetScore(hv) == GAME_START_SCORE - SCORE_LOSS_DRACULA_TURN);
+		assert(HvGetHealth(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == STRASBOURG);
 		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
 		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == ZURICH);
@@ -140,10 +140,10 @@ int main(void)
 		
 		HunterView hv = HvNew(trail, messages);
 		
-		// assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) ==
-		// 		GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_DRACULA_ENCOUNTER);
-		// assert(HvGetHealth(hv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) ==
+				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_DRACULA_ENCOUNTER);
+		assert(HvGetHealth(hv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == GENEVA);
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == GENEVA);
 		assert(HvGetVampireLocation(hv) == NOWHERE);
@@ -175,9 +175,9 @@ int main(void)
 
 		assert(HvGetRound(hv) == 2);
 		assert(HvGetPlayer(hv) == PLAYER_LORD_GODALMING);
-		// assert(HvGetScore(hv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
-		// assert(HvGetHealth(hv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
+		assert(HvGetScore(hv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
+		assert(HvGetHealth(hv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == SEA_UNKNOWN);
 
 		HvFree(hv);
@@ -200,11 +200,11 @@ int main(void)
 		Message messages[21] = {};
 		HunterView hv = HvNew(trail, messages);
 		
-		// assert(HvGetScore(hv) == GAME_START_SCORE
-		//                          - 4 * SCORE_LOSS_DRACULA_TURN
-		//                          - SCORE_LOSS_HUNTER_HOSPITAL);
-		// assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 0);
-		// assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
+		assert(HvGetScore(hv) == GAME_START_SCORE
+		                         - 4 * SCORE_LOSS_DRACULA_TURN
+		                         - SCORE_LOSS_HUNTER_HOSPITAL);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 0);
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == STRASBOURG);
 		
 		HvFree(hv);
@@ -224,8 +224,8 @@ int main(void)
 		Message messages[10] = {};
 		HunterView hv = HvNew(trail, messages);
 		
-		// assert(HvGetHealth(hv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS + (2 * LIFE_GAIN_CASTLE_DRACULA));
+		assert(HvGetHealth(hv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS + (2 * LIFE_GAIN_CASTLE_DRACULA));
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CASTLE_DRACULA);
 		
 		HvFree(hv);
@@ -272,9 +272,9 @@ int main(void)
 		Message messages[35] = {};
 		HunterView hv = HvNew(trail, messages);
 		
-		// assert(HvGetScore(hv) == GAME_START_SCORE
-		//                          - 7 * SCORE_LOSS_DRACULA_TURN
-		//                          - SCORE_LOSS_VAMPIRE_MATURES);
+		assert(HvGetScore(hv) == GAME_START_SCORE
+		                         - 7 * SCORE_LOSS_DRACULA_TURN
+		                         - SCORE_LOSS_VAMPIRE_MATURES);
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CITY_UNKNOWN);
 		assert(HvGetVampireLocation(hv) == NOWHERE);
 		
@@ -495,6 +495,37 @@ int main(void)
 		Round round = -1;
 		assert(HvGetLastKnownDraculaLocation(hv, &round) == KLAUSENBURG);
 		assert(round == 1);
+		
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+	}
+
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("-> Testing everything\n");
+		
+		char *trail =
+			"GGE.... SGE.... HGE.... MGE.... DPA.V.. "
+			"GGE.... SGE.... HGE.... MGE.... DSTT... "
+			"GGE.... SGE.... HGE.... MGE.... DHIT... "
+			"GGE.... SGE.... HGE.... MGE.... DD1T... "
+			"GSTTTTD SGE.... HGE.... MGE.... DTPT... "
+			"GSZ.... SGE.... HGE.... MGE.... DCDT... "
+			"GSZ.... SGE.... HGE.... MGE.... DCDT.V.";
+		
+		Message messages[35] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetScore(hv) == GAME_START_SCORE
+		                         - 7 * SCORE_LOSS_DRACULA_TURN
+		                         - SCORE_LOSS_VAMPIRE_MATURES
+								 - SCORE_LOSS_HUNTER_HOSPITAL);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) 
+						      == GAME_START_HUNTER_LIFE_POINTS);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CASTLE_DRACULA);
+		assert(HvGetVampireLocation(hv) == NOWHERE);
 		
 		HvFree(hv);
 		printf("\033[1;32m");
