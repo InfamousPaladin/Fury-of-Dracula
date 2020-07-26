@@ -846,7 +846,6 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 	if (road && boat && rail) {
 		return GvGetReachable(gv, player, round, from, numReturnedLocs);
 	} 
-
 	// get availiable connections
 	ConnList startReached = MapGetConnections(gv->map, from);
 	struct connNode reachable[gv->nMapLocs];
@@ -914,7 +913,6 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 			}
 		}
 		// getting boat connections
-		
 		if (boat) {
 			ConnList curr = startReached;
 			while (curr != NULL) {
@@ -934,7 +932,6 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 	for (j = 0; j < i; j++) {
 		allReachable[j] = reachable[j].p;
 	}
-	
 	// Append starting location to array
 	i++;
 	allReachable[j] = from;
