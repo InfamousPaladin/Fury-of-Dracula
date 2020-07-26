@@ -163,7 +163,6 @@ PlaceId *DvWhereCanIGo(DraculaView dv, int *numReturnedLocs)
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	*numReturnedLocs = 0;
-
 	return NULL;
 }
 
@@ -180,7 +179,11 @@ PlaceId *DvWhereCanTheyGo(DraculaView dv, Player player,
                           int *numReturnedLocs)
 {
 	*numReturnedLocs = 0;
-	return GvGetReachable(dv->gameState, player, dv->currRound, dv->playerID[player].location, &*numReturnedLocs);
+	if (player == PLAYER_DRACULA) {
+		return DvWhereCanIGo(dv, &*numReturnedLocs);
+	} else {
+		return GvGetReachable(dv->gameState, player, dv->currRound, PARIS, &*numReturnedLocs);	
+	}
 }
 
 // TODO: Gabriel
@@ -189,9 +192,13 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
                                 int *numReturnedLocs)
 {
 	*numReturnedLocs = 0;
-	return GvGetReachableByType(dv->gameState, player, dv->currRound, 
+	if (player == PLAYER_DRACULA) {
+		return DvWhereCanIGoByType(dv, road, boat, &*numReturnedLocs);
+	} else {
+		return GvGetReachableByType(dv->gameState, player, dv->currRound, 
 								dv->playerID[player].location, 
 								road, rail, boat, &*numReturnedLocs);
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////

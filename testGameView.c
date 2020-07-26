@@ -372,6 +372,37 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
+        printf("\t-> Testing score: ");
+
+        char *trail =
+            "GGE.... SGE.... HGE.... MGE.... DPA.V.. "
+            "GGE.... SGE.... HGE.... MGE.... DSTT... "
+            "GGE.... SGE.... HGE.... MGE.... DHIT... "
+            "GGE.... SGE.... HGE.... MGE.... DD1T... "
+            "GSTTTTD SGE.... HGE.... MGE.... DTPT... "
+            "GSZ.... SGE.... HGE.... MGE.... DCDT... "
+            "GSZ.... SGE.... HGE.... MGE.... DCDT.V.";
+
+        Message messages[35] = {};
+        GameView gv = GvNew(trail, messages);
+
+        assert(GvGetScore(gv) == GAME_START_SCORE
+                                 - 7 * SCORE_LOSS_DRACULA_TURN
+                                 - SCORE_LOSS_VAMPIRE_MATURES
+                                 - SCORE_LOSS_HUNTER_HOSPITAL);
+        // assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) 
+        //                       == GAME_START_HUNTER_LIFE_POINTS);
+        assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CASTLE_DRACULA);
+        assert(GvGetVampireLocation(gv) == NOWHERE);
+
+        GvFree(gv);
+        printf("\033[1;32m");
+        printf("Test passed!\n");
+        printf("\033[0m");
+    }
+
+	{///////////////////////////////////////////////////////////////////
+
 		printf("\t-> Personal testing - get round 1: ");
 
 		char *trail =
@@ -730,6 +761,8 @@ int main(void)
 		printf("\033[0m");
 
 	}
+
+	
 	
 	printf("\n============ Testing move/location history ============\n");
 	{///////////////////////////////////////////////////////////////////

@@ -728,16 +728,14 @@ static int findValidRailMove(GameView gv, struct connNode reachable[],
 							 int visited[], PlaceId from, int nElement,
 							 Round round, Player player)
 {
+	int railDist = (round + player) % 4;
+	if (railDist == 0) return 0;
 	Queue railLocs = newQueue();
-
 	// Add all rail transport from the starting point to the queue
 	for (int i = 0; i < nElement; i++) {
 		visited[reachable[i].p] = from;
 		QueueJoin(railLocs, reachable[i].p);
 	}
-
-	int railDist = (round + player) % 4;
-	if (railDist == 0) return 0;
 
 	while (!QueueIsEmpty(railLocs)) {
 		Item currCity = QueueLeave(railLocs);
@@ -787,21 +785,24 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
 	int nElements = 0;
 	// If player is a hunter, consider rail moves
 	if (player != PLAYER_DRACULA) {
+		int railDist = (round + player) % 4;
 		// Go through startReached list and store/visit cities that can be
 		// visited with rail moves.
-		for (ConnList curr = startReached; curr != NULL; curr = curr->next) {
-			if (visited[curr->p] == UNINTIALISED && curr->type == RAIL) {
-				reachable[nElements].p = curr->p;
-				visited[curr->p] = from;
-				nElements++;
+		if (railDist != 0) {
+			for (ConnList curr = startReached; curr != NULL; curr = curr->next) {
+				if (visited[curr->p] == UNINTIALISED && curr->type == RAIL) {
+					reachable[nElements].p = curr->p;
+					visited[curr->p] = from;
+					nElements++;
+				}
 			}
+			nElements = findValidRailMove(gv, reachable, visited, from,
+											nElements, round, player);
 		}
-		nElements = findValidRailMove(gv, reachable, visited, from,
-										nElements, round, player);
 		// Add all reachable locations from starting point (`from`) that has
 		// not been visited already.
 		for (ConnList curr = startReached; curr != NULL; curr = curr->next) {
-			if (visited[curr->p] == UNINTIALISED) {
+			if (visited[curr->p] == UNINTIALISED && curr->type != RAIL) {
 				reachable[nElements].p = curr->p;
 				visited[curr->p] = from;
 				nElements++;
