@@ -67,7 +67,8 @@ HunterView HvNew(char *pastPlays, Message messages[])
 
 void HvFree(HunterView hv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	free(hv->view);
+	MapFree(hv->map);
 	free(hv);
 }
 
@@ -86,14 +87,12 @@ Player HvGetPlayer(HunterView hv)
 
 int HvGetScore(HunterView hv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return GvGetScore(hv->view);
 }
 
 int HvGetHealth(HunterView hv, Player player)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return GvGetHealth(hv->view, player);
 }
 
 // helper function for GvGetPlayerLocation()
