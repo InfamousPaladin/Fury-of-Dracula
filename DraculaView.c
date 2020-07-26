@@ -37,7 +37,6 @@ struct draculaView {
 	int nMapLocs; 						// number of locations on map
 	
 	Round currRound; 					// current round of game
-	Player currPlayer; 					// whos turn
 	int score; 							// current score of the game
 
 	playerInfo playerID[NUM_PLAYERS];	// array that contains each player info
@@ -115,35 +114,29 @@ void DvFree(DraculaView dv)
 
 Round DvGetRound(DraculaView dv)
 {
-	dv->currRound = GvGetRound(dv->gameState);
-	return dv->currRound;
+	return GvGetRound(dv->gameState);
 }
 
 int DvGetScore(DraculaView dv)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	return GvGetScore(dv->gameState);
 }
 
 int DvGetHealth(DraculaView dv, Player player)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	return GvGetHealth(dv->gameState, player);
 }
 
 PlaceId DvGetPlayerLocation(DraculaView dv, Player player)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	return GvGetPlayerLocation(dv->gameState, player);
 }
 
-// TODO: Gabriel
 PlaceId DvGetVampireLocation(DraculaView dv)
 {
 	return GvGetVampireLocation(dv->gameState);
 }
 
-// TODO: Gabriel
 PlaceId *DvGetTrapLocations(DraculaView dv, int *numTraps)
 {
 	return GvGetTrapLocations(dv->gameState, &*numTraps);
@@ -182,7 +175,8 @@ PlaceId *DvWhereCanTheyGo(DraculaView dv, Player player,
 	if (player == PLAYER_DRACULA) {
 		return DvWhereCanIGo(dv, &*numReturnedLocs);
 	} else {
-		return GvGetReachable(dv->gameState, player, dv->currRound, MILAN, &*numReturnedLocs);	
+		return GvGetReachable(dv->gameState, player, dv->currRound, 
+							  dv->playerID[player].location, &*numReturnedLocs);	
 	}
 }
 
@@ -196,8 +190,8 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
 		return DvWhereCanIGoByType(dv, road, boat, &*numReturnedLocs);
 	} else {
 		return GvGetReachableByType(dv->gameState, player, dv->currRound, 
-								PARIS, 
-								road, rail, boat, &*numReturnedLocs);
+									dv->playerID[player].location, 
+									road, rail, boat, &*numReturnedLocs);
 	}
 }
 

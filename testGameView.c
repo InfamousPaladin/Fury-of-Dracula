@@ -483,7 +483,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: get player 4: ");
+		printf("\t-> Personal testing - get player 4: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE....";
@@ -550,7 +550,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: DOUBLE_BACK_2: ");
+		printf("\t-> Personal testing - DOUBLE_BACK_2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -578,7 +578,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: DOUBLE_BACK_3: ");
+		printf("\t-> Personal testing - DOUBLE_BACK_3: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -606,7 +606,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: DOUBLE_BACK_4: ");
+		printf("\t-> Personal testing - DOUBLE_BACK_4: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -634,7 +634,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: DOUBLE_BACK_5: ");
+		printf("\t-> Personal testing - DOUBLE_BACK_5: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -662,7 +662,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: DOUBLE_BACK_SPECIAL: ");
+		printf("\t-> Personal testing - DOUBLE_BACK_SPECIAL: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DGR.V.. "
@@ -690,7 +690,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: get immvampire location when dead: ");
+		printf("\t-> Personal testing - get immvampire location when dead: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
@@ -715,7 +715,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: get immvampire location when dead 2: ");
+		printf("\t-> Personal testing - get immvampire location when dead 2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "

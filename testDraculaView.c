@@ -25,10 +25,30 @@
 
 int main(void)
 {
+	{///////////////////////////////////////////////////////////////////	
+		printf("\t-> Personal testing - Basic initialisation: ");
+
+		char *trail = "";
+		Message messages[] = {};
+		DraculaView dv = DvNew(trail, messages);
+
+		assert(DvGetRound(dv) == 0);
+		assert(DvGetScore(dv) == GAME_START_SCORE);
+		assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
+		assert(DvGetHealth(dv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+		assert(DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING) == NOWHERE);
+		assert(DvGetVampireLocation(dv) == NOWHERE);
+
+		DvFree(dv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+	}
+
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Test for basic functions, "
-			   "just before Dracula's first move\n");
+		printf("\t-> Personal testing - Test for basic functions, "
+			   "just before Dracula's first move: ");
 
 		char *trail =
 			"GST.... SAO.... HZU.... MBB....";
@@ -40,26 +60,163 @@ int main(void)
 		DraculaView dv = DvNew(trail, messages);
 
 		assert(DvGetRound(dv) == 0);
-		// assert(DvGetScore(dv) == GAME_START_SCORE);
-		// assert(DvGetHealth(dv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
-		// assert(DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING) == STRASBOURG);
-		// assert(DvGetPlayerLocation(dv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
-		// assert(DvGetPlayerLocation(dv, PLAYER_VAN_HELSING) == ZURICH);
-		// assert(DvGetPlayerLocation(dv, PLAYER_MINA_HARKER) == BAY_OF_BISCAY);
-		// assert(DvGetPlayerLocation(dv, PLAYER_DRACULA) == NOWHERE);
+		assert(DvGetScore(dv) == GAME_START_SCORE);
+		assert(DvGetHealth(dv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+		assert(DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING) == STRASBOURG);
+		assert(DvGetPlayerLocation(dv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
+		assert(DvGetPlayerLocation(dv, PLAYER_VAN_HELSING) == ZURICH);
+		assert(DvGetPlayerLocation(dv, PLAYER_MINA_HARKER) == BAY_OF_BISCAY);
+		assert(DvGetPlayerLocation(dv, PLAYER_DRACULA) == NOWHERE);
 		assert(DvGetVampireLocation(dv) == NOWHERE);
 		int numTraps = -1;
 		PlaceId *traps = DvGetTrapLocations(dv, &numTraps);
 		assert(numTraps == 0);
 		free(traps);
 
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Test for encountering Dracula\n");
+		printf("\t-> Personal testing - Testing vampire/trap locations: ");
+		
+		char *trail =
+			"GVI.... SGE.... HGE.... MGE.... DCD.V.. "
+			"GBD.... SGE.... HGE.... MGE.... DKLT... "
+			"GSZ.... SGE.... HGE.... MGE.... DGAT... "
+			"GSZ.... SGE.... HGE.... MGE....";
+		
+		Message messages[19] = {};
+		DraculaView dv = DvNew(trail, messages);
+		
+		assert(DvGetPlayerLocation(dv, PLAYER_DRACULA) == GALATZ);
+		assert(DvGetVampireLocation(dv) == CASTLE_DRACULA);
+		int numTraps = 0;
+		PlaceId *traps = DvGetTrapLocations(dv, &numTraps);
+		assert(numTraps == 2);
+		sortPlaces(traps, numTraps);
+		assert(traps[0] == GALATZ && traps[1] == KLAUSENBURG);
+		free(traps);
+		
+		DvFree(dv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+	}
+	
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("\t-> Personal testing - Testing trap locations after one is destroyed: ");
+		
+		char *trail =
+			"GVI.... SGE.... HGE.... MGE.... DBC.V.. "
+			"GBD.... SGE.... HGE.... MGE.... DKLT... "
+			"GSZ.... SGE.... HGE.... MGE.... DGAT... "
+			"GBE.... SGE.... HGE.... MGE.... DCNT... "
+			"GKLT... SGE.... HGE.... MGE....";
+		
+		Message messages[24] = {};
+		DraculaView dv = DvNew(trail, messages);
+		// TODO: test for the bug as health is 5 rather than 7
+		// assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) ==
+		// 		GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
+		assert(DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING) == KLAUSENBURG);
+		assert(DvGetVampireLocation(dv) == BUCHAREST);
+		int numTraps = 0;
+		PlaceId *traps = DvGetTrapLocations(dv, &numTraps);
+		assert(numTraps == 2);
+		sortPlaces(traps, numTraps);
+		assert(traps[0] == CONSTANTA && traps[1] == GALATZ);
+		free(traps);
+		
+		DvFree(dv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+	}
+
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("\t-> Personal testing - Testing a vampire maturing: ");
+		
+		char *trail =
+			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
+			"GGE.... SGE.... HGE.... MGE.... DC?T... "
+			"GGE.... SGE.... HGE.... MGE.... DC?T... "
+			"GGE.... SGE.... HGE.... MGE.... DC?T... "
+			"GGE.... SGE.... HGE.... MGE.... DC?T... "
+			"GGE.... SGE.... HGE.... MGE.... DC?T... "
+			"GGE.... SGE.... HGE.... MGE.... DC?T.V.";
+		
+		Message messages[35] = {};
+		DraculaView dv = DvNew(trail, messages);
+		
+		assert(DvGetScore(dv) == GAME_START_SCORE
+		                         - 7 * SCORE_LOSS_DRACULA_TURN
+		                         - SCORE_LOSS_VAMPIRE_MATURES);
+		assert(DvGetPlayerLocation(dv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		assert(DvGetVampireLocation(dv) == NOWHERE);
+		
+		DvFree(dv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Personal testing - get immvampire location when dead: ");
+
+		char *trail =
+			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
+			"GGE.... SGE.... HGE.... MZU.... DC?T... "
+			"GGE.... SGE.... HGE.... MGE.... DC?T... "
+			"GGE.... SGE.... HGE.... MGE.... DC?T...";
+			
+		Message messages[35] = {};
+		DraculaView dv = DvNew(trail, messages);
+
+		assert(DvGetRound(dv) == 4);
+		assert(DvGetPlayerLocation(dv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		assert(DvGetVampireLocation(dv) == NOWHERE);
+
+		DvFree(dv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Personal testing - get immvampire location when dead 2: ");
+
+		char *trail =
+			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
+			"GGE.... SGE.... HGE.... MGE.... DC?T... "
+			"GGE.... SGE.... HGE.... MZU.... DC?T... "
+			"GGE.... SGE.... HGE.... MZU.... DC?T...";
+			
+		Message messages[35] = {};
+		DraculaView dv = DvNew(trail, messages);
+
+		assert(DvGetRound(dv) == 4);
+		assert(DvGetPlayerLocation(dv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		assert(DvGetVampireLocation(dv) == NOWHERE);
+
+		DvFree(dv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("\t-> Test for encountering Dracula: ");
 
 		char *trail =
 			"GST.... SAO.... HCD.... MAO.... DGE.V.. "
@@ -73,20 +230,22 @@ int main(void)
 		DraculaView dv = DvNew(trail, messages);
 
 		assert(DvGetRound(dv) == 1);
-		// assert(DvGetScore(dv) == GAME_START_SCORE - SCORE_LOSS_DRACULA_TURN);
-		// assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) == 5);
-		// assert(DvGetHealth(dv, PLAYER_DRACULA) == 30);
-		// assert(DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING) == GENEVA);
-		// assert(DvGetPlayerLocation(dv, PLAYER_DRACULA) == GENEVA);
+		assert(DvGetScore(dv) == GAME_START_SCORE - SCORE_LOSS_DRACULA_TURN);
+		assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) == 5);
+		assert(DvGetHealth(dv, PLAYER_DRACULA) == 30);
+		assert(DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING) == GENEVA);
+		assert(DvGetPlayerLocation(dv, PLAYER_DRACULA) == GENEVA);
 		assert(DvGetVampireLocation(dv) == NOWHERE);
 
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Test for Dracula leaving minions 1\n");
+		printf("\t-> Test for Dracula leaving minions 1: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DED.V.. "
@@ -109,13 +268,15 @@ int main(void)
 		assert(traps[2] == MANCHESTER);
 		free(traps);
 		
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Test for Dracula's valid moves 1\n");
+		printf("\t-> Test for Dracula's valid moves 1: ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DCD.V.. "
@@ -134,13 +295,15 @@ int main(void)
 		// assert(moves[3] == DOUBLE_BACK_1);
 		// free(moves);
 		
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("Test for DvWhereCanIGo 1\n");
+		printf("\t-> Test for DvWhereCanIGo 1: ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DKL.V.. "
@@ -162,7 +325,9 @@ int main(void)
 		// assert(locs[3] == SOFIA);
 		// free(locs);
 		
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 
@@ -183,18 +348,20 @@ int main(void)
 		int numLocs = -1;
 		PlaceId *locs = DvWhereCanTheyGo(dv, PLAYER_LORD_GODALMING, &numLocs);
 		sortPlaces(locs, numLocs);
-		// assert(numLocs == 7);
-		// assert(locs[0] == BRUSSELS);
-		// assert(locs[1] == CLERMONT_FERRAND);
-		// assert(locs[2] == GENEVA);
-		// assert(locs[3] == LE_HAVRE);
-		// assert(locs[4] == NANTES);
-		// assert(locs[5] == PARIS);
-		// assert(locs[6] == STRASBOURG);
+		assert(numLocs == 7);
+		assert(locs[0] == BRUSSELS);
+		assert(locs[1] == CLERMONT_FERRAND);
+		assert(locs[2] == GENEVA);
+		assert(locs[3] == LE_HAVRE);
+		assert(locs[4] == NANTES);
+		assert(locs[5] == PARIS);
+		assert(locs[6] == STRASBOURG);
 
 		free(locs);
 		
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 
@@ -215,19 +382,21 @@ int main(void)
 		int numLocs = -1;
 		PlaceId *locs = DvWhereCanTheyGo(dv, PLAYER_DR_SEWARD, &numLocs);
 		sortPlaces(locs, numLocs);
-		// assert(numLocs == 8);
-		// assert(locs[0] == FLORENCE);
-		// assert(locs[1] == GENEVA);
-		// assert(locs[2] == GENOA);
-		// assert(locs[3] == MARSEILLES);
-		// assert(locs[4] == MILAN);
-		// assert(locs[5] == MUNICH);
-		// assert(locs[6] == VENICE);
-		// assert(locs[7] == ZURICH);
+		assert(numLocs == 8);
+		assert(locs[0] == FLORENCE);
+		assert(locs[1] == GENEVA);
+		assert(locs[2] == GENOA);
+		assert(locs[3] == MARSEILLES);
+		assert(locs[4] == MILAN);
+		assert(locs[5] == MUNICH);
+		assert(locs[6] == VENICE);
+		assert(locs[7] == ZURICH);
 		
 		free(locs);
 		
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 
@@ -247,25 +416,27 @@ int main(void)
 		int numLocs = -1;
 		PlaceId *locs = DvWhereCanTheyGo(dv, PLAYER_LORD_GODALMING, &numLocs);
 		sortPlaces(locs, numLocs);
-		// assert(numLocs == 14);
-		// assert(locs[0] == BARCELONA);
-		// assert(locs[1] == BORDEAUX);
-		// assert(locs[2] == BRUSSELS);
-		// assert(locs[3] == CLERMONT_FERRAND);
-		// assert(locs[4] == COLOGNE);
-		// assert(locs[5] == FRANKFURT);
-		// assert(locs[6] == GENEVA);
-		// assert(locs[7] == LE_HAVRE);
-		// assert(locs[8] == MADRID);
-		// assert(locs[9] == MARSEILLES);
-		// assert(locs[10] == NANTES);
-		// assert(locs[11] == PARIS);
-		// assert(locs[12] == SARAGOSSA);
-		// assert(locs[13] == STRASBOURG);
+		assert(numLocs == 14);
+		assert(locs[0] == BARCELONA);
+		assert(locs[1] == BORDEAUX);
+		assert(locs[2] == BRUSSELS);
+		assert(locs[3] == CLERMONT_FERRAND);
+		assert(locs[4] == COLOGNE);
+		assert(locs[5] == FRANKFURT);
+		assert(locs[6] == GENEVA);
+		assert(locs[7] == LE_HAVRE);
+		assert(locs[8] == MADRID);
+		assert(locs[9] == MARSEILLES);
+		assert(locs[10] == NANTES);
+		assert(locs[11] == PARIS);
+		assert(locs[12] == SARAGOSSA);
+		assert(locs[13] == STRASBOURG);
 
 		free(locs);
 		
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 
@@ -300,7 +471,9 @@ int main(void)
 
 		free(locs);
 		
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 
@@ -338,7 +511,9 @@ int main(void)
 
 		free(locs);
 		
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 		
@@ -368,7 +543,9 @@ int main(void)
 
 		free(locs);
 		
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 		DvFree(dv);
 	}
 
