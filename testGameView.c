@@ -1082,6 +1082,25 @@ int main(void)
 		printf("\033[0m");
 
 		{
+			printf("\t-> Checking Hunter rail connections (0 rail distance): ");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
+											4, PARIS, &numLocs);
+			sortPlaces(locs, numLocs);
+			assert(numLocs == 7);
+			assert(locs[0] == BRUSSELS);
+			assert(locs[1] == CLERMONT_FERRAND);
+			assert(locs[2] == GENEVA);
+			assert(locs[3] == LE_HAVRE);
+			assert(locs[4] == NANTES);
+			assert(locs[5] == PARIS);
+			assert(locs[6] == STRASBOURG);
+		}
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+		{
 			printf("\t-> Checking Boat connections: ");
 			int numLocs = -1;
 			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
