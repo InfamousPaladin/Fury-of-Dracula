@@ -464,7 +464,6 @@ static PlaceId GvDraculaDoubleBack(GameView gv, Place playerLoc, int roundBack)
 
 PlaceId GvGetVampireLocation(GameView gv)
 {
-
 	Place playerLoc;
 	char playerPlace[3];
 	char placeAbbrev[3];
@@ -516,9 +515,8 @@ PlaceId GvGetVampireLocation(GameView gv)
 			playerLoc.id = placeAbbrevToId(playerLoc.abbrev);
 
 			// immvampire encountered and killed instantly
-			if (playerLoc.id == immvampireLoc.id) {
-				if (GvGetRound(gv) < 6) return NOWHERE;
-			}
+			if (playerLoc.id == immvampireLoc.id) return NOWHERE;
+
 			//playerNum++;
 			i += POS_ACTIONS;
 		}
@@ -526,6 +524,7 @@ PlaceId GvGetVampireLocation(GameView gv)
 
 	gv->imVampireLoc = immvampireLoc.id;
 	return gv->imVampireLoc;
+
 }
 
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
