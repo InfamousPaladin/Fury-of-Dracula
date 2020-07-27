@@ -146,7 +146,7 @@ int main(void)
 				GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == GENEVA);
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == GENEVA);
-		assert(HvGetVampireLocation(hv) == NOWHERE);
+		assert(HvGetVampireLocation(hv) == GENEVA);
 		Round round = -1;
 		assert(HvGetLastKnownDraculaLocation(hv, &round) == GENEVA);
 		assert(round == 0);
@@ -607,6 +607,30 @@ int main(void)
 			free(path);
 		}
 		
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+	}
+
+	{
+		char *trail =
+			"GCA.... SLS.... HSW.... MMR.... DCD.V..";
+		
+		Message messages[5] = {};
+		HunterView hv = HvNew(trail, messages);
+
+		printf("\tPersonal testing: Cadiz -> Berlin (Lord Godalming, Round 1)\n");
+		int pathLength = -1;
+		PlaceId *path = HvGetShortestPathTo(hv, PLAYER_LORD_GODALMING,
+											BERLIN, &pathLength);
+		assert(pathLength == 4);
+		assert(path[0] == ATLANTIC_OCEAN);
+		assert(path[1] == NORTH_SEA);
+		assert(path[2] == HAMBURG);
+		assert(path[3] == BERLIN);
+		free(path);
+
 		HvFree(hv);
 		printf("\033[1;32m");
 		printf("Test passed!\n");
