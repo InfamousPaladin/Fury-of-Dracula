@@ -160,57 +160,112 @@ PlaceId HvGetLastKnownDraculaLocation(HunterView hv, Round *round)
 	return playerLoc.id;
 }
 
-PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
-                             int *pathLength)
-{
-	// num locations
-	int roundoffSet = 0;
+static PlaceId *HvGetShortestPathMode(HunterView hv, PlaceId *visitTransport, 
+									  PlaceId dest, Player hunter, bool road, 
+									  bool rail, bool boat, bool *foundPath,
+									  PlaceId src) {
+	
+	*foundPath = false;
+	int roundoffSet = -1;
 	int numlocTransport = 0;
-
-	// arrays
-	// needs to be dynamically allocated
-	PlaceId src = HvGetPlayerLocation(hv, hunter);
-	PlaceId *finalPath = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
-	PlaceId *transportPath = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
-	
-	// path created for all three modes of travel
-	PlaceId *visitTransport = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
-
-	//============================ Train Travel =============================//
-	
+	printf("\033[1;32m");
+	printf("================= START OF ALGORITHM =================\n");
+	printf("\033[0m");
 	// -1 to indicate not visited
 	for (int i = 0; i < NUM_REAL_PLACES; i++) visitTransport[i] = UNKNOWN_PLACE;
 
-	PlaceId newLocation;
+	// bfs path find by train
 	visitTransport[src] = src;
 	Queue bfsQueue = newQueue();
-	bool foundpathTrain = false;
-
-	// bfs path find by train
 	QueueJoin(bfsQueue, src);
-	while (foundpathTrain == false && QueueIsEmpty(bfsQueue) != 1) {
+	while (*foundPath == false && QueueIsEmpty(bfsQueue) != 1) {
 		PlaceId v = QueueLeave(bfsQueue);
-		newLocation = v;
-		roundoffSet++;
 		if (v == dest) {
-			foundpathTrain = true;
+			*foundPath = true;
 		} else {
+			printf("==================== FROM %s ====================\n", placeIdToName(v));
+			// printf("%s %d\n", placeIdToName(v), HvGetRound(hv) + roundoffSet);
+			if (visitTransport[v] != UNKNOWN_PLACE) roundoffSet++;
 			PlaceId *travelConnect = GvGetReachableByType(hv->view, hunter, 
-			HvGetRound(hv) + roundoffSet, newLocation, true, true, true, 
-			&numlocTransport);
+			(HvGetRound(hv) + roundoffSet), v, road, rail, boat, &numlocTransport);
 			for (int i = 0; i < numlocTransport; i++) {
 				if (visitTransport[travelConnect[i]] == UNKNOWN_PLACE) {
+					printf("%s %d\n", placeIdToName(travelConnect[i]), HvGetRound(hv) + roundoffSet);
 					visitTransport[travelConnect[i]] = v;
 					QueueJoin(bfsQueue, travelConnect[i]);
 				}
 			}
 		}
+		// roundoffSet++;
 	}
 	dropQueue(bfsQueue);
+
+	return visitTransport;
+}
+
+PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
+                             int *pathLength)
+{
+	// arrays
+	// needs to be dynamically allocated
+	PlaceId src = HvGetPlayerLocation(hv, hunter);
+	PlaceId *finalPath = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
+	
+	// path created for all three modes of travel
+	PlaceId *transportPath = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
+	PlaceId *visitTransport1 = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
+	PlaceId *visitTransport2 = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
+
+	int pathLength1 = 0;
+	int pathLength2 = 0;
+
+	PlaceId pathLink;
+	PlaceId dest1 = dest;
+	PlaceId dest2 = dest;
+	bool foundPath = false;
+
+	bool road = false;
+	bool rail = true;
+	bool boat  = true;
+
+	visitTransport1 = HvGetShortestPathMode(hv, visitTransport1, dest, hunter, 
+	road, rail, boat, &foundPath, src); 
+
+	int reachedEnd = false;
+	while (reachedEnd == false) {
+		pathLink = visitTransport1[dest1];
+		if (pathLink == src) {
+			reachedEnd = true;
+		} else {
+			dest1 = pathLink;
+			pathLength1++;
+		}
+	}
+
+	road = true;
+	rail = true;
+	boat  = true;
+
+	visitTransport2 = HvGetShortestPathMode(hv, visitTransport2, dest, hunter, 
+	road, rail, boat, &foundPath, src); 
+
+ 	reachedEnd = false;
+	while (reachedEnd == false) {
+		pathLink = visitTransport2[dest2];
+		if (pathLink == src) {
+			reachedEnd = true;
+		} else {
+			dest2 = pathLink;
+			pathLength2++;
+		}
+	}
+
+	printf("P1: %d\n", pathLength1);
+	printf("P2: %d\n", pathLength2);
 	
 	// i index is destination
 	// i.e. lhs index vals is where dest is
-	if (foundpathTrain == true) {
+	if (foundPath == true && pathLength1 < pathLength2) {
 
 		PlaceId pathLink;
 		int numCities = 0;
@@ -219,7 +274,35 @@ PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
 		numCities++;
 
 		while (reachedEnd == false) {
-			pathLink = visitTransport[dest];
+			pathLink = visitTransport1[dest];
+			if (pathLink == src) {
+				reachedEnd = true;
+			} else {
+				transportPath[numCities] = pathLink;
+				dest = pathLink;
+				numCities++;
+			}
+		}
+		
+		int j = 0;
+		for (int i = numCities - 1; i >= 0; i--, j++) {
+			finalPath[j] = transportPath[i];
+			printf("%s\n", placeIdToName(finalPath[j]));
+		}
+
+		*pathLength = j;
+		return finalPath;
+
+	} else if (foundPath == true && pathLength1 >= pathLength2) {
+
+		PlaceId pathLink;
+		int numCities = 0;
+		transportPath[numCities] = dest;
+		bool reachedEnd = false;
+		numCities++;
+
+		while (reachedEnd == false) {
+			pathLink = visitTransport2[dest];
 			if (pathLink == src) {
 				reachedEnd = true;
 			} else {

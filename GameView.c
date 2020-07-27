@@ -736,8 +736,12 @@ static int findValidRailMove(GameView gv, struct connNode reachable[],
 		QueueJoin(railLocs, reachable[i].p);
 	}
 
+	printf("place: %s total: %d\n", placeIdToName(from), round + player);
+
 	int railDist = (round + player) % 4;
 	if (railDist == 0) return 0;
+
+	printf("place: %s railDist: %d\n", placeIdToName(from), railDist);
 
 	while (!QueueIsEmpty(railLocs)) {
 		Item currCity = QueueLeave(railLocs);
