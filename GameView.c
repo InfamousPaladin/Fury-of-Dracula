@@ -66,15 +66,29 @@ struct gameView
 
 // Helper Function Prototypes
 static PlaceId GvDraculaDoubleBack(GameView gv, Place playerLoc, int roundBack);
-static Place getPlaceId(GameView gv, Player player, int round);
-static int findValidRailMove(
+static PlaceId getPlaceId(GameView gv, Player player, int round);
+void setVisited(PlaceId from, int visited[], int nElements);
+static void findValidRailMove(
 	GameView gv,
 	struct connNode reachable[],
 	int visited[],
 	PlaceId from,
-	int nElement,
-	Round round,
+	int *nElement,
+	int railDist,
 	Player player);
+static void getHunterReachableType(
+	GameView gv, 
+	PlaceId from, 
+	int visited[],
+	struct connNode reachable[], 
+	int *nElements, 
+	int type);
+static void getDraculaReachableType(
+	GameView gv, 
+	PlaceId from, 
+	struct connNode reachable[], 
+	int *nElements, 
+	int type);
 
 ////////////////////////////////////////////////////////////////////////
 // Constructor/Destructor
@@ -644,8 +658,9 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 
 ////////////////////////////////////////////////////////////////////////
 // Game History
-// Returns the placeId (location) of a player for a given round
-static Place getPlaceId (GameView gv, Player player, int round)
+
+// Helper Function: Returns the placeId (location) for a player of a given round
+static PlaceId getPlaceId (GameView gv, Player player, int round)
 {
 	Place location;
 	char placeAbbrev[3];
@@ -659,7 +674,7 @@ static Place getPlaceId (GameView gv, Player player, int round)
 	
 	location.id = placeAbbrevToId(location.abbrev);
 
-	return location;
+	return location.id;
 }
 
 PlaceId *GvGetMoveHistory(GameView gv, Player player,
@@ -667,12 +682,12 @@ PlaceId *GvGetMoveHistory(GameView gv, Player player,
 {
 	int nMoves = gv->currRound;
 	if (player < gv->currPlayer) nMoves++; 
-	PlaceId *moves = malloc(sizeof(PlaceId) * (nMoves));
 
+	PlaceId *moves = malloc(sizeof(PlaceId) * (nMoves));
 	int i;
 	for (i = 0; i < nMoves; i++) {
-		Place curr = getPlaceId(gv, player, i);
-		moves[i] = curr.id;
+		PlaceId currId = getPlaceId(gv, player, i);
+		moves[i] = currId;
 	}
 	*numReturnedMoves = i;
 
@@ -694,8 +709,8 @@ PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
 
 	int i;
 	for (i = 0; i < numMoves; i++, startIndex++) {
-		Place curr = getPlaceId(gv, player, startIndex);
-		moves[i] = curr.id;
+		PlaceId currId = getPlaceId(gv, player, startIndex);
+		moves[i] = currId;
 	}
 	*numReturnedMoves = i;
 
@@ -716,23 +731,24 @@ PlaceId *GvGetLocationHistory(GameView gv, Player player,
 
 		int i;
 		for (i = 0; i < nMoves; i++) {
-			Place curr = getPlaceId(gv, player, i);
+			PlaceId currId = getPlaceId(gv, player, i);
 			
 			// Finds dracula location when performing his special moves
-			if (curr.id == HIDE || curr.id == DOUBLE_BACK_1)
-				curr.id = moves[i - 1];
-			else if (curr.id == DOUBLE_BACK_2)
-				curr.id = moves[i - 2];
-			else if (curr.id == DOUBLE_BACK_3)
-				curr.id = moves[i - 3];
-			else if (curr.id == DOUBLE_BACK_4)
-				curr.id = moves[i - 4];
-			else if (curr.id == DOUBLE_BACK_5)
-				curr.id = moves[i - 5];
-			else if (curr.id == TELEPORT)
-				curr.id = CASTLE_DRACULA;
+			if (currId == HIDE || currId == DOUBLE_BACK_1) {
+				currId = moves[i - 1];
+			} else if (currId == DOUBLE_BACK_2) {
+				currId = moves[i - 2];
+			} else if (currId == DOUBLE_BACK_3) {
+				currId = moves[i - 3];
+			} else if (currId == DOUBLE_BACK_4) {
+				currId = moves[i - 4];
+			} else if (currId == DOUBLE_BACK_5) {
+				currId = moves[i - 5];
+			} else if (currId == TELEPORT) {
+				currId = CASTLE_DRACULA;
+			}
 
-			moves[i] = curr.id;
+			moves[i] = currId;
 		}
 		*numReturnedLocs = i;
 		return moves;
@@ -756,8 +772,8 @@ PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
 		if (player < gv->currPlayer) startIndex++;
 		// Error checks and bounds
 		if (startIndex < 0) startIndex = 0;
-		PlaceId *lastNMoves = malloc(sizeof(PlaceId) * numLocs);
 
+		PlaceId *lastNMoves = malloc(sizeof(PlaceId) * numLocs);
 		int i;
 
 		// Copy values last N moves from allMoves array to lastNMoves array
@@ -774,21 +790,30 @@ PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
 ////////////////////////////////////////////////////////////////////////
 // Making a Move
 
-// Find all valid rail moves using a breadth first search and return the
-// total number of elements in reachable array.
-static int findValidRailMove(GameView gv, struct connNode reachable[],
-							 int visited[], PlaceId from, int nElement,
-							 Round round, Player player)
+// Helper Function: Set the visited array to be unitialised.
+void setVisited(PlaceId from, int visited[], int nElements)
 {
-	int railDist = (round + player) % 4;
-	if (railDist == 0) return 0;
+	for (int i = 0; i < nElements; i++) {
+		visited[i] = UNINTIALISED;
+	}
+	visited[from] = from;
+}
+
+// Helper Function: Find all valid rail moves using a breadth first search and 
+// return the total number of elements in reachable array.
+static void findValidRailMove(GameView gv, struct connNode reachable[],
+							 int visited[], PlaceId from, int *nElement,
+							 int railDist, Player player)
+{
+	if (railDist <= 1) return;
+
 	Queue railLocs = newQueue();
 	// Add all rail transport from the starting point to the queue
-	for (int i = 0; i < nElement; i++) {
+	for (int i = 0; i < *nElement; i++) {
 		visited[reachable[i].p] = from;
 		QueueJoin(railLocs, reachable[i].p);
 	}
-
+	int i = *nElement;
 	while (!QueueIsEmpty(railLocs)) {
 		Item currCity = QueueLeave(railLocs);
 
@@ -803,88 +828,97 @@ static int findValidRailMove(GameView gv, struct connNode reachable[],
 		if (currRailDist < railDist) {
 			ConnList reachFromRail = MapGetConnections(gv->map, currCity);
 			for (ConnList nextCity = reachFromRail; nextCity != NULL;
-			nextCity = nextCity->next) {
+				nextCity = nextCity->next) {
 				// Filter out cities that dont have rail connections from
 				// currCity.
 				if (nextCity->type == RAIL &&
 					visited[nextCity->p] == UNINTIALISED) {
 					// Visit cities that can be access by rail and add to queue.
-					reachable[nElement].p = nextCity->p;
+					reachable[i].p = nextCity->p;
 					visited[nextCity->p] = currCity;
 					QueueJoin(railLocs, nextCity->p);
-					nElement++;
+					i++;
 				}
 			}
 		}
 	}
-	return nElement;
+	*nElement = i;
+}
+
+// Helper Function: Returns an array of rechable locations for only a specified
+// type of transportation (ROAD, RAIL, BOAT) for hunters from the given 
+// location `from`.
+static void getHunterReachableType(GameView gv, PlaceId from, int visited[],
+									struct connNode reachable[], 
+									int *nElements, int type)
+{
+	// get all adjacent connections
+	ConnList startReached = MapGetConnections(gv->map, from);
+	int i = *nElements;
+	for (ConnList curr = startReached; curr != NULL; curr = curr->next) {
+		if (visited[curr->p] == UNINTIALISED && curr->type == type) {
+			reachable[i].p = curr->p;
+			visited[curr->p] = from;
+			i++;
+		}
+	}
+	*nElements = i;
+}
+
+// Helper Function: Returns an array of rechable locations for only a specified
+// type of transportation (ROAD and BOAT) for Dracula from the given location 
+// `from`. 
+static void getDraculaReachableType(GameView gv, PlaceId from,
+									struct connNode reachable[], 
+									int *nElements, int type)
+{
+	// get all adjacent connections
+	ConnList startReached = MapGetConnections(gv->map, from);
+	int i = *nElements;
+	for (ConnList curr = startReached; curr != NULL; curr = curr->next) {
+		if (curr->type == type && curr->p != HOSPITAL_PLACE) {
+			reachable[i].p = curr->p;
+			i++;
+		}
+	}
+	*nElements = i;
 }
 
 PlaceId *GvGetReachable(GameView gv, Player player, Round round,
                         PlaceId from, int *numReturnedLocs)
 {
-	// get availiable connections
-	ConnList startReached = MapGetConnections(gv->map, from);
-	struct connNode reachable[gv->nMapLocs];
-
 	// Initialise visited array
 	int visited[gv->nMapLocs];
-	for (int i = 0; i < gv->nMapLocs; i++) {
-		visited[i] = UNINTIALISED;
-	}
-	visited[from] = from;	
+	setVisited(from, visited, gv->nMapLocs);
+	struct connNode reachable[gv->nMapLocs];
+	int nLocs = 0;
 
-	int nElements = 0;
 	// If player is a hunter, consider rail moves
 	if (player != PLAYER_DRACULA) {
 		int railDist = (round + player) % 4;
-		// Go through startReached list and store/visit cities that can be
-		// visited with rail moves.
-		if (railDist != 0) {
-			for (ConnList curr = startReached; curr != NULL; curr = curr->next) {
-				if (visited[curr->p] == UNINTIALISED && curr->type == RAIL) {
-					reachable[nElements].p = curr->p;
-					visited[curr->p] = from;
-					nElements++;
-				}
-			}
-			nElements = findValidRailMove(gv, reachable, visited, from,
-											nElements, round, player);
+		if (railDist > 0) {
+			getHunterReachableType(gv, from, visited, reachable, &nLocs, RAIL);
+			findValidRailMove(gv, reachable, visited, from,	&nLocs, 
+								railDist, player);
 		}
-		// Add all reachable locations from starting point (`from`) that has
-		// not been visited already.
-		for (ConnList curr = startReached; curr != NULL; curr = curr->next) {
-			if (visited[curr->p] == UNINTIALISED && curr->type != RAIL) {
-				reachable[nElements].p = curr->p;
-				visited[curr->p] = from;
-				nElements++;
-			}
-		}
-	}
-	// Otherwise, moves of dracula must not be `HOSPITAL_PLACE` and rail moves.
-	else {
-		for (ConnList curr = startReached; curr != NULL; curr = curr->next) {
-			if (curr->p != HOSPITAL_PLACE && curr->type != RAIL &&
-				visited[curr->p] == UNINTIALISED) {
-
-				reachable[nElements].p = curr->p;
-				visited[curr->p] = from;
-				nElements++;
-			}
-		}
+		getHunterReachableType(gv, from, visited, reachable, &nLocs, ROAD);
+		getHunterReachableType(gv, from, visited, reachable, &nLocs, BOAT);
+	} else {
+		// Get dracula's connections for ROAD and BOAT
+		getDraculaReachableType(gv, from, reachable, &nLocs, ROAD); 
+		getDraculaReachableType(gv, from, reachable, &nLocs, BOAT); 
 	}
 
 	// Include starting location as a valid move
-	reachable[nElements].p = from;
-	nElements++;
-	*numReturnedLocs = nElements;
+	reachable[nLocs].p = from;
+	nLocs++;
+	*numReturnedLocs = nLocs;	
 
 	// Copies placeID from reachable and store it in a new array
-	PlaceId *reachableID = malloc(sizeof(PlaceId) * nElements);
-	for (int j = 0; j < nElements; j++) {
-		reachableID[j] = reachable[j].p;
+	PlaceId *reachableID = malloc(sizeof(PlaceId) * nLocs);
+	for (int i = 0; i < nLocs; i++) {
+		reachableID[i] = reachable[i].p;
 	}
-
 	return reachableID;
 }
 
@@ -892,104 +926,55 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
                               PlaceId from, bool road, bool rail,
                               bool boat, int *numReturnedLocs)
 {
-	// Basically this function considers the connection type based on the 
-	// bools inputted into the function. e.g. if road & rail = true, then
-	// only include the moves available by road & rail.	
-	if (road && boat && rail) {
-		return GvGetReachable(gv, player, round, from, numReturnedLocs);
-	} 
-	// get availiable connections
-	ConnList startReached = MapGetConnections(gv->map, from);
-	struct connNode reachable[gv->nMapLocs];
-
 	// Initialise visited array
 	int visited[gv->nMapLocs];
-	for (int i = 0; i < gv->nMapLocs; i++) {
-		visited[i] = UNINTIALISED;
-	}
-	visited[from] = from;	
+	setVisited(from, visited, gv->nMapLocs);
+	struct connNode reachable[gv->nMapLocs];
+	int max = 0;
 
-	int i = 0;
 	// If player is a hunter, consider rail moves
 	if (player != PLAYER_DRACULA) {
-		ConnList curr = startReached;
-		// Getting all the rail connections
-		if (rail) {
-			while (curr != NULL) {
-				if (visited[curr->p] == UNINTIALISED && curr->type == RAIL) {
-					reachable[i].p = curr->p;
-					visited[curr->p] = from;
-					i++;
-				}
-				curr = curr->next;
-			}
-			i = findValidRailMove(gv, reachable, visited, from,
-										i, round, player);
+		// Getting all the rail connections if allowed
+		int railDist = (round + player) % 4;
+		if (rail && railDist > 0) {
+			getHunterReachableType(gv, from, visited, reachable, &max, RAIL);
+			findValidRailMove(gv, reachable, visited, from,	&max, 
+								railDist, player);
 		}
 		// getting all the road connections
-		curr = startReached;
 		if (road) {
-			while (curr != NULL) {
-				if (visited[curr->p] == -1 && curr->type == ROAD) {
-					reachable[i].p = curr->p;
-					reachable[i].type = curr->type;
-					i++;
-				}
-				curr = curr->next;
-			}
+			getHunterReachableType(gv, from, visited, reachable, &max, 
+									ROAD);
 		}
 		// getting all the sea connections
-		curr = startReached;
 		if (boat) {
-			while (curr != NULL) {
-				if (visited[curr->p] == -1 && curr->type == BOAT) {
-					reachable[i].p = curr->p;
-					reachable[i].type = curr->type;
-					i++;
-				}
-				curr = curr->next;
-			}
+			getHunterReachableType(gv, from, visited, reachable, &max, BOAT);
 		}
-	} else {
-		// Otherwise, dracula (cannot move to hospital, or via rail)
+	} 
+	// Otherwise, dracula (cannot move to hospital, or via rail)
+	else {
 		if (road) {
-			ConnList curr = startReached;
-			while (curr != NULL) {
-				if (curr->p != HOSPITAL_PLACE && curr->type == ROAD
-				&& visited[curr->p] == UNINTIALISED) {
-					reachable[i].p = curr->p;
-					visited[curr->p] = from;
-					i++;
-				}
-				curr = curr->next;
-			}
+			getDraculaReachableType(gv, from, reachable, &max, ROAD); 
 		}
 		// getting boat connections
 		if (boat) {
-			ConnList curr = startReached;
-			while (curr != NULL) {
-				if (curr->p != HOSPITAL_PLACE && curr->type == BOAT
-				&& visited[curr->p] == UNINTIALISED) {
-					reachable[i].p = curr->p;
-					visited[curr->p] = from;
-					i++;
-				}
-				curr = curr->next;
-			}
+			getDraculaReachableType(gv, from, reachable, &max, BOAT); 
 		}
 	}
 
-	PlaceId *allReachable = malloc(sizeof(PlaceId) * i + 1);
-	int j;
-	for (j = 0; j < i; j++) {
-		allReachable[j] = reachable[j].p;
-	}
 	// Append starting location to array
-	i++;
-	allReachable[j] = from;
-	*numReturnedLocs = i;
+	reachable[max].p = from;
+	max++;
+	*numReturnedLocs = max;	
+
+	PlaceId *allReachable = malloc(sizeof(PlaceId) * max);
+	for (int i = 0; i < max; i++) {
+		allReachable[i] = reachable[i].p;
+	}
+
 	return allReachable;
 }
+
 
 ////////////////////////////////////////////////////////////////////////
 // Your own interface functions
