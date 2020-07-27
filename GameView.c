@@ -464,9 +464,14 @@ static PlaceId GvDraculaDoubleBack(GameView gv, Place playerLoc, int roundBack)
 
 PlaceId GvGetVampireLocation(GameView gv)
 {
+	int playerRound = 0;
+	int imVampireRound = 0;
+	int vampRoundIncrement = 0;
+	int playerRoundIncrement = 0;
+
 	Place playerLoc;
-	char playerPlace[3];
-	char placeAbbrev[3];
+	char playerPlace[4];
+	char placeAbbrev[4];
 	Place immvampireLoc;
 	bool foundLocation = false;
 	playerLoc.abbrev = playerPlace;
@@ -475,6 +480,9 @@ PlaceId GvGetVampireLocation(GameView gv)
 	// finding immvampires location
 	for (int i = 0; gv->playString[i] != '\0'; i++) {
 
+		if (gv->playString[i] == ' ') vampRoundIncrement++;
+
+		// immvampire found
 		if (gv->playString[i] == 'D' && gv->playString[i + 4] == 'V') {
 
 			// obtain two initials of place
@@ -482,25 +490,27 @@ PlaceId GvGetVampireLocation(GameView gv)
 			immvampireLoc.abbrev[1] = gv->playString[i + 2];
 			immvampireLoc.abbrev[2] = '\0';
 
-			// get placeID
+			// round of immVampire & placeID 
 			foundLocation = true;
+			imVampireRound = vampRoundIncrement / NUM_PLAYERS;
 			immvampireLoc.id = placeAbbrevToId(immvampireLoc.abbrev);
 
+		// immvampire has matured
 		} else if (gv->playString[i] == 'D' && gv->playString[i + 5] == 'V') {
-
 			// vampire has hatched
-			gv->imVampireLoc = NOWHERE;
-			return gv->imVampireLoc;
+			immvampireLoc.id = NOWHERE;
 		}
 	}
 
-	// immvampire not found
-	if (foundLocation == false) return NOWHERE;
+	// immvampire not found or immvampire has matured
+	if (foundLocation == false || immvampireLoc.id == NOWHERE) return NOWHERE;
 
 	// checks if hunter has been in the same place as the
 	// immvampire for the last 6 rounds and kills the vampire if yes
 	// therefore, location of immvampire is NOWHERE as he is dead
 	for (int i = 0; gv->playString[i] != '\0'; i++) {
+
+		if (gv->playString[i] == ' ') playerRoundIncrement++;
 		
 		// need to fix this dual-condition thing
 		if (gv->playString[i] == 'G' || gv->playString[i] == 'S' ||
@@ -511,11 +521,16 @@ PlaceId GvGetVampireLocation(GameView gv)
 			playerLoc.abbrev[1] = gv->playString[i + 2];
 			playerLoc.abbrev[2] = '\0';
 
-			// get placeID
+			// get player round
+			playerRound = playerRoundIncrement / NUM_PLAYERS;
 			playerLoc.id = placeAbbrevToId(playerLoc.abbrev);
 
-			// immvampire encountered and killed instantly
-			if (playerLoc.id == immvampireLoc.id) return NOWHERE;
+			// immvampire encountered and killed
+			if (playerLoc.id == immvampireLoc.id &&
+				playerRound > imVampireRound) {
+				immvampireLoc.id = NOWHERE;
+				return immvampireLoc.id;
+			}
 
 			//playerNum++;
 			i += POS_ACTIONS;
