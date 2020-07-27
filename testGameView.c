@@ -251,10 +251,17 @@ int main(void)
 		assert(GvGetScore(gv) == GAME_START_SCORE
 		                         - 4 * SCORE_LOSS_DRACULA_TURN
 		                         - SCORE_LOSS_HUNTER_HOSPITAL);
-
+		assert(GvGetHealth(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS
+												  - LIFE_LOSS_HUNTER_ENCOUNTER);
 		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == 0);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == STRASBOURG);
+		int numTraps = 0;
+		PlaceId *traps = GvGetTrapLocations(gv, &numTraps);
+		assert(numTraps == 0);
+		sortPlaces(traps, numTraps);
+		// assert(traps[0] == NOWHERE);
+		free(traps);
 		
 		GvFree(gv);
 		printf("\033[1;32m");
@@ -476,7 +483,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: get player 4: ");
+		printf("\t-> Personal testing - get player 4: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE....";
@@ -543,7 +550,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: DOUBLE_BACK_2: ");
+		printf("\t-> Personal testing - DOUBLE_BACK_2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -571,7 +578,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: DOUBLE_BACK_3: ");
+		printf("\t-> Personal testing - DOUBLE_BACK_3: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -599,7 +606,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: DOUBLE_BACK_4: ");
+		printf("\t-> Personal testing - DOUBLE_BACK_4: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -627,7 +634,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: DOUBLE_BACK_5: ");
+		printf("\t-> Personal testing - DOUBLE_BACK_5: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -655,7 +662,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: DOUBLE_BACK_SPECIAL: ");
+		printf("\t-> Personal testing - DOUBLE_BACK_SPECIAL: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DGR.V.. "
@@ -683,7 +690,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: get immvampire location when dead: ");
+		printf("\t-> Personal testing - get immvampire location when dead: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
@@ -708,7 +715,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing: get immvampire location when dead 2: ");
+		printf("\t-> Personal testing - get immvampire location when dead 2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
@@ -730,7 +737,46 @@ int main(void)
 		printf("\033[0m");
 
 	}
+
+	{///////////////////////////////////////////////////////////////////
 	
+		printf("\t-> Testing everything: ");
+		
+		char *trail =
+			"GGE.... SGE.... HGE.... MGE.... DPA.V.. "
+			"GGE.... SGE.... HGE.... MGE.... DSTT... "
+			"GGE.... SGE.... HGE.... MGE.... DHIT... "
+			"GGE.... SGE.... HGE.... MGE.... DD1T... "
+			"GSTTTTD SGE.... HGE.... MGE.... DTPT... "
+			"GSZ.... SGE.... HGE.... MGE.... DCDT... "
+			"GSZ.... SGE.... HGE.... MGE.... DCDT.V.";
+		
+		Message messages[35] = {};
+		GameView gv = GvNew(trail, messages);
+		
+		assert(GvGetScore(gv) == GAME_START_SCORE
+		                         - 7 * SCORE_LOSS_DRACULA_TURN
+		                         - SCORE_LOSS_VAMPIRE_MATURES
+								 - SCORE_LOSS_HUNTER_HOSPITAL);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) 
+						      == GAME_START_HUNTER_LIFE_POINTS);
+		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == CASTLE_DRACULA);
+		int numTraps = 0;
+		PlaceId *traps = GvGetTrapLocations(gv, &numTraps);
+		assert(numTraps == 3);
+		sortPlaces(traps, numTraps);
+		// assert(traps[0] == CASTLE_DRACULA && traps[1] 
+		// 				== CASTLE_DRACULA && traps[2] 
+		// 				== CASTLE_DRACULA);
+		free(traps);
+		assert(GvGetVampireLocation(gv) == NOWHERE);
+		
+		GvFree(gv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+	}
+
 	printf("\n============ Testing move/location history ============\n");
 	{///////////////////////////////////////////////////////////////////
 		char *trail =
@@ -1074,6 +1120,25 @@ int main(void)
 			assert(locs[2] == MILAN);
 			assert(locs[3] == ROME);
 			assert(locs[4] == VENICE);
+		}
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+		{
+			printf("\t-> Checking Hunter rail connections (0 rail distance): ");
+			int numLocs = -1;
+			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
+											4, PARIS, &numLocs);
+			sortPlaces(locs, numLocs);
+			assert(numLocs == 7);
+			assert(locs[0] == BRUSSELS);
+			assert(locs[1] == CLERMONT_FERRAND);
+			assert(locs[2] == GENEVA);
+			assert(locs[3] == LE_HAVRE);
+			assert(locs[4] == NANTES);
+			assert(locs[5] == PARIS);
+			assert(locs[6] == STRASBOURG);
 		}
 		printf("\033[1;32m");
 		printf("Test passed!\n");
