@@ -898,6 +898,26 @@ int main(void)
 		printf("\033[0m");
 	}
 
+	{
+		printf("\n----------------- Dracula View\n\n");
+
+		char *trail =
+			"GVI.... SGE.... HGE.... MGE.... DBC.V.. "
+			"GBD.... SGE.... HGE.... MGE.... DKLT... "
+			"GSZ.... SGE.... HGE.... MGE.... DGAT... "
+			"GBE.... SGE.... HGE.... MGE.... DCNT... "
+			"GKLT... SGE.... HGE.... MGE....";
+		Message messages[24] = {};
+		GameView dv = GvNew(trail, messages);
+		// TODO: test for the bug as health is 5 rather than 7
+		assert(GvGetHealth(dv, PLAYER_LORD_GODALMING) ==
+				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
+		assert(GvGetHealth(dv, PLAYER_LORD_GODALMING) ==
+				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
+		assert(GvGetHealth(dv, PLAYER_LORD_GODALMING) ==
+				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
+	}
+
 	printf("\n============ Testing move/location history ============\n");
 	{///////////////////////////////////////////////////////////////////
 		char *trail =

@@ -121,8 +121,8 @@ int main(void)
 		Message messages[24] = {};
 		DraculaView dv = DvNew(trail, messages);
 		// TODO: test for the bug as health is 5 rather than 7
-		// assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) ==
-		// 		GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
+		assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) ==
+				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
 		assert(DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING) == KLAUSENBURG);
 		assert(DvGetVampireLocation(dv) == BUCHAREST);
 		int numTraps = 0;
