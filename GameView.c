@@ -527,8 +527,9 @@ PlaceId GvGetVampireLocation(GameView gv)
 		if (gv->playString[i] == ' ') playerRoundIncrement++;
 		
 		// need to fix this dual-condition thing
-		if (gv->playString[i] == 'G' || gv->playString[i] == 'S' ||
-            gv->playString[i] == 'H' || gv->playString[i] == 'M') {
+		if ((gv->playString[i] == 'G' || gv->playString[i] == 'S' ||
+            gv->playString[i] == 'H' || gv->playString[i] == 'M') && 
+			(gv->playString[i + 6] == '.' || gv->playString[i + 6] == 'D')) {
 
 			// obtain two initials of place
 			playerLoc.abbrev[0] = gv->playString[i + 1];
@@ -541,19 +542,15 @@ PlaceId GvGetVampireLocation(GameView gv)
 
 			// immvampire encountered and killed
 			if (playerLoc.id == immvampireLoc.id &&
-				playerRound > imVampireRound) {
+				playerRound >= imVampireRound) {
 				immvampireLoc.id = NOWHERE;
 				return immvampireLoc.id;
 			}
-
-			//playerNum++;
-			i += POS_ACTIONS;
 		}
 	}
 
 	gv->imVampireLoc = immvampireLoc.id;
 	return gv->imVampireLoc;
-
 }
 
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)

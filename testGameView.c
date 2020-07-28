@@ -148,8 +148,7 @@ int main(void)
 				GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == GENEVA);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == GENEVA);
-		// TODO: error
-		// assert(GvGetVampireLocation(gv) == NOWHERE);
+		assert(GvGetVampireLocation(gv) == NOWHERE);
 
 		GvFree(gv);
 		printf("\033[1;32m");
@@ -827,7 +826,7 @@ int main(void)
 		assert(GvGetPlayerLocation(gv, PLAYER_VAN_HELSING) == BUCHAREST);
 		// assert(GvGetPlayerLocation(gv, PLAYER_MINA_HARKER) == HOSPITAL_PLACE);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == SOFIA);
-		// assert(GvGetVampireLocation(gv) == NOWHERE);
+		assert(GvGetVampireLocation(gv) == NOWHERE);
 		int numTraps = 0;
 		PlaceId *traps = GvGetTrapLocations(gv, &numTraps);
 		assert(numTraps == 0);

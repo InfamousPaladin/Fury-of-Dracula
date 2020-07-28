@@ -146,7 +146,7 @@ int main(void)
 				GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == GENEVA);
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == GENEVA);
-		assert(HvGetVampireLocation(hv) == GENEVA);
+		assert(HvGetVampireLocation(hv) == NOWHERE);
 		Round round = -1;
 		assert(HvGetLastKnownDraculaLocation(hv, &round) == GENEVA);
 		assert(round == 0);
