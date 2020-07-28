@@ -558,10 +558,6 @@ PlaceId GvGetVampireLocation(GameView gv)
 
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 {
-	PlaceId *trapLocations = malloc(sizeof(PlaceId) * (MAX_TRAP_LOCATIONS));
-	for (int i = 0; i < MAX_TRAP_LOCATIONS; i++) {
-		trapLocations[i] = NOWHERE;
-	}
 	// Number of traps in playStrings ('T')
 	*numTraps = 0;
 	// String to hold location initials
@@ -575,6 +571,9 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 	int nMoves = 0;	bool canFree = true;
 	PlaceId *moves = GvGetLocationHistory(gv, PLAYER_DRACULA, &nMoves, &canFree);
 	int round = 0;
+
+	// Make a temp array to store the trap locations
+	PlaceId tempLocations[MAX_TRAP_LOCATIONS];
 
 	// Transverses through the stirng at the position 'D'
 	for (int i = 0; gv->playString[i] != '\0'; i += TURN_CHARS) {
@@ -605,7 +604,7 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 					traps.id = CASTLE_DRACULA;
 
 				// Store the location in the array
-				trapLocations[counterLocation] = traps.id;
+				tempLocations[counterLocation] = traps.id;
 				counterLocation++;
 			}
 			// Decrease the numTraps if the trap has expired
@@ -613,7 +612,7 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 				--*numTraps;
 				// Remove the oldest location (first element)
 				for (int j = 1; j < counterLocation; j++) {
-					trapLocations[j - 1] = trapLocations[j];
+					tempLocations[j - 1] = tempLocations[j];
 				}
 			}
 			round++;
@@ -633,24 +632,22 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 
 					// Find what position the trap is in and remove it
 					int j;
-					for (j = 0; trapLocations[j] != NOWHERE; j++) {
-						if (trapLocations[j] == traps.id) break;
+					for (j = 0; j < *numTraps; j++) {
+						if (tempLocations[j] == traps.id) break;
 					}
-					// If at the start of array
-					if (j == 0) {
-						for (int k = 1; trapLocations[k] != NOWHERE; k++) {
-							trapLocations[k - 1] = trapLocations[k];
-						}
-					// It is in the middle or end
-					} else {
-						for (int k = 0; trapLocations[k] != NOWHERE; k++) {
-							trapLocations[k] = trapLocations[k + 1];
-						}
+					// Remove the element
+					for (int k = j; k < *numTraps; k++) {
+						tempLocations[k] = tempLocations[k + 1];
 					}
 				}
 			}
 		}
 		if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
+	}
+	// Place the locations of traps into array
+	PlaceId *trapLocations = malloc(sizeof(PlaceId) * (*numTraps));
+	for (int i = 0; i < *numTraps; i++) {
+		trapLocations[i] = tempLocations[i];
 	}
 	if (canFree) free(moves);
 	return trapLocations;
