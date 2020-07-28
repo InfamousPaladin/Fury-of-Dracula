@@ -148,8 +148,7 @@ int main(void)
 				GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == GENEVA);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == GENEVA);
-		// TODO: error
-		// assert(GvGetVampireLocation(gv) == NOWHERE);
+		assert(GvGetVampireLocation(gv) == NOWHERE);
 
 		GvFree(gv);
 		printf("\033[1;32m");
@@ -765,9 +764,9 @@ int main(void)
 		PlaceId *traps = GvGetTrapLocations(gv, &numTraps);
 		assert(numTraps == 3);
 		sortPlaces(traps, numTraps);
-		// assert(traps[0] == CASTLE_DRACULA && traps[1] 
-		// 				== CASTLE_DRACULA && traps[2] 
-		// 				== CASTLE_DRACULA);
+		assert(traps[0] == CASTLE_DRACULA && traps[1] 
+						== CASTLE_DRACULA && traps[2] 
+						== CASTLE_DRACULA);
 		free(traps);
 		assert(GvGetVampireLocation(gv) == NOWHERE);
 		
@@ -817,17 +816,78 @@ int main(void)
 		
 		assert(GvGetRound(gv) == 28);
 		assert(GvGetScore(gv) == 282);
-		// assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == 9);
-		// assert(GvGetHealth(gv, PLAYER_DR_SEWARD) == 3);
-		// assert(GvGetHealth(gv, PLAYER_VAN_HELSING) == 8);
-		// assert(GvGetHealth(gv, PLAYER_MINA_HARKER) == 0);
-		// assert(GvGetHealth(gv, PLAYER_DRACULA) == 0);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == 9);
+		assert(GvGetHealth(gv, PLAYER_DR_SEWARD) == 3);
+		assert(GvGetHealth(gv, PLAYER_VAN_HELSING) == 8);
+		assert(GvGetHealth(gv, PLAYER_MINA_HARKER) == 0);
+		assert(GvGetHealth(gv, PLAYER_DRACULA) == 0);
 		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == SZEGED);
 		assert(GvGetPlayerLocation(gv, PLAYER_DR_SEWARD) == SOFIA);
 		assert(GvGetPlayerLocation(gv, PLAYER_VAN_HELSING) == BUCHAREST);
-		// assert(GvGetPlayerLocation(gv, PLAYER_MINA_HARKER) == HOSPITAL_PLACE);
+		assert(GvGetPlayerLocation(gv, PLAYER_MINA_HARKER) == HOSPITAL_PLACE);
 		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == SOFIA);
-		// assert(GvGetVampireLocation(gv) == NOWHERE);
+		assert(GvGetVampireLocation(gv) == NOWHERE);
+		int numTraps = 0;
+		PlaceId *traps = GvGetTrapLocations(gv, &numTraps);
+		assert(numTraps == 0);
+		free(traps);
+		GvFree(gv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+	}
+
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("\t-> Testing hunter is killed by one trap but there are more traps: ");
+		
+		char *trail =
+			"GSW.... SLS.... HMR.... MHA.... DSJ.V.. "
+			"GLO.... SAL.... HCO.... MBR.... DBET... "
+			"GED.... SBO.... HLI.... MPR.... DKLT... "
+			"GLV.... SNA.... HNU.... MBD.... DCDT... "
+			"GIR.... SPA.... HPR.... MKLT... DHIT... "
+			"GAO.... SST.... HSZ.... MCDTTD. DGAT... "
+			"GMS.... SFL.... HKL.... MSZ.... DCNT.V. "
+			"GTS.... SRO.... HBC.... MCNTD.. DBS..M. "
+			"GIO.... SBI.... HCN.... MCN.... DIO.... "
+			"GIO.... SAS.... HBS.... MCN.... DTS.... "
+			"GTS.... SAS.... HIO.... MBS.... DMS.... "
+			"GMS.... SIO.... HTS.... MIO.... DAO..M. "
+			"GAO.... STS.... HMS.... MTS.... DNS.... "
+			"GBB.... SMS.... HAO.... MMS.... DED.V.. "
+			"GNA.... SAO.... HEC.... MAO.... DMNT... "
+			"GBO.... SIR.... HLE.... MEC.... DD2T... "
+			"GSR.... SDU.... HBU.... MPL.... DHIT... "
+			"GSN.... SIR.... HAM.... MLO.... DTPT... "
+			"GAL.... SAO.... HCO.... MEC.... DCDT... "
+			"GMS.... SMS.... HFR.... MLE.... DKLT.V. "
+			"GTS.... STS.... HBR.... MCO.... DGAT.M. "
+			"GIO.... SIO.... HBD.... MLI.... DD3T.M. "
+			"GBS.... SBS.... HKLT... MBR.... DHI..M. "
+			"GCN.... SCN.... HCDTTTD MVI.... DTPT... "
+			"GGAT... SGA.... HSZ.... MBC.... DCDT... "
+			"GCDTTD. SCDD... HKL.... MGA.... DKLT... "
+			"GSZ.... SKLTD.. HKLD... MKLD... DBC.V.. "
+			"GBD.... SBE.... HGA.... MBCVD.. DSOT... "
+			"GSZ.... SSOTD.. HBC.... MSOD...";
+		
+		Message messages[35] = {};
+		GameView gv = GvNew(trail, messages);
+		
+		assert(GvGetRound(gv) == 28);
+		assert(GvGetScore(gv) == 282);
+		assert(GvGetHealth(gv, PLAYER_LORD_GODALMING) == 9);
+		assert(GvGetHealth(gv, PLAYER_DR_SEWARD) == 3);
+		assert(GvGetHealth(gv, PLAYER_VAN_HELSING) == 8);
+		assert(GvGetHealth(gv, PLAYER_MINA_HARKER) == 0);
+		assert(GvGetHealth(gv, PLAYER_DRACULA) == 0);
+		assert(GvGetPlayerLocation(gv, PLAYER_LORD_GODALMING) == SZEGED);
+		assert(GvGetPlayerLocation(gv, PLAYER_DR_SEWARD) == SOFIA);
+		assert(GvGetPlayerLocation(gv, PLAYER_VAN_HELSING) == BUCHAREST);
+		assert(GvGetPlayerLocation(gv, PLAYER_MINA_HARKER) == HOSPITAL_PLACE);
+		assert(GvGetPlayerLocation(gv, PLAYER_DRACULA) == SOFIA);
+		assert(GvGetVampireLocation(gv) == NOWHERE);
 		int numTraps = 0;
 		PlaceId *traps = GvGetTrapLocations(gv, &numTraps);
 		assert(numTraps == 0);
