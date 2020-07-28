@@ -70,7 +70,6 @@ struct gameView
 };
 
 // Helper Function Prototypes
-static PlaceId GvDraculaDoubleBack(GameView gv, Place playerLoc, int roundBack);
 static PlaceId getPlaceId(GameView gv, Player player, int round);
 void setVisited(PlaceId from, int visited[], int nElements);
 static void findValidRailMove(
@@ -163,6 +162,13 @@ GameView GvNew(char *pastPlays, Message messages[]) {
 void GvFree(GameView gv) {
 	MapFree(gv->map);
 	free(gv->activeTrapLocs);
+	if (gv->canFree) {
+		free(gv->playerID[0].pastLocs);
+		free(gv->playerID[1].pastLocs);
+		free(gv->playerID[2].pastLocs);
+		free(gv->playerID[3].pastLocs);
+		free(gv->playerID[4].pastLocs);
+	}
 	free(gv);
 }
 
@@ -263,7 +269,6 @@ int GvGetHealth(GameView gv, Player player)
 {
 	PlaceId location;
 	int playerHealth;
-	bool playerDead = false;
 
 	// Set initial health points
 	if (player != PLAYER_DRACULA) {
@@ -274,6 +279,7 @@ int GvGetHealth(GameView gv, Player player)
 
 	// Check the hunter's POV
 	if (player != PLAYER_DRACULA) {
+		bool playerDead = false;
 		for (int round = 0; round < gv->playerID[player].nMoves; round++) {
 			int playerTurn = TURN_CHARS * player + ROUND_CHARS * round;
 
@@ -343,143 +349,18 @@ int GvGetHealth(GameView gv, Player player)
 
 PlaceId GvGetPlayerLocation(GameView gv, Player player)
 {
-
-	Place playerLoc;
-	int roundBack = 0;
-	char nameInitials;
-	char placeAbbrev[3];
-	bool foundLocation = false;
-	playerLoc.abbrev = placeAbbrev;
-
-	// mapping to initials
-	if (player == PLAYER_LORD_GODALMING) {
-		nameInitials = 'G';
-	} else if (player == PLAYER_DR_SEWARD) {
-		nameInitials = 'S';
-	} else if (player == PLAYER_VAN_HELSING) {
-		nameInitials = 'H';
-	} else if (player == PLAYER_MINA_HARKER) {
-		nameInitials = 'M';
-	} else if (player == PLAYER_DRACULA) {
-		nameInitials = 'D';
-	}
-
 	// return Hospital if dead
 	if (player != PLAYER_DRACULA && GvGetHealth(gv, player) == 0) {
 		return HOSPITAL_PLACE;
 	}
 
-	for (int i = 0; gv->playString[i] != '\0'; i++) {
-
-		// need to fix this dual-condition thing
-		if (gv->playString[i] == nameInitials && i == 0) {
-
-			// obtain two initials of place
-			playerLoc.abbrev[0] = gv->playString[i + 1];
-			playerLoc.abbrev[1] = gv->playString[i + 2];
-			playerLoc.abbrev[2] = '\0';
-
-			// get placeID
-			playerLoc.id = placeAbbrevToId(playerLoc.abbrev);
-
-			//playerNum++;
-			i += POS_ACTIONS;
-			foundLocation = true;			
-
-		} else if (gv->playString[i] == nameInitials && 
-				   gv->playString[i - 1] == ' '      && i > 0) {
-
-			// obtain two initials of place
-			playerLoc.abbrev[0] = gv->playString[i + 1];
-			playerLoc.abbrev[1] = gv->playString[i + 2];
-			playerLoc.abbrev[2] = '\0';
-
-			// get placeID
-			playerLoc.id = placeAbbrevToId(playerLoc.abbrev);
-
-			//playerNum++;
-			i += POS_ACTIONS;
-			foundLocation = true;
-		}
-	}
-
-	// various conditions obtained from rules
-	if (foundLocation == false) {
-
+	int playerRound = gv->playerID[player].nMoves;
+	// Player has not made a turn yet
+	if (playerRound == 0) {
 		return NOWHERE;
-
-	} else if (player == PLAYER_DRACULA) {
-
-		// Dracula gets teleported to CASTLE_DRACULA
-		if (playerLoc.id == TELEPORT) {
-
-			gv->playerID[PLAYER_DRACULA].location = CASTLE_DRACULA;
-			return gv->playerID[PLAYER_DRACULA].location;
-
-		// Not really sure about his, under work
-		} else if (playerLoc.id == HIDE) {
-
-			if (gv->playerID[PLAYER_DRACULA].location != 0) {
-				return gv->playerID[PLAYER_DRACULA].location;
-			}
-
-		// getting location back if Dracula uses DOUBLE_BACK_N
-		} else if (playerLoc.id >= DOUBLE_BACK_1 && playerLoc.id <= DOUBLE_BACK_5) {
-
-			int movebackBy = 0;
-			if (playerLoc.id == DOUBLE_BACK_1) {
-				movebackBy = 1;
-			} else if (playerLoc.id == DOUBLE_BACK_2) {
-				movebackBy = 2;
-			} else if (playerLoc.id == DOUBLE_BACK_3) {
-				movebackBy = 3;
-			} else if (playerLoc.id == DOUBLE_BACK_4) {
-				movebackBy = 4;
-			} else if (playerLoc.id == DOUBLE_BACK_5) {
-				movebackBy = 5;
-			}
-
-			roundBack = GvGetRound(gv) - movebackBy;
-			while (playerLoc.id > SEA_UNKNOWN) {
-				playerLoc.id = GvDraculaDoubleBack(gv, playerLoc, roundBack);
-				roundBack--;
-			}
-		}
+	} else {
+		return gv->playerID[player].pastLocs[playerRound - 1];
 	}
-
-	gv->playerID[player].location = playerLoc.id;
-	return gv->playerID[player].location;
-}
-
-// TODO: add description on what it does
-// helper function for GvGetPlayerLocation()
-static PlaceId GvDraculaDoubleBack(GameView gv, Place playerLoc, int roundBack)
-{
-	int numMoves = 0;
-	for (int i = 0; gv->playString[i] != '\0'; i++) {
-		// calculates number of moves in a given range of rounds
-		if (gv->playString[i] == ' ') numMoves++;
-		int countRound = numMoves / 5;
-		if (countRound == roundBack) break;
-	}
-
-	// calculating number of individual chars in a given range of rounds
-	// finding Dracula's position after his use of DOUBLE_BACK_N
-	for (int i = 0; i <= (numMoves + PLRACT_STRING * NUM_PLAYERS * roundBack); i++) {
-		if (gv->playString[i] == 'D' && gv->playString[i + 1] != '.' && 
-			gv->playString[i + 2] != '.') {
-
-			// obtain two initials of place
-			playerLoc.abbrev[0] = gv->playString[i + 1];
-			playerLoc.abbrev[1] = gv->playString[i + 2];
-			playerLoc.abbrev[2] = '\0';
-
-			// get placeID
-			playerLoc.id = placeAbbrevToId(playerLoc.abbrev);
-		}
-	}
-
-	return playerLoc.id;
 }
 
 PlaceId GvGetVampireLocation(GameView gv)
@@ -567,10 +448,7 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 	traps.abbrev = placeAbbrev;
 
 	// Get past locations of dracula
-	int nMoves = 0;	bool canFree = true;
-	PlaceId *moves = GvGetLocationHistory(gv, PLAYER_DRACULA, &nMoves, &canFree);
 	int round = 0;
-
 	int nTraps = 0;
 
 	// Make a temp array to store the trap locations
@@ -581,27 +459,7 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 		// Check every D for a 'T'
 		if (gv->playString[i] == 'D') {
 			if (gv->playString[i + 3] == TRAP) {
-				// Extract the location name
-				traps.abbrev[0] = gv->playString[i + 1];
-				traps.abbrev[1] = gv->playString[i + 2];
-				traps.abbrev[2] = '\0';
-				// Convert the abbrev to name
-				traps.id = placeAbbrevToId(traps.abbrev);
-
-				// Show true location of traps for dracula from past locations  
-				if (traps.id == HIDE || traps.id == DOUBLE_BACK_1)
-					traps.id = moves[round - 1];
-				else if (traps.id == DOUBLE_BACK_2)
-					traps.id = moves[round - 2];
-				else if (traps.id == DOUBLE_BACK_3)
-					traps.id = moves[round - 3];
-				else if (traps.id == DOUBLE_BACK_4)
-					traps.id = moves[round - 4];
-				else if (traps.id == DOUBLE_BACK_5)
-					traps.id = moves[round - 5];
-				else if (traps.id == TELEPORT)
-					traps.id = CASTLE_DRACULA;
-
+				traps.id = gv->playerID[PLAYER_DRACULA].pastLocs[round];
 				// Store the location in the array
 				tempLocations[nTraps] = traps.id;
 				nTraps++;
@@ -647,7 +505,6 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 	for (int i = 0; i < nTraps; i++) {
 		trapLocations[i] = tempLocations[i];
 	}
-	if (canFree) free(moves);
 	*numTraps = nTraps;
 	return trapLocations;
 }
