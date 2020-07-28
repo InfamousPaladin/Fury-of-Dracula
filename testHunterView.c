@@ -534,6 +534,97 @@ int main(void)
 	}
 
 	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Testing various cases with a large pastPlay string\n");
+		
+		char *trail =
+			"GSW.... SLS.... HMR.... MHA.... DSJ.V.. "
+			"GLO.... SAL.... HCO.... MBR.... DBET... "
+			"GED.... SBO.... HLI.... MPR.... DKLT... "
+			"GLV.... SNA.... HNU.... MBD.... DCDT... "
+			"GIR.... SPA.... HPR.... MKLT... DHIT... "
+			"GAO.... SST.... HSZ.... MCDTTD. DGAT... "
+			"GMS.... SFL.... HKL.... MSZ.... DCNT.V. "
+			"GTS.... SRO.... HBC.... MCNTD.. DBS..M. "
+			"GIO.... SBI.... HCN.... MCN.... DIO.... "
+			"GIO.... SAS.... HBS.... MCN.... DTS.... "
+			"GTS.... SAS.... HIO.... MBS.... DMS.... "
+			"GMS.... SIO.... HTS.... MIO.... DAO..M. "
+			"GAO.... STS.... HMS.... MTS.... DHI.... "
+			"GBB.... SMS.... HAO.... MMS.... DHI.V.. "
+			"GNA.... SAO.... HEC.... MAO.... DMNT... "
+			"GBO.... SIR.... HLE.... MEC.... DD2T... "
+			"GSR.... SDU.... HBU.... MPL.... DHIT... "
+			"GSN.... SIR.... HAM.... MLO.... DTPT... "
+			"GAL.... SAO.... HCO.... MEC.... DD3T... "
+			"GMS.... SMS.... HFR.... MLE.... DKLT.V. "
+			"GTS.... STS.... HBR.... MCO.... DGAT.M. "
+			"GIO.... SIO.... HBD.... MLI.... DD3T.M. "
+			"GBS.... SBS.... HKLT... MBR.... DHI..M. "
+			"GCN.... SCN.... HCDTTTD MVI.... DD5T... "
+			"GGAT... SGA.... HSZ.... MBC.... DCDT... "
+			"GCDTTD. SCDD... HKL.... MGA.... DKLT... "
+			"GSZ.... SKLTD.. HKLD... MKLD... DBC.V.. "
+			"GBD.... SBE.... HGA.... MBCVD.. DCDT... "
+			"GSZ.... SSOTD.. HBC.... MSOD... DC?T...";
+		
+		Message messages[35] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == SZEGED);
+		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == SOFIA);
+		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == BUCHAREST);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		assert(HvGetVampireLocation(hv) == NOWHERE);
+		Round round = -1;
+		assert(HvGetLastKnownDraculaLocation(hv, &round) == CASTLE_DRACULA);
+		assert(round == 27);
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Testing hunter dying to a trap\n");
+		
+		char *trail =
+			"GPA.... SPA.... HPA.... MPA.... DST.V.. "
+			"GSTVD.. SPA.... HPA.... MPA.... DZUT... "
+			"GGE.... SPA.... HPA.... MPA.... DMIT... "
+			"GZUT... SPA.... HPA.... MPA.... DVET... "
+			"GMIT... SPA.... HPA.... MPA.... DHIT... "
+			"GVET... SPA.... HPA.... MPA.... DS?....";
+		
+		Message messages[35] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetRound(hv) == 6);
+		assert(HvGetScore(hv) == 354);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 0);
+		assert(HvGetHealth(hv, PLAYER_DR_SEWARD) == 9);
+		assert(HvGetHealth(hv, PLAYER_VAN_HELSING) == 9);
+		assert(HvGetHealth(hv, PLAYER_MINA_HARKER) == 9);
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
+		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == PARIS);
+		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == PARIS);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == SEA_UNKNOWN);
+		assert(HvGetVampireLocation(hv) == NOWHERE);
+		Round round = -1;
+		assert(HvGetLastKnownDraculaLocation(hv, &round) == VENICE);
+		assert(round == 3);
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
 		
 		printf("Testing shortest path 1\n");
 		
@@ -748,63 +839,6 @@ int main(void)
 		printf("Test passed!\n");	
 		printf("\033[0m");
 	}
-
-	// {///////////////////////////////////////////////////////////////////
-	
-	// 	printf("Checking Adriatic Sea boat connections "
-	// 	       "(Lord Godalming, Round 1)\n");
-		
-	// 	char *trail = 
-	// 		"GSW.... SLS.... HMR.... MHA.... DSJ.V.. "
-	// 		"GLO.... SAL.... HCO.... MBR.... DBET... "
-	// 		"GED.... SBO.... HLI.... MPR.... DKLT... "
-	// 		"GLV.... SNA.... HNU.... MBD.... DCDT... "
-	// 		"GIR.... SPA.... HPR.... MKLT... DHIT... "
-	// 		"GAO.... SST.... HSZ.... MCDTTD. DGAT... "
-	// 		"GMS.... SFL.... HKL.... MSZ.... DCNT.V. "
-	// 		"GTS.... SRO.... HBC.... MCNTD.. DBS..M. "
-	// 		"GIO.... SBI.... HCN.... MCN.... DIO.... "
-	// 		"GIO.... SAS.... HBS.... MCN.... DTS.... "
-	// 		"GTS.... SAS.... HIO.... MBS.... DMS.... "
-	// 		"GMS.... SIO.... HTS.... MIO.... DAO..M. "
-	// 		"GAO.... STS.... HMS.... MTS.... DNS.... "
-	// 		"GBB.... SMS.... HAO.... MMS.... DED.V.. "
-	// 		"GNA.... SAO.... HEC.... MAO.... DMNT... "
-	// 		"GBO.... SIR.... HLE.... MEC.... DD2T... "
-	// 		"GSR.... SDU.... HBU.... MPL.... DHIT... "
-	// 		"GSN.... SIR.... HAM.... MLO.... DTPT... "
-	// 		"GAL.... SAO.... HCO.... MEC.... DCDT... "
-	// 		"GMS.... SMS.... HFR.... MLE.... DKLT.V. "
-	// 		"GTS.... STS.... HBR.... MCO.... DGAT.M. "
-	// 		"GIO.... SIO.... HBD.... MLI.... DD3T.M. "
-	// 		"GBS.... SBS.... HKLT... MBR.... DHI..M. "
-	// 		"GCN.... SCN.... HCDTTTD MVI.... DTPT... "
-	// 		"GGAT... SGA.... HSZ.... MBC.... DCDT... "
-	// 		"GCDTTD. SCDD... HKL.... MGA.... DKLT... "
-	// 		"GSZ.... SKLTD.. HKLD... MKLD... DBC.V.. "
-	// 		"GBD.... SBE.... HGA.... MBCVD.. DSOT... "
-	// 		"GSZ.... SSOTD.. HBC.... MSOD...";
-
-	// 	Message messages[1] = {};
-	// 	HunterView hv = HvNew(trail, messages);
-		
-	// 	int numLocs = -1;
-	// 	PlaceId *locs = HvWhereCanTheyGoByType(hv, PLAYER_LORD_GODALMING,
-	// 	                                       false, false, true, &numLocs);
-		
-	// 	assert(numLocs == 4);
-	// 	sortPlaces(locs, numLocs);
-	// 	assert(locs[0] == ADRIATIC_SEA);
-	// 	assert(locs[1] == BARI);
-	// 	assert(locs[2] == IONIAN_SEA);
-	// 	assert(locs[3] == VENICE);
-	// 	free(locs);
-
-	// 	HvFree(hv);
-	// 	printf("\033[1;32m");
-	// 	printf("Test passed!\n");
-	// 	printf("\033[0m");
-	// }
 	
 	return EXIT_SUCCESS;
 }
