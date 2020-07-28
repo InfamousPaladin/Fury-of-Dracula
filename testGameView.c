@@ -103,7 +103,7 @@ int main(void)
 		char *trail =
 			"GST.... SAO.... HZU.... MBB.... DC?.V..";
 		
-		Message messages[] = {
+		Message messages[5] = {
 			"Hello", "Goodbye", "Stuff", "...", "Mwahahahaha"
 		};
 		
@@ -135,7 +135,7 @@ int main(void)
 			"GST.... SAO.... HCD.... MAO.... DGE.V.. "
 			"GGEVD..";
 		
-		Message messages[] = {
+		Message messages[6] = {
 			"Hello", "Goodbye", "Stuff", "...", "Mwahahahaha",
 			"Aha!"
 		};
@@ -165,7 +165,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DS?.... "
 			"GST.... SST.... HST.... MST.... DD1....";
 		
-		Message messages[] = {
+		Message messages[10] = {
 			"Party at Geneva", "Okay", "Sure", "Let's go", "Mwahahahaha",
 			"", "", "", "", "Back I go"
 		};
@@ -411,7 +411,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DC?T... "
 			"GGE.... SGE.... HGE.... MGE....";
 
-		Message messages[35] = {};
+		Message messages[19] = {};
 		GameView gv = GvNew(trail, messages);
 
 		assert(GvGetRound(gv) == 3);
@@ -430,7 +430,7 @@ int main(void)
 		char *trail =
 			"GGE....";
 
-		Message messages[35] = {};
+		Message messages[1] = {};
 		GameView gv = GvNew(trail, messages);
 
 		assert(GvGetRound(gv) == 0);
@@ -449,7 +449,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE....";
 
-		Message messages[35] = {};
+		Message messages[2] = {};
 		GameView gv = GvNew(trail, messages);
 
 		assert(GvGetRound(gv) == 0);
@@ -468,7 +468,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE.... HGE....";
 
-		Message messages[35] = {};
+		Message messages[3] = {};
 		GameView gv = GvNew(trail, messages);
 
 		assert(GvGetRound(gv) == 0);
@@ -487,7 +487,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE....";
 
-		Message messages[35] = {};
+		Message messages[4] = {};
 		GameView gv = GvNew(trail, messages);
 
 		assert(GvGetRound(gv) == 0);
@@ -506,7 +506,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V..";
 
-		Message messages[35] = {};
+		Message messages[5] = {};
 		GameView gv = GvNew(trail, messages);
 
 		assert(GvGetRound(gv) == 1);
@@ -697,7 +697,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DC?T... "
 			"GGE.... SGE.... HGE.... MGE.... DC?T...";
 			
-		Message messages[35] = {};
+		Message messages[20] = {};
 		GameView gv = GvNew(trail, messages);
 
 		assert(GvGetRound(gv) == 4);
@@ -722,7 +722,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MZU.... DC?T... "
 			"GGE.... SGE.... HGE.... MZU.... DC?T...";
 			
-		Message messages[35] = {};
+		Message messages[20] = {};
 		GameView gv = GvNew(trail, messages);
 
 		assert(GvGetRound(gv) == 4);
@@ -811,7 +811,7 @@ int main(void)
 			"GBD.... SBE.... HGA.... MBCVD.. DSOT... "
 			"GSZ.... SSOTD.. HBC.... MSOD...";
 		
-		Message messages[35] = {};
+		Message messages[145] = {};
 		GameView gv = GvNew(trail, messages);
 		
 		assert(GvGetRound(gv) == 28);
@@ -849,7 +849,7 @@ int main(void)
 			"GMIT... SPA.... HPA.... MPA.... DHIT... "
 			"GVET... SPA.... HPA.... MPA.... DAS....";
 		
-		Message messages[35] = {};
+		Message messages[30] = {};
 		GameView gv = GvNew(trail, messages);
 		
 		assert(GvGetRound(gv) == 6);
@@ -886,7 +886,7 @@ int main(void)
 			"GCDVD.. SCDD... HCDD... MCDD... DKLT... "
 			"GKLTD..";
 		
-		Message messages[35] = {};
+		Message messages[11] = {};
 		GameView gv = GvNew(trail, messages);
 		
 		assert(GvGetRound(gv) == 2);
@@ -910,26 +910,6 @@ int main(void)
 		printf("\033[1;32m");
 		printf("Test passed!\n");
 		printf("\033[0m");
-	}
-
-	{
-		printf("\n----------------- Dracula View\n\n");
-
-		char *trail =
-			"GVI.... SGE.... HGE.... MGE.... DBC.V.. "
-			"GBD.... SGE.... HGE.... MGE.... DKLT... "
-			"GSZ.... SGE.... HGE.... MGE.... DGAT... "
-			"GBE.... SGE.... HGE.... MGE.... DCNT... "
-			"GKLT... SGE.... HGE.... MGE....";
-		Message messages[24] = {};
-		GameView dv = GvNew(trail, messages);
-		// TODO: test for the bug as health is 5 rather than 7
-		assert(GvGetHealth(dv, PLAYER_LORD_GODALMING) ==
-				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
-		assert(GvGetHealth(dv, PLAYER_LORD_GODALMING) ==
-				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
-		assert(GvGetHealth(dv, PLAYER_LORD_GODALMING) ==
-				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
 	}
 
 	printf("\n============ Testing move/location history ============\n");

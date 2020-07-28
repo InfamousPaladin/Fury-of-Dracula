@@ -100,7 +100,7 @@ int main(void)
 		char *trail =
 			"GST.... SAO.... HZU.... MBB.... DC?.V..";
 		
-		Message messages[] = {
+		Message messages[5] = {
 			"Hello", "Goodbye", "Stuff", "...", "Mwahahahaha"
 		};
 		
@@ -133,7 +133,7 @@ int main(void)
 			"GST.... SAO.... HCD.... MAO.... DGE.V.. "
 			"GGEVD..";
 		
-		Message messages[] = {
+		Message messages[6] = {
 			"Hello", "Goodbye", "Stuff", "...", "Mwahahahaha",
 			"Aha!"
 		};
@@ -166,7 +166,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DS?.... "
 			"GST.... SST.... HST.... MST.... DD1....";
 		
-		Message messages[] = {
+		Message messages[10] = {
 			"Party at Geneva", "Okay", "Sure", "Let's go", "Mwahahahaha",
 			"", "", "", "", "Back I go"
 		};
@@ -319,7 +319,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DC?T... "
 			"GGE.... SGE.... HGE.... MGE....";
 
-		Message messages[35] = {};
+		Message messages[19] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 3);
@@ -338,7 +338,7 @@ int main(void)
 		char *trail =
 			"GGE....";
 
-		Message messages[35] = {};
+		Message messages[1] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 0);
@@ -357,7 +357,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE....";
 
-		Message messages[35] = {};
+		Message messages[2] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 0);
@@ -376,7 +376,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE.... HGE....";
 
-		Message messages[35] = {};
+		Message messages[3] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 0);
@@ -395,7 +395,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE....";
 
-		Message messages[35] = {};
+		Message messages[4] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 0);
@@ -414,7 +414,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V..";
 
-		Message messages[35] = {};
+		Message messages[5] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 1);
@@ -437,7 +437,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DC?T... "
 			"GGE.... SGE.... HGE.... MGE.... DC?T...";
 			
-		Message messages[35] = {};
+		Message messages[20] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 4);
@@ -462,7 +462,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MZU.... DC?T... "
 			"GGE.... SGE.... HGE.... MZU.... DC?T...";
 			
-		Message messages[35] = {};
+		Message messages[20] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 4);
@@ -568,7 +568,7 @@ int main(void)
 			"GBD.... SBE.... HGA.... MBCVD.. DCDT... "
 			"GSZ.... SSOTD.. HBC.... MSOD... DC?T...";
 		
-		Message messages[35] = {};
+		Message messages[140] = {};
 		HunterView hv = HvNew(trail, messages);
 		
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == SZEGED);
@@ -599,7 +599,7 @@ int main(void)
 			"GMIT... SPA.... HPA.... MPA.... DHIT... "
 			"GVET... SPA.... HPA.... MPA.... DS?....";
 		
-		Message messages[35] = {};
+		Message messages[30] = {};
 		HunterView hv = HvNew(trail, messages);
 		
 		assert(HvGetRound(hv) == 6);

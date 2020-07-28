@@ -53,7 +53,7 @@ int main(void)
 		char *trail =
 			"GST.... SAO.... HZU.... MBB....";
 		
-		Message messages[] = {
+		Message messages[4] = {
 			"Hello", "Goodbye", "Stuff", "..."
 		};
 		
@@ -120,7 +120,6 @@ int main(void)
 		
 		Message messages[24] = {};
 		DraculaView dv = DvNew(trail, messages);
-		// TODO: test for the bug as health is 5 rather than 7
 		assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) ==
 				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER);
 		assert(DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING) == KLAUSENBURG);
@@ -176,7 +175,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DC?T... "
 			"GGE.... SGE.... HGE.... MGE.... DC?T...";
 			
-		Message messages[35] = {};
+		Message messages[20] = {};
 		DraculaView dv = DvNew(trail, messages);
 
 		assert(DvGetRound(dv) == 4);
@@ -200,7 +199,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MZU.... DC?T... "
 			"GGE.... SGE.... HGE.... MZU.... DC?T...";
 			
-		Message messages[35] = {};
+		Message messages[20] = {};
 		DraculaView dv = DvNew(trail, messages);
 
 		assert(DvGetRound(dv) == 4);
@@ -222,7 +221,7 @@ int main(void)
 			"GST.... SAO.... HCD.... MAO.... DGE.V.. "
 			"GGEVD.. SAO.... HCD.... MAO....";
 		
-		Message messages[] = {
+		Message messages[9] = {
 			"Hello", "Goodbye", "Stuff", "...", "Mwahahah",
 			"Aha!", "", "", ""
 		};
@@ -410,7 +409,7 @@ int main(void)
 			"GNA.... SGE.... HGE.... MGE.... DBCT... "
 			"GPA.... SGE.... HGE.... MGE....";
 		
-		Message messages[24] = {};
+		Message messages[19] = {};
 		DraculaView dv = DvNew(trail, messages);
 		
 		int numLocs = -1;
@@ -450,7 +449,7 @@ int main(void)
 			"GNA.... SGE.... HGE.... MGE.... DBCT... "
 			"GPA.... SGE.... HGE.... MGE....";
 		
-		Message messages[24] = {};
+		Message messages[19] = {};
 		DraculaView dv = DvNew(trail, messages);
 		
 		int numLocs = -1;
@@ -487,7 +486,7 @@ int main(void)
 			"GNA.... SGE.... HGE.... MGE.... DBCT... "
 			"GPA.... SGE.... HGE.... MGE....";
 		
-		Message messages[24] = {};
+		Message messages[19] = {};
 		DraculaView dv = DvNew(trail, messages);
 		
 		int numLocs = -1;

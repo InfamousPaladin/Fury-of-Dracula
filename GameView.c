@@ -49,7 +49,7 @@ typedef struct playerInfo
 struct gameView 
 {
 	char *playString; 					// Stores all past plays
-	Message *messages;					// TODO: pointer to messages
+	Message *messages;					// stores messages
 	Map map; 							// map of the board
 	int nMapLocs; 						// number of locations on map
 	
@@ -104,8 +104,8 @@ GameView GvNew(char *pastPlays, Message messages[]) {
 	}
 	
 	new->playString = pastPlays;
-	// new->messages = messages;		// TODO: recheck if right
-
+	new->messages = messages;
+	
 	// initialising a new map and number of places on map
 	new->map = MapNew();
 	new->nMapLocs = MapNumPlaces(new->map);
