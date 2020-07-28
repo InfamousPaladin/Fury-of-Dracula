@@ -573,6 +573,9 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 	PlaceId *moves = GvGetLocationHistory(gv, PLAYER_DRACULA, &nMoves, &canFree);
 	int round = 0;
 
+	// Make a temp array
+	PlaceId tempLocations[MAX_TRAP_LOCATIONS];
+
 	// Transverses through the stirng at the position 'D'
 	for (int i = 0; gv->playString[i] != '\0'; i += TURN_CHARS) {
 		// Check every D for a 'T'
@@ -602,15 +605,15 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 					traps.id = CASTLE_DRACULA;
 
 				// Store the location in the array
-				trapLocations[counterLocation] = traps.id;
+				tempLocations[counterLocation] = traps.id;
 				counterLocation++;
 			}
 			// Decrease the numTraps if the trap has expired
 			if (gv->playString[i + 5] == TRAP_EXPIRED) {
 				--*numTraps;
 				// Remove the oldest location (first element)
-				for (int j = 1; j < counterLocation; j++) {
-					trapLocations[j - 1] = trapLocations[j];
+				for (int j = 1; j < *numTraps; j++) {
+					tempLocations[j - 1] = tempLocations[j];
 				}
 			}
 			round++;
@@ -630,19 +633,12 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 
 					// Find what position the trap is in and remove it
 					int j;
-					for (j = 0; trapLocations[j] != NOWHERE; j++) {
-						if (trapLocations[j] == traps.id) break;
+					for (j = 0; j < *numTraps; j++) {
+						if (tempLocations[j] == traps.id) break;
 					}
-					// If at the start of array
-					if (j == 0) {
-						for (int k = 1; trapLocations[k] != NOWHERE; k++) {
-							trapLocations[k - 1] = trapLocations[k];
-						}
-					// It is in the middle or end
-					} else {
-						for (int k = 0; trapLocations[k] != NOWHERE; k++) {
-							trapLocations[k] = trapLocations[k + 1];
-						}
+					// Remove the element
+					for (int k = j; *numTraps; k++) {
+						tempLocations[k] = tempLocations[k + 1];
 					}
 				}
 			}
@@ -650,6 +646,11 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 		if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
 	}
 	if (canFree) free(moves);
+	// Move the temp locations to the trap locations
+	for (int i = 0; i < *numTraps; i++) {
+		trapLocations[i] = tempLocations[i];
+	}
+
 	return trapLocations;
 }
 
