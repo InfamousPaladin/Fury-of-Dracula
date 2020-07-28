@@ -558,19 +558,17 @@ PlaceId GvGetVampireLocation(GameView gv)
 
 PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 {
-	// Number of traps in playStrings ('T')
-	*numTraps = 0;
 	// String to hold location initials
 	Place traps;
 	char placeAbbrev[3];
 	traps.abbrev = placeAbbrev;
-	// Counter for location storage
-	int counterLocation = 0;
 
 	// Get past locations of dracula
 	int nMoves = 0;	bool canFree = true;
 	PlaceId *moves = GvGetLocationHistory(gv, PLAYER_DRACULA, &nMoves, &canFree);
 	int round = 0;
+
+	int nTraps = 0;
 
 	// Make a temp array to store the trap locations
 	PlaceId tempLocations[MAX_TRAP_LOCATIONS];
@@ -580,8 +578,6 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 		// Check every D for a 'T'
 		if (gv->playString[i] == 'D') {
 			if (gv->playString[i + 3] == TRAP) {
-				// Increase the number of traps
-				++*numTraps;
 				// Extract the location name
 				traps.abbrev[0] = gv->playString[i + 1];
 				traps.abbrev[1] = gv->playString[i + 2];
@@ -604,16 +600,16 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 					traps.id = CASTLE_DRACULA;
 
 				// Store the location in the array
-				tempLocations[counterLocation] = traps.id;
-				counterLocation++;
+				tempLocations[nTraps] = traps.id;
+				nTraps++;
 			}
 			// Decrease the numTraps if the trap has expired
 			if (gv->playString[i + 5] == TRAP_EXPIRED) {
-				--*numTraps;
 				// Remove the oldest location (first element)
-				for (int j = 1; j < counterLocation; j++) {
+				for (int j = 1; j < nTraps; j++) {
 					tempLocations[j - 1] = tempLocations[j];
 				}
+				nTraps--;
 			}
 			round++;
 		// Means it is a hunter and check if they stepped on a trap
@@ -621,8 +617,6 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 			// They stepped on a trap
 			for (int j = 3; j < 7; j++) {
 				if (gv->playString[i + j] == TRAP) {
-					// Remove it
-					--*numTraps;
 					// Extract the location name
 					traps.abbrev[0] = gv->playString[i + 1];
 					traps.abbrev[1] = gv->playString[i + 2];
@@ -632,24 +626,26 @@ PlaceId *GvGetTrapLocations(GameView gv, int *numTraps)
 
 					// Find what position the trap is in and remove it
 					int j;
-					for (j = 0; j < *numTraps; j++) {
+					for (j = 0; j < nTraps; j++) {
 						if (tempLocations[j] == traps.id) break;
 					}
 					// Remove the element
-					for (int k = j; k < *numTraps; k++) {
+					for (int k = j; k < nTraps; k++) {
 						tempLocations[k] = tempLocations[k + 1];
 					}
+					nTraps--;
 				}
 			}
 		}
 		if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
 	}
 	// Place the locations of traps into array
-	PlaceId *trapLocations = malloc(sizeof(PlaceId) * (*numTraps));
-	for (int i = 0; i < *numTraps; i++) {
+	PlaceId *trapLocations = malloc(sizeof(PlaceId) * (nTraps));
+	for (int i = 0; i < nTraps; i++) {
 		trapLocations[i] = tempLocations[i];
 	}
 	if (canFree) free(moves);
+	*numTraps = nTraps;
 	return trapLocations;
 }
 
