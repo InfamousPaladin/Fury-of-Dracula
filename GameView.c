@@ -269,12 +269,14 @@ int GvGetHealth(GameView gv, Player player)
 	if (playerID == 4) playerID = 'D';
 	bool playerDead = false;
 
+	// Variable to hold position on the string when the hunter died
+	int position = 0;
 	// Check the hunter's POV
 	if (playerID != 'D') {
 		// Traverse through playString round to find 'G', 'S', 'H' or 'M'
 		for (int i = 0; gv->playString[i] != '\0'; i += TURN_CHARS) {
 			// Check if the hunter is dead and revive them if they are
-			if (playerDead == true) {
+			if (playerDead == true && (position == (i - ROUND_CHARS))) {
 				gv->playerID[player].health = GAME_START_HUNTER_LIFE_POINTS;
 				playerDead = false;
 			}
@@ -289,6 +291,7 @@ int GvGetHealth(GameView gv, Player player)
 					if (gv->playerID[player].health <= 0) {
 						gv->playerID[player].health = 0;
 						playerDead = true;
+						position = i;
 					}
 				}
 				// Check if the hunter rested
@@ -304,8 +307,8 @@ int GvGetHealth(GameView gv, Player player)
 						gv->playerID[player].health = GAME_START_HUNTER_LIFE_POINTS;
 					}
 				}
-				if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
 			}
+			if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
 		}
 	// Check Dracula's POV
 	} else {
