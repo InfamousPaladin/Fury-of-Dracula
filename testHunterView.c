@@ -660,7 +660,9 @@ int main(void)
 		free(locs);
 		
 		HvFree(hv);
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 	}
 	
 	{///////////////////////////////////////////////////////////////////
@@ -686,7 +688,9 @@ int main(void)
 		free(locs);
 		
 		HvFree(hv);
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 	}
 	
 	{///////////////////////////////////////////////////////////////////
@@ -711,7 +715,9 @@ int main(void)
 		free(locs);
 		
 		HvFree(hv);
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 	}
 	
 	{///////////////////////////////////////////////////////////////////
@@ -738,7 +744,9 @@ int main(void)
 		free(locs);
 		
 		HvFree(hv);
+		printf("\033[1;32m");
 		printf("Test passed!\n");	
+		printf("\033[0m");
 	}
 	
 	return EXIT_SUCCESS;
