@@ -168,29 +168,29 @@ static PlaceId *HvGetShortestPathMode(HunterView hv, PlaceId *visitTransport,
 	*foundPath = false;
 	int roundoffSet = 0;
 	int numlocTransport = 0;
-	
-	// -1 to indicate not visited
-	for (int i = 0; i < NUM_REAL_PLACES; i++) remLocRound[i] = UNKNOWN_PLACE;
-	for (int i = 0; i < NUM_REAL_PLACES; i++) visitTransport[i] = UNKNOWN_PLACE;
 
-	// bfs path find by train
+	// -1 to indicate not visited
+	for (int i = 0; i < NUM_REAL_PLACES; i++) remLocRound[i] = UNINTIALISED;
+	for (int i = 0; i < NUM_REAL_PLACES; i++) visitTransport[i] = UNINTIALISED;
+
+	// bfs path find
 	visitTransport[src] = src;
 	Queue bfsQueue = newQueue();
 	remLocRound[src] = HvGetRound(hv);
 
 	QueueJoin(bfsQueue, src);
 	while (*foundPath == false && QueueIsEmpty(bfsQueue) != 1) {
-		PlaceId v = QueueLeave(bfsQueue);
-		if (v == dest) {
+		PlaceId newLocation = QueueLeave(bfsQueue);
+		if (newLocation == dest) {
 			*foundPath = true;
 		} else {
-			int roundNum = remLocRound[v];
-			PlaceId *travelConnect = GvGetReachable(hv->view, hunter, 
-			roundNum, v, &numlocTransport);
+			int roundNum = remLocRound[newLocation];
+			PlaceId *travelConnect = GvGetReachable(hv->view, hunter, roundNum, 
+			newLocation, &numlocTransport);
 			for (int i = 0; i < numlocTransport; i++) {
-				if (visitTransport[travelConnect[i]] == UNKNOWN_PLACE) {
+				if (visitTransport[travelConnect[i]] == UNINTIALISED) {
 					remLocRound[travelConnect[i]] = roundNum + 1;
-					visitTransport[travelConnect[i]] = v;
+					visitTransport[travelConnect[i]] = newLocation;
 					QueueJoin(bfsQueue, travelConnect[i]);
 				}
 			}
@@ -215,7 +215,6 @@ PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
 	PlaceId *visitTransport = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
 
 	bool foundPath = false;
-
 	visitTransport = HvGetShortestPathMode(hv, visitTransport, dest, hunter, 
 	&foundPath, src); 
 	
@@ -239,16 +238,14 @@ PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
 				numCities++;
 			}
 		}
-		
+		 
 		int j = 0;
 		for (int i = numCities - 1; i >= 0; i--, j++) {
 			finalPath[j] = transportPath[i];
-			printf("%s\n", placeIdToName(finalPath[j]));
 		}
 
 		*pathLength = j;
 		return finalPath;
-
 	}
 
 	return NULL;
@@ -260,25 +257,40 @@ PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
 // Prathamesh
 PlaceId *HvWhereCanIGo(HunterView hv, int *numReturnedLocs)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numReturnedLocs = 0;
-	return NULL;
+	int numLocations = 0;
+	PlaceId *reachablePlaces;
+
+	reachablePlaces = GvGetReachable(hv->view, HvGetPlayer(hv), HvGetRound(hv), 
+	HvGetPlayerLocation(hv, HvGetPlayer(hv)), &numLocations);
+
+	*numReturnedLocs = numLocations;
+	return reachablePlaces;
 }
 
 PlaceId *HvWhereCanIGoByType(HunterView hv, bool road, bool rail,
                              bool boat, int *numReturnedLocs)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numReturnedLocs = 0;
-	return NULL;
+	int numLocations = 0;
+	PlaceId *reachablebyType;
+
+	reachablebyType = GvGetReachableByType(hv->view, HvGetPlayer(hv), HvGetRound(hv), 
+	HvGetPlayerLocation(hv, HvGetPlayer(hv)), road, rail, boat, &numLocations);
+
+	*numReturnedLocs = numLocations;
+	return reachablebyType;
 }
 
 PlaceId *HvWhereCanTheyGo(HunterView hv, Player player,
                           int *numReturnedLocs)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numReturnedLocs = 0;
-	return NULL;
+	int numLocations = 0;
+	PlaceId *reachableNext;
+
+	reachableNext = GvGetReachable(hv->view, player, HvGetRound(hv) + 1, 
+	HvGetPlayerLocation(hv, player), &numLocations);
+
+	*numReturnedLocs = numLocations;
+	return reachableNext;
 }
 
 // Prathamesh
@@ -286,9 +298,15 @@ PlaceId *HvWhereCanTheyGoByType(HunterView hv, Player player,
                                 bool road, bool rail, bool boat,
                                 int *numReturnedLocs)
 {
-	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*numReturnedLocs = 0;
-	return NULL;
+	int numLocations = 0;
+	PlaceId *reachableNextType;
+
+	reachableNextType = GvGetReachableByType(hv->view, player, 
+	HvGetRound(hv) + 1, HvGetPlayerLocation(hv, player), road, rail, boat, 
+	&numLocations);
+
+	*numReturnedLocs = numLocations;
+	return reachableNextType;
 }
 
 ////////////////////////////////////////////////////////////////////////
