@@ -362,6 +362,7 @@ int GvGetHealth(GameView gv, Player player)
 			if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
 		}
 	}
+	if (canFree) free(moves);
 	return gv->playerID[player].health;
 }
 
@@ -729,13 +730,23 @@ PlaceId *GvGetMoveHistory(GameView gv, Player player,
 PlaceId *GvGetLastMoves(GameView gv, Player player, int numMoves,
                         int *numReturnedMoves, bool *canFree)
 {
+	// Clamp overflow for numMoves
+	if (numMoves > gv->currRound) numMoves = gv->currRound;
+	if (numMoves < 0) numMoves = 0;
+
+
+	if (player < gv->currPlayer && numMoves == gv->currRound) {
+		numMoves++;
+	}
+
 	// Formula to find the last accessible move in pastPlay string 
 	int startIndex = gv->currRound - numMoves;
-	if (player < gv->currPlayer) startIndex++;
+	if (player < gv->currPlayer) {
+		startIndex++;
+	}
 
-	// Error checks and bounds them
+	// Error checks and bounds
 	if (startIndex < 0) startIndex = 0;
-	if (numMoves > gv->currRound) numMoves = gv->currRound;
 
 	PlaceId *moves = malloc(sizeof(PlaceId) * numMoves);
 
@@ -799,9 +810,17 @@ PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
 		PlaceId *allMoves = GvGetLocationHistory(gv, player, numReturnedLocs,
 												 &canFreeAllMoves);
 		
+		// Clamp overflow for numMoves
+		if (numLocs > gv->currRound) numLocs = gv->currRound;
+
+		if (player < gv->currPlayer && numLocs == gv->currRound) {
+			numLocs++;
+		}
+
 		// Formula to find the last accessible move in pastPlay string 
 		int startIndex = gv->currRound - numLocs;
 		if (player < gv->currPlayer) startIndex++;
+
 		// Error checks and bounds
 		if (startIndex < 0) startIndex = 0;
 
