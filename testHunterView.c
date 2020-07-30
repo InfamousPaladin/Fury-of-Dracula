@@ -625,6 +625,108 @@ int main(void)
 	}
 
 	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Testing Dracula NOWHERE\n");
+		
+		char *trail =
+			"GVE.... SPA.... HZA.... MBR.... DC?.V..";
+		
+		Message messages[30] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetRound(hv) == 1);
+		assert(HvGetScore(hv) == 365);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 9);
+		assert(HvGetHealth(hv, PLAYER_DR_SEWARD) == 9);
+		assert(HvGetHealth(hv, PLAYER_VAN_HELSING) == 9);
+		assert(HvGetHealth(hv, PLAYER_MINA_HARKER) == 9);
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == VENICE);
+		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == PARIS);
+		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == ZAGREB);
+		assert(HvGetPlayerLocation(hv, PLAYER_MINA_HARKER) == BERLIN);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		assert(HvGetVampireLocation(hv) == CITY_UNKNOWN);
+		Round round = -1;
+		assert(HvGetLastKnownDraculaLocation(hv, &round) == NOWHERE);
+		assert(round == -1);
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Testing Dracula revealed location through research\n");
+		
+		char *trail =
+			"GVE.... SPA.... HZA.... MBR.... DC?.V.. "
+			"GVE.... SPA.... HZA.... MBR.... DMUT...";
+		
+		Message messages[30] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetRound(hv) == 2);
+		assert(HvGetScore(hv) == 364);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 9);
+		assert(HvGetHealth(hv, PLAYER_DR_SEWARD) == 9);
+		assert(HvGetHealth(hv, PLAYER_VAN_HELSING) == 9);
+		assert(HvGetHealth(hv, PLAYER_MINA_HARKER) == 9);
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == VENICE);
+		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == PARIS);
+		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == ZAGREB);
+		assert(HvGetPlayerLocation(hv, PLAYER_MINA_HARKER) == BERLIN);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == MUNICH);
+		assert(HvGetVampireLocation(hv) == CITY_UNKNOWN);
+		Round round = -1;
+		assert(HvGetLastKnownDraculaLocation(hv, &round) == MUNICH);
+		assert(round == 1);
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Testing last known Dracula location\n");
+		
+		char *trail =
+			"GKL.... SKL.... HGA.... MGA.... DCD.V.. "
+			"GCDVD.. SCDD... HCDD... MCDD... DKLT... "
+			"GKLTD..";
+		
+		Message messages[30] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetRound(hv) == 2);
+		assert(HvGetScore(hv) == 358);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 0);
+		assert(HvGetHealth(hv, PLAYER_DR_SEWARD) == 5);
+		assert(HvGetHealth(hv, PLAYER_VAN_HELSING) == 5);
+		assert(HvGetHealth(hv, PLAYER_MINA_HARKER) == 5);
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
+		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == CASTLE_DRACULA);
+		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == CASTLE_DRACULA);
+		assert(HvGetPlayerLocation(hv, PLAYER_MINA_HARKER) == CASTLE_DRACULA);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == KLAUSENBURG);
+		assert(HvGetVampireLocation(hv) == NOWHERE);
+		Round round = -1;
+		assert(HvGetLastKnownDraculaLocation(hv, &round) == KLAUSENBURG);
+		assert(round == 1);
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
 		
 		printf("Testing shortest path 1\n");
 		
@@ -706,21 +808,131 @@ int main(void)
 
 	{
 		char *trail =
-			"GCA.... SLS.... HSW.... MMR.... DCD.V..";
+			"GCA.... SNU.... HSW.... MMR.... DCD.V.. "
+			"GCA.... SNU.... HTO.... MBC.... DCD....";
 		
 		Message messages[5] = {};
 		HunterView hv = HvNew(trail, messages);
 
-		printf("\tPersonal testing: Cadiz -> Berlin (Lord Godalming, Round 1)\n");
-		int pathLength = -1;
-		PlaceId *path = HvGetShortestPathTo(hv, PLAYER_LORD_GODALMING,
-											BERLIN, &pathLength);
-		assert(pathLength == 4);
-		assert(path[0] == ATLANTIC_OCEAN);
-		assert(path[1] == NORTH_SEA);
-		assert(path[2] == HAMBURG);
-		assert(path[3] == BERLIN);
-		free(path);
+		{
+			printf("\tPersonal testing: Nuremberg -> Berlin (Dr. Seward, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_DR_SEWARD,
+												BERLIN, &pathLength);
+			assert(HvGetRound(hv) == 2);
+			assert(pathLength == 1);
+			assert(path[0] == BERLIN);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Toulouse -> Constanta (Van Helsing, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_VAN_HELSING,
+												CONSTANTA, &pathLength);
+			assert(pathLength == 6);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == MARSEILLES);
+			assert(path[1] == GENOA);
+			assert(path[2] == TYRRHENIAN_SEA);
+			assert(path[3] == IONIAN_SEA);
+			assert(path[4] == BLACK_SEA);
+			assert(path[5] == CONSTANTA);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Hamburg (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, HAMBURG, 
+																   &pathLength);
+			assert(pathLength == 3);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == VIENNA);
+			assert(path[2] == HAMBURG);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Hamburg (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, 
+												 CLERMONT_FERRAND, &pathLength);
+			assert(pathLength == 6);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == BUDAPEST);
+			assert(path[2] == VENICE);
+			assert(path[3] == MILAN);
+			assert(path[4] == GENEVA);
+			assert(path[5] == CLERMONT_FERRAND);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Paris (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, PARIS, 
+																&pathLength);
+			assert(pathLength == 5);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == VIENNA);
+			assert(path[2] == MUNICH);
+			assert(path[3] == STRASBOURG);
+			assert(path[4] == PARIS);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Santander (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, 
+														SANTANDER, &pathLength);
+			assert(pathLength == 7);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == BUDAPEST);
+			assert(path[2] == VENICE);
+			assert(path[3] == MILAN);
+			assert(path[4] == MARSEILLES);
+			assert(path[5] == BORDEAUX);
+			assert(path[6] == SANTANDER);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Santander (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, 
+														SANTANDER, &pathLength);
+			assert(pathLength == 7);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == BUDAPEST);
+			assert(path[2] == VENICE);
+			assert(path[3] == MILAN);
+			assert(path[4] == MARSEILLES);
+			assert(path[5] == BORDEAUX);
+			assert(path[6] == SANTANDER);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Edinburgh (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, 
+														EDINBURGH, &pathLength);
+			assert(pathLength == 5);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == VIENNA);
+			assert(path[2] == HAMBURG);
+			assert(path[3] == NORTH_SEA);
+			assert(path[4] == EDINBURGH);
+			free(path);
+		}
 
 		HvFree(hv);
 		printf("\033[1;32m");
