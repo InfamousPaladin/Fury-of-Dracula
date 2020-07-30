@@ -12,9 +12,56 @@
 #include "dracula.h"
 #include "DraculaView.h"
 #include "Game.h"
+#include <stdio.h>
+
+typedef struct hunter
+{
+	Player name;						// name of player
+	PlaceId location;					// current location of player
+	int health;							// current player health
+} hunterInfo;
+
+typedef struct gameState {
+	Round currRound;
+	int score;
+	hunterInfo hunterID[4];
+} GameState;
+
 
 void decideDraculaMove(DraculaView dv)
 {
-	// TODO: Replace this with something better!
-	registerBestPlay("CD", "Mwahahahaha");
+	char *play = "HI";
+	Round currRound = DvGetRound(dv);
+	// int score = DvGetScore(dv);
+
+	GameState gameInfo;
+
+	gameInfo.currRound = DvGetRound(dv);
+	gameInfo.score = DvGetScore(dv);
+	
+
+	gameInfo.hunterID[0].location = DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING);
+	gameInfo.hunterID[1].location = DvGetPlayerLocation(dv, PLAYER_DR_SEWARD);
+	gameInfo.hunterID[2].location = DvGetPlayerLocation(dv, PLAYER_VAN_HELSING);
+	gameInfo.hunterID[3].location = DvGetPlayerLocation(dv, PLAYER_MINA_HARKER);
+
+	gameInfo.hunterID[0].health = DvGetHealth(dv, PLAYER_LORD_GODALMING);
+	gameInfo.hunterID[1].health = DvGetHealth(dv, PLAYER_DR_SEWARD);
+	gameInfo.hunterID[2].health = DvGetHealth(dv, PLAYER_VAN_HELSING);
+	gameInfo.hunterID[3].health = DvGetHealth(dv, PLAYER_MINA_HARKER);
+
+
+	if (currRound == 0) {
+		play = "TP";
+	}
+
+	for (int i = 0; i < 4; i++) {
+		printf("Hunter %d:\n", i + 1);
+		printf("\t Location: %d\n", gameInfo.hunterID[i].location);
+		printf("\t Health:   %d\n", gameInfo.hunterID[i].health);
+	}
+	printf("Round: %d\n", gameInfo.currRound);
+	printf("Score: %d\n", gameInfo.score);
+
+	registerBestPlay(play, "Mwahahahaha");
 }

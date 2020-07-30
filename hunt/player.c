@@ -60,6 +60,7 @@ typedef DraculaView View;
 # define decideMove decideDraculaMove
 # define ViewFree DvFree
 
+// TODO: dracula test string
 # define xPastPlays "GZA.... SED.... HZU.... MZU...."
 # define xMsgs { "", "", "", "" }
 

@@ -35,9 +35,9 @@ int main(void)
 
 		assert(HvGetRound(hv) == 0);
 		assert(HvGetPlayer(hv) == PLAYER_LORD_GODALMING);
-		// assert(HvGetScore(hv) == GAME_START_SCORE);
-		// assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
-		// assert(HvGetHealth(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+		assert(HvGetScore(hv) == GAME_START_SCORE);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
+		assert(HvGetHealth(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 		assert(HvGetVampireLocation(hv) == NOWHERE);
 
 		HvFree(hv);
@@ -57,8 +57,8 @@ int main(void)
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 0);
-		// assert(HvGetPlayer(hv) == PLAYER_DR_SEWARD);
-		// assert(HvGetScore(hv) == GAME_START_SCORE);
+		assert(HvGetPlayer(hv) == PLAYER_DR_SEWARD);
+		assert(HvGetScore(hv) == GAME_START_SCORE);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == STRASBOURG);
 		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == NOWHERE);
 
@@ -80,7 +80,7 @@ int main(void)
 
 		assert(HvGetRound(hv) == 0);
 		assert(HvGetPlayer(hv) == PLAYER_MINA_HARKER);
-		// assert(HvGetScore(hv) == GAME_START_SCORE);
+		assert(HvGetScore(hv) == GAME_START_SCORE);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == STRASBOURG);
 		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
 		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == ZURICH);
@@ -100,7 +100,7 @@ int main(void)
 		char *trail =
 			"GST.... SAO.... HZU.... MBB.... DC?.V..";
 		
-		Message messages[] = {
+		Message messages[5] = {
 			"Hello", "Goodbye", "Stuff", "...", "Mwahahahaha"
 		};
 		
@@ -108,8 +108,8 @@ int main(void)
 
 		assert(HvGetRound(hv) == 1);
 		assert(HvGetPlayer(hv) == PLAYER_LORD_GODALMING);
-		// assert(HvGetScore(hv) == GAME_START_SCORE - SCORE_LOSS_DRACULA_TURN);
-		// assert(HvGetHealth(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+		assert(HvGetScore(hv) == GAME_START_SCORE - SCORE_LOSS_DRACULA_TURN);
+		assert(HvGetHealth(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == STRASBOURG);
 		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
 		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == ZURICH);
@@ -133,17 +133,17 @@ int main(void)
 			"GST.... SAO.... HCD.... MAO.... DGE.V.. "
 			"GGEVD..";
 		
-		Message messages[] = {
+		Message messages[6] = {
 			"Hello", "Goodbye", "Stuff", "...", "Mwahahahaha",
 			"Aha!"
 		};
 		
 		HunterView hv = HvNew(trail, messages);
 		
-		// assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) ==
-		// 		GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_DRACULA_ENCOUNTER);
-		// assert(HvGetHealth(hv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) ==
+				GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_DRACULA_ENCOUNTER);
+		assert(HvGetHealth(hv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == GENEVA);
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == GENEVA);
 		assert(HvGetVampireLocation(hv) == NOWHERE);
@@ -166,7 +166,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DS?.... "
 			"GST.... SST.... HST.... MST.... DD1....";
 		
-		Message messages[] = {
+		Message messages[10] = {
 			"Party at Geneva", "Okay", "Sure", "Let's go", "Mwahahahaha",
 			"", "", "", "", "Back I go"
 		};
@@ -175,9 +175,9 @@ int main(void)
 
 		assert(HvGetRound(hv) == 2);
 		assert(HvGetPlayer(hv) == PLAYER_LORD_GODALMING);
-		// assert(HvGetScore(hv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
-		// assert(HvGetHealth(hv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
+		assert(HvGetScore(hv) == GAME_START_SCORE - 2 * SCORE_LOSS_DRACULA_TURN);
+		assert(HvGetHealth(hv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == SEA_UNKNOWN);
 
 		HvFree(hv);
@@ -200,11 +200,11 @@ int main(void)
 		Message messages[21] = {};
 		HunterView hv = HvNew(trail, messages);
 		
-		// assert(HvGetScore(hv) == GAME_START_SCORE
-		//                          - 4 * SCORE_LOSS_DRACULA_TURN
-		//                          - SCORE_LOSS_HUNTER_HOSPITAL);
-		// assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 0);
-		// assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
+		assert(HvGetScore(hv) == GAME_START_SCORE
+		                         - 4 * SCORE_LOSS_DRACULA_TURN
+		                         - SCORE_LOSS_HUNTER_HOSPITAL);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 0);
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == STRASBOURG);
 		
 		HvFree(hv);
@@ -224,8 +224,8 @@ int main(void)
 		Message messages[10] = {};
 		HunterView hv = HvNew(trail, messages);
 		
-		// assert(HvGetHealth(hv, PLAYER_DRACULA) ==
-		// 		GAME_START_BLOOD_POINTS + (2 * LIFE_GAIN_CASTLE_DRACULA));
+		assert(HvGetHealth(hv, PLAYER_DRACULA) ==
+				GAME_START_BLOOD_POINTS + (2 * LIFE_GAIN_CASTLE_DRACULA));
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CASTLE_DRACULA);
 		
 		HvFree(hv);
@@ -272,9 +272,9 @@ int main(void)
 		Message messages[35] = {};
 		HunterView hv = HvNew(trail, messages);
 		
-		// assert(HvGetScore(hv) == GAME_START_SCORE
-		//                          - 7 * SCORE_LOSS_DRACULA_TURN
-		//                          - SCORE_LOSS_VAMPIRE_MATURES);
+		assert(HvGetScore(hv) == GAME_START_SCORE
+		                         - 7 * SCORE_LOSS_DRACULA_TURN
+		                         - SCORE_LOSS_VAMPIRE_MATURES);
 		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CITY_UNKNOWN);
 		assert(HvGetVampireLocation(hv) == NOWHERE);
 		
@@ -319,7 +319,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DC?T... "
 			"GGE.... SGE.... HGE.... MGE....";
 
-		Message messages[35] = {};
+		Message messages[19] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 3);
@@ -338,7 +338,7 @@ int main(void)
 		char *trail =
 			"GGE....";
 
-		Message messages[35] = {};
+		Message messages[1] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 0);
@@ -357,7 +357,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE....";
 
-		Message messages[35] = {};
+		Message messages[2] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 0);
@@ -376,7 +376,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE.... HGE....";
 
-		Message messages[35] = {};
+		Message messages[3] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 0);
@@ -395,7 +395,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE....";
 
-		Message messages[35] = {};
+		Message messages[4] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 0);
@@ -414,7 +414,7 @@ int main(void)
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V..";
 
-		Message messages[35] = {};
+		Message messages[5] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 1);
@@ -437,7 +437,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MGE.... DC?T... "
 			"GGE.... SGE.... HGE.... MGE.... DC?T...";
 			
-		Message messages[35] = {};
+		Message messages[20] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 4);
@@ -462,7 +462,7 @@ int main(void)
 			"GGE.... SGE.... HGE.... MZU.... DC?T... "
 			"GGE.... SGE.... HGE.... MZU.... DC?T...";
 			
-		Message messages[35] = {};
+		Message messages[20] = {};
 		HunterView hv = HvNew(trail, messages);
 
 		assert(HvGetRound(hv) == 4);
@@ -500,6 +500,230 @@ int main(void)
 		printf("\033[1;32m");
 		printf("Test passed!\n");
 		printf("\033[0m");
+	}
+
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("-> Testing everything\n");
+		
+		char *trail =
+			"GGE.... SGE.... HGE.... MGE.... DPA.V.. "
+			"GGE.... SGE.... HGE.... MGE.... DSTT... "
+			"GGE.... SGE.... HGE.... MGE.... DHIT... "
+			"GGE.... SGE.... HGE.... MGE.... DD1T... "
+			"GSTTTTD SGE.... HGE.... MGE.... DTPT... "
+			"GSZ.... SGE.... HGE.... MGE.... DCDT... "
+			"GSZ.... SGE.... HGE.... MGE.... DCDT.V.";
+		
+		Message messages[35] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetScore(hv) == GAME_START_SCORE
+		                         - 7 * SCORE_LOSS_DRACULA_TURN
+		                         - SCORE_LOSS_VAMPIRE_MATURES
+								 - SCORE_LOSS_HUNTER_HOSPITAL);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) 
+						      == GAME_START_HUNTER_LIFE_POINTS);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CASTLE_DRACULA);
+		assert(HvGetVampireLocation(hv) == NOWHERE);
+		
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Testing various cases with a large pastPlay string\n");
+		
+		char *trail =
+			"GSW.... SLS.... HMR.... MHA.... DSJ.V.. "
+			"GLO.... SAL.... HCO.... MBR.... DBET... "
+			"GED.... SBO.... HLI.... MPR.... DKLT... "
+			"GLV.... SNA.... HNU.... MBD.... DCDT... "
+			"GIR.... SPA.... HPR.... MKLT... DHIT... "
+			"GAO.... SST.... HSZ.... MCDTTD. DGAT... "
+			"GMS.... SFL.... HKL.... MSZ.... DCNT.V. "
+			"GTS.... SRO.... HBC.... MCNTD.. DBS..M. "
+			"GIO.... SBI.... HCN.... MCN.... DIO.... "
+			"GIO.... SAS.... HBS.... MCN.... DTS.... "
+			"GTS.... SAS.... HIO.... MBS.... DMS.... "
+			"GMS.... SIO.... HTS.... MIO.... DAO..M. "
+			"GAO.... STS.... HMS.... MTS.... DHI.... "
+			"GBB.... SMS.... HAO.... MMS.... DHI.V.. "
+			"GNA.... SAO.... HEC.... MAO.... DMNT... "
+			"GBO.... SIR.... HLE.... MEC.... DD2T... "
+			"GSR.... SDU.... HBU.... MPL.... DHIT... "
+			"GSN.... SIR.... HAM.... MLO.... DTPT... "
+			"GAL.... SAO.... HCO.... MEC.... DD3T... "
+			"GMS.... SMS.... HFR.... MLE.... DKLT.V. "
+			"GTS.... STS.... HBR.... MCO.... DGAT.M. "
+			"GIO.... SIO.... HBD.... MLI.... DD3T.M. "
+			"GBS.... SBS.... HKLT... MBR.... DHI..M. "
+			"GCN.... SCN.... HCDTTTD MVI.... DD5T... "
+			"GGAT... SGA.... HSZ.... MBC.... DCDT... "
+			"GCDTTD. SCDD... HKL.... MGA.... DKLT... "
+			"GSZ.... SKLTD.. HKLD... MKLD... DBC.V.. "
+			"GBD.... SBE.... HGA.... MBCVD.. DCDT... "
+			"GSZ.... SSOTD.. HBC.... MSOD... DC?T...";
+		
+		Message messages[140] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == SZEGED);
+		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == SOFIA);
+		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == BUCHAREST);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		assert(HvGetVampireLocation(hv) == NOWHERE);
+		Round round = -1;
+		assert(HvGetLastKnownDraculaLocation(hv, &round) == CASTLE_DRACULA);
+		assert(round == 27);
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Testing hunter dying to a trap\n");
+		
+		char *trail =
+			"GPA.... SPA.... HPA.... MPA.... DST.V.. "
+			"GSTVD.. SPA.... HPA.... MPA.... DZUT... "
+			"GGE.... SPA.... HPA.... MPA.... DMIT... "
+			"GZUT... SPA.... HPA.... MPA.... DVET... "
+			"GMIT... SPA.... HPA.... MPA.... DHIT... "
+			"GVET... SPA.... HPA.... MPA.... DS?....";
+		
+		Message messages[30] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetRound(hv) == 6);
+		assert(HvGetScore(hv) == 354);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 0);
+		assert(HvGetHealth(hv, PLAYER_DR_SEWARD) == 9);
+		assert(HvGetHealth(hv, PLAYER_VAN_HELSING) == 9);
+		assert(HvGetHealth(hv, PLAYER_MINA_HARKER) == 9);
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
+		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == PARIS);
+		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == PARIS);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == SEA_UNKNOWN);
+		assert(HvGetVampireLocation(hv) == NOWHERE);
+		Round round = -1;
+		assert(HvGetLastKnownDraculaLocation(hv, &round) == VENICE);
+		assert(round == 3);
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Testing Dracula NOWHERE\n");
+		
+		char *trail =
+			"GVE.... SPA.... HZA.... MBR.... DC?.V..";
+		
+		Message messages[30] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetRound(hv) == 1);
+		assert(HvGetScore(hv) == 365);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 9);
+		assert(HvGetHealth(hv, PLAYER_DR_SEWARD) == 9);
+		assert(HvGetHealth(hv, PLAYER_VAN_HELSING) == 9);
+		assert(HvGetHealth(hv, PLAYER_MINA_HARKER) == 9);
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == VENICE);
+		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == PARIS);
+		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == ZAGREB);
+		assert(HvGetPlayerLocation(hv, PLAYER_MINA_HARKER) == BERLIN);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		assert(HvGetVampireLocation(hv) == CITY_UNKNOWN);
+		Round round = -1;
+		assert(HvGetLastKnownDraculaLocation(hv, &round) == NOWHERE);
+		assert(round == -1);
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Testing Dracula revealed location through research\n");
+		
+		char *trail =
+			"GVE.... SPA.... HZA.... MBR.... DC?.V.. "
+			"GVE.... SPA.... HZA.... MBR.... DMUT...";
+		
+		Message messages[30] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetRound(hv) == 2);
+		assert(HvGetScore(hv) == 364);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 9);
+		assert(HvGetHealth(hv, PLAYER_DR_SEWARD) == 9);
+		assert(HvGetHealth(hv, PLAYER_VAN_HELSING) == 9);
+		assert(HvGetHealth(hv, PLAYER_MINA_HARKER) == 9);
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == VENICE);
+		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == PARIS);
+		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == ZAGREB);
+		assert(HvGetPlayerLocation(hv, PLAYER_MINA_HARKER) == BERLIN);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == MUNICH);
+		assert(HvGetVampireLocation(hv) == CITY_UNKNOWN);
+		Round round = -1;
+		assert(HvGetLastKnownDraculaLocation(hv, &round) == MUNICH);
+		assert(round == 1);
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("\t-> Testing last known Dracula location\n");
+		
+		char *trail =
+			"GKL.... SKL.... HGA.... MGA.... DCD.V.. "
+			"GCDVD.. SCDD... HCDD... MCDD... DKLT... "
+			"GKLTD..";
+		
+		Message messages[30] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		assert(HvGetRound(hv) == 2);
+		assert(HvGetScore(hv) == 358);
+		assert(HvGetHealth(hv, PLAYER_LORD_GODALMING) == 0);
+		assert(HvGetHealth(hv, PLAYER_DR_SEWARD) == 5);
+		assert(HvGetHealth(hv, PLAYER_VAN_HELSING) == 5);
+		assert(HvGetHealth(hv, PLAYER_MINA_HARKER) == 5);
+		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == HOSPITAL_PLACE);
+		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == CASTLE_DRACULA);
+		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == CASTLE_DRACULA);
+		assert(HvGetPlayerLocation(hv, PLAYER_MINA_HARKER) == CASTLE_DRACULA);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == KLAUSENBURG);
+		assert(HvGetVampireLocation(hv) == NOWHERE);
+		Round round = -1;
+		assert(HvGetLastKnownDraculaLocation(hv, &round) == KLAUSENBURG);
+		assert(round == 1);
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+
 	}
 
 	{///////////////////////////////////////////////////////////////////
@@ -581,6 +805,140 @@ int main(void)
 		printf("Test passed!\n");
 		printf("\033[0m");
 	}
+
+	{
+		char *trail =
+			"GCA.... SNU.... HSW.... MMR.... DCD.V.. "
+			"GCA.... SNU.... HTO.... MBC.... DCD....";
+		
+		Message messages[5] = {};
+		HunterView hv = HvNew(trail, messages);
+
+		{
+			printf("\tPersonal testing: Nuremberg -> Berlin (Dr. Seward, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_DR_SEWARD,
+												BERLIN, &pathLength);
+			assert(HvGetRound(hv) == 2);
+			assert(pathLength == 1);
+			assert(path[0] == BERLIN);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Toulouse -> Constanta (Van Helsing, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_VAN_HELSING,
+												CONSTANTA, &pathLength);
+			assert(pathLength == 6);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == MARSEILLES);
+			assert(path[1] == GENOA);
+			assert(path[2] == TYRRHENIAN_SEA);
+			assert(path[3] == IONIAN_SEA);
+			assert(path[4] == BLACK_SEA);
+			assert(path[5] == CONSTANTA);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Hamburg (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, HAMBURG, 
+																   &pathLength);
+			assert(pathLength == 3);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == VIENNA);
+			assert(path[2] == HAMBURG);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Hamburg (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, 
+												 CLERMONT_FERRAND, &pathLength);
+			assert(pathLength == 6);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == BUDAPEST);
+			assert(path[2] == VENICE);
+			assert(path[3] == MILAN);
+			assert(path[4] == GENEVA);
+			assert(path[5] == CLERMONT_FERRAND);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Paris (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, PARIS, 
+																&pathLength);
+			assert(pathLength == 5);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == VIENNA);
+			assert(path[2] == MUNICH);
+			assert(path[3] == STRASBOURG);
+			assert(path[4] == PARIS);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Santander (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, 
+														SANTANDER, &pathLength);
+			assert(pathLength == 7);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == BUDAPEST);
+			assert(path[2] == VENICE);
+			assert(path[3] == MILAN);
+			assert(path[4] == MARSEILLES);
+			assert(path[5] == BORDEAUX);
+			assert(path[6] == SANTANDER);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Santander (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, 
+														SANTANDER, &pathLength);
+			assert(pathLength == 7);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == BUDAPEST);
+			assert(path[2] == VENICE);
+			assert(path[3] == MILAN);
+			assert(path[4] == MARSEILLES);
+			assert(path[5] == BORDEAUX);
+			assert(path[6] == SANTANDER);
+			free(path);
+		}
+
+		{
+			printf("\tPersonal testing: Bucharest -> Edinburgh (Mina Harker, Round 2)\n");
+			int pathLength = -1;
+			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, 
+														EDINBURGH, &pathLength);
+			assert(pathLength == 5);
+			assert(HvGetRound(hv) == 2);
+			assert(path[0] == SZEGED);
+			assert(path[1] == VIENNA);
+			assert(path[2] == HAMBURG);
+			assert(path[3] == NORTH_SEA);
+			assert(path[4] == EDINBURGH);
+			free(path);
+		}
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+	}
 	
 	{///////////////////////////////////////////////////////////////////
 	
@@ -605,7 +963,9 @@ int main(void)
 		free(locs);
 		
 		HvFree(hv);
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 	}
 	
 	{///////////////////////////////////////////////////////////////////
@@ -631,7 +991,9 @@ int main(void)
 		free(locs);
 		
 		HvFree(hv);
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 	}
 	
 	{///////////////////////////////////////////////////////////////////
@@ -656,7 +1018,9 @@ int main(void)
 		free(locs);
 		
 		HvFree(hv);
+		printf("\033[1;32m");
 		printf("Test passed!\n");
+		printf("\033[0m");
 	}
 	
 	{///////////////////////////////////////////////////////////////////
@@ -683,7 +1047,9 @@ int main(void)
 		free(locs);
 		
 		HvFree(hv);
+		printf("\033[1;32m");
 		printf("Test passed!\n");	
+		printf("\033[0m");
 	}
 	
 	return EXIT_SUCCESS;
