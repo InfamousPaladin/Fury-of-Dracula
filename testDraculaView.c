@@ -314,15 +314,15 @@ int main(void)
 		Message messages[24] = {};
 		DraculaView dv = DvNew(trail, messages);
 		
-		// int numLocs = -1;
-		// PlaceId *locs = DvWhereCanIGo(dv, &numLocs);
-		// assert(numLocs == 4);
-		// sortPlaces(locs, numLocs);
-		// assert(locs[0] == BELGRADE);
-		// assert(locs[1] == CONSTANTA);
-		// assert(locs[2] == GALATZ);
-		// assert(locs[3] == SOFIA);
-		// free(locs);
+		int numLocs = -1;
+		PlaceId *locs = DvWhereCanIGo(dv, &numLocs);
+		assert(numLocs == 4);
+		sortPlaces(locs, numLocs);
+		assert(locs[0] == BELGRADE);
+		assert(locs[1] == CONSTANTA);
+		assert(locs[2] == GALATZ);
+		assert(locs[3] == SOFIA);
+		free(locs);
 		
 		printf("\033[1;32m");
 		printf("Test passed!\n");

@@ -91,7 +91,6 @@ DraculaView DvNew(char *pastPlays, Message messages[])
 	new->playerID[2].health = DvGetHealth(new, PLAYER_VAN_HELSING);
 	new->playerID[3].health = DvGetHealth(new, PLAYER_MINA_HARKER);
 	new->playerID[4].health = DvGetHealth(new, PLAYER_DRACULA);
-
 	// get the current score of the game
 	new->score = DvGetScore(new);
 
@@ -265,45 +264,57 @@ PlaceId *DvWhereCanIGo(DraculaView dv, int *numReturnedLocs)
 	// Remember Dracula cannot go to the hospital, via rail, or to any city in 
 	// his trail without the use of a DOUBLE_BACK or HIDE
 	// Dracula cannot HIDE at sea
+	
+	// initialising a local variable
+	PlaceId validLocs[100];
 
-	// For the trail the function GvGetLastMoves would be usefull
-	// Function GvGetLastLocations
-	// Consider if HIDE & DOUBLE_BACK cases, if it is in the trail
-	bool canFree = true;
-	PlaceId *trail = GvGetLastMoves(dv->gameState, PLAYER_DRACULA, TRAIL_SIZE, numReturnedLocs, &canFree);
-	int numLocs = 0;
+	// getting Draculas valid moves for this round
+	int numMoves = -1;
+	PlaceId *validMoves = DvGetValidMoves(dv, &numMoves);
+
 	// getting current location
 	PlaceId currLoc = GvGetPlayerLocation(dv->gameState, PLAYER_DRACULA);
-	// getting all possible locations
-	PlaceId *validLocs = GvGetReachable(dv->gameState, PLAYER_DRACULA, dv->currRound, currLoc, &numLocs);
+	// getting reachable places
+	int numLocs = -1;
+	PlaceId *reachLocs = GvGetReachable(dv->gameState, PLAYER_DRACULA, dv->currRound, currLoc, &numLocs);
+
 	// counter to keep track of the number of valid moves
-	int nValidLocs = 0;
-	// getting locations that can be moved to
-	for (int i = 0; i < numLocs; i++) {
-		int notInTrail = 0;
-		for (int j = 1; j < TRAIL_SIZE; j++) {
-			// comparing from the second element in the trail
-			if (validLocs[i] != trail[j]) {
-				notInTrail++;
+	int nElements = 0;
+	// going through the validMoves array.
+	for (int i = 0; i < numMoves; i++) {
+		// if the following moves can be made, the current location is reachable
+		if (validMoves[i] == HIDE || validMoves[i] == DOUBLE_BACK_1) {
+			validLocs[nElements] = currLoc;
+			nElements++;
+		} else {
+			for (int j = 0; j < numLocs; j++) {
+				if (validMoves[i] != reachLocs[j]) {
+					reachLocs[j] = INVALID_LOC;
+				}
 			}
-			if (notInTrail == 5) {
-				nValidLocs++;
-				validLocs[i] = validLocs[i];
-			}
-		} 
+		}
 	}
+
+	// adding reachable cities to the array
+	for (int i = 0; i < numLocs; i++) {
+		if (reachLocs[i] != INVALID_LOC) {
+			validLocs[nElements] = reachLocs[i];
+			nElements++;
+		}
+	}
+
 	// there are no locations to be found
-	if (nValidLocs == 0) {
+	if (nElements == 0) {
 		*numReturnedLocs = 0;
 		return NULL;
 	}
-	PlaceId *moves = malloc(sizeof(PlaceId) * nValidLocs);
-	*numReturnedLocs = nValidLocs;
-	for (int i = 0; i < nValidLocs; i++) {
+	PlaceId *moves = malloc(sizeof(PlaceId) * nElements);
+	*numReturnedLocs = nElements;
+	for (int i = 0; i < nElements; i++) {
 		moves[i] = validLocs[i];
 	}
-	free(validLocs);
-	free(trail);
+	free(reachLocs);
+	free(validMoves);
 
 	return moves;
 }
@@ -313,41 +324,57 @@ PlaceId *DvWhereCanIGoByType(DraculaView dv, bool road, bool boat,
                              int *numReturnedLocs)
 {
 	// TODO: REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	bool canFree = true;
-	PlaceId *trail = GvGetLastMoves(dv->gameState, PLAYER_DRACULA, TRAIL_SIZE, numReturnedLocs, &canFree);
-	int numLocs = 0;
+	// initialising a local variable
+	PlaceId validLocs[100];
+
+	// getting Draculas valid moves for this round
+	int numMoves = -1;
+	PlaceId *validMoves = DvGetValidMoves(dv, &numMoves);
+
 	// getting current location
 	PlaceId currLoc = GvGetPlayerLocation(dv->gameState, PLAYER_DRACULA);
-	// getting all possible locations
-	PlaceId *validLocs = GvGetReachableByType(dv->gameState, PLAYER_DRACULA, dv->currRound, currLoc, road, false, boat, &numLocs);
+	// getting reachable places
+	int numLocs = -1;
+	PlaceId *reachLocs = GvGetReachableByType(dv->gameState, PLAYER_DRACULA, dv->currRound, currLoc, road, false, boat, &numLocs);
+
 	// counter to keep track of the number of valid moves
-	int nValidLocs = 0;
-	// getting locations that can be moved to
-	for (int i = 0; i < numLocs; i++) {
-		int notInTrail = 0;
-		for (int j = 1; j < TRAIL_SIZE; j++) {
-			// comparing from the second element in the trail
-			if (validLocs[i] != trail[j]) {
-				notInTrail++;
+	int nElements = 0;
+	// going through the validMoves array.
+	for (int i = 0; i < numMoves; i++) {
+		// if the following moves can be made, the current location is reachable
+		if (validMoves[i] == HIDE || validMoves[i] == DOUBLE_BACK_1) {
+			validLocs[nElements] = currLoc;
+			nElements++;
+		} else {
+			for (int j = 0; j < numLocs; j++) {
+				if (validMoves[i] != reachLocs[j]) {
+					reachLocs[j] = INVALID_LOC;
+				}
 			}
-			if (notInTrail == 5) {
-				nValidLocs++;
-				validLocs[i] = validLocs[i];
-			}
-		} 
+		}
 	}
+
+	// adding reachable cities to the array
+	for (int i = 0; i < numLocs; i++) {
+		if (reachLocs[i] != INVALID_LOC) {
+			validLocs[nElements] = reachLocs[i];
+			nElements++;
+		}
+	}
+
 	// there are no locations to be found
-	if (nValidLocs == 0) {
-		numReturnedLocs = 0;
+	if (nElements == 0) {
+		*numReturnedLocs = 0;
 		return NULL;
 	}
-	PlaceId *moves = malloc(sizeof(PlaceId) * nValidLocs);
-	*numReturnedLocs = nValidLocs;
-	for (int i = 0; i < nValidLocs; i++) {
+	PlaceId *moves = malloc(sizeof(PlaceId) * nElements);
+	*numReturnedLocs = nElements;
+	for (int i = 0; i < nElements; i++) {
 		moves[i] = validLocs[i];
 	}
-	free(validLocs);
-	free(trail);
+	free(reachLocs);
+	free(validMoves);
+
 	return moves;
 }
 
