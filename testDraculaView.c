@@ -124,15 +124,15 @@ int main(void)
 		Message messages[9] = {};
 		DraculaView dv = DvNew(trail, messages);
 		
-		// int numMoves = -1;
-		// PlaceId *moves = DvGetValidMoves(dv, &numMoves);
-		// assert(numMoves == 4);
-		// sortPlaces(moves, numMoves);
-		// assert(moves[0] == GALATZ);
-		// assert(moves[1] == KLAUSENBURG);
-		// assert(moves[2] == HIDE);
-		// assert(moves[3] == DOUBLE_BACK_1);
-		// free(moves);
+		int numMoves = -1;
+		PlaceId *moves = DvGetValidMoves(dv, &numMoves);
+		assert(numMoves == 4);
+		sortPlaces(moves, numMoves);
+		assert(moves[0] == GALATZ);
+		assert(moves[1] == KLAUSENBURG);
+		assert(moves[2] == HIDE);
+		assert(moves[3] == DOUBLE_BACK_1);
+		free(moves);
 		
 		printf("Test passed!\n");
 		DvFree(dv);
