@@ -299,6 +299,42 @@ int main(void)
 		printf("\033[0m");
 		DvFree(dv);
 	}
+
+
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("\t-> Test for Dracula's valid moves 2: ");
+		
+		char *trail =
+			"GMN.... SPL.... HAM.... MPA.... DGA.V.. "
+			"GLV.... SLO.... HNS.... MST.... DHIT... "
+			"GIR.... SPL.... HAO.... MZU.... DCDT... "
+			"GSW.... SLO.... HNS.... MFR.... DKLT... "
+			"GLV.... SPL.... HAO.... MZU.... DBCT... "
+			"GSW.... SLO.... HNS.... MMR....";
+;
+		
+		Message messages[29] = {};
+		DraculaView dv = DvNew(trail, messages);
+		
+		int numMoves = -1;
+		PlaceId *moves = DvGetValidMoves(dv, &numMoves);
+		assert(numMoves == 6);
+		sortPlaces(moves, numMoves);
+		assert(moves[0] == BELGRADE);
+		assert(moves[1] == CONSTANTA);
+		assert(moves[2] == SOFIA);
+		assert(moves[3] == DOUBLE_BACK_1);
+		assert(moves[4] == DOUBLE_BACK_2);
+		assert(moves[5] == DOUBLE_BACK_5); // TODO is this right
+		free(moves);
+		
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+		DvFree(dv);
+	}
+
 	
 	{///////////////////////////////////////////////////////////////////
 	

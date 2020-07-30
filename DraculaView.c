@@ -51,6 +51,34 @@ struct draculaView {
 
 };
 
+// Prototypes
+void checkHideDoubleBack(
+	PlaceId trail[], 
+	int trailSize, 
+	bool *hideExist, 
+	bool *dbExist);
+void addHide(
+	PlaceId reachLocs[], 
+	int nReach, 
+	PlaceId validMoves[], 
+	int *nValid, 
+	PlaceId curr);
+void addDoubleBack(
+	PlaceId trail[], 
+	int trailSize, 
+	PlaceId reachLocs[], 
+	int nReach, 
+	PlaceId validMoves[], 
+	int *nValid);
+void addReachable(
+	PlaceId trail[], 
+	int trailSize, 
+	PlaceId reachLocs[], 
+	int nReach, 
+	PlaceId validMoves[], 
+	int *nValid, 
+	PlaceId curr);
+
 ////////////////////////////////////////////////////////////////////////
 // Constructor/Destructor
 
@@ -148,78 +176,6 @@ PlaceId *DvGetTrapLocations(DraculaView dv, int *numTraps)
 
 ////////////////////////////////////////////////////////////////////////
 // Making a Move
-// TODO: Christian
-
-// Add DOUBLE_BACK moves to the validMoves array
-void addDoubleBack(PlaceId trail[], int trailSize, PlaceId reachLocs[], 
-						int nReach, PlaceId validMoves[], int *nValid)
-{
-	int validIndex = *nValid;
-	for (int i = trailSize - 1; i >= 0; i--) {
-		bool isAdjacent = false;
-		for (int j = 0; j < nReach; j++) {
-			// If a location in the trail exists in reachLocs, it means it
-			// is adjacent or is the current location
-			if (trail[i] == reachLocs[j]) {
-				isAdjacent = true;
-				break;
-			}
-		}
-		if (isAdjacent) {
-			int last = trailSize - 1;
-			if (last - i == 0) {
-				validMoves[validIndex] = DOUBLE_BACK_1;
-			} else if (last - i == 1) {
-				validMoves[validIndex] = DOUBLE_BACK_2;
-			} else if (last - i == 2) {
-				validMoves[validIndex] = DOUBLE_BACK_3;
-			} else if (last - i == 3) {
-				validMoves[validIndex] = DOUBLE_BACK_4;
-			} else if (last - i == 4) {
-				validMoves[validIndex] = DOUBLE_BACK_5;
-			}
-			validIndex++;
-		}
-	}
-	*nValid = validIndex;
-}
-
-void addHide(PlaceId reachLocs[], int nReach, PlaceId validMoves[], 
-				int *nValid, PlaceId curr)
-{
-	int validIndex = *nValid;
-	for (int i = 0; i < nReach; i++) {
-		if (reachLocs[i] == curr) {
-			validMoves[validIndex] = HIDE;
-			validIndex++;
-			break;
-		}
-	}
-	*nValid = validIndex;				
-}
-
-void addReachable(PlaceId trail[], int trailSize, PlaceId reachLocs[], 
-					int nReach, PlaceId validMoves[], int *nValid, PlaceId curr)
-{
-	// Remove invalid rechable locations in reachLocs
-	for (int i = 0; i < trailSize; i++) {
-		for (int j = 0; j < nReach; j++) {
-			if (trail[i] == reachLocs[j] || reachLocs[j] == curr) {
-				reachLocs[j] = INVALID_LOC;
-			}
-		}
-	}
-
-	int validIndex = *nValid;
-	// Copy valid rechable locations in reachLocs to validMoves array
-	for (int i = 0; i < nReach; i++) {
-		if (reachLocs[i] != INVALID_LOC) {
-			validMoves[validIndex] = reachLocs[i];
-			validIndex++;
-		}
-	}
-	*nValid = validIndex;
-}
 
 PlaceId *DvGetValidMoves(DraculaView dv, int *numReturnedMoves)
 {
@@ -241,18 +197,7 @@ PlaceId *DvGetValidMoves(DraculaView dv, int *numReturnedMoves)
 	// Checking if HIDE or DOUBLE_BACK have been used previously in trail
 	bool hideExist = false;
 	bool dbExist = false;
-	for (int i = 0; i < trailSize; i++) {
-		// Checking if the move has been called within the last 5 rounds
-		if (trail[i] == HIDE) {
-			hideExist = true;
-		} else if (trail[i] == DOUBLE_BACK_1 || trail[i] == DOUBLE_BACK_2 ||
-				   trail[i] == DOUBLE_BACK_3 || trail[i] == DOUBLE_BACK_4 ||
-				   trail[i] == DOUBLE_BACK_5) {
-			
-			dbExist = true;
-		}
-	}
-
+	checkHideDoubleBack(trail, trailSize, &hideExist, &dbExist);
 	// Check if HIDE is available to use
 	if (!hideExist && placeIsLand(currLoc)) {
 		addHide(reachLocs, nReach, validMoves, &nValid, currLoc);
@@ -265,20 +210,14 @@ PlaceId *DvGetValidMoves(DraculaView dv, int *numReturnedMoves)
 	}
 	addReachable(trail, trailSize, reachLocs, nReach, validMoves, 
 					&nValid, currLoc);
-	
+	PlaceId *moves = malloc(sizeof(PlaceId) * nValid);
+	for (int i = 0; i < nValid; i++) {
+		moves[i] = validMoves[i];
+	}
+	*numReturnedMoves = nValid;
 	free(trail);
 	free(reachLocs);
-	*numReturnedMoves = nValid;
-
-	if (nValid == 0) {
-		return NULL;
-	} else {
-		PlaceId *moves = malloc(sizeof(PlaceId) * nValid);
-		for (int i = 0; i < nValid; i++) {
-			moves[i] = validMoves[i];
-		}
-		return moves;
-	}
+	return moves;
 }
 
 // TODO: Christian
@@ -405,4 +344,94 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
 ////////////////////////////////////////////////////////////////////////
 // Your own interface functions
 
-// TODO
+// HELPER FUNCTIONS
+
+// Check if HIDE or DOUBLE_BACK have been used previously in trail
+void checkHideDoubleBack(PlaceId trail[], int trailSize, bool *hideExist, 
+							bool *dbExist)
+{
+	for (int i = 0; i < trailSize; i++) {
+		// Checking if the move has been called within the last 5 rounds
+		if (trail[i] == HIDE) {
+			*hideExist = true;
+		} else if (trail[i] == DOUBLE_BACK_1 || trail[i] == DOUBLE_BACK_2 ||
+				   trail[i] == DOUBLE_BACK_3 || trail[i] == DOUBLE_BACK_4 ||
+				   trail[i] == DOUBLE_BACK_5) {
+
+			*dbExist = true;
+		}
+	}
+}
+
+// Add HIDE move to the validMoves array
+void addHide(PlaceId reachLocs[], int nReach, PlaceId validMoves[], 
+				int *nValid, PlaceId curr)
+{
+	int validIndex = *nValid;
+	for (int i = 0; i < nReach; i++) {
+		if (reachLocs[i] == curr) {
+			validMoves[validIndex] = HIDE;
+			validIndex++;
+			break;
+		}
+	}
+	*nValid = validIndex;
+}
+
+// Add DOUBLE_BACK moves to the validMoves array
+void addDoubleBack(PlaceId trail[], int trailSize, PlaceId reachLocs[], 
+						int nReach, PlaceId validMoves[], int *nValid)
+{
+	int validIndex = *nValid;
+	for (int i = trailSize - 1; i >= 0; i--) {
+		bool isAdjacent = false;
+		for (int j = 0; j < nReach; j++) {
+			// If a location in the trail exists in reachLocs, it means it
+			// is adjacent or is the current location
+			if (trail[i] == reachLocs[j]) {
+				isAdjacent = true;
+				break;
+			}
+		}
+		if (isAdjacent) {
+			int last = trailSize - 1;
+			if (last - i == 0) {
+				validMoves[validIndex] = DOUBLE_BACK_1;
+			} else if (last - i == 1) {
+				validMoves[validIndex] = DOUBLE_BACK_2;
+			} else if (last - i == 2) {
+				validMoves[validIndex] = DOUBLE_BACK_3;
+			} else if (last - i == 3) {
+				validMoves[validIndex] = DOUBLE_BACK_4;
+			} else if (last - i == 4) {
+				validMoves[validIndex] = DOUBLE_BACK_5;
+			}
+			validIndex++;
+		}
+	}
+	*nValid = validIndex;
+}
+
+// Add all valid rechable locations to the validMoves array
+void addReachable(PlaceId trail[], int trailSize, PlaceId reachLocs[], 
+					int nReach, PlaceId validMoves[], int *nValid, PlaceId curr)
+{
+	// Remove invalid rechable locations in reachLocs
+	for (int i = 0; i < trailSize; i++) {
+		for (int j = 0; j < nReach; j++) {
+			if (trail[i] == reachLocs[j] || reachLocs[j] == curr) {
+				reachLocs[j] = INVALID_LOC;
+			}
+		}
+	}
+
+	int validIndex = *nValid;
+	// Copy valid rechable locations in reachLocs to validMoves array
+	for (int i = 0; i < nReach; i++) {
+		if (reachLocs[i] != INVALID_LOC) {
+			validMoves[validIndex] = reachLocs[i];
+			validIndex++;
+		}
+	}
+	*nValid = validIndex;
+}
