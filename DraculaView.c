@@ -120,6 +120,7 @@ DraculaView DvNew(char *pastPlays, Message messages[])
 	new->playerID[2].health = DvGetHealth(new, PLAYER_VAN_HELSING);
 	new->playerID[3].health = DvGetHealth(new, PLAYER_MINA_HARKER);
 	new->playerID[4].health = DvGetHealth(new, PLAYER_DRACULA);
+
 	// get the current score of the game
 	new->score = DvGetScore(new);
 
@@ -309,10 +310,6 @@ PlaceId *DvWhereCanIGoByType(DraculaView dv, bool road, bool boat,
 			}
 		}
 	}
-
-	// adding reachable cities to the array
-
-
 	// there are no locations to be found
 	if (nElements == 0) {
 		*numReturnedLocs = 0;
