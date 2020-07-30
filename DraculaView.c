@@ -310,22 +310,15 @@ PlaceId *DvWhereCanIGo(DraculaView dv, int *numReturnedLocs)
 			validLocs[nElements] = currLoc;
 			nElements++;
 		} else {
+			// adding reachable cities to the array
 			for (int j = 0; j < numLocs; j++) {
-				if (validMoves[i] != reachLocs[j]) {
-					reachLocs[j] = INVALID_LOC;
+				if (validMoves[i] == reachLocs[j]) { 
+					validLocs[nElements] = reachLocs[j];
+					nElements++;
 				}
 			}
 		}
 	}
-
-	// adding reachable cities to the array
-	for (int i = 0; i < numLocs; i++) {
-		if (reachLocs[i] != INVALID_LOC) {
-			validLocs[nElements] = reachLocs[i];
-			nElements++;
-		}
-	}
-
 	// there are no locations to be found
 	if (nElements == 0) {
 		*numReturnedLocs = 0;
@@ -370,20 +363,16 @@ PlaceId *DvWhereCanIGoByType(DraculaView dv, bool road, bool boat,
 			nElements++;
 		} else {
 			for (int j = 0; j < numLocs; j++) {
-				if (validMoves[i] != reachLocs[j]) {
-					reachLocs[j] = INVALID_LOC;
+				if (validMoves[i] == reachLocs[j]) {
+					validLocs[nElements] = reachLocs[j];
+					nElements++;
 				}
 			}
 		}
 	}
 
 	// adding reachable cities to the array
-	for (int i = 0; i < numLocs; i++) {
-		if (reachLocs[i] != INVALID_LOC) {
-			validLocs[nElements] = reachLocs[i];
-			nElements++;
-		}
-	}
+
 
 	// there are no locations to be found
 	if (nElements == 0) {
