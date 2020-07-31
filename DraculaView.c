@@ -237,6 +237,7 @@ PlaceId *DvWhereCanIGo(DraculaView dv, int *numReturnedLocs)
 		}
 		insertLocs(validMoves[i], validLocs, &nValidLocs);
 	}
+	*numReturnedLocs = nValidLocs;
 
 	PlaceId *locs = malloc(sizeof(PlaceId) * nValidLocs);
 	for (int i = 0; i < nValidLocs; i++) {
@@ -246,7 +247,6 @@ PlaceId *DvWhereCanIGo(DraculaView dv, int *numReturnedLocs)
 	free(validMoves);
 	free(trailLocs);
 
-	*numReturnedLocs = nValidLocs;
 	return locs;
 }
 

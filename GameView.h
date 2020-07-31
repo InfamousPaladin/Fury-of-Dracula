@@ -218,7 +218,6 @@ PlaceId *GvGetLastLocations(GameView gv, Player player, int numLocs,
 
 ////////////////////////////////////////////////////////////////////////
 // Making a Move
-
 /**
  * Gets all the locations that can be reached by the given player in the
  * given round, assuming that they are at the given location.
