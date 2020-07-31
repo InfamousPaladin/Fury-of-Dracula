@@ -237,6 +237,7 @@ PlaceId *DvWhereCanIGo(DraculaView dv, int *numReturnedLocs)
 		}
 		insertLocs(validMoves[i], validLocs, &nValidLocs);
 	}
+	*numReturnedLocs = nValidLocs;
 
 	PlaceId *locs = malloc(sizeof(PlaceId) * nValidLocs);
 	for (int i = 0; i < nValidLocs; i++) {
@@ -246,49 +247,52 @@ PlaceId *DvWhereCanIGo(DraculaView dv, int *numReturnedLocs)
 	free(validMoves);
 	free(trailLocs);
 
-	*numReturnedLocs = nValidLocs;
 	return locs;
 }
 
 PlaceId *DvWhereCanIGoByType(DraculaView dv, bool road, bool boat,
                              int *numReturnedLocs)
 {
-	*numReturnedLocs = 0;
+    *numReturnedLocs = 0;
 
-	// Get Dracula's valid moves for this round
-	int nMoves = -1;
-	PlaceId *validMoves = DvGetValidMoves(dv, &nMoves);
-	if (nMoves == 0) return NULL;
+    // Get Dracula's valid moves for this round
+    int nMoves = -1;
+    PlaceId *validMoves = DvGetValidMoves(dv, &nMoves);
+    if (nMoves == 0) return NULL;
 
-	PlaceId currLoc = GvGetPlayerLocation(dv->gameState, PLAYER_DRACULA);
+    PlaceId currLoc = GvGetPlayerLocation(dv->gameState, PLAYER_DRACULA);
 
-	// Get all reachable places from current location
-	int nReach = -1;
-	PlaceId *reachLocs = GvGetReachableByType(dv->gameState, PLAYER_DRACULA, 
-							dv->currRound, currLoc, road, false, boat, &nReach);
-	
-	int nValidLocs = 0;
-	PlaceId validLocs[MAX_ARRAY_SIZE];
-	
-	for (int i = 0; i < nMoves; i++) {		
-		findLocation(dv, i, validMoves);
-		for (int j = 0; j < nReach; j++) {
-			if (validMoves[i] == reachLocs[j]) {
-				insertLocs(validMoves[i], validLocs, &nValidLocs);
-				break;
-			}
-		}
-	}
+    // Get all reachable places from current location
+    int nReach = -1;
+    PlaceId *reachLocs = GvGetReachableByType(dv->gameState, PLAYER_DRACULA, 
+                            dv->currRound, currLoc, road, false, boat, &nReach);
 
-	PlaceId *locs = malloc(sizeof(PlaceId) * nValidLocs);
-	for (int i = 0; i < nValidLocs; i++) {
-		locs[i] = validLocs[i];
-	}
+    int nValidLocs = 0;
+    PlaceId validLocs[MAX_ARRAY_SIZE];
 
-	free(validMoves);
+    for (int i = 0; i < nMoves; i++) {
+        findLocation(dv, i, validMoves);
+        for (int j = 0; j < nReach; j++) {
+            if (validMoves[i] == reachLocs[j]) {
+                insertLocs(validMoves[i], validLocs, &nValidLocs);
+                break;
+            }
+        }
+    }
 
-	*numReturnedLocs = nValidLocs;
-	return locs;
+    if (nValidLocs == 0) {
+        free(validMoves);
+        return NULL;
+    }
+    PlaceId *locs = malloc(sizeof(PlaceId) * nValidLocs);
+    for (int i = 0; i < nValidLocs; i++) {
+        locs[i] = validLocs[i];
+    }
+
+    free(validMoves);
+
+    *numReturnedLocs = nValidLocs;
+    return locs;
 }
 
 PlaceId *DvWhereCanTheyGo(DraculaView dv, Player player,
@@ -486,22 +490,23 @@ static void findLocation(DraculaView dv, int i, PlaceId validMoves[])
 }
 
 static void insertLocs(PlaceId loc, PlaceId validLocs[], int *nValidLocs) {
-	int nLocs = *nValidLocs;
-	bool isUniqueLoc = true;
-	if (nLocs == 0) {
-		validLocs[nLocs] = loc;
-		nLocs++;
-	} else {
-		for (int i = 1; i < nLocs; i++) {
-			if (validLocs[i] == loc) {
-				isUniqueLoc = false;
-			}
-		}
-		if (isUniqueLoc) {
-			validLocs[nLocs] = loc;
-			nLocs++;
-		}
-	}
+    int nLocs = *nValidLocs;
+    bool isUniqueLoc = true;
+    if (nLocs == 0) {
+        validLocs[nLocs] = loc;
+        nLocs++;
+    } else {
+        for (int i = 0; i < nLocs; i++) {
+            if (validLocs[i] == loc) {
+                isUniqueLoc = false;
+                break;
+            }
+        }
+        if (isUniqueLoc) {
+            validLocs[nLocs] = loc;
+            nLocs++;
+        }
+    }
 
-	*nValidLocs = nLocs;
+    *nValidLocs = nLocs;
 }
