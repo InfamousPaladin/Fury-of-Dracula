@@ -31,11 +31,11 @@
 #include "Queue.h"
 
 // add your own #includes here
-#define TURN_CHARS	8	// chars each turn takes in play string (w space)
-#define ROUND_CHARS	40 	// chars each round takes in play string (w space)
-#define POS_ACTIONS 6 	// player actions; 2 for location; 4 for rest
-#define PLRACT_STRING 7 // each player string length
-#define	START_RAIL_DIST	1
+#define TURN_CHARS	     8	// chars each turn takes in play string (w space)
+#define ROUND_CHARS	     40 	// chars each round takes in play string (w space)
+#define POS_ACTIONS      6 	// player actions; 2 for location; 4 for rest
+#define PLRACT_STRING    7 // each player string length
+#define	START_RAIL_DIST	 1
 #define UNINTIALISED	-1	// path not found yet
 
 // each player is given player information
@@ -50,6 +50,19 @@ struct hunterView {
 	char *playString; // playString
 	shortestPath playerID[NUM_PLAYERS];	// array that contains each player info
 };
+
+// Prototypes for helper functions.
+static PlaceId HvDraculaDoubleBack(
+	HunterView hv, 
+	Place playerLoc, 
+	int roundBack);
+static PlaceId *HvGetShortestPath(
+	HunterView hv, 
+	PlaceId *visitTransport, 
+	PlaceId dest, 
+	Player hunter, 
+	bool *foundPath, 
+	PlaceId src);
 
 ////////////////////////////////////////////////////////////////////////
 // Constructor/Destructor
@@ -155,6 +168,7 @@ PlaceId HvGetVampireLocation(HunterView hv)
 PlaceId HvGetLastKnownDraculaLocation(HunterView hv, Round *round)
 {
 	Place playerLoc;
+	int hideOffset = 0;
 	char playerPlace[3];
 	playerLoc.id = CITY_UNKNOWN;
 	int roundBack = HvGetRound(hv);
@@ -164,10 +178,11 @@ PlaceId HvGetLastKnownDraculaLocation(HunterView hv, Round *round)
 		// can't find a location
 		if (roundBack < 0) return NOWHERE;
 		playerLoc.id = HvDraculaDoubleBack(hv, playerLoc, roundBack);
+		if (playerLoc.id == HIDE) hideOffset++;
 		roundBack--;
 	}
 
-	*round = roundBack;
+	*round = roundBack + hideOffset;
 	return playerLoc.id;
 }
 
@@ -336,6 +351,3 @@ PlaceId *HvWhereCanTheyGoByType(HunterView hv, Player player,
 }
 
 ////////////////////////////////////////////////////////////////////////
-// Your own interface functions
-
-// TODO

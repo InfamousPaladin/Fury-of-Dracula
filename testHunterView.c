@@ -572,19 +572,20 @@ int main(void)
 			"GCDTTD. SCDD... HKL.... MGA.... DKLT... "
 			"GSZ.... SKLTD.. HKLD... MKLD... DBC.V.. "
 			"GBD.... SBE.... HGA.... MBCVD.. DCDT... "
-			"GSZ.... SSOTD.. HBC.... MSOD... DC?T...";
+			"GSZ.... SSOTD.. HBC.... MSOD... DHIT...";
 		
 		Message messages[140] = {};
 		HunterView hv = HvNew(trail, messages);
 		
+		assert(HvGetRound(hv) == 29);
 		assert(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING) == SZEGED);
 		assert(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD) == SOFIA);
 		assert(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING) == BUCHAREST);
-		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CITY_UNKNOWN);
+		assert(HvGetPlayerLocation(hv, PLAYER_DRACULA) == CASTLE_DRACULA);
 		assert(HvGetVampireLocation(hv) == NOWHERE);
 		Round round = -1;
 		assert(HvGetLastKnownDraculaLocation(hv, &round) == CASTLE_DRACULA);
-		assert(round == 27);
+		assert(round == 28);
 
 		HvFree(hv);
 		printf("\033[1;32m");
@@ -621,7 +622,7 @@ int main(void)
 		assert(HvGetVampireLocation(hv) == NOWHERE);
 		Round round = -1;
 		assert(HvGetLastKnownDraculaLocation(hv, &round) == VENICE);
-		assert(round == 3);
+		assert(round == 4);
 
 		HvFree(hv);
 		printf("\033[1;32m");
