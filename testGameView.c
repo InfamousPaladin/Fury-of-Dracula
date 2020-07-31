@@ -12,6 +12,13 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
+// Written in the month of July 2020 for COMP2521 T2 Assignment 2.
+
+// This is a testing file to determine if the implementation for GameView.h
+// ADT is correct and functional. Test cases were both supplied from the given
+// code and written by Gabriel Ting, Christian Ilagan, Tam Do and Prathamesh 
+// Jagtap.
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -424,7 +431,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get round 1: ");
+		printf("\t-> New Test Case - get round 1: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -449,7 +456,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get round 2: ");
+		printf("\t-> New Test Case - get round 2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -471,7 +478,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get player 1: ");
+		printf("\t-> New Test Case - get player 1: ");
 
 		char *trail =
 			"GGE....";
@@ -490,7 +497,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get player 2: ");
+		printf("\t-> New Test Case - get player 2: ");
 
 		char *trail =
 			"GGE.... SGE....";
@@ -509,7 +516,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get player 3: ");
+		printf("\t-> New Test Case - get player 3: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE....";
@@ -528,7 +535,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get player 4: ");
+		printf("\t-> New Test Case - get player 4: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE....";
@@ -547,7 +554,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get player 5: ");
+		printf("\t-> New Test Case - get player 5: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V..";
@@ -567,7 +574,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - DOUBLE_BACK_1: ");
+		printf("\t-> New Test Case - DOUBLE_BACK_1: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -595,7 +602,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - DOUBLE_BACK_2: ");
+		printf("\t-> New Test Case - DOUBLE_BACK_2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -623,7 +630,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - DOUBLE_BACK_3: ");
+		printf("\t-> New Test Case - DOUBLE_BACK_3: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -651,7 +658,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - DOUBLE_BACK_4: ");
+		printf("\t-> New Test Case - DOUBLE_BACK_4: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -679,7 +686,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - DOUBLE_BACK_5: ");
+		printf("\t-> New Test Case - DOUBLE_BACK_5: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -707,7 +714,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - DOUBLE_BACK_SPECIAL: ");
+		printf("\t-> New Test Case - DOUBLE_BACK_SPECIAL: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DGR.V.. "
@@ -735,7 +742,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get immvampire location when dead: ");
+		printf("\t-> New Test Case - get immvampire location when dead: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
@@ -760,7 +767,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get immvampire location when dead 2: ");
+		printf("\t-> New Test Case - get immvampire location when dead 2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "

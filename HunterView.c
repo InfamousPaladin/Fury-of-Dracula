@@ -9,6 +9,11 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
+// Written in the month of July 2020 for COMP2521 T2 Assignment 2.
+
+// This is the implementation file for the HunterView.h ADT. Implementation of 
+// the following code was completed by Tam Do and Prathamesh Jagtap.
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -294,8 +299,9 @@ PlaceId *HvWhereCanIGoByType(HunterView hv, bool road, bool rail,
 	int numLocations = 0;
 	PlaceId *reachablebyType;
 
-	reachablebyType = GvGetReachableByType(hv->view, HvGetPlayer(hv), HvGetRound(hv), 
-	HvGetPlayerLocation(hv, HvGetPlayer(hv)), road, rail, boat, &numLocations);
+	reachablebyType = GvGetReachableByType(hv->view, HvGetPlayer(hv), 
+						HvGetRound(hv),HvGetPlayerLocation(hv, HvGetPlayer(hv)), 
+						road, rail, boat, &numLocations);
 
 	*numReturnedLocs = numLocations;
 	return reachablebyType;
