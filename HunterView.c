@@ -286,6 +286,8 @@ PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
 		// storing path distinct to player in struct
 		hv->playerID[hunter].storeShortestPath = finalPath;
 
+		if (src == dest) numCities--;
+
 		*pathLength = numCities;
 		return finalPath;
 	}
