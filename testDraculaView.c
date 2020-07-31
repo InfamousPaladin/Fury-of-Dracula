@@ -31,7 +31,7 @@
 
 int main(void)
 {
-	printf("********************** GameView Testing **********************\n");
+	printf("********************** DraculaView Testing **********************\n");
 	printf("Key: (Given)	-> Supplied test case intially\n");
 	printf("     (Added)	-> New asserts has been added to the original test case\n");
 	printf("     (New)	-> New test case created by team\n");
@@ -46,7 +46,8 @@ int main(void)
 
 		assert(DvGetRound(dv) == 0);
 		assert(DvGetScore(dv) == GAME_START_SCORE);
-		assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
+		assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) == 
+								GAME_START_HUNTER_LIFE_POINTS);
 		assert(DvGetHealth(dv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 		assert(DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING) == NOWHERE);
 		assert(DvGetVampireLocation(dv) == NOWHERE);
