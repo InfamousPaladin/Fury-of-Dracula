@@ -12,6 +12,12 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
+// Written in the month of July 2020 for COMP2521 T2 Assignment 2.
+
+// This is a testing file to determine if the implementation for DraculaView.h
+// ADT is correct and functional. Test cases was both supplied by COMP2521
+// staff and written by Gabriel Ting and Christian Ilagan.
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -25,6 +31,7 @@
 
 int main(void)
 {
+	printf("============ Game State Information ============\n");
 	{///////////////////////////////////////////////////////////////////	
 		printf("\t-> Personal testing - Basic initialisation: ");
 
@@ -273,7 +280,8 @@ int main(void)
 		DvFree(dv);
 	}
 
-	printf("\n========== DvGetValidMoves ==========\n");
+	printf("============ Making a Move ============\n");
+	printf("===> DvGetValidMoves\n");
 	{///////////////////////////////////////////////////////////////////
 	
 		printf("\t-> Dracula's valid moves 1: ");
@@ -556,10 +564,10 @@ int main(void)
 		DvFree(dv);
 	}
 
-	printf("\n========== DvGetValidMoves ==========\n");
+	printf("===> DvWhereCanIGo and DvWhereCanIGoByType\n");
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Dracula's valid moves 2: ");
+		printf("\t-> Dracula's valid locations 1: ");
 
 		char *trail =
 			"GMN.... SPL.... HAM.... MPA.... DGA.V.. "
@@ -681,6 +689,8 @@ int main(void)
 		DvFree(dv);
 	}
 
+
+	printf("\n===> DvWhereCanTheyGo and DvWhereCanTheyGoByType\n");
 	{///////////////////////////////////////////////////////////////////
 	
 		printf("\t-> Test for DvWhereCanTheyGo where rail distance is 0: \n");

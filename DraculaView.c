@@ -9,9 +9,9 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
-// Written in the month of July 2020.
+// Written in the month of July 2020 for COMP2521 Assignment 2.
 
-// This is the implementation file for DraculaView.h. Implementation of the
+// This is the implementation file for DraculaView.h ADT. Implementation of the
 // following code was completed by Gabriel Ting and Christian Ilagan.
 
 #include <assert.h>
