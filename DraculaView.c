@@ -39,7 +39,7 @@ struct draculaView {
 	GameView gameState;					// Stores current game state
 
 	char *playString; 					// Stores all past plays
-	Message *messages;					// TODO: pointer to messages
+	Message *messages;					// pointer to messages
 	
 	Round currRound; 					// current round of game
 	playerInfo playerID[NUM_PLAYERS];	// array that contains each player info
@@ -90,7 +90,7 @@ DraculaView DvNew(char *pastPlays, Message messages[])
 
 	new->gameState = GvNew(pastPlays, messages);
 	new->playString = pastPlays;
-	new->messages = messages;		// TODO: recheck if right
+	new->messages = messages;
 
 	// set up current state of game
 	new->currRound = DvGetRound(new);
@@ -490,6 +490,7 @@ static void findLocation(DraculaView dv, int i, PlaceId validMoves[])
 	if (canFree) free(trailLocs);
 }
 
+// Insert loc into the validLocs array only if it is a unique value in the array
 static void insertLocs(PlaceId loc, PlaceId validLocs[], int *nValidLocs) {
 	int nLocs = *nValidLocs;
 	bool isUniqueLoc = true;

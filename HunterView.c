@@ -32,9 +32,9 @@
 
 // add your own #includes here
 #define TURN_CHARS	     8	// chars each turn takes in play string (w space)
-#define ROUND_CHARS	     40 	// chars each round takes in play string (w space)
+#define ROUND_CHARS	     40 // chars each round takes in play string (w space)
 #define POS_ACTIONS      6 	// player actions; 2 for location; 4 for rest
-#define PLRACT_STRING    7 // each player string length
+#define PLRACT_STRING    7 	// each player string length
 #define	START_RAIL_DIST	 1
 #define UNINTIALISED	-1	// path not found yet
 
@@ -56,16 +56,17 @@ static PlaceId HvDraculaDoubleBack(
 	HunterView hv, 
 	Place playerLoc, 
 	int roundBack);
-static PlaceId *HvGetShortestPath(
+static void HvGetShortestPath(
 	HunterView hv, 
-	PlaceId *visitTransport, 
+	PlaceId visitTransport[], 
 	PlaceId dest, 
 	Player hunter, 
 	bool *foundPath, 
 	PlaceId src);
 
-////////////////////////////////////////////////////////////////////////
-// Constructor/Destructor
+//**************************************************************************//
+//                		   Constructor/Deconstructor 		 	            //
+//**************************************************************************//
 
 HunterView HvNew(char *pastPlays, Message messages[])
 {
@@ -81,7 +82,6 @@ HunterView HvNew(char *pastPlays, Message messages[])
 	}
 
 	// assigning a map
-	new->map = MapNew();
 	new->playString = pastPlays;
 	new->view = GvNew(pastPlays, messages);
 
@@ -91,12 +91,12 @@ HunterView HvNew(char *pastPlays, Message messages[])
 void HvFree(HunterView hv)
 {
 	free(hv->view);
-	MapFree(hv->map);
 	free(hv);
 }
 
-////////////////////////////////////////////////////////////////////////
-// Game State Information
+//**************************************************************************//
+//                		      Game State Information 		 	            //
+//**************************************************************************//
 
 Round HvGetRound(HunterView hv)
 {
@@ -118,40 +118,6 @@ int HvGetHealth(HunterView hv, Player player)
 	return GvGetHealth(hv->view, player);
 }
 
-// helper function for GvGetPlayerLocation()
-// gets Dracula's location given how many rounds before the function should look
-static PlaceId HvDraculaDoubleBack(HunterView hv, Place playerLoc, 
-								   int roundBack) {
-
-	int numMoves = 0;
-	for (int i = 0; hv->playString[i] != '\0'; i++) {
-		// calculates number of moves in a given
-		// range of rounds
-		if (hv->playString[i] == ' ') numMoves++;
-		int countRound = numMoves / 5;
-		if (countRound == roundBack) break;
-	}
-
-	// calculating number of individual chars in a given range of rounds
-	// finding Dracula's position after his use of DOUBLE_BACK_N
-	for (int i = 0; i <= (numMoves + PLRACT_STRING * NUM_PLAYERS * roundBack); 
-																		i++) {
-
-		if (hv->playString[i] == 'D' && hv->playString[i + 6] == '.') {
-
-			// obtain two initials of place
-			playerLoc.abbrev[0] = hv->playString[i + 1];
-			playerLoc.abbrev[1] = hv->playString[i + 2];
-			playerLoc.abbrev[2] = '\0';
-
-			// get placeID
-			playerLoc.id = placeAbbrevToId(playerLoc.abbrev);
-		}
-	}
-
-	return playerLoc.id;
-}
-
 PlaceId HvGetPlayerLocation(HunterView hv, Player player)
 {
 	return GvGetPlayerLocation(hv->view, player);
@@ -162,8 +128,9 @@ PlaceId HvGetVampireLocation(HunterView hv)
 	return GvGetVampireLocation(hv->view);
 }
 
-////////////////////////////////////////////////////////////////////////
-// Utility Functions - Done by Prathamesh
+//**************************************************************************//
+//                		       Utility Functions  		 	                //
+//**************************************************************************//
 
 PlaceId HvGetLastKnownDraculaLocation(HunterView hv, Round *round)
 {
@@ -186,59 +153,6 @@ PlaceId HvGetLastKnownDraculaLocation(HunterView hv, Round *round)
 	return playerLoc.id;
 }
 
-static PlaceId *HvGetShortestPath(HunterView hv, PlaceId *visitTransport, 
-								  PlaceId dest, Player hunter, bool *foundPath, 
-								  PlaceId src) {
-	
-	PlaceId *remLocRound = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
-
-	*foundPath = false;
-	int roundoffSet = 0;
-	int numlocTransport = 0;
-
-	// -1 to indicate not visited
-	for (int i = 0; i < NUM_REAL_PLACES; i++) remLocRound[i] = UNINTIALISED;
-	for (int i = 0; i < NUM_REAL_PLACES; i++) visitTransport[i] = UNINTIALISED;
-
-	// bfs path find
-	visitTransport[src] = src;
-	Queue bfsQueue = newQueue();
-	remLocRound[src] = HvGetRound(hv);
-
-	// joining queue
-	QueueJoin(bfsQueue, src);
-	while (*foundPath == false && QueueIsEmpty(bfsQueue) != 1) {
-
-		// new starting location is extracted
-		PlaceId newLocation = QueueLeave(bfsQueue);
-
-		if (newLocation == dest) {
-			*foundPath = true;
-		} else {
-			// advancement of round relative to movement in location is
-			// recorded in an array for GvGetReachable to calculate a path
-			int roundNum = remLocRound[newLocation];
-			PlaceId *travelConnect = GvGetReachable(hv->view, hunter, roundNum, 
-			newLocation, &numlocTransport);
-
-			// all locations are added to the queue
-			for (int i = 0; i < numlocTransport; i++) {
-				// incrementing the round counter as new location is scanned in
-				// recording all data for calculating the shortest path
-				if (visitTransport[travelConnect[i]] == UNINTIALISED) {
-					remLocRound[travelConnect[i]] = roundNum + 1;
-					visitTransport[travelConnect[i]] = newLocation;
-					QueueJoin(bfsQueue, travelConnect[i]);
-				}
-			}
-		}
-		roundoffSet++;
-	}
-
-	dropQueue(bfsQueue);
-	return visitTransport;
-}
-
 PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
                              int *pathLength)
 {
@@ -246,12 +160,10 @@ PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
 	PlaceId src = HvGetPlayerLocation(hv, hunter);
 
 	// needed arrays for conducting calculations and holding data
-	PlaceId *transportPath = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
-	PlaceId *visitTransport = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
-
+	PlaceId transportPath[NUM_REAL_PLACES];
+	PlaceId visitTransport[NUM_REAL_PLACES];
 	bool foundPath = false;
-	visitTransport = HvGetShortestPath(hv, visitTransport, dest, hunter, 
-	&foundPath, src); 
+	HvGetShortestPath(hv, visitTransport, dest, hunter, &foundPath, src); 
 	
 	// path is found
 	if (foundPath == true) {
@@ -295,8 +207,9 @@ PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
 	return NULL;
 }
 
-////////////////////////////////////////////////////////////////////////
-// Making a Move
+//**************************************************************************//
+//                		    	 Making a Move  		 	                //
+//**************************************************************************//
 
 PlaceId *HvWhereCanIGo(HunterView hv, int *numReturnedLocs)
 {
@@ -304,7 +217,7 @@ PlaceId *HvWhereCanIGo(HunterView hv, int *numReturnedLocs)
 	PlaceId *reachablePlaces;
 
 	reachablePlaces = GvGetReachable(hv->view, HvGetPlayer(hv), HvGetRound(hv), 
-	HvGetPlayerLocation(hv, HvGetPlayer(hv)), &numLocations);
+					HvGetPlayerLocation(hv, HvGetPlayer(hv)), &numLocations);
 
 	*numReturnedLocs = numLocations;
 	return reachablePlaces;
@@ -331,7 +244,7 @@ PlaceId *HvWhereCanTheyGo(HunterView hv, Player player,
 	PlaceId *reachableNext;
 
 	reachableNext = GvGetReachable(hv->view, player, HvGetRound(hv) + 1, 
-	HvGetPlayerLocation(hv, player), &numLocations);
+							HvGetPlayerLocation(hv, player), &numLocations);
 
 	*numReturnedLocs = numLocations;
 	return reachableNext;
@@ -345,11 +258,101 @@ PlaceId *HvWhereCanTheyGoByType(HunterView hv, Player player,
 	PlaceId *reachableNextType;
 
 	reachableNextType = GvGetReachableByType(hv->view, player, 
-	HvGetRound(hv) + 1, HvGetPlayerLocation(hv, player), road, rail, boat, 
-	&numLocations);
+							HvGetRound(hv) + 1, HvGetPlayerLocation(hv, player), 
+							road, rail, boat, &numLocations);
 
 	*numReturnedLocs = numLocations;
 	return reachableNextType;
 }
 
-////////////////////////////////////////////////////////////////////////
+//**************************************************************************//
+//                		    	Helper Functions 		 	                //
+//**************************************************************************//
+
+// Helper function for HvGetLastKnownDraculaLocation: Gets Dracula's location 
+// given how many rounds before the function should look for.
+static PlaceId HvDraculaDoubleBack(HunterView hv, Place playerLoc, 
+								   int roundBack) {
+
+	int numMoves = 0;
+	for (int i = 0; hv->playString[i] != '\0'; i++) {
+		// calculates number of moves in a given
+		// range of rounds
+		if (hv->playString[i] == ' ') numMoves++;
+		int countRound = numMoves / 5;
+		if (countRound == roundBack) break;
+	}
+
+	// calculating number of individual chars in a given range of rounds
+	// finding Dracula's position after his use of DOUBLE_BACK_N
+	for (int i = 0; i <= (numMoves + PLRACT_STRING * NUM_PLAYERS * roundBack); 
+																		i++) {
+
+		if (hv->playString[i] == 'D' && hv->playString[i + 6] == '.') {
+
+			// obtain two initials of place
+			playerLoc.abbrev[0] = hv->playString[i + 1];
+			playerLoc.abbrev[1] = hv->playString[i + 2];
+			playerLoc.abbrev[2] = '\0';
+
+			// get placeID
+			playerLoc.id = placeAbbrevToId(playerLoc.abbrev);
+		}
+	}
+
+	return playerLoc.id;
+}
+
+
+// Helper function for HvGetShortestPathTo: Uses a breadth first search to
+// travers the graph and determine the shortest path from `src` to `dest`.
+static void HvGetShortestPath(HunterView hv, PlaceId visitTransport[], 
+								  PlaceId dest, Player hunter, bool *foundPath, 
+								  PlaceId src) {
+	
+	PlaceId remLocRound[NUM_REAL_PLACES];
+	
+	*foundPath = false;
+	int roundoffSet = 0;
+	int numlocTransport = 0;
+
+	// -1 to indicate not visited
+	for (int i = 0; i < NUM_REAL_PLACES; i++) remLocRound[i] = UNINTIALISED;
+	for (int i = 0; i < NUM_REAL_PLACES; i++) visitTransport[i] = UNINTIALISED;
+
+	// bfs path find
+	visitTransport[src] = src;
+	Queue bfsQueue = newQueue();
+	remLocRound[src] = HvGetRound(hv);
+
+	// joining queue
+	QueueJoin(bfsQueue, src);
+	while (*foundPath == false && QueueIsEmpty(bfsQueue) != 1) {
+
+		// new starting location is extracted
+		PlaceId newLocation = QueueLeave(bfsQueue);
+
+		if (newLocation == dest) {
+			*foundPath = true;
+		} else {
+			// advancement of round relative to movement in location is
+			// recorded in an array for GvGetReachable to calculate a path
+			int roundNum = remLocRound[newLocation];
+			PlaceId *travelConnect = GvGetReachable(hv->view, hunter, roundNum, 
+			newLocation, &numlocTransport);
+
+			// all locations are added to the queue
+			for (int i = 0; i < numlocTransport; i++) {
+				// incrementing the round counter as new location is scanned in
+				// recording all data for calculating the shortest path
+				if (visitTransport[travelConnect[i]] == UNINTIALISED) {
+					remLocRound[travelConnect[i]] = roundNum + 1;
+					visitTransport[travelConnect[i]] = newLocation;
+					QueueJoin(bfsQueue, travelConnect[i]);
+				}
+			}
+		}
+		roundoffSet++;
+	}
+	dropQueue(bfsQueue);
+}
