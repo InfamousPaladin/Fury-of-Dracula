@@ -1020,6 +1020,8 @@ static void getDraculaReachableType(GameView gv, PlaceId from,
 PlaceId *GvGetReachable(GameView gv, Player player, Round round,
                         PlaceId from, int *numReturnedLocs)
 {
+	if (from == NOWHERE) return NULL;
+
 	// Initialise visited array
 	int visited[gv->nMapLocs];
 	setVisited(from, visited, gv->nMapLocs);

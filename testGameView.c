@@ -1605,14 +1605,14 @@ int main(void)
 		{
 			printf("\t-> Checking Hunter rail connections (2): ");
 			int numLocs = -1;
-			PlaceId *locs = GvGetReachable(gv, PLAYER_LORD_GODALMING,
+			PlaceId *locs = GvGetReachable(gv, PLAYER_DR_SEWARD,
 											1, FLORENCE, &numLocs);
 
 			assert(numLocs == 8);
 			sortPlaces(locs, numLocs);
 			assert(locs[0] == FLORENCE);
-			assert(locs[1] == GENOA);
-			assert(locs[2] == GENEVA);
+			assert(locs[1] == GENEVA);
+			assert(locs[2] == GENOA);
 			assert(locs[3] == MILAN);
 			assert(locs[4] == NAPLES);
 			assert(locs[5] == ROME);
@@ -1657,6 +1657,11 @@ int main(void)
 			assert(locs[6] == STRASBOURG);
 			free(locs);
 		}
+
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+		
 		{
 			printf("\t-> Checking Hunter rail connections (0): ");
 			int numLocs = -1;
@@ -1667,13 +1672,10 @@ int main(void)
 			sortPlaces(locs, numLocs);
 			assert(locs[0] == FLORENCE);
 			assert(locs[1] == GENOA);
-			assert(locs[3] == ROME);
-			assert(locs[4] == VENICE);
+			assert(locs[2] == ROME);
+			assert(locs[3] == VENICE);
 		}
 
-		printf("\033[1;32m");
-		printf("Test passed!\n");
-		printf("\033[0m");
 		printf("\033[1;32m");
 		printf("Test passed!\n");
 		printf("\033[0m");
