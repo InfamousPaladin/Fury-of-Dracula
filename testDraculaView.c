@@ -522,29 +522,6 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("(New)	-> No valid moves 1: ");
-
-		char *trail =
-			"GST.... SST.... HST.... MST....";
-		
-		Message messages[4] = {};
-		DraculaView dv = DvNew(trail, messages);
-
-		assert(DvGetRound(dv) == 0);
-		int numMoves = -1;
-		PlaceId *moves = DvGetValidMoves(dv, &numMoves);
-		assert(numMoves == 0);
-		assert(moves == NULL);
-		free(moves);
-		
-		printf("\033[1;32m");
-		printf("Test passed!\n");
-		printf("\033[0m");
-		DvFree(dv);
-	}
-
-	{///////////////////////////////////////////////////////////////////
-	
 		printf("(New)	-> Cannot Hide at sea: ");
 
 		char *trail =
@@ -574,6 +551,29 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
+		printf("(New)	-> No valid moves 1: ");
+
+		char *trail =
+			"GST.... SST.... HST.... MST....";
+		
+		Message messages[4] = {};
+		DraculaView dv = DvNew(trail, messages);
+
+		assert(DvGetRound(dv) == 0);
+		int numMoves = -1;
+		PlaceId *moves = DvGetValidMoves(dv, &numMoves);
+		assert(numMoves == 0);
+		assert(moves == NULL);
+		free(moves);
+		
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+		DvFree(dv);
+	}
+
+	{///////////////////////////////////////////////////////////////////
+	
 		printf("(New)	-> No valid moves 2: ");
 
 		char *trail =
@@ -600,6 +600,68 @@ int main(void)
 	}
 	printf("\n");
 	printf("===> DvWhereCanIGo and DvWhereCanIGoByType\n");
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("(New)	-> Cannot Hide at sea: ");
+
+		char *trail =
+			"GGE.... SGE.... HGE.... MGE.... DBS.... "
+			"GGE.... SGE.... HGE.... MGE....";
+		
+		Message messages[4] = {};
+		DraculaView dv = DvNew(trail, messages);
+
+		assert(DvGetRound(dv) == 1);
+		int numMoves = -1;
+		PlaceId *moves = DvWhereCanIGo(dv, &numMoves);
+		assert(numMoves == 4);
+		sortPlaces(moves, numMoves);
+		assert(moves[0] == BLACK_SEA);
+		assert(moves[1] == CONSTANTA);
+		assert(moves[2] == IONIAN_SEA);
+		assert(moves[3] == VARNA);
+		free(moves);
+		
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+		DvFree(dv);
+	}
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("(New)	-> Dracula has teleported to Castle Dracula: ");
+
+		char *trail =
+			"GGE.... SGE.... HGE.... MGE.... DVA.... "
+			"GGE.... SGE.... HGE.... MGE.... DHI.... "
+			"GGE.... SGE.... HGE.... MGE.... DD1.... "
+			"GST.... SST.... HST.... MST.... DIO.... "
+			"GGE.... SGE.... HGE.... MGE.... DAT.... "
+			"GGE.... SGE.... HGE.... MGE.... DTP.... "
+			"GST.... SST.... HST.... MST.... DGA.... "
+			"GST.... SST.... HST.... MST....";
+		
+		Message messages[34] = {};
+		DraculaView dv = DvNew(trail, messages);
+
+		assert(DvGetRound(dv) == 7);
+		int numMoves = -1;
+		PlaceId *moves = DvWhereCanIGo(dv, &numMoves);
+		assert(numMoves == 5);
+		sortPlaces(moves, numMoves);
+		assert(moves[0] == BUCHAREST);
+		assert(moves[1] == CASTLE_DRACULA);
+		assert(moves[2] == CONSTANTA);
+		assert(moves[3] == GALATZ);
+		assert(moves[4] == KLAUSENBURG);
+		free(moves);
+		
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+		DvFree(dv);
+	}
+
 	{///////////////////////////////////////////////////////////////////
 
 		printf("(New)	-> Test for DvWhereCanIGo 0: ");
