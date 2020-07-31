@@ -946,7 +946,7 @@ int main(void)
 			int pathLength = -1;
 			PlaceId *path = HvGetShortestPathTo(hv, PLAYER_MINA_HARKER, 
 														BUCHAREST, &pathLength);
-			assert(pathLength == 0);
+			assert(pathLength == 1);
 			assert(HvGetRound(hv) == 2);
 			assert(path[0] == BUCHAREST);
 			free(path);
@@ -1169,6 +1169,111 @@ int main(void)
 			assert(places[0] == GALWAY);
 			assert(places[1] == IRISH_SEA);
 			assert(places[2] == DUBLIN);
+			free(places);
+			HvFree(hv);
+		}
+
+		HvFree(hv);
+		printf("\033[1;32m");
+		printf("Test passed!\n");	
+		printf("\033[0m");
+	}
+
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("Testing HvWhereCanTheyGoByType\n");
+		
+		char *trail =
+			"GSZ.... SGE.... HCN.... MIO.... DBE.V..";
+		
+		Message messages[5] = {};
+		HunterView hv = HvNew(trail, messages);
+		
+		{
+			printf("\tPersonal testing: Lord Godalming\n");
+			int numLocations = -1;
+			PlaceId *places = HvWhereCanTheyGoByType(hv, PLAYER_LORD_GODALMING, 
+											true, false, true, &numLocations);
+			assert(numLocations == 6);
+			assert(HvGetRound(hv) == 1);
+			sortPlaces(places, numLocations);
+			assert(places[0] == BELGRADE);
+			assert(places[1] == BUDAPEST);
+			assert(places[2] == KLAUSENBURG);
+			assert(places[3] == ST_JOSEPH_AND_ST_MARY);
+			assert(places[4] == SZEGED);
+			assert(places[5] == ZAGREB);
+			free(places);
+		}
+
+		{
+			printf("\tPersonal testing: Dr. Seward\n");
+			int numLocations = -1;
+			PlaceId *places = HvWhereCanTheyGoByType(hv, PLAYER_DR_SEWARD, 
+											true, true, false, &numLocations);
+			assert(numLocations == 10);
+			assert(HvGetRound(hv) == 1);
+			assert(places[0] == MILAN);
+			assert(places[1] == ZURICH);
+			assert(places[2] == GENOA);
+			assert(places[3] == FLORENCE);
+			assert(places[4] == STRASBOURG);
+			assert(places[5] == ROME);
+			assert(places[6] == PARIS);
+			assert(places[7] == MARSEILLES);
+			assert(places[8] == CLERMONT_FERRAND);
+			assert(places[9] == GENEVA);
+			free(places);
+		}
+
+		{
+			printf("\tPersonal testing: Van Helsing\n");
+			int numLocations = -1;
+			PlaceId *places = HvWhereCanTheyGoByType(hv, PLAYER_VAN_HELSING, 
+											false, true, true, &numLocations);
+			assert(numLocations == 2);
+			assert(HvGetRound(hv) == 1);
+			sortPlaces(places, numLocations);
+			assert(places[0] == BLACK_SEA);
+			assert(places[1] == CONSTANTA);
+			free(places);
+		}
+
+		{
+			printf("\tPersonal testing: Dracula 1\n");
+			int numLocations = -1;
+			PlaceId *places = HvWhereCanTheyGoByType(hv, PLAYER_MINA_HARKER, 
+											false, false, true, &numLocations);
+			assert(numLocations == 7);
+			assert(HvGetRound(hv) == 1);
+			sortPlaces(places, numLocations);
+			assert(places[0] == ADRIATIC_SEA);
+			assert(places[1] == ATHENS);
+			assert(places[2] == BLACK_SEA);
+			assert(places[3] == IONIAN_SEA);
+			assert(places[4] == SALONICA);
+			assert(places[5] == TYRRHENIAN_SEA);
+			assert(places[6] == VALONA);
+			free(places);
+		}
+
+		{
+			char *trail =
+			"GSZ.... SGE.... HGE.... MGE.... DDU.V..";
+		
+			Message messages[5] = {};
+			HunterView hv = HvNew(trail, messages);
+
+			printf("\tPersonal testing: Dracula 2\n");
+			int numLocations = -1;
+			PlaceId *places = HvWhereCanTheyGoByType(hv, PLAYER_DRACULA, 
+											true, false, true, &numLocations);
+			assert(numLocations == 3);
+			assert(HvGetRound(hv) == 1);
+			sortPlaces(places, numLocations);
+			assert(places[0] == DUBLIN);
+			assert(places[1] == GALWAY);
+			assert(places[2] == IRISH_SEA);
 			free(places);
 			HvFree(hv);
 		}
