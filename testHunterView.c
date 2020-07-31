@@ -12,6 +12,12 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
+// Written in the month of July 2020 for COMP2521 T2 Assignment 2.
+
+// This is a testing file to determine if the implementation for HunterView.h
+// ADT is correct and functional. Test cases were both supplied from the given
+// code and written by Tam Do and Prathamesh Jagtap.
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
