@@ -15,8 +15,8 @@
 // Written in the month of July 2020 for COMP2521 T2 Assignment 2.
 
 // This is a testing file to determine if the implementation for DraculaView.h
-// ADT is correct and functional. Test cases was both supplied by COMP2521
-// staff and written by Gabriel Ting and Christian Ilagan.
+// ADT is correct and functional. Test cases were both supplied from the given
+// code and written by Gabriel Ting and Christian Ilagan.
 
 #include <assert.h>
 #include <stdbool.h>
@@ -689,8 +689,66 @@ int main(void)
 		DvFree(dv);
 	}
 
-
+	// TODO
 	printf("\n===> DvWhereCanTheyGo and DvWhereCanTheyGoByType\n");
+	
+	{
+		printf("\t-> Test for DvWhereCanIGo 3: ");
+
+        char *trail =
+            "GGE.... SGE.... HGE.... MGE.... DTS.V.. "
+            "GGE.... SGE.... HGE.... MGE.... DROT... "
+            "GGE.... SGE.... HGE.... MGE.... DNPT..."
+            "GGE.... SGE.... HGE.... MGE....";
+
+        Message messages[24] = {};
+        DraculaView dv = DvNew(trail, messages);
+
+        int numLocs = -1;
+        PlaceId *locs = DvWhereCanIGo(dv, &numLocs);
+        assert(numLocs == 4);
+        sortPlaces(locs, numLocs);
+        assert(locs[0] == BARI);
+        assert(locs[1] == NAPLES);
+        assert(locs[2] == ROME);
+        assert(locs[3] == TYRRHENIAN_SEA);
+        free(locs);
+
+        printf("\033[1;32m");
+        printf("Test passed!\n");
+        printf("\033[0m");
+        DvFree(dv);
+
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+        printf("\t-> Test for DvWhereCanIGoByType 4: Both Restricted");
+
+        char *trail =
+            "GGE.... SGE.... HGE.... MGE.... DGR.V.. "
+            "GGE.... SGE.... HGE.... MGE.... DMAT... "
+            "GGE.... SGE.... HGE.... MGE.... DHIT... "
+            "GGE.... SGE.... HGE.... MGE.... DLST... "
+            "GGE.... SGE.... HGE.... MGE.... DCAT... "
+            "GGE.... SGE.... HGE.... MGE.... DD1T... "
+            "GGE.... SGE.... HGE.... MGE....";
+        Message messages[24] = {};
+        DraculaView dv = DvNew(trail, messages);
+
+        int numLocs = -1;
+        PlaceId *locs = DvWhereCanIGoByType(dv, false, false, &numLocs);
+        assert(numLocs == 0);
+        sortPlaces(locs, numLocs);
+        assert(locs == NULL);
+        free(locs);
+
+        printf("\033[1;32m");
+        printf("Test passed!\n");
+        printf("\033[0m");
+        DvFree(dv);
+    }
+	
 	{///////////////////////////////////////////////////////////////////
 	
 		printf("\t-> Test for DvWhereCanTheyGo where rail distance is 0: \n");

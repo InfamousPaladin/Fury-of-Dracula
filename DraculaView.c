@@ -9,10 +9,10 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
-// Written in the month of July 2020 for COMP2521 Assignment 2.
+// Written in the month of July 2020 for COMP2521 T2 Assignment 2.
 
-// This is the implementation file for DraculaView.h ADT. Implementation of the
-// following code was completed by Gabriel Ting and Christian Ilagan.
+// This is the implementation file for the DraculaView.h ADT. Implementation of 
+// the following code was completed by Gabriel Ting and Christian Ilagan.
 
 #include <assert.h>
 #include <stdbool.h>
@@ -280,6 +280,10 @@ PlaceId *DvWhereCanIGoByType(DraculaView dv, bool road, bool boat,
 		}
 	}
 
+	if (nValidLocs == 0) {
+		free(validMoves);
+		return NULL;
+	}
 	PlaceId *locs = malloc(sizeof(PlaceId) * nValidLocs);
 	for (int i = 0; i < nValidLocs; i++) {
 		locs[i] = validLocs[i];
@@ -339,7 +343,8 @@ static void checkHideDoubleBack(PlaceId trail[], int trailSize, bool *hideExist,
 }
 
 // Add HIDE move to the validMoves array
-static void addHide(DraculaView dv, PlaceId validMoves[], int *nValid, PlaceId currLoc)
+static void addHide(DraculaView dv, PlaceId validMoves[], int *nValid, 
+					PlaceId currLoc)
 {
 	int validIndex = *nValid;
 	// getting all rechable locations from currLoc
@@ -408,7 +413,7 @@ static void addDoubleBack(DraculaView dv, PlaceId validMoves[], int *nValid,
 
 // Add all valid rechable locations to the validMoves array
 static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid, 
-					PlaceId currLoc)
+							PlaceId currLoc)
 {
 	int validIndex = *nValid;
 	// getting draculas current "trail"
@@ -492,9 +497,10 @@ static void insertLocs(PlaceId loc, PlaceId validLocs[], int *nValidLocs) {
 		validLocs[nLocs] = loc;
 		nLocs++;
 	} else {
-		for (int i = 1; i < nLocs; i++) {
+		for (int i = 0; i < nLocs; i++) {
 			if (validLocs[i] == loc) {
 				isUniqueLoc = false;
+				break;
 			}
 		}
 		if (isUniqueLoc) {
