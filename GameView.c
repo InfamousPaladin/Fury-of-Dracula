@@ -357,7 +357,7 @@ PlaceId GvGetVampireLocation(GameView gv)
 			immvampireLoc.abbrev[0] = gv->playString[i + 1];
 			immvampireLoc.abbrev[1] = gv->playString[i + 2];
 			immvampireLoc.abbrev[2] = '\0';
-
+		
 			// round of immVampire & placeID 
 			foundLocation = true;
 			imVampireRound = vampRoundIncrement / NUM_PLAYERS;

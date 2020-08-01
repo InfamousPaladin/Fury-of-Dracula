@@ -15,8 +15,8 @@
 // Written in the month of July 2020 for COMP2521 T2 Assignment 2.
 
 // This is a testing file to determine if the implementation for DraculaView.h
-// ADT is correct and functional. Test cases was both supplied by COMP2521
-// staff and written by Gabriel Ting and Christian Ilagan.
+// ADT is correct and functional. Test cases were both supplied from the given
+// code and written by Gabriel Ting and Christian Ilagan.
 
 #include <assert.h>
 #include <stdbool.h>
@@ -31,9 +31,14 @@
 
 int main(void)
 {
-	printf("============ Game State Information ============\n");
+	printf("********************** DraculaView Testing **********************\n");
+	printf("Key: (Given)	-> Supplied test case intially\n");
+	printf("     (Added)	-> New asserts has been added to the original test case\n");
+	printf("     (New)	-> New test case created by team\n");
+
+	printf("\n================= Game State Information =================\n");
 	{///////////////////////////////////////////////////////////////////	
-		printf("\t-> Personal testing - Basic initialisation: ");
+		printf("(New)	-> Basic initialisation: ");
 
 		char *trail = "";
 		Message messages[] = {};
@@ -41,7 +46,8 @@ int main(void)
 
 		assert(DvGetRound(dv) == 0);
 		assert(DvGetScore(dv) == GAME_START_SCORE);
-		assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) == GAME_START_HUNTER_LIFE_POINTS);
+		assert(DvGetHealth(dv, PLAYER_LORD_GODALMING) == 
+								GAME_START_HUNTER_LIFE_POINTS);
 		assert(DvGetHealth(dv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 		assert(DvGetPlayerLocation(dv, PLAYER_LORD_GODALMING) == NOWHERE);
 		assert(DvGetVampireLocation(dv) == NOWHERE);
@@ -54,7 +60,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Personal testing - Test for basic functions, "
+		printf("(Given)	-> Test for basic functions, "
 			   "just before Dracula's first move: ");
 
 		char *trail =
@@ -88,7 +94,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Personal testing - Testing vampire/trap locations: ");
+		printf("(New)	-> Testing vampire/trap locations: ");
 		
 		char *trail =
 			"GVI.... SGE.... HGE.... MGE.... DCD.V.. "
@@ -116,7 +122,7 @@ int main(void)
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Personal testing - Testing trap locations after one is destroyed: ");
+		printf("(New)	-> Testing trap locations after one is destroyed: ");
 		
 		char *trail =
 			"GVI.... SGE.... HGE.... MGE.... DBC.V.. "
@@ -146,7 +152,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Personal testing - Testing a vampire maturing: ");
+		printf("(New)	-> Testing a vampire maturing: ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DC?.V.. "
@@ -174,7 +180,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get immvampire location when dead: ");
+		printf("(New)	-> get immvampire location when dead: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
@@ -198,7 +204,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Personal testing - get immvampire location when dead 2: ");
+		printf("(New)	-> get immvampire location when dead 2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
@@ -222,7 +228,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for encountering Dracula: ");
+		printf("(Given)	-> Test for encountering Dracula: ");
 
 		char *trail =
 			"GST.... SAO.... HCD.... MAO.... DGE.V.. "
@@ -251,7 +257,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for Dracula leaving minions 1: ");
+		printf("(Given)	-> Test for Dracula leaving minions 1: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DED.V.. "
@@ -280,11 +286,11 @@ int main(void)
 		DvFree(dv);
 	}
 
-	printf("============ Making a Move ============\n");
+	printf("\n================= Making a Move =================\n");
 	printf("===> DvGetValidMoves\n");
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Dracula's valid moves 1: ");
+		printf("(New)	-> Dracula's valid moves 1: ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DCD.V.. "
@@ -311,7 +317,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 
-		printf("\t-> Dracula's valid moves 2: ");
+		printf("(New)	-> Dracula's valid moves 2: ");
 
 		char *trail =
 			"GMN.... SPL.... HAM.... MPA.... DGA.V.. "
@@ -346,7 +352,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> HIDE as latest move 1: ");
+		printf("(New)	-> HIDE as latest move 1: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DCA.... "
@@ -381,7 +387,7 @@ int main(void)
 	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> HIDE as latest move 2: ");
+		printf("(New)	-> HIDE as latest move 2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DRO.... "
@@ -411,7 +417,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Dracula goes back to last deleted location on trail 1: ");
+		printf("(New)	-> Dracula goes back to last deleted location on trail 1: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DCA.... "
@@ -445,7 +451,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Dracula goes back to last deleted location on trail 2: ");
+		printf("(New)	-> Dracula goes back to last deleted location on trail 2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DSR.... "
@@ -481,7 +487,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Dracula has teleported to Castle Dracula: ");
+		printf("(New)	-> Dracula has teleported to Castle Dracula: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DVA.... "
@@ -516,30 +522,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> No valid moves 1: ");
-
-		char *trail =
-			"GST.... SST.... HST.... MST....";
-		
-		Message messages[4] = {};
-		DraculaView dv = DvNew(trail, messages);
-
-		assert(DvGetRound(dv) == 0);
-		int numMoves = -1;
-		PlaceId *moves = DvGetValidMoves(dv, &numMoves);
-		assert(numMoves == 0);
-		assert(moves == NULL);
-		free(moves);
-		
-		printf("\033[1;32m");
-		printf("Test passed!\n");
-		printf("\033[0m");
-		DvFree(dv);
-	}
-
-	{///////////////////////////////////////////////////////////////////
-	
-		printf("\t-> Test: Cannot Hide at sea: ");
+		printf("(New)	-> Cannot Hide at sea: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DBS.... "
@@ -568,7 +551,30 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> No valid moves 2: ");
+		printf("(New)	-> No valid moves 1: ");
+
+		char *trail =
+			"GST.... SST.... HST.... MST....";
+		
+		Message messages[4] = {};
+		DraculaView dv = DvNew(trail, messages);
+
+		assert(DvGetRound(dv) == 0);
+		int numMoves = -1;
+		PlaceId *moves = DvGetValidMoves(dv, &numMoves);
+		assert(numMoves == 0);
+		assert(moves == NULL);
+		free(moves);
+		
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+		DvFree(dv);
+	}
+
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("(New)	-> No valid moves 2: ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DVA.... "
@@ -595,8 +601,70 @@ int main(void)
 	printf("\n");
 	printf("===> DvWhereCanIGo and DvWhereCanIGoByType\n");
 	{///////////////////////////////////////////////////////////////////
+	
+		printf("(New)	-> Cannot Hide at sea: ");
 
-		printf("\t-> Dracula's valid locations 1: ");
+		char *trail =
+			"GGE.... SGE.... HGE.... MGE.... DBS.... "
+			"GGE.... SGE.... HGE.... MGE....";
+		
+		Message messages[4] = {};
+		DraculaView dv = DvNew(trail, messages);
+
+		assert(DvGetRound(dv) == 1);
+		int numMoves = -1;
+		PlaceId *moves = DvWhereCanIGo(dv, &numMoves);
+		assert(numMoves == 4);
+		sortPlaces(moves, numMoves);
+		assert(moves[0] == BLACK_SEA);
+		assert(moves[1] == CONSTANTA);
+		assert(moves[2] == IONIAN_SEA);
+		assert(moves[3] == VARNA);
+		free(moves);
+		
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+		DvFree(dv);
+	}
+	{///////////////////////////////////////////////////////////////////
+	
+		printf("(New)	-> Dracula has teleported to Castle Dracula: ");
+
+		char *trail =
+			"GGE.... SGE.... HGE.... MGE.... DVA.... "
+			"GGE.... SGE.... HGE.... MGE.... DHI.... "
+			"GGE.... SGE.... HGE.... MGE.... DD1.... "
+			"GST.... SST.... HST.... MST.... DIO.... "
+			"GGE.... SGE.... HGE.... MGE.... DAT.... "
+			"GGE.... SGE.... HGE.... MGE.... DTP.... "
+			"GST.... SST.... HST.... MST.... DGA.... "
+			"GST.... SST.... HST.... MST....";
+		
+		Message messages[34] = {};
+		DraculaView dv = DvNew(trail, messages);
+
+		assert(DvGetRound(dv) == 7);
+		int numMoves = -1;
+		PlaceId *moves = DvWhereCanIGo(dv, &numMoves);
+		assert(numMoves == 5);
+		sortPlaces(moves, numMoves);
+		assert(moves[0] == BUCHAREST);
+		assert(moves[1] == CASTLE_DRACULA);
+		assert(moves[2] == CONSTANTA);
+		assert(moves[3] == GALATZ);
+		assert(moves[4] == KLAUSENBURG);
+		free(moves);
+		
+		printf("\033[1;32m");
+		printf("Test passed!\n");
+		printf("\033[0m");
+		DvFree(dv);
+	}
+
+	{///////////////////////////////////////////////////////////////////
+
+		printf("(New)	-> Test for DvWhereCanIGo 0: ");
 
 		char *trail =
 			"GMN.... SPL.... HAM.... MPA.... DGA.V.. "
@@ -630,7 +698,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanIGo 1: ");
+		printf("(Given)	-> Test for DvWhereCanIGo 1: ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DKL.V.. "
@@ -660,7 +728,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanIGo 2: Item leaves the trail ");
+		printf("(New)	-> Test for DvWhereCanIGo 2 (Item leaves the trail): ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DGR.V.. "
@@ -690,7 +758,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanIGo 3: Hide & DB available ");
+		printf("(New)	-> Test for DvWhereCanIGo 3 (Hide & DB available): ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DTS.V.. "
@@ -719,7 +787,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanIGo 4: Testing middle DOUBLE_BACKS ");
+		printf("(New)	-> Test for DvWhereCanIGo 4 (Testing middle DOUBLE_BACKS): ");
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DLS.V.. "
@@ -752,7 +820,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanIGo 5: Testing DOUBLE_BACK_5 ");
+		printf("(New)	-> Test for DvWhereCanIGo 5 (Testing DOUBLE_BACK_5): ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DST.V.. "
@@ -785,7 +853,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanIGoByType 1: boat is restricted ");
+		printf("(New)	-> Test for DvWhereCanIGoByType 1 (boat is restricted): ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DCF.V.. "
@@ -813,7 +881,7 @@ int main(void)
 	}
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanIGoByType 2: Road is restricted ");
+		printf("(New)	-> Test for DvWhereCanIGoByType 2 (road is restricted): ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DLS.V.. "
@@ -838,7 +906,7 @@ int main(void)
 	}
 	{///////////////////////////////////////////////////////////////////
 		// this test should behave just like DvWhereCanIGo
-		printf("\t-> Test for DvWhereCanIGoByType 3: nothing restricted ");
+		printf("(New)	-> Test for DvWhereCanIGoByType 3 (nothing restricted): ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DLS.V.. "
@@ -870,8 +938,8 @@ int main(void)
 	}
 	{///////////////////////////////////////////////////////////////////
 		
-		printf("\t-> Test for DvWhereCanIGoByType 4: Item Leaves trail"
-				" boat restricted ");
+		printf("(New)	-> Test for DvWhereCanIGoByType 4 (Item Leaves trail"
+				" - boat restricted): ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DGR.V.. "
@@ -899,8 +967,8 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 		
-		printf("\t-> Test for DvWhereCanIGoByType 5: Item Leaves trail"
-				" road restricted ");
+		printf("(New)	-> Test for DvWhereCanIGoByType 5 (Item Leaves trail"
+				" - road restricted): ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DGR.V.. "
@@ -927,7 +995,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 		
-		printf("\t-> Test for DvWhereCanIGoByType 6: Both Restricted ");
+		printf("(New)	-> Test for DvWhereCanIGoByType 6 (Both Restricted): ");
 		
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DGR.V.. "
@@ -953,11 +1021,11 @@ int main(void)
 		DvFree(dv);
 	}
 
-
 	printf("\n===> DvWhereCanTheyGo and DvWhereCanTheyGoByType\n");
+	
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanTheyGo where rail distance is 0: ");
+		printf("(New)	-> Test for DvWhereCanTheyGo where rail distance is 0: ");
 		
 		char *trail =
 			"GMA.... SGE.... HGE.... MGE.... DKL.V.. "
@@ -991,7 +1059,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanTheyGo where rail distance is 1: ");
+		printf("(New)	-> Test for DvWhereCanTheyGo where rail distance is 1: ");
 		
 		char *trail =
 			"GMA.... SMU.... HGE.... MGE.... DKL.V.. "
@@ -1026,7 +1094,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanTheyGo where rail distance is 3: ");
+		printf("(New)	-> Test for DvWhereCanTheyGo where rail distance is 3: ");
 		
 		char *trail =
 			"GSN.... SGE.... HGE.... MGE.... DKL.V.. "
@@ -1066,7 +1134,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanTheyGoByType hunters (no rail): ");
+		printf("(New)	-> Test for DvWhereCanTheyGoByType hunters (no rail): ");
 		
 		char *trail =
 			"GSN.... SGE.... HGE.... MGE.... DKL.V.. "
@@ -1103,7 +1171,7 @@ int main(void)
 
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanTheyGoByType hunters (no road): ");
+		printf("(New)	-> Test for DvWhereCanTheyGoByType hunters (no road): ");
 		
 		char *trail =
 			"GSN.... SGE.... HGE.... MGE.... DKL.V.. "
@@ -1143,7 +1211,7 @@ int main(void)
 		
 	{///////////////////////////////////////////////////////////////////
 	
-		printf("\t-> Test for DvWhereCanTheyGoByType hunters (no road and rail distance is 0): ");
+		printf("(New)	-> Test for DvWhereCanTheyGoByType hunters (no road and rail distance is 0): ");
 		
 		char *trail =
 			"GMA.... SGE.... HGE.... MGE.... DKL.V.. "

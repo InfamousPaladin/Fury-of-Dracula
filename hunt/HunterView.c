@@ -9,6 +9,11 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
+// Written in the month of July 2020 for COMP2521 T2 Assignment 2.
+
+// This is the implementation file for the HunterView.h ADT. Implementation of 
+// the following code was completed by Tam Do and Prathamesh Jagtap.
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -26,11 +31,11 @@
 #include "Queue.h"
 
 // add your own #includes here
-#define TURN_CHARS	8	// chars each turn takes in play string (w space)
-#define ROUND_CHARS	40 	// chars each round takes in play string (w space)
-#define POS_ACTIONS 6 	// player actions; 2 for location; 4 for rest
-#define PLRACT_STRING 7 // each player string length
-#define	START_RAIL_DIST	1
+#define TURN_CHARS	     8	// chars each turn takes in play string (w space)
+#define ROUND_CHARS	     40 // chars each round takes in play string (w space)
+#define POS_ACTIONS      6 	// player actions; 2 for location; 4 for rest
+#define PLRACT_STRING    7 	// each player string length
+#define	START_RAIL_DIST	 1
 #define UNINTIALISED	-1	// path not found yet
 
 // each player is given player information
@@ -46,8 +51,22 @@ struct hunterView {
 	shortestPath playerID[NUM_PLAYERS];	// array that contains each player info
 };
 
-////////////////////////////////////////////////////////////////////////
-// Constructor/Destructor
+// Prototypes for helper functions.
+static PlaceId HvDraculaDoubleBack(
+	HunterView hv, 
+	Place playerLoc, 
+	int roundBack);
+static void HvGetShortestPath(
+	HunterView hv, 
+	PlaceId visitTransport[], 
+	PlaceId dest, 
+	Player hunter, 
+	bool *foundPath, 
+	PlaceId src);
+
+//**************************************************************************//
+//                		   Constructor/Deconstructor 		 	            //
+//**************************************************************************//
 
 HunterView HvNew(char *pastPlays, Message messages[])
 {
@@ -63,7 +82,6 @@ HunterView HvNew(char *pastPlays, Message messages[])
 	}
 
 	// assigning a map
-	new->map = MapNew();
 	new->playString = pastPlays;
 	new->view = GvNew(pastPlays, messages);
 
@@ -73,12 +91,12 @@ HunterView HvNew(char *pastPlays, Message messages[])
 void HvFree(HunterView hv)
 {
 	free(hv->view);
-	MapFree(hv->map);
 	free(hv);
 }
 
-////////////////////////////////////////////////////////////////////////
-// Game State Information
+//**************************************************************************//
+//                		      Game State Information 		 	            //
+//**************************************************************************//
 
 Round HvGetRound(HunterView hv)
 {
@@ -100,8 +118,159 @@ int HvGetHealth(HunterView hv, Player player)
 	return GvGetHealth(hv->view, player);
 }
 
-// helper function for GvGetPlayerLocation()
-// gets Dracula's location given how many rounds before the function should look
+PlaceId HvGetPlayerLocation(HunterView hv, Player player)
+{
+	return GvGetPlayerLocation(hv->view, player);
+}
+
+PlaceId HvGetVampireLocation(HunterView hv)
+{
+	return GvGetVampireLocation(hv->view);
+}
+
+//**************************************************************************//
+//                		       Utility Functions  		 	                //
+//**************************************************************************//
+
+PlaceId HvGetLastKnownDraculaLocation(HunterView hv, Round *round)
+{
+	Place playerLoc;
+	int hideOffset = 0;
+	char playerPlace[3];
+	playerLoc.id = CITY_UNKNOWN;
+	int roundBack = HvGetRound(hv);
+	playerLoc.abbrev = playerPlace;
+
+	while (playerLoc.id > ZURICH || playerLoc.id == UNKNOWN_PLACE) {
+		// can't find a location
+		if (roundBack < 0) return NOWHERE;
+		playerLoc.id = HvDraculaDoubleBack(hv, playerLoc, roundBack);
+		if (playerLoc.id == HIDE) hideOffset++;
+		roundBack--;
+	}
+
+	*round = roundBack + hideOffset;
+	return playerLoc.id;
+}
+
+PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
+                             int *pathLength)
+{
+	// player's current location
+	PlaceId src = HvGetPlayerLocation(hv, hunter);
+
+	// needed arrays for conducting calculations and holding data
+	PlaceId transportPath[NUM_REAL_PLACES];
+	PlaceId visitTransport[NUM_REAL_PLACES];
+	bool foundPath = false;
+	HvGetShortestPath(hv, visitTransport, dest, hunter, &foundPath, src); 
+	
+	// path is found
+	if (foundPath == true) {
+		
+		PlaceId pathLink;
+		int numCities = 0;
+		transportPath[numCities] = dest;
+		bool reachedEnd = false;
+		numCities++;
+
+		// calculating the number of locations
+		while (reachedEnd == false) {
+			pathLink = visitTransport[dest];
+			if (pathLink == src) {
+				reachedEnd = true;
+			} else {
+				transportPath[numCities] = pathLink;
+				dest = pathLink;
+				numCities++;
+			}
+		}
+
+		// dynamically allocating the final path of locations
+		PlaceId *finalPath = malloc(sizeof(ConnList) * (numCities - 1));
+		
+		// reading the found path into a dynamically allocated array
+		int j = 0;
+		for (int i = numCities - 1; i >= 0; i--, j++) {
+			finalPath[j] = transportPath[i];
+		}
+
+		// storing path distinct to player in struct
+		hv->playerID[hunter].storeShortestPath = finalPath;
+
+		if (src == dest) numCities--;
+
+		*pathLength = numCities;
+		return finalPath;
+	}
+
+	return NULL;
+}
+
+//**************************************************************************//
+//                		    	 Making a Move  		 	                //
+//**************************************************************************//
+
+PlaceId *HvWhereCanIGo(HunterView hv, int *numReturnedLocs)
+{
+	int numLocations = 0;
+	PlaceId *reachablePlaces;
+
+	reachablePlaces = GvGetReachable(hv->view, HvGetPlayer(hv), HvGetRound(hv), 
+					HvGetPlayerLocation(hv, HvGetPlayer(hv)), &numLocations);
+
+	*numReturnedLocs = numLocations;
+	return reachablePlaces;
+}
+
+PlaceId *HvWhereCanIGoByType(HunterView hv, bool road, bool rail,
+                             bool boat, int *numReturnedLocs)
+{
+	int numLocations = 0;
+	PlaceId *reachablebyType;
+
+	reachablebyType = GvGetReachableByType(hv->view, HvGetPlayer(hv), 
+						HvGetRound(hv),HvGetPlayerLocation(hv, HvGetPlayer(hv)), 
+						road, rail, boat, &numLocations);
+
+	*numReturnedLocs = numLocations;
+	return reachablebyType;
+}
+
+PlaceId *HvWhereCanTheyGo(HunterView hv, Player player,
+                          int *numReturnedLocs)
+{
+	int numLocations = 0;
+	PlaceId *reachableNext;
+
+	reachableNext = GvGetReachable(hv->view, player, HvGetRound(hv) + 1, 
+							HvGetPlayerLocation(hv, player), &numLocations);
+
+	*numReturnedLocs = numLocations;
+	return reachableNext;
+}
+
+PlaceId *HvWhereCanTheyGoByType(HunterView hv, Player player,
+                                bool road, bool rail, bool boat,
+                                int *numReturnedLocs)
+{
+	int numLocations = 0;
+	PlaceId *reachableNextType;
+
+	reachableNextType = GvGetReachableByType(hv->view, player, 
+							HvGetRound(hv) + 1, HvGetPlayerLocation(hv, player), 
+							road, rail, boat, &numLocations);
+
+	*numReturnedLocs = numLocations;
+	return reachableNextType;
+}
+
+//**************************************************************************//
+//                		    	Helper Functions 		 	                //
+//**************************************************************************//
+
+// Helper function for HvGetLastKnownDraculaLocation: Gets Dracula's location 
+// given how many rounds before the function should look for.
 static PlaceId HvDraculaDoubleBack(HunterView hv, Place playerLoc, 
 								   int roundBack) {
 
@@ -134,44 +303,15 @@ static PlaceId HvDraculaDoubleBack(HunterView hv, Place playerLoc,
 	return playerLoc.id;
 }
 
-PlaceId HvGetPlayerLocation(HunterView hv, Player player)
-{
-	return GvGetPlayerLocation(hv->view, player);
-}
 
-PlaceId HvGetVampireLocation(HunterView hv)
-{
-	return GvGetVampireLocation(hv->view);
-}
-
-////////////////////////////////////////////////////////////////////////
-// Utility Functions - Done by Prathamesh
-
-PlaceId HvGetLastKnownDraculaLocation(HunterView hv, Round *round)
-{
-	Place playerLoc;
-	char playerPlace[3];
-	playerLoc.id = CITY_UNKNOWN;
-	int roundBack = HvGetRound(hv);
-	playerLoc.abbrev = playerPlace;
-
-	while (playerLoc.id > ZURICH || playerLoc.id == UNKNOWN_PLACE) {
-		// can't find a location
-		if (roundBack < 0) return NOWHERE;
-		playerLoc.id = HvDraculaDoubleBack(hv, playerLoc, roundBack);
-		roundBack--;
-	}
-
-	*round = roundBack;
-	return playerLoc.id;
-}
-
-static PlaceId *HvGetShortestPath(HunterView hv, PlaceId *visitTransport, 
+// Helper function for HvGetShortestPathTo: Uses a breadth first search to
+// travers the graph and determine the shortest path from `src` to `dest`.
+static void HvGetShortestPath(HunterView hv, PlaceId visitTransport[], 
 								  PlaceId dest, Player hunter, bool *foundPath, 
 								  PlaceId src) {
 	
-	PlaceId *remLocRound = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
-
+	PlaceId remLocRound[NUM_REAL_PLACES];
+	
 	*foundPath = false;
 	int roundoffSet = 0;
 	int numlocTransport = 0;
@@ -214,122 +354,5 @@ static PlaceId *HvGetShortestPath(HunterView hv, PlaceId *visitTransport,
 		}
 		roundoffSet++;
 	}
-
 	dropQueue(bfsQueue);
-	return visitTransport;
 }
-
-PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
-                             int *pathLength)
-{
-	// player's current location
-	PlaceId src = HvGetPlayerLocation(hv, hunter);
-
-	// needed arrays for conducting calculations and holding data
-	PlaceId *transportPath = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
-	PlaceId *visitTransport = malloc(sizeof(ConnList) * NUM_REAL_PLACES);
-
-	bool foundPath = false;
-	visitTransport = HvGetShortestPath(hv, visitTransport, dest, hunter, 
-	&foundPath, src); 
-	
-	// path is found
-	if (foundPath == true) {
-		
-		PlaceId pathLink;
-		int numCities = 0;
-		transportPath[numCities] = dest;
-		bool reachedEnd = false;
-		numCities++;
-
-		// calculating the number of locations
-		while (reachedEnd == false) {
-			pathLink = visitTransport[dest];
-			if (pathLink == src) {
-				reachedEnd = true;
-			} else {
-				transportPath[numCities] = pathLink;
-				dest = pathLink;
-				numCities++;
-			}
-		}
-
-		// dynamically allocating the final path of locations
-		PlaceId *finalPath = malloc(sizeof(ConnList) * (numCities - 1));
-		
-		// reading the found path into a dynamically allocated array
-		int j = 0;
-		for (int i = numCities - 1; i >= 0; i--, j++) {
-			finalPath[j] = transportPath[i];
-		}
-
-		// storing path distinct to player in struct
-		hv->playerID[hunter].storeShortestPath = finalPath;
-
-		*pathLength = numCities;
-		return finalPath;
-	}
-
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////
-// Making a Move
-
-PlaceId *HvWhereCanIGo(HunterView hv, int *numReturnedLocs)
-{
-	int numLocations = 0;
-	PlaceId *reachablePlaces;
-
-	reachablePlaces = GvGetReachable(hv->view, HvGetPlayer(hv), HvGetRound(hv), 
-	HvGetPlayerLocation(hv, HvGetPlayer(hv)), &numLocations);
-
-	*numReturnedLocs = numLocations;
-	return reachablePlaces;
-}
-
-PlaceId *HvWhereCanIGoByType(HunterView hv, bool road, bool rail,
-                             bool boat, int *numReturnedLocs)
-{
-	int numLocations = 0;
-	PlaceId *reachablebyType;
-
-	reachablebyType = GvGetReachableByType(hv->view, HvGetPlayer(hv), HvGetRound(hv), 
-	HvGetPlayerLocation(hv, HvGetPlayer(hv)), road, rail, boat, &numLocations);
-
-	*numReturnedLocs = numLocations;
-	return reachablebyType;
-}
-
-PlaceId *HvWhereCanTheyGo(HunterView hv, Player player,
-                          int *numReturnedLocs)
-{
-	int numLocations = 0;
-	PlaceId *reachableNext;
-
-	reachableNext = GvGetReachable(hv->view, player, HvGetRound(hv) + 1, 
-	HvGetPlayerLocation(hv, player), &numLocations);
-
-	*numReturnedLocs = numLocations;
-	return reachableNext;
-}
-
-PlaceId *HvWhereCanTheyGoByType(HunterView hv, Player player,
-                                bool road, bool rail, bool boat,
-                                int *numReturnedLocs)
-{
-	int numLocations = 0;
-	PlaceId *reachableNextType;
-
-	reachableNextType = GvGetReachableByType(hv->view, player, 
-	HvGetRound(hv) + 1, HvGetPlayerLocation(hv, player), road, rail, boat, 
-	&numLocations);
-
-	*numReturnedLocs = numLocations;
-	return reachableNextType;
-}
-
-////////////////////////////////////////////////////////////////////////
-// Your own interface functions
-
-// TODO

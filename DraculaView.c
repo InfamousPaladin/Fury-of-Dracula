@@ -9,10 +9,10 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
-// Written in the month of July 2020 for COMP2521 Assignment 2.
+// Written in the month of July 2020 for COMP2521 T2 Assignment 2.
 
-// This is the implementation file for DraculaView.h ADT. Implementation of the
-// following code was completed by Gabriel Ting and Christian Ilagan.
+// This is the implementation file for the DraculaView.h ADT. Implementation of 
+// the following code was completed by Gabriel Ting and Christian Ilagan.
 
 #include <assert.h>
 #include <stdbool.h>
@@ -39,7 +39,7 @@ struct draculaView {
 	GameView gameState;					// Stores current game state
 
 	char *playString; 					// Stores all past plays
-	Message *messages;					// TODO: pointer to messages
+	Message *messages;					// pointer to messages
 	
 	Round currRound; 					// current round of game
 	playerInfo playerID[NUM_PLAYERS];	// array that contains each player info
@@ -90,7 +90,7 @@ DraculaView DvNew(char *pastPlays, Message messages[])
 
 	new->gameState = GvNew(pastPlays, messages);
 	new->playString = pastPlays;
-	new->messages = messages;		// TODO: recheck if right
+	new->messages = messages;
 
 	// set up current state of game
 	new->currRound = DvGetRound(new);
@@ -253,46 +253,46 @@ PlaceId *DvWhereCanIGo(DraculaView dv, int *numReturnedLocs)
 PlaceId *DvWhereCanIGoByType(DraculaView dv, bool road, bool boat,
                              int *numReturnedLocs)
 {
-    *numReturnedLocs = 0;
+	*numReturnedLocs = 0;
 
-    // Get Dracula's valid moves for this round
-    int nMoves = -1;
-    PlaceId *validMoves = DvGetValidMoves(dv, &nMoves);
-    if (nMoves == 0) return NULL;
+	// Get Dracula's valid moves for this round
+	int nMoves = -1;
+	PlaceId *validMoves = DvGetValidMoves(dv, &nMoves);
+	if (nMoves == 0) return NULL;
 
-    PlaceId currLoc = GvGetPlayerLocation(dv->gameState, PLAYER_DRACULA);
+	PlaceId currLoc = GvGetPlayerLocation(dv->gameState, PLAYER_DRACULA);
 
-    // Get all reachable places from current location
-    int nReach = -1;
-    PlaceId *reachLocs = GvGetReachableByType(dv->gameState, PLAYER_DRACULA, 
-                            dv->currRound, currLoc, road, false, boat, &nReach);
+	// Get all reachable places from current location
+	int nReach = -1;
+	PlaceId *reachLocs = GvGetReachableByType(dv->gameState, PLAYER_DRACULA, 
+							dv->currRound, currLoc, road, false, boat, &nReach);
+	
+	int nValidLocs = 0;
+	PlaceId validLocs[MAX_ARRAY_SIZE];
+	
+	for (int i = 0; i < nMoves; i++) {		
+		findLocation(dv, i, validMoves);
+		for (int j = 0; j < nReach; j++) {
+			if (validMoves[i] == reachLocs[j]) {
+				insertLocs(validMoves[i], validLocs, &nValidLocs);
+				break;
+			}
+		}
+	}
 
-    int nValidLocs = 0;
-    PlaceId validLocs[MAX_ARRAY_SIZE];
+	if (nValidLocs == 0) {
+		free(validMoves);
+		return NULL;
+	}
+	PlaceId *locs = malloc(sizeof(PlaceId) * nValidLocs);
+	for (int i = 0; i < nValidLocs; i++) {
+		locs[i] = validLocs[i];
+	}
 
-    for (int i = 0; i < nMoves; i++) {
-        findLocation(dv, i, validMoves);
-        for (int j = 0; j < nReach; j++) {
-            if (validMoves[i] == reachLocs[j]) {
-                insertLocs(validMoves[i], validLocs, &nValidLocs);
-                break;
-            }
-        }
-    }
+	free(validMoves);
 
-    if (nValidLocs == 0) {
-        free(validMoves);
-        return NULL;
-    }
-    PlaceId *locs = malloc(sizeof(PlaceId) * nValidLocs);
-    for (int i = 0; i < nValidLocs; i++) {
-        locs[i] = validLocs[i];
-    }
-
-    free(validMoves);
-
-    *numReturnedLocs = nValidLocs;
-    return locs;
+	*numReturnedLocs = nValidLocs;
+	return locs;
 }
 
 PlaceId *DvWhereCanTheyGo(DraculaView dv, Player player,
@@ -343,7 +343,8 @@ static void checkHideDoubleBack(PlaceId trail[], int trailSize, bool *hideExist,
 }
 
 // Add HIDE move to the validMoves array
-static void addHide(DraculaView dv, PlaceId validMoves[], int *nValid, PlaceId currLoc)
+static void addHide(DraculaView dv, PlaceId validMoves[], int *nValid, 
+					PlaceId currLoc)
 {
 	int validIndex = *nValid;
 	// getting all rechable locations from currLoc
@@ -412,7 +413,7 @@ static void addDoubleBack(DraculaView dv, PlaceId validMoves[], int *nValid,
 
 // Add all valid rechable locations to the validMoves array
 static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid, 
-					PlaceId currLoc)
+							PlaceId currLoc)
 {
 	int validIndex = *nValid;
 	// getting draculas current "trail"
@@ -489,24 +490,25 @@ static void findLocation(DraculaView dv, int i, PlaceId validMoves[])
 	if (canFree) free(trailLocs);
 }
 
+// Insert loc into the validLocs array only if it is a unique value in the array
 static void insertLocs(PlaceId loc, PlaceId validLocs[], int *nValidLocs) {
-    int nLocs = *nValidLocs;
-    bool isUniqueLoc = true;
-    if (nLocs == 0) {
-        validLocs[nLocs] = loc;
-        nLocs++;
-    } else {
-        for (int i = 0; i < nLocs; i++) {
-            if (validLocs[i] == loc) {
-                isUniqueLoc = false;
-                break;
-            }
-        }
-        if (isUniqueLoc) {
-            validLocs[nLocs] = loc;
-            nLocs++;
-        }
-    }
+	int nLocs = *nValidLocs;
+	bool isUniqueLoc = true;
+	if (nLocs == 0) {
+		validLocs[nLocs] = loc;
+		nLocs++;
+	} else {
+		for (int i = 0; i < nLocs; i++) {
+			if (validLocs[i] == loc) {
+				isUniqueLoc = false;
+				break;
+			}
+		}
+		if (isUniqueLoc) {
+			validLocs[nLocs] = loc;
+			nLocs++;
+		}
+	}
 
-    *nValidLocs = nLocs;
+	*nValidLocs = nLocs;
 }
