@@ -9,12 +9,53 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
+#include <assert.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "Game.h"
 #include "hunter.h"
 #include "HunterView.h"
 
 void decideHunterMove(HunterView hv)
 {
-	// TODO: Replace this with something better!
-	registerBestPlay("TO", "Have we nothing Toulouse?");
+	Round roundNum = HvGetRound(hv);
+	Player currPlayer = HvGetPlayer(hv);
+
+	if (currPlayer == PLAYER_LORD_GODALMING && roundNum == 0) {
+		registerBestPlay("SW", "LETS FUCKIN GO BOYS ESHAYS");
+	} else if (currPlayer == PLAYER_DR_SEWARD && roundNum == 0) {
+		registerBestPlay("LS", "LETS FUCKIN GO BOYS ESHAYS");
+	} else if (currPlayer == PLAYER_VAN_HELSING && roundNum == 0) {
+		registerBestPlay("MR", "LETS FUCKIN GO BOYS ESHAYS");
+	} else if (currPlayer == PLAYER_MINA_HARKER && roundNum == 0) {
+		registerBestPlay("HA", "LETS FUCKIN GO BOYS ESHAYS");
+	}
+
+	PlaceId dracLocation = HvGetPlayerLocation(hv, PLAYER_DRACULA);
+
+	// immediately reveal Dracula's location
+	if (dracLocation == NOWHERE && roundNum == 1) {
+		if (currPlayer == PLAYER_LORD_GODALMING) {
+			registerBestPlay("SW", "LETS FUCKIN GO BOYS ESHAYS");
+		} else if (currPlayer == PLAYER_DR_SEWARD) {
+			registerBestPlay("LS", "LETS FUCKIN GO BOYS ESHAYS");
+		} else if (currPlayer == PLAYER_VAN_HELSING) {
+			registerBestPlay("MR", "LETS FUCKIN GO BOYS ESHAYS");
+		} else if (currPlayer == PLAYER_MINA_HARKER) {
+			registerBestPlay("HA", "LETS FUCKIN GO BOYS ESHAYS");
+		}
+	}
+
+	// finds Dracula's location and finds the shortest path to that location
+	int pathLength = -1;
+	PlaceId *pathtoDracula = HvGetShortestPathTo(hv, currPlayer, dracLocation, &pathLength);
+
+	Place placeAbbrev;
+	placeAbbrev.abbrev = (char *) placeIdToAbbrev(pathtoDracula[0]);
+	registerBestPlay(placeAbbrev.abbrev, "LETS FUCKIN GO BOYS ESHAYS");
+
+
+
 }
