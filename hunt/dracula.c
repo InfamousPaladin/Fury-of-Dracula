@@ -132,18 +132,41 @@ void decideDraculaMove(DraculaView dv)
 		play = (char *) placeIdToAbbrev(DracShouldGo[locID]);
 		registerBestPlay(play, "BYE BYE BUDDY!!!!");
 	} else if (numGoodLocs == 0) {
-		// go to the city containing the most traps
+		// meaning dracula cant move anywhere without encountering a hunter
+		// go to the city containing ONLY one trap
+
+		// remember in DvGetTrapLocations, if there are multiple traps in one
+		// city, it appears multiple times.
+
+		// TODO: There might be problems with this code
+		Drac = DvWhereCanIGo(dv, &numLocD);
+		int numTraps = 0;
+		PlaceId *TrapLocs = DvGetTrapLocations(dv, &numTraps);
+		PlaceId TrapsReachable[100];
+		int trapIndex = 0;
+		// TODO: consider uniqueness of cities
+		for (int i = 0; i < numLocD; i++) {
+			for (int j = 0; j < numTraps; j++) {
+				if (Drac[i] == TrapLocs[j]) {
+					TrapsReachable[trapIndex] = Drac[i];
+					trapIndex++;
+				}
+			}
+		}
+		PlaceId *TrapCities = malloc(sizeof(PlaceId) * trapIndex);
+		for (int i = 0; i < trapIndex; i++) {
+			TrapCities[i] = TrapsReachable[i];
+		}
+		// randomly going to any city containing a trap
+		int locID = (rand() % (trapIndex - 1)) - 1;
+		play = (char *) placeIdToAbbrev(TrapCities[locID]);
+		registerBestPlay(play, "Trap and kill :)))");
+
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
 //							     ~ TODO ~						              //
 ////////////////////////////////////////////////////////////////////////////////
-
-	// checking if a hunter has found draculas trail, run away
-
-	// 
-
-
 	// The strategy:
 	// Ideas:
 	// ------------------------------------------------------------
