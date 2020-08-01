@@ -126,9 +126,14 @@ void decideDraculaMove(DraculaView dv)
 	// randomly going to any of the cities in DracShouldGo
 	// (there is probably a better strategy, but can build off this for now)
 
-	int locID = (rand() % (numGoodLocs - 1)) - 1;
-	play = (char *) placeIdToAbbrev(DracShouldGo[locID]);
-	registerBestPlay(play, "BYE BYE BUDDY!!!!");
+	// if dracula can safely dodge the hunters
+	if (numGoodLocs > 0) {
+		int locID = (rand() % (numGoodLocs - 1)) - 1;
+		play = (char *) placeIdToAbbrev(DracShouldGo[locID]);
+		registerBestPlay(play, "BYE BYE BUDDY!!!!");
+	} else if (numGoodLocs == 0) {
+		// go to the city containing the most traps
+	}
 
 ////////////////////////////////////////////////////////////////////////////////
 //							     ~ TODO ~						              //
