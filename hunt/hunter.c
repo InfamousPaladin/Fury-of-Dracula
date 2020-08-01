@@ -27,13 +27,13 @@ void decideHunterMove(HunterView hv)
 
 	// Starting positions
 	if (currPlayer == PLAYER_LORD_GODALMING && roundNum == 0) {
-		registerBestPlay("SW", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("SW", "LETS GO BOYS");
 	} else if (currPlayer == PLAYER_DR_SEWARD && roundNum == 0) {
-		registerBestPlay("LS", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("LS", "LETS GO BOYS");
 	} else if (currPlayer == PLAYER_VAN_HELSING && roundNum == 0) {
-		registerBestPlay("MR", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("MR", "LETS GO BOYS");
 	} else if (currPlayer == PLAYER_MINA_HARKER && roundNum == 0) {
-		registerBestPlay("HA", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("HA", "LETS GO BOYS");
 	}
 
 	PlaceId dracLocation = HvGetPlayerLocation(hv, PLAYER_DRACULA);
@@ -43,16 +43,16 @@ void decideHunterMove(HunterView hv)
 		
 		if (currPlayer == PLAYER_LORD_GODALMING) {
 			move = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING));
-			registerBestPlay(move, "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay(move, "LETS GO BOYS");
 		} else if (currPlayer == PLAYER_DR_SEWARD) {
 			move = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, PLAYER_DR_SEWARD));
-			registerBestPlay(move, "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay(move, "LETS GO BOYS");
 		} else if (currPlayer == PLAYER_VAN_HELSING) {
 			move = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, PLAYER_VAN_HELSING));
-			registerBestPlay(move, "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay(move, "LETS GO BOYS");
 		} else if (currPlayer == PLAYER_MINA_HARKER) {
 			move = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, PLAYER_MINA_HARKER));
-			registerBestPlay(move, "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay(move, "LETS GO BOYS");
 		}
 	// Do random moves until a hunter finds Dracula
 	} else if (dracLocation == CITY_UNKNOWN) {
