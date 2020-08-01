@@ -24,38 +24,69 @@ void decideHunterMove(HunterView hv)
 	Player currPlayer = HvGetPlayer(hv);
 
 	if (currPlayer == PLAYER_LORD_GODALMING && roundNum == 0) {
-		registerBestPlay("SW", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("SW", "LETS GO BOYS");
 	} else if (currPlayer == PLAYER_DR_SEWARD && roundNum == 0) {
-		registerBestPlay("LS", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("LS", "LETS GO BOYS");
 	} else if (currPlayer == PLAYER_VAN_HELSING && roundNum == 0) {
-		registerBestPlay("MR", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("MR", "LETS GO BOYS");
 	} else if (currPlayer == PLAYER_MINA_HARKER && roundNum == 0) {
-		registerBestPlay("HA", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("HA", "LETS GO BOYS");
 	}
 
 	PlaceId dracLocation = HvGetPlayerLocation(hv, PLAYER_DRACULA);
 
 	// immediately reveal Dracula's location
 	if (dracLocation == NOWHERE && roundNum == 1) {
+		
 		if (currPlayer == PLAYER_LORD_GODALMING) {
-			registerBestPlay("SW", "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay("SW", "LETS GO BOYS");
 		} else if (currPlayer == PLAYER_DR_SEWARD) {
-			registerBestPlay("LS", "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay("LS", "LETS GO BOYS");
 		} else if (currPlayer == PLAYER_VAN_HELSING) {
-			registerBestPlay("MR", "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay("MR", "LETS GO BOYS");
 		} else if (currPlayer == PLAYER_MINA_HARKER) {
-			registerBestPlay("HA", "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay("HA", "LETS GO BOYS");
 		}
-	}
+
+	} else if (dracLocation == CITY_UNKNOWN) {
+
+		int numLocations = -1;
+		PlaceId *possibleLocations = HvWhereCanIGoByType(hv, true, true, false, 
+																&numLocations);
+		int locID = (rand() % (numLocations - 1)) - 1;
+
+		Place placeAbbrev;
+		placeAbbrev.abbrev = (char *) placeIdToAbbrev(possibleLocations[locID]);
+
+		registerBestPlay(placeAbbrev.abbrev, "LETS GO BOYS");
+
+	} else if (dracLocation == SEA_UNKNOWN) {
+
+		int numLocations = -1;
+		PlaceId *possibleLocations = HvWhereCanIGoByType(hv, true, true, true, 
+																&numLocations);
+		int locID = (rand() % (numLocations - 1)) - 1;
+
+		Place placeAbbrev;
+		placeAbbrev.abbrev = (char *) placeIdToAbbrev(possibleLocations[locID]);
+
+		registerBestPlay(placeAbbrev.abbrev, "LETS GO BOYS");
+
+	}  
+
+
+	// if vampire's location is visible, set a course to the location and kill it
 
 	// finds Dracula's location and finds the shortest path to that location
-	int pathLength = -1;
-	PlaceId *pathtoDracula = HvGetShortestPathTo(hv, currPlayer, dracLocation, &pathLength);
+	if (dracLocation < CITY_UNKNOWN && dracLocation != NOWHERE &&
+		dracLocation != UNKNOWN_PLACE) {
 
-	Place placeAbbrev;
-	placeAbbrev.abbrev = (char *) placeIdToAbbrev(pathtoDracula[0]);
-	registerBestPlay(placeAbbrev.abbrev, "LETS FUCKIN GO BOYS ESHAYS");
+		int pathLength = -1;
+		PlaceId *pathtoDracula = HvGetShortestPathTo(hv, currPlayer, dracLocation, &pathLength);
 
-
+		Place placeAbbrev;
+		placeAbbrev.abbrev = (char *) placeIdToAbbrev(pathtoDracula[0]);
+		registerBestPlay(placeAbbrev.abbrev, "LETS GO BOYS");
+	}
 
 }
