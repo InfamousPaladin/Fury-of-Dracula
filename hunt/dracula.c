@@ -16,7 +16,6 @@
 
 typedef struct hunter
 {
-	Player name;						// name of player
 	PlaceId location;					// current location of player
 	int health;							// current player health
 } hunterInfo;
@@ -25,6 +24,9 @@ typedef struct gameState {
 	Round currRound;
 	int score;
 	hunterInfo hunterID[4];
+
+	int dracHealth;
+	PlaceId dracLoc;
 } GameState;
 
 
@@ -50,8 +52,13 @@ void decideDraculaMove(DraculaView dv)
 	gameInfo.hunterID[2].health = DvGetHealth(dv, PLAYER_VAN_HELSING);
 	gameInfo.hunterID[3].health = DvGetHealth(dv, PLAYER_MINA_HARKER);
 
+	gameInfo.dracHealth = DvGetHealth(dv, PLAYER_DRACULA);
+	gameInfo.dracLoc = DvGetPlayerLocation(dv, PLAYER_DRACULA);
 
-	if (currRound == 0) {
+	if (gameInfo.dracLoc == NOWHERE) {
+		registerBestPlay("CD", "Mwahahahaha");
+	} else{
+		if (currRound == 0) {
 		play = "TP";
 	}
 
@@ -63,5 +70,6 @@ void decideDraculaMove(DraculaView dv)
 	printf("Round: %d\n", gameInfo.currRound);
 	printf("Score: %d\n", gameInfo.score);
 
-	registerBestPlay(play, "Mwahahahaha");
+	registerBestPlay(play, "Mwahahahaha");	
+	}
 }
