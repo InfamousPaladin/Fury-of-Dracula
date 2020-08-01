@@ -14,6 +14,8 @@
 #include "Game.h"
 #include <stdio.h>
 
+#define DONT -1
+
 typedef struct hunter
 {
 	Player name;						// name of player
@@ -50,7 +52,7 @@ void decideDraculaMove(DraculaView dv)
 	gameInfo.hunterID[2].health = DvGetHealth(dv, PLAYER_VAN_HELSING);
 	gameInfo.hunterID[3].health = DvGetHealth(dv, PLAYER_MINA_HARKER);
 
-
+	// starting position
 	if (currRound == 0) {
 		play = "TP";
 	}
@@ -64,6 +66,78 @@ void decideDraculaMove(DraculaView dv)
 	printf("Score: %d\n", gameInfo.score);
 
 	registerBestPlay(play, "Mwahahahaha");
+////////////////////////////////////////////////////////////////////////////////
+//							     Basic Movement							      //
+////////////////////////////////////////////////////////////////////////////////
+
+	// avoiding moving to cities where the hunters can also move
+	int numLocG = 0;
+	int numLocS = 0;
+	int numLocH = 0;
+	int numLocM = 0;
+	PlaceId *God = DvWhereCanTheyGo(dv, PLAYER_LORD_GODALMING, &numLocG);
+	PlaceId *Doc = DvWhereCanTheyGo(dv, PLAYER_DR_SEWARD, &numLocS);
+	PlaceId *Van = DvWhereCanTheyGo(dv, PLAYER_VAN_HELSING, &numLocH);
+	PlaceId *Min = DvWhereCanTheyGo(dv, PLAYER_MINA_HARKER, &numLocM);
+
+	int totalLoc = numLocG + numLocS + numLocH + numLocM;
+
+	// appending all individual hunters possible city moves into one array
+	PlaceId *allHunterMoves = malloc(sizeof(PlaceId) * totalLoc);
+	int i;
+	for (i = 0; i < numLocG; i++) {
+		allHunterMoves[i] = God[i];
+	}
+	for (int j = 0; j < numLocS; j++, i++) {
+		allHunterMoves[i] = Doc[j]; 
+	}
+	for (int j = 0; j < numLocH; j++, i++) {
+		allHunterMoves[i] = Van[j];
+	}
+	for (int j = 0; j < numLocM; j++, i++) {
+		allHunterMoves[i] = Min[j];
+	}
+
+	// getting the locs dracula can move
+	int numLocD = 0;
+	PlaceId *Drac = DvWhereCanIGo(dv, &numLocD);
+	int numBadLocs = 0;
+	for (int i = 0; i < numLocD; i++) {
+		// comparing draculas moves to moves possible by all hunters
+		for (int j = 0; j < totalLoc; j++) {
+			if (allHunterMoves[j] == Drac[i]) {
+				Drac[i] = DONT;
+				numBadLocs++;
+				break;
+			}
+		}
+	}
+	// creating a new array for where dracula should go to avoid hunters
+	int numGoodLocs = numLocD - numBadLocs;
+	PlaceId *DracShouldGo = malloc(sizeof(PlaceId) * numGoodLocs);
+	int j = 0;
+	for (int i = 0; i < numLocD; i++) {
+		if (Drac[i] != DONT) {
+			DracShouldGo[j] = Drac[i];
+			j++;
+		}
+	}
+
+	// randomly going to any of the cities in DracShouldGo
+	// (there is probably a better strategy, but can build off this for now)
+
+	int locID = (rand() % (numGoodLocs - 1)) - 1;
+	play = (char *) placeIdToAbbrev(DracShouldGo[locID]);
+	registerBestPlay(play, "BYE BYE BUDDY!!!!");
+
+////////////////////////////////////////////////////////////////////////////////
+//							     ~ TODO ~						              //
+////////////////////////////////////////////////////////////////////////////////
+
+	// checking if a hunter has found draculas trail, run away
+
+	// 
+
 
 	// The strategy:
 	// Ideas:
@@ -114,5 +188,7 @@ void decideDraculaMove(DraculaView dv)
 	// a good idea as you would be easily able to navigate to different areas
 	// of the map regardless of where the hunters start.
 	// ------------------------------------------------------------
+	// if the hunters have found draculas trail, dracula makes his best
+	// effort to run away.
 
 }
