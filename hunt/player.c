@@ -72,14 +72,17 @@ typedef HunterView View;
 # define decideMove decideHunterMove
 # define ViewFree HvFree
 
-# define xPastPlays "GZA.... SED.... HZU...."
+# define xPastPlays "GSW.... SLS.... HMR.... MHA.... DC?.... GSW.... SLS.... HMR.... MHA.... DPA.... GLO.... SLS.... HMR.... MHA.... DC?...."
 # define xMsgs { "", "", "" }
 
 #endif
 
 int main(void)
 {
-	char *pastPlays = xPastPlays;
+	// Replace this with the define instead
+	char *pastPlays = "GSW.... SLS.... HMR.... MHA.... DC?.V.. "
+					  "GSW.... SLS.... HMR.... MHA.... DPAT... "
+					  "GLO.... SLS.... HMR.... MHA.... DC?T...";
 	Message msgs[] = xMsgs;
 
 	View state = ViewNew(pastPlays, msgs);
