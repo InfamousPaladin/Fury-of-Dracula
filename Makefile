@@ -29,10 +29,11 @@ testMap.o: testMap.c Map.h Places.h
 
 Places.o: Places.c Places.h Game.h
 Map.o: Map.c Map.h Places.h Game.h
-GameView.o:	GameView.c GameView.h Game.h
-HunterView.o: HunterView.c HunterView.h Game.h
-DraculaView.o: DraculaView.c DraculaView.h Game.h
+GameView.o:	GameView.c GameView.h Game.h utils.o
+HunterView.o: HunterView.c HunterView.h Game.h utils.o
+DraculaView.o: DraculaView.c DraculaView.h Game.h utils.o
 testUtils.o: testUtils.c Places.h Game.h
+utils.o: utils.c utils.h
 
 Queue.o: Queue.c Queue.h Item.h
 
