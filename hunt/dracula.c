@@ -14,6 +14,8 @@
 #include "Game.h"
 #include <stdio.h>
 
+#define DONT -1000
+
 typedef struct hunter
 {
 	PlaceId location;					// current location of player
@@ -52,6 +54,7 @@ void decideDraculaMove(DraculaView dv)
 	gameInfo.hunterID[2].health = DvGetHealth(dv, PLAYER_VAN_HELSING);
 	gameInfo.hunterID[3].health = DvGetHealth(dv, PLAYER_MINA_HARKER);
 
+
 	gameInfo.dracHealth = DvGetHealth(dv, PLAYER_DRACULA);
 	gameInfo.dracLoc = DvGetPlayerLocation(dv, PLAYER_DRACULA);
 
@@ -59,8 +62,6 @@ void decideDraculaMove(DraculaView dv)
 		registerBestPlay("CD", "Mwahahahaha");
 	} else{
 		if (currRound == 0) {
-		play = "TP";
-	}
 
 	for (int i = 0; i < 4; i++) {
 		printf("Hunter %d:\n", i + 1);
@@ -71,7 +72,108 @@ void decideDraculaMove(DraculaView dv)
 	printf("Score: %d\n", gameInfo.score);
 
 	registerBestPlay(play, "Mwahahahaha");
+////////////////////////////////////////////////////////////////////////////////
+//							     Basic Movement							      //
+////////////////////////////////////////////////////////////////////////////////
 
+	// avoiding moving to cities where the hunters can also move
+	int numLocG = 0;
+	int numLocS = 0;
+	int numLocH = 0;
+	int numLocM = 0;
+	PlaceId *God = DvWhereCanTheyGo(dv, PLAYER_LORD_GODALMING, &numLocG);
+	PlaceId *Doc = DvWhereCanTheyGo(dv, PLAYER_DR_SEWARD, &numLocS);
+	PlaceId *Van = DvWhereCanTheyGo(dv, PLAYER_VAN_HELSING, &numLocH);
+	PlaceId *Min = DvWhereCanTheyGo(dv, PLAYER_MINA_HARKER, &numLocM);
+
+	int totalLoc = numLocG + numLocS + numLocH + numLocM;
+
+	// appending all individual hunters possible city moves into one array
+	// TODO: Consider if hunters can reach the same city (uniqueness)
+	PlaceId *allHunterMoves = malloc(sizeof(PlaceId) * totalLoc);
+	int i;
+	for (i = 0; i < numLocG; i++) {
+		allHunterMoves[i] = God[i];
+	}
+	for (int j = 0; j < numLocS; j++, i++) {
+		allHunterMoves[i] = Doc[j]; 
+	}
+	for (int j = 0; j < numLocH; j++, i++) {
+		allHunterMoves[i] = Van[j];
+	}
+	for (int j = 0; j < numLocM; j++, i++) {
+		allHunterMoves[i] = Min[j];
+	}
+
+	// getting the locs dracula can move
+	int numLocD = 0;
+	PlaceId *Drac = DvWhereCanIGo(dv, &numLocD);
+	int numBadLocs = 0;
+	for (int i = 0; i < numLocD; i++) {
+		// comparing draculas moves to moves possible by all hunters
+		for (int j = 0; j < totalLoc; j++) {
+			if (allHunterMoves[j] == Drac[i]) {
+				Drac[i] = DONT;
+				numBadLocs++;
+				break;
+			}
+		}
+	}
+	// creating a new array for where dracula should go to avoid hunters
+	int numGoodLocs = numLocD - numBadLocs;
+	PlaceId *DracShouldGo = malloc(sizeof(PlaceId) * numGoodLocs);
+	int j = 0;
+	for (int i = 0; i < numLocD; i++) {
+		if (Drac[i] != DONT) {
+			DracShouldGo[j] = Drac[i];
+			j++;
+		}
+	}
+
+	// randomly going to any of the cities in DracShouldGo
+	// (there is probably a better strategy, but can build off this for now)
+
+	// if dracula can safely dodge the hunters
+	if (numGoodLocs > 0) {
+		int locID = (rand() % (numGoodLocs - 1)) - 1;
+		play = (char *) placeIdToAbbrev(DracShouldGo[locID]);
+		registerBestPlay(play, "BYE BYE BUDDY!!!!");
+	} else if (numGoodLocs == 0) {
+		// meaning dracula cant move anywhere without encountering a hunter
+		// go to the city containing ONLY one trap
+
+		// remember in DvGetTrapLocations, if there are multiple traps in one
+		// city, it appears multiple times.
+
+		// TODO: There might be problems with this code
+		Drac = DvWhereCanIGo(dv, &numLocD);
+		int numTraps = 0;
+		PlaceId *TrapLocs = DvGetTrapLocations(dv, &numTraps);
+		PlaceId TrapsReachable[100];
+		int trapIndex = 0;
+		// TODO: consider uniqueness of cities
+		for (int i = 0; i < numLocD; i++) {
+			for (int j = 0; j < numTraps; j++) {
+				if (Drac[i] == TrapLocs[j]) {
+					TrapsReachable[trapIndex] = Drac[i];
+					trapIndex++;
+				}
+			}
+		}
+		PlaceId *TrapCities = malloc(sizeof(PlaceId) * trapIndex);
+		for (int i = 0; i < trapIndex; i++) {
+			TrapCities[i] = TrapsReachable[i];
+		}
+		// randomly going to any city containing a trap
+		int locID = (rand() % (trapIndex - 1)) - 1;
+		play = (char *) placeIdToAbbrev(TrapCities[locID]);
+		registerBestPlay(play, "Trap and kill :)))");
+
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//							     ~ TODO ~						              //
+////////////////////////////////////////////////////////////////////////////////
 	// The strategy:
 	// Ideas:
 	// ------------------------------------------------------------
@@ -121,5 +223,13 @@ void decideDraculaMove(DraculaView dv)
 	// a good idea as you would be easily able to navigate to different areas
 	// of the map regardless of where the hunters start.
 	// ------------------------------------------------------------
+	// if the hunters have found draculas trail, dracula makes his best
+	// effort to run away.
+	// ------------------------------------------------------------
+	// if a city is reachable by two or more hunters, and dracula must make an
+	// encounter, choose the city that would minimise damage to dracula in this
+	// case it would generally be one,
+	// ------------------------------------------------------------
+	// 
 
 }
