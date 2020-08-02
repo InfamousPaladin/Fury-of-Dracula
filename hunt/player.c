@@ -80,9 +80,7 @@ typedef HunterView View;
 int main(void)
 {
 	// Replace this with the define instead
-	char *pastPlays = "GSW.... SLS.... HMR.... MHA.... DC?.V.. "
-					  "GSW.... SLS.... HMR.... MHA.... DPAT... "
-					  "GLO.... SLS.... HMR.... MHA.... DC?T...";
+	char *pastPlays = "GDU.... SSZ.... HPA.... MHA....";
 	Message msgs[] = xMsgs;
 
 	View state = ViewNew(pastPlays, msgs);
