@@ -161,9 +161,11 @@ void decideDraculaMove(DraculaView dv)
 			play = (char *) placeIdToAbbrev(locID);
 			registerBestPlay(play, "being a complete idiot here");
 		}
+		free(gameInfo.allHunterLocs);
 	} else if (gameInfo.nMoves == 0) {
 		// Case where no more valid moves
 		registerBestPlay("TP", "Gotcha Fool");
+		free(gameInfo.allHunterLocs);
 	} else {
 		// TODO: Just in case, just register a random move.
 		bool notGoodMove = true;
@@ -178,6 +180,60 @@ void decideDraculaMove(DraculaView dv)
 				}
 			}
 		}
+
+
+		{
+
+		// TODO: need to account for both moves and locations. This is currently
+		// only considering moves. TODO: Just locs
+		int numBadLocs = 0;
+		// comparing draculas locations to locations possible by all hunters
+		for (int i = 0; i < gameInfo.nLocs; i++) {
+			for (int j = 0; j < gameInfo.totalLocs; j++) {
+				if (gameInfo.allHunterLocs[j] == gameInfo.dracLocs[i]) {
+					gameInfo.dracLocs[i] = DONT;
+					numBadLocs++;
+					break;
+				}
+			}
+		}
+
+		// creating a new array for where dracula should go to avoid hunters
+		int numGoodLocs = gameInfo.nLocs - numBadLocs;
+		PlaceId *DracShouldGoLoc = malloc(sizeof(PlaceId) * numGoodLocs);
+		int j = 0;
+		for (int i = 0; i < gameInfo.nLocs; i++) {
+			if (gameInfo.dracLocs[i] != DONT) {
+				DracShouldGoLoc[j] = gameInfo.dracLocs[i];
+				j++;
+			}
+		}
+
+		// randomly going to any of the cities in DracShouldGo
+		// (there is probably a better strategy, but can build off this for now)
+
+		// if dracula can safely dodge the hunters
+		if (numGoodLocs > 0) {
+			int locID = rand() % numGoodLocs;
+			play = (char *) placeIdToAbbrev(DracShouldGoLoc[locID]);
+			registerBestPlay(play, "BYE BYE BUDDY!!!!");
+		} else {
+			notGoodMove = true;
+			while (notGoodMove) {
+				PlaceId locID = rand() % gameInfo.nLocs;
+				play = (char *) placeIdToAbbrev(locID);
+				registerBestPlay(play, "BYE BYE BUDDY!!!!");
+				for (int i = 0; i < gameInfo.totalLocs; i++) {
+					if (gameInfo.allHunterLocs[i] == locID) {
+						notGoodMove = false;
+						break;
+					}
+				}
+			}
+		}
+		free(DracShouldGoLoc);
+		}
+
 
 		// TODO: need to account for both moves and locations. This is currently
 		// only considering moves.
@@ -194,10 +250,10 @@ void decideDraculaMove(DraculaView dv)
 		}
 
 		// creating a new array for where dracula should go to avoid hunters
-		int numGoodLocs = gameInfo.nLocs - numBadLocs;
+		int numGoodLocs = gameInfo.nMoves - numBadLocs;
 		PlaceId *DracShouldGo = malloc(sizeof(PlaceId) * numGoodLocs);
 		int j = 0;
-		for (int i = 0; i < gameInfo.nLocs; i++) {
+		for (int i = 0; i < gameInfo.nMoves; i++) {
 			if (gameInfo.dracMoves[i] != DONT) {
 				DracShouldGo[j] = gameInfo.dracMoves[i];
 				j++;
@@ -256,7 +312,18 @@ void decideDraculaMove(DraculaView dv)
 			// registerBestPlay(play, "Trap and kill :)))");
 
 		}
+
+		free(gameInfo.allHunterLocs);
+		free(DracShouldGo);
+		DvFree(dv);
 	}
+
+	free(gameInfo.hunterID[0].reachable);
+	free(gameInfo.hunterID[1].reachable);
+	free(gameInfo.hunterID[2].reachable);
+	free(gameInfo.hunterID[3].reachable);
+	free(gameInfo.dracLocs);
+	free(gameInfo.dracMoves);
 
 ////////////////////////////////////////////////////////////////////////////////
 //							     ~ TODO ~						              //
