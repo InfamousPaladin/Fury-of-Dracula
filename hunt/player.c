@@ -77,12 +77,31 @@ typedef HunterView View;
 
 #endif
 
+// Test case for immature vampire
+// "GSW.... SLS.... HMR.... MHA.... DPA.V.. "
+// "GLO.... SLS.... HMR.... MHA.... DC?T...";
+
+// Test for the random moves
+// "GSW.... SLS.... HMR.... MHA.... DC?.V.. "
+// "GLO.... SLS.... HMR.... MHA.... DC?T... "
+// "GEC.... SLS.... HMR.... MHA.... DC?T... "
+// "GLE.... SLS.... HMR.... MHA.... DC?T... "
+// "GPA.... SLS.... HMR.... MHA.... DC?T... "
+// "GGE.... SLS.... HMR.... MHA.... DC?T... "
+// "GGE.... SLS.... HMR.... MHA.... DC?T...";
+
+// Test case for random moves
+
 int main(void)
 {
 	// Replace this with the define instead
 	char *pastPlays = "GSW.... SLS.... HMR.... MHA.... DC?.V.. "
-					  "GSW.... SLS.... HMR.... MHA.... DPAT... "
-					  "GLO.... SLS.... HMR.... MHA.... DC?T...";
+					"GLO.... SLS.... HMR.... MHA.... DC?T... "
+					"GEC.... SLS.... HMR.... MHA.... DC?T... "
+					"GLE.... SLS.... HMR.... MHA.... DC?T... "
+					"GPA.... SLS.... HMR.... MHA.... DC?T... "
+					"GGE.... SLS.... HMR.... MHA.... DC?T... "
+					"GGE.... SLS.... HMR.... MHA.... DC?T...";
 	Message msgs[] = xMsgs;
 
 	View state = ViewNew(pastPlays, msgs);
