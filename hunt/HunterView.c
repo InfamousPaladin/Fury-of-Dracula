@@ -243,7 +243,11 @@ PlaceId *HvWhereCanTheyGo(HunterView hv, Player player,
 	int numLocations = 0;
 	PlaceId *reachableNext;
 
-	reachableNext = GvGetReachable(hv->view, player, HvGetRound(hv) + 1, 
+	Round round = HvGetRound(hv);
+	Player currPlayer = GvGetPlayer(hv->view);
+	if (player < currPlayer) round++;
+
+	reachableNext = GvGetReachable(hv->view, player, round, 
 							HvGetPlayerLocation(hv, player), &numLocations);
 
 	*numReturnedLocs = numLocations;
@@ -257,8 +261,11 @@ PlaceId *HvWhereCanTheyGoByType(HunterView hv, Player player,
 	int numLocations = 0;
 	PlaceId *reachableNextType;
 
+	Round round = HvGetRound(hv);
+	Player currPlayer = GvGetPlayer(hv->view);
+	if (player < currPlayer) round++;
 	reachableNextType = GvGetReachableByType(hv->view, player, 
-							HvGetRound(hv) + 1, HvGetPlayerLocation(hv, player), 
+							round, HvGetPlayerLocation(hv, player), 
 							road, rail, boat, &numLocations);
 
 	*numReturnedLocs = numLocations;

@@ -39,13 +39,13 @@ void decideHunterMove(HunterView hv) {
 
 	// starting positions
 	if (currPlayer == PLAYER_LORD_GODALMING && roundNum == 0) {
-		registerBestPlay("SW", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("SW", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_DR_SEWARD && roundNum == 0) {
-		registerBestPlay("LS", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("LS", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_VAN_HELSING && roundNum == 0) {
-		registerBestPlay("MR", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("MR", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_MINA_HARKER && roundNum == 0) {
-		registerBestPlay("HA", "LETS FUCKIN GO BOYS ESHAYS");
+		registerBestPlay("HA", "LETS GO HUNTERS");
 	}
 
 	// getting Drac's location
@@ -60,25 +60,25 @@ void decideHunterMove(HunterView hv) {
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 														PLAYER_LORD_GODALMING));
-			registerBestPlay(placeAbbrev, "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay(placeAbbrev, "LETS GO HUNTERS");
 
 		} else if (currPlayer == PLAYER_DR_SEWARD) {
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 														PLAYER_DR_SEWARD));
-			registerBestPlay(placeAbbrev, "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay(placeAbbrev, "LETS GO HUNTERS");
 
 		} else if (currPlayer == PLAYER_VAN_HELSING) {
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 														PLAYER_VAN_HELSING));
-			registerBestPlay(placeAbbrev, "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay(placeAbbrev, "LETS GO HUNTERS");
 
 		} else if (currPlayer == PLAYER_MINA_HARKER) {
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 														PLAYER_MINA_HARKER));
-			registerBestPlay(placeAbbrev, "LETS FUCKIN GO BOYS ESHAYS");
+			registerBestPlay(placeAbbrev, "LETS GO HUNTERS");
 
 		}
 		

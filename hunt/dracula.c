@@ -54,6 +54,7 @@ void decideDraculaMove(DraculaView dv)
 
 	// starting position
 	if (currRound == 0) {
+		
 		play = "TP";
 	}
 

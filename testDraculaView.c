@@ -184,7 +184,7 @@ int main(void)
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
-			"GGE.... SGE.... HGE.... MZU.... DC?T... "
+			"GGE.... SGE.... HGE.... MZUV... DC?T... "
 			"GGE.... SGE.... HGE.... MGE.... DC?T... "
 			"GGE.... SGE.... HGE.... MGE.... DC?T...";
 			
@@ -208,7 +208,7 @@ int main(void)
 
 		char *trail =
 			"GGE.... SGE.... HGE.... MGE.... DZU.V.. "
-			"GGE.... SGE.... HGE.... MGE.... DC?T... "
+			"GGE.... SGE.... HGE.... MGEV... DC?T... "
 			"GGE.... SGE.... HGE.... MZU.... DC?T... "
 			"GGE.... SGE.... HGE.... MZU.... DC?T...";
 			
