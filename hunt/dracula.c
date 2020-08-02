@@ -14,7 +14,7 @@
 #include "Game.h"
 #include <stdio.h>
 
-#define DONT -1
+#define DONT -1000
 
 typedef struct hunter
 {
@@ -83,6 +83,7 @@ void decideDraculaMove(DraculaView dv)
 	int totalLoc = numLocG + numLocS + numLocH + numLocM;
 
 	// appending all individual hunters possible city moves into one array
+	// TODO: Consider if hunters can reach the same city (uniqueness)
 	PlaceId *allHunterMoves = malloc(sizeof(PlaceId) * totalLoc);
 	int i;
 	for (i = 0; i < numLocG; i++) {
@@ -218,5 +219,11 @@ void decideDraculaMove(DraculaView dv)
 	// ------------------------------------------------------------
 	// if the hunters have found draculas trail, dracula makes his best
 	// effort to run away.
+	// ------------------------------------------------------------
+	// if a city is reachable by two or more hunters, and dracula must make an
+	// encounter, choose the city that would minimise damage to dracula in this
+	// case it would generally be one,
+	// ------------------------------------------------------------
+	// 
 
 }
