@@ -565,7 +565,6 @@ PlaceId *GvGetReachable(GameView gv, Player player, Round round,
                         PlaceId from, int *numReturnedLocs)
 {
 	if (from == NOWHERE) return NULL;
-
 	// Initialise visited array
 	int visited[gv->nMapLocs];
 	setVisited(from, visited, gv->nMapLocs);
@@ -610,7 +609,6 @@ PlaceId *GvGetReachableByType(GameView gv, Player player, Round round,
 	setVisited(from, visited, gv->nMapLocs);
 	struct connNode reachable[gv->nMapLocs];
 	int max = 0;
-
 	// If player is a hunter, consider rail moves
 	if (player != PLAYER_DRACULA) {
 		// Getting all the rail connections if allowed

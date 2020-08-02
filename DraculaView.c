@@ -302,7 +302,7 @@ PlaceId *DvWhereCanTheyGo(DraculaView dv, Player player,
 	if (player == PLAYER_DRACULA) {
 		return DvWhereCanIGo(dv, &*numReturnedLocs);
 	} else {
-		return GvGetReachable(dv->gameState, player, dv->currRound, 
+		return GvGetReachable(dv->gameState, player, dv->currRound + 1, 
 							  dv->playerID[player].location, &*numReturnedLocs);	
 	}
 }
@@ -315,7 +315,7 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
 	if (player == PLAYER_DRACULA) {
 		return DvWhereCanIGoByType(dv, road, boat, &*numReturnedLocs);
 	} else {
-		return GvGetReachableByType(dv->gameState, player, dv->currRound, 
+		return GvGetReachableByType(dv->gameState, player, dv->currRound + 1, 
 									dv->playerID[player].location, 
 									road, rail, boat, &*numReturnedLocs);
 	}

@@ -1028,7 +1028,7 @@ int main(void)
 		printf("(New)	-> Test for DvWhereCanTheyGo where rail distance is 0: ");
 		
 		char *trail =
-			"GMA.... SGE.... HGE.... MGE.... DKL.V.. "
+			// "GMA.... SGE.... HGE.... MGE.... DKL.V.. "
 			"GSN.... SGE.... HGE.... MGE.... DD1T... "
 			"GBB.... SGE.... HGE.... MGE.... DBCT... "
 			"GNA.... SGE.... HGE.... MGE.... DHIT... "
@@ -1062,7 +1062,7 @@ int main(void)
 		printf("(New)	-> Test for DvWhereCanTheyGo where rail distance is 1: ");
 		
 		char *trail =
-			"GMA.... SMU.... HGE.... MGE.... DKL.V.. "
+			// "GMA.... SMU.... HGE.... MGE.... DKL.V.. "
 			"GSN.... SVE.... HGE.... MGE.... DD1T... "
 			"GBB.... SVE.... HGE.... MGE.... DBCT... "
 			"GNA.... SGO.... HGE.... MGE.... DHIT... "
@@ -1097,7 +1097,7 @@ int main(void)
 		printf("(New)	-> Test for DvWhereCanTheyGo where rail distance is 3: ");
 		
 		char *trail =
-			"GSN.... SGE.... HGE.... MGE.... DKL.V.. "
+			// "GSN.... SGE.... HGE.... MGE.... DKL.V.. "
 			"GBB.... SGE.... HGE.... MGE.... DD1T... "
 			"GNA.... SGE.... HGE.... MGE.... DBCT... "
 			"GPA.... SGE.... HGE.... MGE....";
@@ -1137,7 +1137,7 @@ int main(void)
 		printf("(New)	-> Test for DvWhereCanTheyGoByType hunters (no rail): ");
 		
 		char *trail =
-			"GSN.... SGE.... HGE.... MGE.... DKL.V.. "
+			// "GSN.... SGE.... HGE.... MGE.... DKL.V.. "
 			"GBB.... SGE.... HGE.... MGE.... DD1T... "
 			"GNA.... SGE.... HGE.... MGE.... DBCT... "
 			"GPA.... SGE.... HGE.... MGE....";
@@ -1174,7 +1174,7 @@ int main(void)
 		printf("(New)	-> Test for DvWhereCanTheyGoByType hunters (no road): ");
 		
 		char *trail =
-			"GSN.... SGE.... HGE.... MGE.... DKL.V.. "
+			// "GSN.... SGE.... HGE.... MGE.... DKL.V.. "
 			"GBB.... SGE.... HGE.... MGE.... DD1T... "
 			"GNA.... SGE.... HGE.... MGE.... DBCT... "
 			"GPA.... SGE.... HGE.... MGE....";
@@ -1214,7 +1214,7 @@ int main(void)
 		printf("(New)	-> Test for DvWhereCanTheyGoByType hunters (no road and rail distance is 0): ");
 		
 		char *trail =
-			"GMA.... SGE.... HGE.... MGE.... DKL.V.. "
+			// "GMA.... SGE.... HGE.... MGE.... DKL.V.. "
 			"GSN.... SGE.... HGE.... MGE.... DD1T... "
 			"GBB.... SGE.... HGE.... MGE.... DBCT... "
 			"GNA.... SGE.... HGE.... MGE.... DHIT... "
