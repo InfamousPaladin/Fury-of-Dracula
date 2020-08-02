@@ -326,8 +326,9 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
 //**************************************************************************//
 //                		    	Helper Functions 		 	                //
 //**************************************************************************//
-// placeIdCmp and sortDbHide was provided from the testUtils ADT and is used to
-// sort DOUBLE_BACK and HIDE to arrange them.
+// placeIdCmp and sortDbHide (previously known as sortPlaces) was provided from 
+// the testUtils ADT by COMP2521 staff and in this instance is used to sort 
+// DOUBLE_BACK and HIDE in an array.
 static int placeIdCmp(const void *ptr1, const void *ptr2) {
 	PlaceId p1 = *(PlaceId *)ptr1;
 	PlaceId p2 = *(PlaceId *)ptr2;

@@ -14,7 +14,6 @@
 #include "Game.h"
 #include <stdlib.h>
 #include <time.h> 
-#include <stdio.h>
 
 #define DONT 	-1000
 #define LIMIT	100
@@ -362,8 +361,6 @@ void decideDraculaMove(DraculaView dv)
 	free(gameInfo.dracLocs);
 	free(gameInfo.dracMoves);
 	free(gameInfo.activeTrapLocs);
-	DvFree(dv);
-
 }
 
 Player findLowestHealth(GameState gameInfo)
