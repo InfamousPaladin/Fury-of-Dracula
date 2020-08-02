@@ -307,6 +307,9 @@ int main(void)
 		assert(moves[1] == KLAUSENBURG);
 		assert(moves[2] == HIDE);
 		assert(moves[3] == DOUBLE_BACK_1);
+		assert(DvConvertLocToMove(dv, GALATZ) == GALATZ);
+		assert(DvConvertLocToMove(dv, KLAUSENBURG) == KLAUSENBURG);
+		assert(DvConvertLocToMove(dv, CASTLE_DRACULA) == HIDE);
 		free(moves);
 		
 		printf("\033[1;32m");
@@ -342,6 +345,12 @@ int main(void)
 		assert(moves[4] == DOUBLE_BACK_2);
 		assert(moves[5] == DOUBLE_BACK_4);
 		assert(moves[6] == DOUBLE_BACK_5);
+		assert(DvConvertLocToMove(dv, BUCHAREST) == DOUBLE_BACK_1);
+		assert(DvConvertLocToMove(dv, KLAUSENBURG) == DOUBLE_BACK_2);
+		assert(DvConvertLocToMove(dv, GALATZ) == DOUBLE_BACK_4 || DvConvertLocToMove(dv, GALATZ) == DOUBLE_BACK_5);
+		assert(DvConvertLocToMove(dv, SOFIA) == SOFIA);
+		assert(DvConvertLocToMove(dv, CONSTANTA) == CONSTANTA);
+		assert(DvConvertLocToMove(dv, BELGRADE) == BELGRADE);
 		free(moves);
 
 		printf("\033[1;32m");
@@ -377,6 +386,10 @@ int main(void)
 		assert(moves[2] == DOUBLE_BACK_1);
 		assert(moves[3] == DOUBLE_BACK_2);
 		assert(moves[4] == DOUBLE_BACK_3);
+		assert(DvConvertLocToMove(dv, GRANADA) == DOUBLE_BACK_1 || DvConvertLocToMove(dv, GRANADA) == DOUBLE_BACK_2);
+		assert(DvConvertLocToMove(dv, MADRID) == DOUBLE_BACK_3);
+		assert(DvConvertLocToMove(dv, ALICANTE) == ALICANTE);
+		assert(DvConvertLocToMove(dv, CADIZ) == CADIZ);
 		free(moves);
 		
 		printf("\033[1;32m");
@@ -407,6 +420,10 @@ int main(void)
 		assert(moves[2] == DOUBLE_BACK_1);
 		assert(moves[3] == DOUBLE_BACK_2);
 		assert(moves[4] == DOUBLE_BACK_3);
+		assert(DvConvertLocToMove(dv, FLORENCE) == DOUBLE_BACK_1 || DvConvertLocToMove(dv, FLORENCE) == DOUBLE_BACK_2);
+		assert(DvConvertLocToMove(dv, ROME) == DOUBLE_BACK_3);
+		assert(DvConvertLocToMove(dv, GENOA) == GENOA);
+		assert(DvConvertLocToMove(dv, VENICE) == VENICE);
 		free(moves);
 		
 		printf("\033[1;32m");
@@ -441,6 +458,10 @@ int main(void)
 		assert(moves[2] == HIDE);
 		assert(moves[3] == DOUBLE_BACK_1);
 		assert(moves[4] == DOUBLE_BACK_2);
+		assert(DvConvertLocToMove(dv, ALICANTE) == ALICANTE);
+		assert(DvConvertLocToMove(dv, CADIZ) == CADIZ);
+		assert(DvConvertLocToMove(dv, GRANADA) == HIDE);
+		assert(DvConvertLocToMove(dv, MADRID) == DOUBLE_BACK_2);
 		free(moves);
 		
 		printf("\033[1;32m");
@@ -477,6 +498,12 @@ int main(void)
 		assert(moves[4] == HIDE);
 		assert(moves[5] == DOUBLE_BACK_1);
 		assert(moves[6] == DOUBLE_BACK_2);
+		assert(DvConvertLocToMove(dv, BORDEAUX) == BORDEAUX);
+		assert(DvConvertLocToMove(dv, CLERMONT_FERRAND) == CLERMONT_FERRAND);
+		assert(DvConvertLocToMove(dv, MARSEILLES) == MARSEILLES);
+		assert(DvConvertLocToMove(dv, SARAGOSSA) == SARAGOSSA);
+		assert(DvConvertLocToMove(dv, TOULOUSE) == HIDE);
+		assert(DvConvertLocToMove(dv, BARCELONA) == DOUBLE_BACK_2);
 		free(moves);
 		
 		printf("\033[1;32m");
@@ -512,6 +539,11 @@ int main(void)
 		assert(moves[2] == CONSTANTA);
 		assert(moves[3] == KLAUSENBURG);
 		assert(moves[4] == HIDE);
+		assert(DvConvertLocToMove(dv, BUCHAREST) == BUCHAREST);
+		assert(DvConvertLocToMove(dv, CASTLE_DRACULA) == CASTLE_DRACULA);
+		assert(DvConvertLocToMove(dv, CONSTANTA) == CONSTANTA);
+		assert(DvConvertLocToMove(dv, KLAUSENBURG) == KLAUSENBURG);
+		assert(DvConvertLocToMove(dv, GALATZ) == HIDE);
 		free(moves);
 		
 		printf("\033[1;32m");
@@ -540,6 +572,10 @@ int main(void)
 		assert(moves[1] == IONIAN_SEA);
 		assert(moves[2] == VARNA);
 		assert(moves[3] == DOUBLE_BACK_1);
+		assert(DvConvertLocToMove(dv, CONSTANTA) == CONSTANTA);
+		assert(DvConvertLocToMove(dv, IONIAN_SEA) == IONIAN_SEA);
+		assert(DvConvertLocToMove(dv, VARNA) == VARNA);
+		assert(DvConvertLocToMove(dv, BLACK_SEA) == DOUBLE_BACK_1);
 		free(moves);
 		
 		printf("\033[1;32m");

@@ -179,5 +179,8 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
 // Your own interface functions
 
 // TODO
+// Converts Dracala's valid rechable location into a legal move.
+PlaceId DvConvertLocToMove(DraculaView dv, PlaceId place);
+PlaceId *DvGetShortestPathTo(DraculaView dv, PlaceId dest, int *pathLength);
 
 #endif // !defined(FOD__DRACULA_VIEW_H_)

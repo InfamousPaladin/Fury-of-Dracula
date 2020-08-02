@@ -14,8 +14,10 @@
 #include "Game.h"
 #include <stdlib.h>
 #include <time.h> 
+#include <stdio.h>
 
-#define DONT -1000
+#define DONT 	-1000
+#define LIMIT	100
 
 typedef struct hunter
 {
@@ -25,7 +27,8 @@ typedef struct hunter
 	int nReach;
 } hunterInfo;
 
-typedef struct gameState {
+typedef struct gameState 
+{
 	Round currRound;
 	int score;
 
@@ -33,7 +36,10 @@ typedef struct gameState {
 	PlaceId *allHunterLocs;
 	int totalLocs;
 
-	PlaceId dracLoc;
+	PlaceId currDracLoc;
+
+	PlaceId *DracShouldGoLocs;
+	int nShouldLocs;
 
 	PlaceId *dracLocs;
 	int nLocs;
@@ -43,8 +49,12 @@ typedef struct gameState {
 
 	PlaceId dracHealth;
 
+	PlaceId *activeTrapLocs;
+	int nTraps;
+
 } GameState;
 
+Player findLowestHealth(GameState gameInfo);
 
 void decideDraculaMove(DraculaView dv)
 {
@@ -60,7 +70,7 @@ void decideDraculaMove(DraculaView dv)
 	gameInfo.hunterID[1].currLoc = DvGetPlayerLocation(dv, PLAYER_DR_SEWARD);
 	gameInfo.hunterID[2].currLoc = DvGetPlayerLocation(dv, PLAYER_VAN_HELSING);
 	gameInfo.hunterID[3].currLoc = DvGetPlayerLocation(dv, PLAYER_MINA_HARKER);
-	gameInfo.dracLoc = DvGetPlayerLocation(dv, PLAYER_DRACULA);
+	gameInfo.currDracLoc = DvGetPlayerLocation(dv, PLAYER_DRACULA);
 
 	// Get players next reachable location
 	gameInfo.hunterID[0].reachable = DvWhereCanTheyGo(dv, PLAYER_LORD_GODALMING, &gameInfo.hunterID[0].nReach); 
@@ -79,6 +89,7 @@ void decideDraculaMove(DraculaView dv)
 
 	gameInfo.currRound = DvGetRound(dv);
 	gameInfo.score = DvGetScore(dv);
+	gameInfo.activeTrapLocs = DvGetTrapLocations(dv, &gameInfo.nTraps);
 
 	// avoiding moving to cities where the hunters can also move
 	gameInfo.totalLocs = 0;
@@ -168,24 +179,25 @@ void decideDraculaMove(DraculaView dv)
 		free(gameInfo.allHunterLocs);
 	} else {
 		// TODO: Just in case, just register a random move.
-		bool notGoodMove = true;
-		while (notGoodMove) {
-			PlaceId locID = rand() % gameInfo.nMoves;
-			play = (char *) placeIdToAbbrev(locID);
+		bool goodMove = false;
+		int repeat = 0;
+		while (!goodMove) {
+			int locID = rand() % gameInfo.nLocs;
+			PlaceId loc = gameInfo.dracLocs[locID];
+			PlaceId move = DvConvertLocToMove(dv, loc);
+			play = (char *) placeIdToAbbrev(move);
+			goodMove = true;
 			registerBestPlay(play, "BYE BYE BUDDY!!!!");
 			for (int i = 0; i < gameInfo.totalLocs; i++) {
 				if (gameInfo.allHunterLocs[i] == locID) {
-					notGoodMove = false;
+					goodMove = false;
 					break;
 				}
 			}
+			if (repeat > LIMIT) break;
+			repeat++;
 		}
 
-
-		{
-
-		// TODO: need to account for both moves and locations. This is currently
-		// only considering moves. TODO: Just locs
 		int numBadLocs = 0;
 		// comparing draculas locations to locations possible by all hunters
 		for (int i = 0; i < gameInfo.nLocs; i++) {
@@ -199,123 +211,148 @@ void decideDraculaMove(DraculaView dv)
 		}
 
 		// creating a new array for where dracula should go to avoid hunters
-		int numGoodLocs = gameInfo.nLocs - numBadLocs;
-		PlaceId *DracShouldGoLoc = malloc(sizeof(PlaceId) * numGoodLocs);
+		gameInfo.nShouldLocs = gameInfo.nLocs - numBadLocs;
+		gameInfo.DracShouldGoLocs = malloc(sizeof(PlaceId) * gameInfo.nShouldLocs);
 		int j = 0;
 		for (int i = 0; i < gameInfo.nLocs; i++) {
 			if (gameInfo.dracLocs[i] != DONT) {
-				DracShouldGoLoc[j] = gameInfo.dracLocs[i];
+				gameInfo.DracShouldGoLocs[j] = gameInfo.dracLocs[i];
 				j++;
 			}
 		}
 
-		// randomly going to any of the cities in DracShouldGo
-		// (there is probably a better strategy, but can build off this for now)
-
 		// if dracula can safely dodge the hunters
-		if (numGoodLocs > 0) {
-			int locID = rand() % numGoodLocs;
-			play = (char *) placeIdToAbbrev(DracShouldGoLoc[locID]);
-			registerBestPlay(play, "BYE BYE BUDDY!!!!");
-		} else {
-			notGoodMove = true;
-			while (notGoodMove) {
-				PlaceId locID = rand() % gameInfo.nLocs;
-				play = (char *) placeIdToAbbrev(locID);
-				registerBestPlay(play, "BYE BYE BUDDY!!!!");
+		if (gameInfo.nShouldLocs > 0) {
+			bool goodMove = false;
+			repeat = 0;
+			while (!goodMove) {
+				int locID = rand() % gameInfo.nShouldLocs;
+				PlaceId loc = gameInfo.DracShouldGoLocs[locID];
+				PlaceId move = DvConvertLocToMove(dv, loc);
+				play = (char *) placeIdToAbbrev(move);
+				registerBestPlay(play, "Phew!!!!");
+				goodMove = true;
 				for (int i = 0; i < gameInfo.totalLocs; i++) {
 					if (gameInfo.allHunterLocs[i] == locID) {
-						notGoodMove = false;
+						goodMove = false;
 						break;
 					}
 				}
+				if (repeat > LIMIT) break;
+				repeat++;
 			}
-		}
-		free(DracShouldGoLoc);
-		}
-
-
-		// TODO: need to account for both moves and locations. This is currently
-		// only considering moves.
-		int numBadLocs = 0;
-		// comparing draculas locations to locations possible by all hunters
-		for (int i = 0; i < gameInfo.nMoves; i++) {
-			for (int j = 0; j < gameInfo.totalLocs; j++) {
-				if (gameInfo.allHunterLocs[j] == gameInfo.dracMoves[i]) {
-					gameInfo.dracMoves[i] = DONT;
-					numBadLocs++;
-					break;
+			if (gameInfo.dracHealth <= 30) {
+				for (int i = 0; i < gameInfo.nLocs; i++) {
+					if (gameInfo.dracLocs[i] == CASTLE_DRACULA) {
+						registerBestPlay("CD", "Back then");
+						return;
+					}
+				}
+				int pathLen = 0;
+				PlaceId *pathToCastle = DvGetShortestPathTo(dv, CASTLE_DRACULA, &pathLen);
+				if (pathLen > 1) {
+					PlaceId loc = pathToCastle[0];
+					PlaceId move = DvConvertLocToMove(dv, loc);
+					play = (char *) placeIdToAbbrev(move);
+					registerBestPlay(play, "Mario?!!!!");
+					free(pathToCastle);
 				}
 			}
-		}
 
-		// creating a new array for where dracula should go to avoid hunters
-		int numGoodLocs = gameInfo.nMoves - numBadLocs;
-		PlaceId *DracShouldGo = malloc(sizeof(PlaceId) * numGoodLocs);
-		int j = 0;
-		for (int i = 0; i < gameInfo.nMoves; i++) {
-			if (gameInfo.dracMoves[i] != DONT) {
-				DracShouldGo[j] = gameInfo.dracMoves[i];
-				j++;
+		}
+		// Case where he can only go to cities that their a potential hunter 
+		// could go
+		else {
+			Player lowPlayer = findLowestHealth(gameInfo);
+
+			// Consider which city have traps
+			// TODO: Consider the uniqness of trap locations
+			int nTrapsReach = 0;
+			PlaceId TrapsReachable[MAX_REAL_PLACE];
+			for (int i = 0; i < gameInfo.nTraps; i++) {
+				if (gameInfo.DracShouldGoLocs[i] == gameInfo.activeTrapLocs[i]) {
+					TrapsReachable[nTrapsReach] = gameInfo.activeTrapLocs[i];
+					nTrapsReach++;
+				}
 			}
-		}
 
-		// randomly going to any of the cities in DracShouldGo
-		// (there is probably a better strategy, but can build off this for now)
-
-		// if dracula can safely dodge the hunters
-		if (numGoodLocs > 0) {
-			int locID = rand() % numGoodLocs;
-			play = (char *) placeIdToAbbrev(DracShouldGo[locID]);
-			registerBestPlay(play, "BYE BYE BUDDY!!!!");
-		} else {
-			notGoodMove = true;
-			while (notGoodMove) {
-				PlaceId locID = rand() % gameInfo.nMoves;
-				play = (char *) placeIdToAbbrev(locID);
-				registerBestPlay(play, "BYE BYE BUDDY!!!!");
-				for (int i = 0; i < gameInfo.totalLocs; i++) {
-					if (gameInfo.allHunterLocs[i] == locID) {
-						notGoodMove = false;
-						break;
+			// Try to go offensive set and aim for an encounter near a trap city
+			if (lowPlayer != PLAYER_DRACULA && gameInfo.dracHealth >= 30 &&
+				nTrapsReach != 0) {
+				int locID = rand() % nTrapsReach;
+				PlaceId loc = TrapsReachable[locID];
+				PlaceId move = DvConvertLocToMove(dv, loc);
+				play = (char *) placeIdToAbbrev(move);
+				registerBestPlay(play, "Lets go!!!!");
+			} 
+			// Try to avoid much of the hunter encounters if possible and go to
+			// CASTLE_DRACULA to regain health
+			else {
+				for (int i = 0; i < gameInfo.nLocs; i++) {
+					if (gameInfo.dracLocs[i] == CASTLE_DRACULA) {
+						registerBestPlay("CD", "Back then");
+						return;
+					}
+				}
+				int pathLen = 0;
+				PlaceId *pathToCastle = DvGetShortestPathTo(dv, CASTLE_DRACULA, &pathLen);
+				if (pathLen > 1) {
+					PlaceId loc = pathToCastle[0];
+					PlaceId move = DvConvertLocToMove(dv, loc);
+					play = (char *) placeIdToAbbrev(move);
+					registerBestPlay(play, "Mario?!!!!");
+					free(pathToCastle);
+				} else {
+					goodMove = false;
+					repeat = 0;
+					while (!goodMove) {
+						int encounter = 0;
+						int locID = rand() % gameInfo.nLocs;
+						PlaceId loc = gameInfo.dracLocs[locID];
+						PlaceId move = DvConvertLocToMove(dv, loc);
+						play = (char *) placeIdToAbbrev(move);
+						registerBestPlay(play, "Last Resort!!!!");
+						goodMove = true;
+						for (int i = 0; i < gameInfo.hunterID[0].nReach; i++) {
+							if (gameInfo.hunterID[0].reachable[i] == locID) {
+								encounter++;
+								break;
+							}
+						}
+						for (int i = 0; i < gameInfo.hunterID[1].nReach; i++) {
+							if (gameInfo.hunterID[1].reachable[i] == locID) {
+								encounter++;
+								break;
+							}
+						}
+						for (int i = 0; i < gameInfo.hunterID[2].nReach; i++) {
+							if (gameInfo.hunterID[2].reachable[i] == locID) {
+								encounter++;
+								break;
+							}
+						}
+						for (int i = 0; i < gameInfo.hunterID[3].nReach; i++) {
+							if (gameInfo.hunterID[3].reachable[i] == locID) {
+								encounter++;
+								break;
+							}
+						}
+						if (repeat > LIMIT) break;
+						if (encounter > 1) {
+							goodMove = false;
+							repeat++;
+						}
+						else break;
 					}
 				}
 			}
-			// // meaning dracula cant move anywhere without encountering a hunter
-			// // go to the city containing ONLY one trap
 
-			// // remember in DvGetTrapLocations, if there are multiple traps in one
-			// // city, it appears multiple times.
 
-			// // TODO: There might be problems with this code
-			// Drac = DvWhereCanIGo(dv, &numLocD);
-			// int numTraps = 0;
-			// PlaceId *TrapLocs = DvGetTrapLocations(dv, &numTraps);
-			// PlaceId TrapsReachable[100];
-			// int trapIndex = 0;
-			// // TODO: consider uniqueness of cities
-			// for (int i = 0; i < numLocD; i++) {
-			// 	for (int j = 0; j < numTraps; j++) {
-			// 		if (Drac[i] == TrapLocs[j]) {
-			// 			TrapsReachable[trapIndex] = Drac[i];
-			// 			trapIndex++;
-			// 		}
-			// 	}
-			// }
-			// PlaceId *TrapCities = malloc(sizeof(PlaceId) * trapIndex);
-			// for (int i = 0; i < trapIndex; i++) {
-			// 	TrapCities[i] = TrapsReachable[i];
-			// }
-			// // randomly going to any city containing a trap
-			// int locID = (rand() % (trapIndex - 1)) - 1;
-			// play = (char *) placeIdToAbbrev(TrapCities[locID]);
-			// registerBestPlay(play, "Trap and kill :)))");
+
 
 		}
-
 		free(gameInfo.allHunterLocs);
-		free(DracShouldGo);
-		DvFree(dv);
+		free(gameInfo.DracShouldGoLocs);
 	}
 
 	free(gameInfo.hunterID[0].reachable);
@@ -324,66 +361,16 @@ void decideDraculaMove(DraculaView dv)
 	free(gameInfo.hunterID[3].reachable);
 	free(gameInfo.dracLocs);
 	free(gameInfo.dracMoves);
+	free(gameInfo.activeTrapLocs);
+	DvFree(dv);
 
-////////////////////////////////////////////////////////////////////////////////
-//							     ~ TODO ~						              //
-////////////////////////////////////////////////////////////////////////////////
-	// The strategy:
-	// Ideas:
-	// ------------------------------------------------------------
-	// using DvWhereCanIgo, and DvWhereCanTheyGo, if the cities they can reach
-	// are similar to the cities that you can reach, try going to a different
-	// city to avoid them, 
-	// ------------------------------------------------------------
-	// if all the cities you can reach are reachable by
-	// the hunters as well, go to the cities containing the most traps 
-	// ------------------------------------------------------------
-	// if dracula
-	// is getting cornered try to force a TP move by making moves that would make
-	// it such that there are no more valid moves. (maximising health gain)
-	// ------------------------------------------------------------
-	// at the start of the game, try to place as much traps as possible by visiting
-	// the cities
-	// ------------------------------------------------------------
-	// Utilise Hide && Double_back_1 to place multiple traps, also consider
-	// placing multiple traps in cities containing an immature vampire
-	// *remember that max "encounters" in a city is 3
-	// ------------------------------------------------------------
-	// if Dracula is <= 20hp make way to Castle Dracula
-	// ------------------------------------------------------------
-	// Dracula starts at castle dracula, makes a hide move gaining an extra
-	// 10 health (becareful, this is a pretty obvious strategy) *probably not
-	// actually, it is probably more worth it to plant an immature vampire at
-	// the start of the game but perhaps you can start in a city close to castle
-	// Dracula and in the next turn go to Castle Dracula
-	// ------------------------------------------------------------
-	// Since dracula's only source of damage is when at sea or when he encounters
-	// a hunter, then dracula can pretty safely spend 4 rounds at sea until
-	// he would need to go back to castle dracula and heal up
-	// ------------------------------------------------------------
-	// ensure that dracula is in a city on the first round and every 13th round
-	// only dont go to city if hunters are in that city
-	// ------------------------------------------------------------
-	// when in boat move from sea to sea to port city, maximising distance away
-	// from hunters
-	// ------------------------------------------------------------
-	// *place traps to cities adjacent to where an immature vampire is, also
-	// placing a trap on the city containing the immature vampire, to increase
-	// chance of killing hunters and lowering game score.
-	// ------------------------------------------------------------
-	// Go to Castle Dracula when possible
-	// ------------------------------------------------------------
-	// *perhaps starting at the middle of the map (e.g Strasbourg) could be
-	// a good idea as you would be easily able to navigate to different areas
-	// of the map regardless of where the hunters start.
-	// ------------------------------------------------------------
-	// if the hunters have found draculas trail, dracula makes his best
-	// effort to run away.
-	// ------------------------------------------------------------
-	// if a city is reachable by two or more hunters, and dracula must make an
-	// encounter, choose the city that would minimise damage to dracula in this
-	// case it would generally be one,
-	// ------------------------------------------------------------
-	// 
+}
 
+Player findLowestHealth(GameState gameInfo)
+{
+	if (gameInfo.hunterID[0].health <= 4) return PLAYER_LORD_GODALMING;
+	else if (gameInfo.hunterID[1].health <= 4) return PLAYER_DR_SEWARD;
+	else if (gameInfo.hunterID[2].health <= 4) return PLAYER_VAN_HELSING;
+	else if (gameInfo.hunterID[3].health <= 4) return PLAYER_MINA_HARKER;
+	return PLAYER_DRACULA;
 }

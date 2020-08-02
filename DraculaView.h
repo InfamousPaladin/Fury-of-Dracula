@@ -179,5 +179,5 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
 // Your own interface functions
 
 // TODO
-
+PlaceId DvConvertLocToMove(DraculaView dv, PlaceId place);
 #endif // !defined(FOD__DRACULA_VIEW_H_)
