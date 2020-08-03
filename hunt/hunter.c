@@ -119,7 +119,7 @@ void decideHunterMove(HunterView hv) {
 		int numDracLocations = -1;
 		PlaceId *dracsPossiblePath = HvWhereCanTheyGo(hv, PLAYER_DRACULA, 
 															&numDracLocations);
-		
+
 		srand(rand() % numDracLocations);
 		int randLocID = (rand() % numDracLocations) - 1;
 
