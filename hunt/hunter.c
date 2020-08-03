@@ -60,25 +60,25 @@ void decideHunterMove(HunterView hv) {
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 														PLAYER_LORD_GODALMING));
-			registerBestPlay(placeAbbrev, "LETS GO HUNTERS");
+			registerBestPlay(placeAbbrev, "Godalming on the move");
 
 		} else if (currPlayer == PLAYER_DR_SEWARD) {
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 														PLAYER_DR_SEWARD));
-			registerBestPlay(placeAbbrev, "LETS GO HUNTERS");
+			registerBestPlay(placeAbbrev, "Seward on the move");
 
 		} else if (currPlayer == PLAYER_VAN_HELSING) {
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 														PLAYER_VAN_HELSING));
-			registerBestPlay(placeAbbrev, "LETS GO HUNTERS");
+			registerBestPlay(placeAbbrev, "Helsing on the move");
 
 		} else if (currPlayer == PLAYER_MINA_HARKER) {
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 														PLAYER_MINA_HARKER));
-			registerBestPlay(placeAbbrev, "LETS GO HUNTERS");
+			registerBestPlay(placeAbbrev, "Harker on the move");
 
 		}
 		
@@ -99,18 +99,18 @@ void decideHunterMove(HunterView hv) {
 		return;
 	}
 
-	int dracLocRound = -1;
-	PlaceId lastDracLoc = HvGetLastKnownDraculaLocation(hv, &dracLocRound);
+	int lastDracRound = -1;
+	PlaceId lastDracLoc = HvGetLastKnownDraculaLocation(hv, &lastDracRound);
 
-	// if Hunter is on 2 health or less, make them rest unless they are already dead
-	if ((HvGetPlayerLocation(hv, currPlayer) != HOSPITAL_PLACE) || 
-		(HvGetPlayerLocation(hv, currPlayer) != ST_JOSEPH_AND_ST_MARY)) {
-		if (HvGetHealth(hv, currPlayer) < 3) {
-			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
-			currPlayer));
-			registerBestPlay(placeAbbrev, "Resting for health");
-			return;
-		}
+	// if Hunter is on 2 health or less, make them rest unless they are dead
+	if (HvGetHealth(hv, currPlayer) < 3 && 
+		(HvGetPlayerLocation(hv, currPlayer) != HOSPITAL_PLACE)) {
+
+		char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
+																currPlayer));
+		registerBestPlay(placeAbbrev, "Resting for health");
+
+		return;
 	}
 
 	// if Drac's location has been found, find all possible locations
@@ -119,20 +119,28 @@ void decideHunterMove(HunterView hv) {
 	if ((lastDracLoc < CITY_UNKNOWN) && (lastDracLoc != NOWHERE) &&
 		(lastDracLoc != UNKNOWN_PLACE)) {
 		
+		int indexLoc = 0;
+		PlaceId *toDracPath;
 		int numDracLocations = -1;
-		PlaceId *dracsPossiblePath = HvWhereCanTheyGo(hv, PLAYER_DRACULA, 
+
+		// if Drac's location has been revealed recently, chase him
+		// else given Drac's last known location, find possible places to chase
+		if ((HvGetRound(hv) - lastDracRound) < 2) {
+			toDracPath = HvGetShortestPathTo(hv, currPlayer, lastDracLoc, 
 															&numDracLocations);
+		} else {
+			toDracPath = HvWhereCanTheyGo(hv, PLAYER_DRACULA, 
+															&numDracLocations);
+			srand(numDracLocations);
+			indexLoc = (rand() % numDracLocations) - 1;
 
-		srand(rand() % numDracLocations);
-		int randLocID = (rand() % numDracLocations) - 1;
+		}
 
-		// given Dracula's prev location, guess 
-		// where he is now and head to that location 
 		int pathLength = -1;
 		PlaceId *pathtoDracula = HvGetShortestPathTo(hv, currPlayer, 
-									dracsPossiblePath[randLocID], &pathLength);
+											toDracPath[indexLoc], &pathLength);
 
-		// location reached head to CD as
+		// location reached; head to CD
 		// Dracula might be heading there aswell
 		if (pathtoDracula[0] == HvGetPlayerLocation(hv, currPlayer)) {
 			headtoCastleDracula(hv, currPlayer);
@@ -180,6 +188,7 @@ static void randomMove(HunterView hv, Player currPlayer) {
 	int numLocations = -1;
 	PlaceId *possibleLocations = HvWhereCanIGo(hv, &numLocations);
 
+	srand(numLocations);
 	int randLocID = (rand() % numLocations) - 1;
 
 	// Loop to make sure the next location will not be the prev location
