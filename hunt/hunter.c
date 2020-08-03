@@ -102,48 +102,68 @@ void decideHunterMove(HunterView hv) {
 	int dracLocRound = -1;
 	PlaceId lastDracLoc = HvGetLastKnownDraculaLocation(hv, &dracLocRound);
 
-	// finds Dracula's location and finds the shortest path to that location
+	// if Hunter is on 2 health, make him rest
+	if (HvGetHealth(hv, currPlayer) < 3) {
+		char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
+		currPlayer));
+		registerBestPlay(placeAbbrev, "Resting for health");
+		return;
+	}
+
+	// if Drac's location has been found, find all possible locations
+	// he can go to and send a hunter to each of those locations and invoke
+	// the random move function from there to find Dracula
 	if ((lastDracLoc < CITY_UNKNOWN) && (lastDracLoc != NOWHERE) &&
 		(lastDracLoc != UNKNOWN_PLACE)) {
 		
-		// finds Dracula's location and finds the shortest path to that location
+		int numDracLocations = -1;
+		PlaceId *dracsPossiblePath = HvWhereCanTheyGo(hv, PLAYER_DRACULA, 
+															&numDracLocations);
+		
+		srand(rand() % numDracLocations);
+		int randLocID = (rand() % numDracLocations) - 1;
+
+		// given Dracula's prev location, guess 
+		// where he is now and head to that location 
 		int pathLength = -1;
 		PlaceId *pathtoDracula = HvGetShortestPathTo(hv, currPlayer, 
-													  lastDracLoc, &pathLength);
+									dracsPossiblePath[randLocID], &pathLength);
 
-		// location reached
+		// location reached head to CD as
+		// Dracula might be heading there aswell
 		if (pathtoDracula[0] == HvGetPlayerLocation(hv, currPlayer)) {
 			headtoCastleDracula(hv, currPlayer);
+			return;
 		}
 
 		char *placeAbbrev = (char *) placeIdToAbbrev(pathtoDracula[0]);
 		registerBestPlay(placeAbbrev, "We're coming after you");
 		return;
 	}
+
+	// in case Drac's location is still hidden, head to CD 
+	// then make random moves from there to find Dracula
+	randomMove(hv, currPlayer);
+	return;
 }
 
 // if Drac's location is unknown, use random moves to find him
 static void headtoCastleDracula(HunterView hv, Player currPlayer) {
 
-	int dracLocRound = -1;
-	PlaceId lastDracLoc = HvGetLastKnownDraculaLocation(hv, &dracLocRound);
-
 	// if Drac's in a city, chances are he's heading towards CD or near
-	if (lastDracLoc == CITY_UNKNOWN) {
+	int pathLength = -1;
+	PlaceId *pathtoCD = HvGetShortestPathTo(hv, currPlayer, CASTLE_DRACULA, 
+											&pathLength);
 
-		int pathLength = -1;
-		PlaceId *pathtoCD = HvGetShortestPathTo(hv, currPlayer, CASTLE_DRACULA, 
-												&pathLength);
-
-		// location reached, do random moves until Drac is found
-		if (pathtoCD[0] == HvGetPlayerLocation(hv, currPlayer)) {
-			randomMove(hv, currPlayer);
-		}
-
-		char *placeAbbrev = (char *) placeIdToAbbrev(pathtoCD[0]);
-		registerBestPlay(placeAbbrev, "Heading to the Devil's den");
-
+	// location reached, do random moves until Drac is found
+	if (pathtoCD[0] == HvGetPlayerLocation(hv, currPlayer)) {
+		randomMove(hv, currPlayer);
+		return;
 	}
+
+	char *placeAbbrev = (char *) placeIdToAbbrev(pathtoCD[0]);
+	registerBestPlay(placeAbbrev, "Heading to the Devil's den");
+
 	return;
 }
 
@@ -157,16 +177,15 @@ static void randomMove(HunterView hv, Player currPlayer) {
 	int numLocations = -1;
 	PlaceId *possibleLocations = HvWhereCanIGo(hv, &numLocations);
 
-	int randLocID = (rand() % (numLocations - 1)) - 1;
+	int randLocID = (rand() % numLocations) - 1;
 
-	// TODO: remember the location already visited and make a move accordingly
 	// Loop to make sure the next location will not be the prev location
 	while (possibleLocations[randLocID] == prevLocation) {
-		randLocID = (rand() % (numLocations - 1)) - 1;
+		randLocID = (rand() % numLocations) - 1;
 	}
 
 	char *placeAbbrev  = (char *) placeIdToAbbrev(possibleLocations[randLocID]);
-	registerBestPlay(placeAbbrev, "Searching cities and oceans");
+	registerBestPlay(placeAbbrev, "Searching for Dracula");
 
 	// if (lastDracLoc == SEA_UNKNOWN) {
 
@@ -178,4 +197,5 @@ static void randomMove(HunterView hv, Player currPlayer) {
 	// 	registerBestPlay(placeAbbrev, "Searching cities and oceans");
 
 	// }
+	return;
 }
