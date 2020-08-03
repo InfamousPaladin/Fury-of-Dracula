@@ -239,7 +239,9 @@ PlaceId *HvWhereCanIGoByType(HunterView hv, bool road, bool rail,
 
 PlaceId *HvWhereCanTheyGo(HunterView hv, Player player,
                           int *numReturnedLocs)
-{
+{	
+	int dracRound = 0;
+	PlaceId playerLoc;
 	int numLocations = 0;
 	PlaceId *reachableNext;
 
@@ -247,8 +249,14 @@ PlaceId *HvWhereCanTheyGo(HunterView hv, Player player,
 	Player currPlayer = GvGetPlayer(hv->view);
 	if (player < currPlayer) round++;
 
-	reachableNext = GvGetReachable(hv->view, player, round, 
-							HvGetPlayerLocation(hv, player), &numLocations);
+	if (player == PLAYER_DRACULA) {
+		playerLoc = HvGetLastKnownDraculaLocation(hv, &dracRound);
+	} else {
+		playerLoc = HvGetPlayerLocation(hv, player);
+	}
+
+	reachableNext = GvGetReachable(hv->view, player, round, playerLoc, 
+																&numLocations);
 
 	*numReturnedLocs = numLocations;
 	return reachableNext;
