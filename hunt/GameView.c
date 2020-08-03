@@ -286,7 +286,7 @@ int GvGetHealth(GameView gv, Player player)
 			if (gv->playString[i] == playerID) {
 				GvHunterHealthLoss(gv, &playerDead, &position, i, player);
 				// Check if the hunter rested
-				GvHunterHealthGain(gv, i, player);
+				if (playerDead == false) GvHunterHealthGain(gv, i, player);
 			}
 			if (gv->playString[i + TURN_CHARS - 1] == '\0') break;
 		}

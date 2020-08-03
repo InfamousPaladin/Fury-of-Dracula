@@ -102,12 +102,15 @@ void decideHunterMove(HunterView hv) {
 	int dracLocRound = -1;
 	PlaceId lastDracLoc = HvGetLastKnownDraculaLocation(hv, &dracLocRound);
 
-	// if Hunter is on 2 health, make him rest
-	if (HvGetHealth(hv, currPlayer) < 3) {
-		char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
-		currPlayer));
-		registerBestPlay(placeAbbrev, "Resting for health");
-		return;
+	// if Hunter is on 2 health or less, make them rest unless they are already dead
+	if ((HvGetPlayerLocation(hv, currPlayer) != HOSPITAL_PLACE) || 
+		(HvGetPlayerLocation(hv, currPlayer) != ST_JOSEPH_AND_ST_MARY)) {
+		if (HvGetHealth(hv, currPlayer) < 3) {
+			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
+			currPlayer));
+			registerBestPlay(placeAbbrev, "Resting for health");
+			return;
+		}
 	}
 
 	// if Drac's location has been found, find all possible locations
