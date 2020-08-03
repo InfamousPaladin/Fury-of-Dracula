@@ -324,6 +324,75 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
 //**************************************************************************//
 //                		    	Helper Functions 		 	                //
 //**************************************************************************//
+// placeIdCmp and sortDbHide was provided from the testUtils ADT and is used to
+// sort DOUBLE_BACK and HIDE to arrange them.
+static int placeIdCmp(const void *ptr1, const void *ptr2) {
+	PlaceId p1 = *(PlaceId *)ptr1;
+	PlaceId p2 = *(PlaceId *)ptr2;
+	return p1 - p2;
+}
+
+void sortDbHide(PlaceId *places, int numPlaces) {
+	qsort(places, (size_t)numPlaces, sizeof(PlaceId), placeIdCmp);
+}
+
+PlaceId DvConvertLocToMove(DraculaView dv, PlaceId place) 
+{
+	bool canFree = true;
+	int nLocs = -1;
+	PlaceId *dracLocs = GvGetLastLocations(dv->gameState, PLAYER_DRACULA, 
+										TRAIL_SIZE, &nLocs, &canFree);
+	int nValid = -1;
+	PlaceId *validMoves = DvGetValidMoves(dv, &nValid);
+
+	// Stores all valid DOUBLE_BACK and HIDE into a new array
+	PlaceId DbHide[nValid];
+	int nDbHide = 0;
+	for (int i = 0; i < nValid; i++) {
+		if (!placeIsReal(validMoves[i])) {
+			DbHide[nDbHide] = validMoves[i];
+			nDbHide++;
+		}
+	}
+
+	// Priorities that HIDE is chosen rather than DOUBLE_BACK_1
+	sortDbHide(DbHide, nDbHide);
+	int LocIndex = 0;
+	for (int i = nLocs - 1; i >= 0; i--) {
+		if (dracLocs[i] == place ) {
+			LocIndex = i;
+			break;
+		} else if (i == 0 && dracLocs[i] != place) {
+			free(validMoves);
+			free(dracLocs);
+			return place;
+		}
+	}
+
+	PlaceId move = place;
+	for (int i = 0; i < nDbHide; i++) {
+		// convert db and hide to space
+		int space = 0;
+		if (DbHide[i] == HIDE || DbHide[i] == DOUBLE_BACK_1) space = 0;
+		else if (DbHide[i] == DOUBLE_BACK_2) space = 1;
+		else if (DbHide[i] == DOUBLE_BACK_3) space = 2;
+		else if (DbHide[i] == DOUBLE_BACK_4) space = 3;
+		else if (DbHide[i] == DOUBLE_BACK_5) space = 4;
+
+		if (LocIndex == nLocs - 1 - space) {
+			move = DbHide[i];
+			break;
+		}
+	}
+
+	if (canFree) {
+		free(validMoves);
+		free(dracLocs);
+	}
+
+	return move;
+}
+
 
 // Check if HIDE or DOUBLE_BACK have been used previously in trail
 static void checkHideDoubleBack(PlaceId trail[], int trailSize, bool *hideExist, 
@@ -429,6 +498,24 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 	PlaceId *reachLocs = GvGetReachable(dv->gameState, PLAYER_DRACULA, 
 										dv->currRound, currLoc, &nReach);
 
+	// Consider Castle Dracula and Teleport
+	bool castleVisit = false;
+	bool teleport = false;
+	for (int i = 0; i < trailSize; i++) {
+		if (trailMoves[i] == TELEPORT) teleport = true;
+		if (trailMoves[i] == CASTLE_DRACULA) castleVisit = true;
+	}
+
+	if (teleport && !castleVisit) {
+		for (int i = 0; i < nReach; i++) {
+			if (reachLocs[i] == CASTLE_DRACULA) {
+				validMoves[validIndex] = reachLocs[i];
+				reachLocs[i] = INVALID_LOC;
+				validIndex++;
+			}
+		}
+	}
+
 	// Consider the last move in the trail as reachable
 	if (trailSize == TRAIL_SIZE) {
 		for (int i = 0; i < nReach; i++) {
@@ -465,6 +552,7 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 
 	*nValid = validIndex;
 }
+
 
 // Finds the corresponding location for Dracula's special moves (i.e. HIDE and 
 // DOUBLE_BACK)

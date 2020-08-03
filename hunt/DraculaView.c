@@ -24,9 +24,11 @@
 #include "GameView.h"
 #include "Map.h"
 #include "Places.h"
+#include "Queue.h"
 
 #define MAX_ARRAY_SIZE		1000
 #define INVALID_LOC 		-1000
+#define UNINITIALISED		-1
 
 typedef struct playerInfo
 {
@@ -302,7 +304,7 @@ PlaceId *DvWhereCanTheyGo(DraculaView dv, Player player,
 	if (player == PLAYER_DRACULA) {
 		return DvWhereCanIGo(dv, &*numReturnedLocs);
 	} else {
-		return GvGetReachable(dv->gameState, player, dv->currRound, 
+		return GvGetReachable(dv->gameState, player, dv->currRound + 1, 
 							  dv->playerID[player].location, &*numReturnedLocs);	
 	}
 }
@@ -315,7 +317,7 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
 	if (player == PLAYER_DRACULA) {
 		return DvWhereCanIGoByType(dv, road, boat, &*numReturnedLocs);
 	} else {
-		return GvGetReachableByType(dv->gameState, player, dv->currRound, 
+		return GvGetReachableByType(dv->gameState, player, dv->currRound + 1, 
 									dv->playerID[player].location, 
 									road, rail, boat, &*numReturnedLocs);
 	}
@@ -324,6 +326,169 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
 //**************************************************************************//
 //                		    	Helper Functions 		 	                //
 //**************************************************************************//
+// placeIdCmp and sortDbHide (previously known as sortPlaces) was provided from 
+// the testUtils ADT by COMP2521 staff and in this instance is used to sort 
+// DOUBLE_BACK and HIDE in an array.
+static int placeIdCmp(const void *ptr1, const void *ptr2) {
+	PlaceId p1 = *(PlaceId *)ptr1;
+	PlaceId p2 = *(PlaceId *)ptr2;
+	return p1 - p2;
+}
+
+void sortDbHide(PlaceId *places, int numPlaces) {
+	qsort(places, (size_t)numPlaces, sizeof(PlaceId), placeIdCmp);
+}
+
+PlaceId *DvGetShortestPathTo(DraculaView dv, PlaceId dest, int *pathLength) {	
+
+	// player's current location
+	PlaceId src = DvGetPlayerLocation(dv, PLAYER_DRACULA);
+
+	// needed arrays for conducting calculations and holding data
+	PlaceId visitTransport[NUM_REAL_PLACES];
+	bool foundPath = false;
+	int nLocTransport = 0;
+	*pathLength = 0;
+
+	// -1 to indicate not visited
+	for (int i = 0; i < NUM_REAL_PLACES; i++) visitTransport[i] = UNINITIALISED;
+
+	// bfs path find
+	visitTransport[src] = src;
+	Queue bfsQueue = newQueue();
+
+	// joining queue
+	QueueJoin(bfsQueue, src);
+	while (foundPath == false && QueueIsEmpty(bfsQueue) != 1) {
+
+		// new starting location is extracted
+		PlaceId newLocation = QueueLeave(bfsQueue);
+
+		if (newLocation == dest) {
+			foundPath = true;
+		} else {
+			// advancement of round relative to movement in location is
+			// recorded in an array for GvGetReachable to calculate a path
+			PlaceId *travelConnect = GvGetReachable(dv->gameState, PLAYER_DRACULA, 
+								dv->currRound, newLocation, &nLocTransport);
+
+			// all locations are added to the queue
+			for (int i = 0; i < nLocTransport; i++) {
+				if (visitTransport[travelConnect[i]] == UNINITIALISED) {
+					visitTransport[travelConnect[i]] = newLocation;
+					QueueJoin(bfsQueue, travelConnect[i]);
+				}
+			}
+		}
+	}
+	dropQueue(bfsQueue);
+
+	if (foundPath == true) {
+		PlaceId pathLink;
+		int numCities = 0;
+		PlaceId transportPath[NUM_REAL_PLACES];
+		transportPath[numCities] = dest;
+		bool reachedEnd = false;
+		numCities++;
+
+		// calculating the number of locations
+		while (reachedEnd == false) {
+			pathLink = visitTransport[dest];
+			if (pathLink == src) {
+				reachedEnd = true;
+			} else {
+				transportPath[numCities] = pathLink;
+				dest = pathLink;
+				numCities++;
+			}
+		}
+
+		// dynamically allocating the final path of locations
+		PlaceId *finalPath = malloc(sizeof(ConnList) * (numCities - 1));
+		
+		// reading the found path into a dynamically allocated array
+		int j = 0;
+		for (int i = numCities - 1; i >= 0; i--, j++) {
+			finalPath[j] = transportPath[i];
+		}
+
+		if (src == dest) numCities--;;
+		*pathLength = numCities;
+		return finalPath;
+	}
+	return NULL;
+
+
+}
+
+PlaceId DvConvertLocToMove(DraculaView dv, PlaceId place) 
+{
+	bool canFree = true;
+	int nLocs = -1;
+	PlaceId *dracLocs = GvGetLastLocations(dv->gameState, PLAYER_DRACULA, 
+										TRAIL_SIZE, &nLocs, &canFree);
+	int nValid = -1;
+	PlaceId *validMoves = DvGetValidMoves(dv, &nValid);
+
+	// Clamp illegal moves
+	int nValLocs = 0;
+	PlaceId *validLocs = DvWhereCanIGo(dv, &nValLocs);
+	int counter = 0;
+	for (int i = 0; i < nValLocs; i++) {
+		if (validLocs[i] == place) {
+			counter = -10000;
+		}
+	}
+	if (counter == 0) {
+		place = validLocs[0];
+	}
+
+	// Stores all valid DOUBLE_BACK and HIDE into a new array
+	PlaceId DbHide[nValid];
+	int nDbHide = 0;
+	for (int i = 0; i < nValid; i++) {
+		if (!placeIsReal(validMoves[i])) {
+			DbHide[nDbHide] = validMoves[i];
+			nDbHide++;
+		}
+	}
+
+	// Priorities that HIDE is chosen rather than DOUBLE_BACK_1
+	sortDbHide(DbHide, nDbHide);
+	int LocIndex = 0;
+	for (int i = nLocs - 1; i >= 0; i--) {
+		if (dracLocs[i] == place ) {
+			LocIndex = i;
+			break;
+		} else if (i == 0 && dracLocs[i] != place) {
+			free(validMoves);
+			free(dracLocs);
+			return place;
+		}
+	}
+
+	PlaceId move = place;
+	for (int i = 0; i < nDbHide; i++) {
+		// convert db and hide to space
+		int space = 0;
+		if (DbHide[i] == HIDE || DbHide[i] == DOUBLE_BACK_1) space = 0;
+		else if (DbHide[i] == DOUBLE_BACK_2) space = 1;
+		else if (DbHide[i] == DOUBLE_BACK_3) space = 2;
+		else if (DbHide[i] == DOUBLE_BACK_4) space = 3;
+		else if (DbHide[i] == DOUBLE_BACK_5) space = 4;
+		if (LocIndex == nLocs - 1 - space) {
+			move = DbHide[i];
+			break;
+		}
+	}
+
+	if (canFree) {
+		free(validMoves);
+		free(dracLocs);
+	}
+
+	return move;
+}
 
 // Check if HIDE or DOUBLE_BACK have been used previously in trail
 static void checkHideDoubleBack(PlaceId trail[], int trailSize, bool *hideExist, 
@@ -428,6 +593,22 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 	int nReach = 0;
 	PlaceId *reachLocs = GvGetReachable(dv->gameState, PLAYER_DRACULA, 
 										dv->currRound, currLoc, &nReach);
+
+	// Consider Castle Dracula and Teleport
+	bool castleVisit = false;
+	bool teleport = false;
+	for (int i = 0; i < trailSize; i++) {
+		if (trailMoves[i] == TELEPORT) teleport = true;
+		if (trailMoves[i] == CASTLE_DRACULA) castleVisit = true;
+	}
+
+	if (teleport && castleVisit) {
+		for (int i = 0; i < nReach; i++) {
+			if (reachLocs[i] == CASTLE_DRACULA) {
+				reachLocs[i] = INVALID_LOC;
+			}
+		}
+	}
 
 	// Consider the last move in the trail as reachable
 	if (trailSize == TRAIL_SIZE) {
