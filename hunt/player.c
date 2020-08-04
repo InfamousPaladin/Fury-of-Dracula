@@ -95,27 +95,28 @@ typedef HunterView View;
 int main(void)
 {
 	// Replace this with the define instead
-	char *pastPlays = "GSW.... SLS.... HMR.... MHA.... DVI.V.. "
-					  "GLO.... SLS.... HMR.... MHA.... DC?T... " // BD
-					  "GEC.... SLS.... HMR.... MHA.... DC?T... " // SZ
-					  "GLE.... SLS.... HMR.... MHA.... DC?T... " // BE
-					  "GPA.... SLS.... HMR.... MHA.... DC?T... " // BC
-					  "GGE.... SLS.... HMR.... MHA.... DC?T... " // CN
-					  "GGE.... SLS.... HMR.... MHA.... DC?T.V. " // GA
-					  "GMI.... SAO.... HZU.... MBR.... DCDT.M. " // CD
-					  "GVE.... SNS.... HMU.... MBD.... DHIT.M. " // CD
-					  "GVI.... SHA.... HZA.... MKL.... DD1T.M. " // CD
-					  "GBD.... SVI.... HSZ.... MCDTTTD DC?T.M. " // KL
-					  "GKLTD.. SBD.... HKLD... MSZ.... DSZT.M. "
-					  "GSZTD.. SZA.... HSZD... MZA.... DC?T.M. " // BE
-					  "GZA.... SSZ.... HSZ.... MSZ.... DC?.V.. " // SO
-					  "GSZ.... SZA.... HZA.... MZA.... DC?T... " // BC
-					  "GZA.... SSZ.... HSZ.... MSZ.... DC?T... " // GA
-					  "GSZ.... SZA.... HZA.... MZA.... DCDT... "
-					  "GKL.... SSZ.... HSZ.... MSZ.... DHIT... "
-					  "GCDTTD. SKL.... HKL.... MKL.... DD1T.M. "
-					  "GCDT... SCDD... HCDD... MCDD... DC?T.V. " // KL
-					  "GSZ.... SKLTD..";  
+	char *pastPlays = "GSW...";
+	// "GSW.... SLS.... HMR.... MHA.... DVI.V.. "
+	// 				  "GLO.... SLS.... HMR.... MHA.... DC?T... " // BD
+	// 				  "GEC.... SLS.... HMR.... MHA.... DC?T... " // SZ
+	// 				  "GLE.... SLS.... HMR.... MHA.... DC?T... " // BE
+	// 				  "GPA.... SLS.... HMR.... MHA.... DC?T... " // BC
+	// 				  "GGE.... SLS.... HMR.... MHA.... DC?T... " // CN
+	// 				  "GGE.... SLS.... HMR.... MHA.... DC?T.V. " // GA
+	// 				  "GMI.... SAO.... HZU.... MBR.... DCDT.M. " // CD
+	// 				  "GVE.... SNS.... HMU.... MBD.... DHIT.M. " // CD
+	// 				  "GVI.... SHA.... HZA.... MKL.... DD1T.M. " // CD
+	// 				  "GBD.... SVI.... HSZ.... MCDTTTD DC?T.M. " // KL
+	// 				  "GKLTD.. SBD.... HKLD... MSZ.... DSZT.M. "
+	// 				  "GSZTD.. SZA.... HSZD... MZA.... DC?T.M. " // BE
+	// 				  "GZA.... SSZ.... HSZ.... MSZ.... DC?.V.. " // SO
+	// 				  "GSZ.... SZA.... HZA.... MZA.... DC?T... " // BC
+	// 				  "GZA.... SSZ.... HSZ.... MSZ.... DC?T... " // GA
+	// 				  "GSZ.... SZA.... HZA.... MZA.... DCDT... "
+	// 				  "GKL.... SSZ.... HSZ.... MSZ.... DHIT... "
+	// 				  "GCDTTD. SKL.... HKL.... MKL.... DD1T.M. "
+	// 				  "GCDT... SCDD... HCDD... MCDD... DC?T.V. " // KL
+	// 				  "GSZ.... SKLTD..";  
 
 	Message msgs[] = xMsgs;
 
