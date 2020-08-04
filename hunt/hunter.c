@@ -41,13 +41,13 @@ void decideHunterMove(HunterView hv) {
 
 	// starting positions
 	if (currPlayer == PLAYER_LORD_GODALMING && roundNum == 0) {
-		registerBestPlay("SW", "LETS GO HUNTERS");
+		registerBestPlay("CD", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_DR_SEWARD && roundNum == 0) {
-		registerBestPlay("LS", "LETS GO HUNTERS");
+		registerBestPlay("PA", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_VAN_HELSING && roundNum == 0) {
-		registerBestPlay("MR", "LETS GO HUNTERS");
+		registerBestPlay("BR", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_MINA_HARKER && roundNum == 0) {
-		registerBestPlay("HA", "LETS GO HUNTERS");
+		registerBestPlay("MA", "LETS GO HUNTERS");
 	} else {
 
 		// getting Drac's location
@@ -93,8 +93,7 @@ void decideHunterMove(HunterView hv) {
 
 			int pathLength = -1;
 			PlaceId *pathtoVampire = HvGetShortestPathTo(hv, currPlayer, 
-														HvGetVampireLocation(hv), 
-														&pathLength);
+										HvGetVampireLocation(hv), &pathLength);
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(pathtoVampire[0]);
 			registerBestPlay(placeAbbrev, "Found a vampire, I'm gonna kill it");
@@ -109,9 +108,9 @@ void decideHunterMove(HunterView hv) {
 			(HvGetPlayerLocation(hv, currPlayer) != HOSPITAL_PLACE)) {
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
-																	currPlayer));
-			registerBestPlay(placeAbbrev, "Resting for health");
+																currPlayer));
 
+			registerBestPlay(placeAbbrev, "Resting for health");
 			return;
 		}
 
@@ -120,36 +119,37 @@ void decideHunterMove(HunterView hv) {
 		// the random move function from there to find Dracula
 		if ((lastDracLoc < CITY_UNKNOWN) && (lastDracLoc != NOWHERE) &&
 			(lastDracLoc != UNKNOWN_PLACE)) {
-			
-			int indexLoc = 0;
-			PlaceId *toDracPath;
-			int numDracLocations = -1;
 
 			// if Drac's location has been revealed recently, chase him
 			// else given Drac's last known location, find possible places to chase
 			if ((HvGetRound(hv) - lastDracRound) < 2) {
-				toDracPath = HvGetShortestPathTo(hv, currPlayer, lastDracLoc, 
-																&numDracLocations);
-			} else {
-				toDracPath = HvWhereCanTheyGo(hv, PLAYER_DRACULA, 
-																&numDracLocations);
-				indexLoc = rand() % numDracLocations;
+				int pathLength = -1;
+				PlaceId *searchPath = HvGetShortestPathTo(hv, currPlayer, 
+				lastDracLoc, &pathLength);
 
+				char *placeAbbrev = (char *) placeIdToAbbrev(searchPath[0]);
+				registerBestPlay(placeAbbrev, "We're coming after you");
+				return;
 			}
+		}
 
-			int pathLength = -1;
-			PlaceId *pathtoDracula = HvGetShortestPathTo(hv, currPlayer, 
-												toDracPath[indexLoc], &pathLength);
+		// godalming patrolling Castle Dracula
+		if (currPlayer == PLAYER_LORD_GODALMING) {
 
-			// location reached; head to CD
-			// Dracula might be heading there aswell
-			if (pathtoDracula[0] == HvGetPlayerLocation(hv, currPlayer)) {
-				headtoCastleDracula(hv, currPlayer);
+			PlaceId godalmingLoc = HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING);
+
+			if (godalmingLoc != CASTLE_DRACULA) {
+				headtoCastleDracula(hv, godalmingLoc);
 				return;
 			}
 
-			char *placeAbbrev = (char *) placeIdToAbbrev(pathtoDracula[0]);
-			registerBestPlay(placeAbbrev, "We're coming after you");
+			int patrolLoc = -1;
+			int randIndex = roundNum % 2;
+			PlaceId *patrol = HvWhereCanIGo(hv, &patrolLoc);
+
+			char *placeAbbrev = (char *) placeIdToAbbrev(patrol[randIndex]);
+			registerBestPlay(placeAbbrev, "Patrolling Castle Dracula");
+
 			return;
 		}
 
@@ -158,21 +158,16 @@ void decideHunterMove(HunterView hv) {
 		randomMove(hv, currPlayer);
 		return;
 	}
+
+	return;
 }
 
-// if Drac's location is unknown, use random moves to find him
+// head to CD
 static void headtoCastleDracula(HunterView hv, Player currPlayer) {
 
-	// if Drac's in a city, chances are he's heading towards CD or near
 	int pathLength = -1;
 	PlaceId *pathtoCD = HvGetShortestPathTo(hv, currPlayer, CASTLE_DRACULA, 
-											&pathLength);
-
-	// location reached, do random moves until Drac is found
-	if (pathtoCD[0] == HvGetPlayerLocation(hv, currPlayer)) {
-		randomMove(hv, currPlayer);
-		return;
-	}
+																&pathLength);
 
 	char *placeAbbrev = (char *) placeIdToAbbrev(pathtoCD[0]);
 	registerBestPlay(placeAbbrev, "Heading to the Devil's den");
