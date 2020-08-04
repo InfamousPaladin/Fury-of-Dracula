@@ -14,6 +14,7 @@
 #include "Game.h"
 #include <stdlib.h>
 #include <time.h> 
+// #include <stdio.h>
 
 #define DONT 	-1000
 #define LIMIT	100
@@ -180,16 +181,15 @@ void decideDraculaMove(DraculaView dv)
 			PlaceId locID;
 			while (!goodMove) {
 				locID = rand() % NUM_REAL_PLACES;
-				goodMove = true;
+				play = (char *) placeIdToAbbrev(locID);
+				registerBestPlay(play, "being a complete idiot here");goodMove = true;
 				for (int i = 0; i < gameInfo.totalLocs; i++) {
-					if (gameInfo.allHunterLocs[i] == locID) {
+					if (gameInfo.allHunterLocs[i] == locID || locID == HOSPITAL_PLACE) {
 						goodMove = false;
 						break;
 					}
 				}
 			}
-			play = (char *) placeIdToAbbrev(locID);
-			registerBestPlay(play, "being a complete idiot here");
 		}
 		free(gameInfo.allHunterLocs);
 	} else if (gameInfo.nMoves == 0) {

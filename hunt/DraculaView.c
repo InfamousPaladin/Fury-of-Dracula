@@ -610,7 +610,6 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 	int nReach = 0;
 	PlaceId *reachLocs = GvGetReachable(dv->gameState, PLAYER_DRACULA, 
 										dv->currRound, currLoc, &nReach);
-
 	// Consider Teleport has been used and CASTLE_DRACULA visited
 	bool castleVisit = false;
 	if (trailSize == TRAIL_SIZE) {
@@ -640,35 +639,22 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 		}
 	}
 
-
-	// Consider the last move in the trail as reachable if trail is full if it
-	// has not been visited.
+	// First consider that the last move in the trail is valid move
 	if (trailSize == TRAIL_SIZE) {
-		PlaceId lastMove = trailLocs[0];
-		bool lastMoveValid = true;
-		for (int i = 1; i < nReach; i++) {
-			if (trailLocs[i] == lastMove) {
-				lastMoveValid = false;
+		for (int i = 0; i < nReach; i++) {
+			if (trailMoves[0] == reachLocs[i]) {
+				validMoves[validIndex] = reachLocs[i];
+				reachLocs[i] = INVALID_LOC;
+				validIndex++;
 				break;
-			}
-		}
-		if (lastMoveValid) {
-			for (int i = 0; i < nReach; i++) {
-				if (trailLocs[0] == reachLocs[i] && reachLocs[i] != currLoc && 
-					reachLocs[i] != INVALID_LOC) {
-					validMoves[validIndex] = reachLocs[i];
-					reachLocs[i] = INVALID_LOC;
-					validIndex++;
-					break;
-				}
 			}
 		}
 	}
 
 	// Remove invalid rechable locations in reachLocs
-	for (int i = 0; i < trailSize; i++) {
+	for (int i = 1; i < trailSize; i++) {
 		for (int j = 0; j < nReach; j++) {
-			if (trailLocs[i] == reachLocs[j] || reachLocs[j] == currLoc) {
+			if (trailMoves[i] == reachLocs[j] || reachLocs[j] == currLoc) {
 				reachLocs[j] = INVALID_LOC;
 				break;
 			}
