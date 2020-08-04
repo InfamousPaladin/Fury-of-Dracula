@@ -596,13 +596,13 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 
 	// Consider Castle Dracula and Teleport
 	bool castleVisit = false;
-	bool teleport = false;
+	// bool teleport = false;
 	for (int i = 0; i < trailSize; i++) {
-		if (trailMoves[i] == TELEPORT) teleport = true;
+		// if (trailMoves[i] == TELEPORT) teleport = true;
 		if (trailMoves[i] == CASTLE_DRACULA) castleVisit = true;
 	}
 
-	if (teleport && castleVisit) {
+	if (castleVisit) {
 		for (int i = 0; i < nReach; i++) {
 			if (reachLocs[i] == CASTLE_DRACULA) {
 				reachLocs[i] = INVALID_LOC;
