@@ -213,7 +213,7 @@ void decideDraculaMove(DraculaView dv)
 					break;
 				}
 			}
-			if (repeat > LIMIT) break;
+			if (repeat > LIMIT || gameInfo.nLocs == 1) break;
 			repeat++;
 		}
 
@@ -330,15 +330,20 @@ void decideDraculaMove(DraculaView dv)
 				int pathLen = 0;
 				PlaceId *pathToCastle = DvGetShortestPathTo(dv, CASTLE_DRACULA, &pathLen);
 				if (pathLen > 1) {
-					PlaceId loc = pathToCastle[0];
-					PlaceId move = DvConvertLocToMove(dv, loc);
-					play = (char *) placeIdToAbbrev(move);
-					registerBestPlay(play, "Mario?!!!!");
-					free(pathToCastle);
+					for (int i = 0; i < gameInfo.nLocs; i++) {
+						if (gameInfo.dracLocs[i] == pathToCastle[0]) {
+							PlaceId loc = pathToCastle[0];
+							PlaceId move = DvConvertLocToMove(dv, loc);
+							play = (char *) placeIdToAbbrev(move);
+							registerBestPlay(play, "Mario?!!!!");
+							free(pathToCastle);
+							return;
+						}
+					}
 				} else {
 					goodMove = false;
 					repeat = 0;
-					while (!goodMove) {
+					while (!goodMove && j != gameInfo.nLocs) {
 						int encounter = 0;
 						int locID = rand() % gameInfo.nLocs;
 						PlaceId loc = gameInfo.dracLocs[locID];

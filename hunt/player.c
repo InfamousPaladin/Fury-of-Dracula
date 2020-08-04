@@ -95,9 +95,7 @@ typedef HunterView View;
 int main(void)
 {
 	// Replace this with the define instead
-	char *pastPlays = 
-	"GED.... SGA.... HRO.... MGR.... DGW.V.. GED.... SGA.... HRO.... MGR.... DAO.... GED.... SGA.... HRO.... MGR.... DMS.... GED.... SGA.... HRO.... MGR.... DMRT... GED.... SGA.... HRO.... MGR.... DTOT... GED.... SGA.... HRO.... MGR.... DSRT... GED.... SGA.... HRO.... MGR.... DSNT.V. GED.... SGA.... HRO.... MGR.... DLST... GED.... SGA.... HRO.... MGR.... DAO.... GED.... SGA.... HRO.... MGR.... DMS..M. GED.... SGA.... HRO.... MGR.... DMRT.M. GED.... SGA.... HRO.... MGR.... DZUT.M. GED.... SGA.... HRO.... MGR.... DMUT.M. GED.... SGA.... HRO.... MGR.... DZA.VM. GED.... SGA.... HRO.... MGR.... DVIT... GED.... SGA.... HRO.... MGR.... DD3T... GED.... SGA.... HRO.... MGR.... DSTT.M. GED.... SGA.... HRO.... MGR.... DPAT.M. GED.... SGA.... HRO.... MGR.... DLET.M. GED.... SGA.... HRO.... MGR.... DBUT.V. GED.... SGA.... HRO.... MGR.... DAMT.M. GED.... SGA.... HRO.... MGR.... DCOT.M. GED.... SGA.... HRO.... MGR.... DD3T.M. GED.... SGA.... HRO.... MGR.... DSTT.M. GED.... SGA.... HRO.... MGR.... DNUT.M. GED.... SGA.... HRO.... MGR.... DMUT.M. GED.... SGA.... HRO.... MGR.... DZA.VM. GED.... SGA.... HRO.... MGR.... DSZT.M. GED.... SGA.... HRO.... MGR.... DBET.M. GED.... SGA.... HRO.... MGR.... DSOT.M. GED.... SGA.... HRO.... MGR.... DVRT.M. GED.... SGA.... HRO.... MGR.... DBS..M. GED.... SGA.... HRO.... MGR.... DCNT.V. GED.... SGA.... HRO.... MGR.... DGAT.M. GED.... SGATD.. HRO.... MGR.... DHIT.M. GED.... SGATD.. HRO.... MGR.... DCDT.M. GED.... SJM.... HRO.... MGR....";
-
+	char *pastPlays = "GZA.... SED.... HZU.... MZU....";
 
 
 				    //   "GSW.... SLS.... HMR.... MHA.... DVI.V.. "
