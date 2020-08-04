@@ -54,6 +54,7 @@ typedef struct gameState
 } GameState;
 
 Player findLowestHealth(GameState gameInfo);
+int playerNearCastle(int GpathLen, int SpathLen, int VpathLen, int MpathLen, int DracPathLen);
 
 void decideDraculaMove(DraculaView dv)
 {
@@ -237,24 +238,38 @@ void decideDraculaMove(DraculaView dv)
 						break;
 					}
 				}
-				if (repeat > LIMIT) break;
+				if (repeat > LIMIT || gameInfo.nShouldLocs == 1) break;
 				repeat++;
 			}
-			if (gameInfo.dracHealth <= 30) {
-				for (int i = 0; i < gameInfo.nLocs; i++) {
-					if (gameInfo.dracLocs[i] == CASTLE_DRACULA) {
-						registerBestPlay("CD", "Back then");
-						return;
-					}
-				}
-				int pathLen = 0;
-				PlaceId *pathToCastle = DvGetShortestPathTo(dv, CASTLE_DRACULA, &pathLen);
-				if (pathLen > 1) {
+			// Try to go to CASTLE DRACULA if possible
+			int GpathLen = 0;
+			int SpathLen = 0;
+			int VpathLen = 0;
+			int MpathLen = 0;
+			HvGetShortestPathTo(dv, PLAYER_LORD_GODALMING, CASTLE_DRACULA, &GpathLen);
+			HvGetShortestPathTo(dv, PLAYER_DR_SEWARD, CASTLE_DRACULA, &SpathLen);
+			HvGetShortestPathTo(dv, PLAYER_VAN_HELSING, CASTLE_DRACULA, &VpathLen);
+			HvGetShortestPathTo(dv, PLAYER_MINA_HARKER, CASTLE_DRACULA, &MpathLen);
+			int DracPathLen = 0;
+			PlaceId *pathToCastle = DvGetShortestPathTo(dv, CASTLE_DRACULA, &DracPathLen);
+			// Go back to Castle Dracula
+			int nearCastle = playerNearCastle(GpathLen, SpathLen, VpathLen, MpathLen, DracPathLen);
+			if (gameInfo.dracHealth <= 30 && nearCastle < 2) {
+				if (DracPathLen > 1) {
 					PlaceId loc = pathToCastle[0];
 					PlaceId move = DvConvertLocToMove(dv, loc);
 					play = (char *) placeIdToAbbrev(move);
 					registerBestPlay(play, "Mario?!!!!");
 					free(pathToCastle);
+				} else {
+					for (int i = 0; i < gameInfo.nLocs; i++) {
+						if (gameInfo.dracLocs[i] == CASTLE_DRACULA) {
+							PlaceId move = DvConvertLocToMove(dv, gameInfo.dracLocs[i]);
+							play = (char *) placeIdToAbbrev(move);
+							registerBestPlay(play, "Back then");
+							return;
+						}
+					}
 				}
 			}
 
@@ -345,10 +360,6 @@ void decideDraculaMove(DraculaView dv)
 					}
 				}
 			}
-
-
-
-
 		}
 		free(gameInfo.allHunterLocs);
 		free(gameInfo.DracShouldGoLocs);
@@ -370,4 +381,14 @@ Player findLowestHealth(GameState gameInfo)
 	else if (gameInfo.hunterID[2].health <= 4) return PLAYER_VAN_HELSING;
 	else if (gameInfo.hunterID[3].health <= 4) return PLAYER_MINA_HARKER;
 	return PLAYER_DRACULA;
+}
+
+int playerNearCastle(int GpathLen, int SpathLen, int VpathLen, int MpathLen, int DracPathLen)
+{
+	int players = 0;
+	if (DracPathLen >= GpathLen && GpathLen < 5) players++;
+	if (DracPathLen >= SpathLen && SpathLen < 5) players++;
+	if (DracPathLen >= VpathLen && VpathLen < 5) players++;
+	if (DracPathLen >= MpathLen && MpathLen < 5) players++;
+	return players;
 }

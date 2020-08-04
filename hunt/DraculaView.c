@@ -494,15 +494,30 @@ PlaceId DvConvertLocToMove(DraculaView dv, PlaceId place)
 static void checkHideDoubleBack(PlaceId trail[], int trailSize, bool *hideExist, 
 							bool *dbExist)
 {
-	for (int i = 1; i < trailSize; i++) {
-		// Checking if the move has been called within the last 5 rounds
-		if (trail[i] == HIDE) {
-			*hideExist = true;
-		} else if (trail[i] == DOUBLE_BACK_1 || trail[i] == DOUBLE_BACK_2 ||
-				   trail[i] == DOUBLE_BACK_3 || trail[i] == DOUBLE_BACK_4 ||
-				   trail[i] == DOUBLE_BACK_5) {
+	// Only consider the last 5 rounds
+	if (trailSize == TRAIL_SIZE) {
+		for (int i = 1; i < trailSize; i++) {
+			// Checking if the move has been called within the last 5 rounds
+			if (trail[i] == HIDE) {
+				*hideExist = true;
+			} else if (trail[i] == DOUBLE_BACK_1 || trail[i] == DOUBLE_BACK_2 ||
+					trail[i] == DOUBLE_BACK_3 || trail[i] == DOUBLE_BACK_4 ||
+					trail[i] == DOUBLE_BACK_5) {
 
-			*dbExist = true;
+				*dbExist = true;
+			}
+		}
+	} else {
+		for (int i = 0; i < trailSize; i++) {
+			// Checking if the move has been called within the last 5 rounds
+			if (trail[i] == HIDE) {
+				*hideExist = true;
+			} else if (trail[i] == DOUBLE_BACK_1 || trail[i] == DOUBLE_BACK_2 ||
+					trail[i] == DOUBLE_BACK_3 || trail[i] == DOUBLE_BACK_4 ||
+					trail[i] == DOUBLE_BACK_5) {
+
+				*dbExist = true;
+			}
 		}
 	}
 }
@@ -523,6 +538,8 @@ static void addHide(DraculaView dv, PlaceId validMoves[], int *nValid,
 			break;
 		}
 	}
+
+	free(reachLocs);
 	*nValid = validIndex;
 }
 
@@ -594,29 +611,56 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 	PlaceId *reachLocs = GvGetReachable(dv->gameState, PLAYER_DRACULA, 
 										dv->currRound, currLoc, &nReach);
 
-	// Consider Castle Dracula and Teleport
+	// Consider Teleport has been used and CASTLE_DRACULA visited
 	bool castleVisit = false;
-	// bool teleport = false;
-	for (int i = 0; i < trailSize; i++) {
-		// if (trailMoves[i] == TELEPORT) teleport = true;
-		if (trailLocs[i] == CASTLE_DRACULA && trailMoves[i] != TELEPORT) castleVisit = true;
-	}
-
-	if (castleVisit && currLoc == CASTLE_DRACULA) {
-		for (int i = 0; i < nReach; i++) {
-			if (reachLocs[i] == CASTLE_DRACULA) {
-				reachLocs[i] = INVALID_LOC;
+	if (trailSize == TRAIL_SIZE) {
+		for (int i = trailSize - 1; i > 0; i--) {
+			if (trailMoves[i] != TELEPORT && trailLocs[i] == CASTLE_DRACULA) {
+				castleVisit = true;
+			}
+		}
+	} else {
+		for (int i = 0; i < trailSize; i++) {
+			if (trailMoves[i] != TELEPORT && trailLocs[i] == CASTLE_DRACULA) {
+				castleVisit = true;
 			}
 		}
 	}
 
-	// Consider the last move in the trail as reachable
-	if (trailSize == TRAIL_SIZE) {
+	// Add CASTLE_DRACULA as a visitable location if the player has telepoted
+	// there last round.
+	if (!castleVisit && trailMoves[trailSize - 1] == TELEPORT) {
 		for (int i = 0; i < nReach; i++) {
-			if (trailLocs[0] == reachLocs[i] && reachLocs[i] != currLoc) {
+			if (reachLocs[i] == CASTLE_DRACULA) {
 				validMoves[validIndex] = reachLocs[i];
 				reachLocs[i] = INVALID_LOC;
 				validIndex++;
+				break;
+			}
+		}
+	}
+
+
+	// Consider the last move in the trail as reachable if trail is full if it
+	// has not been visited.
+	if (trailSize == TRAIL_SIZE) {
+		PlaceId lastMove = trailLocs[0];
+		bool lastMoveValid = true;
+		for (int i = 1; i < nReach; i++) {
+			if (trailLocs[i] == lastMove) {
+				lastMoveValid = false;
+				break;
+			}
+		}
+		if (lastMoveValid) {
+			for (int i = 0; i < nReach; i++) {
+				if (trailLocs[0] == reachLocs[i] && reachLocs[i] != currLoc && 
+					reachLocs[i] != INVALID_LOC) {
+					validMoves[validIndex] = reachLocs[i];
+					reachLocs[i] = INVALID_LOC;
+					validIndex++;
+					break;
+				}
 			}
 		}
 	}
@@ -624,13 +668,15 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 	// Remove invalid rechable locations in reachLocs
 	for (int i = 0; i < trailSize; i++) {
 		for (int j = 0; j < nReach; j++) {
-			if (trailMoves[i] == reachLocs[j] || reachLocs[j] == currLoc) {
+			if (trailLocs[i] == reachLocs[j] || reachLocs[j] == currLoc) {
 				reachLocs[j] = INVALID_LOC;
+				break;
 			}
 		}
 	}
 
-	// Copy valid rechable locations in reachLocs to validMoves array
+	// Copy valid whats left for rechable locations in reachLocs to 
+	// validMoves array
 	for (int i = 0; i < nReach; i++) {
 		if (reachLocs[i] != INVALID_LOC) {
 			validMoves[validIndex] = reachLocs[i];
@@ -693,3 +739,109 @@ static void insertLocs(PlaceId loc, PlaceId validLocs[], int *nValidLocs) {
 
 	*nValidLocs = nLocs;
 }
+
+
+// Helper function for HvGetShortestPathTo: Uses a breadth first search to
+// travers the graph and determine the shortest path from `src` to `dest`.
+static void HvGetShortestPath(DraculaView hv, PlaceId visitTransport[], 
+								  PlaceId dest, Player hunter, bool *foundPath, 
+								  PlaceId src) {
+	
+	PlaceId remLocRound[NUM_REAL_PLACES];
+	
+	*foundPath = false;
+	int roundoffSet = 0;
+	int numlocTransport = 0;
+
+	// -1 to indicate not visited
+	for (int i = 0; i < NUM_REAL_PLACES; i++) remLocRound[i] = UNINITIALISED;
+	for (int i = 0; i < NUM_REAL_PLACES; i++) visitTransport[i] = UNINITIALISED;
+
+	// bfs path find
+	visitTransport[src] = src;
+	Queue bfsQueue = newQueue();
+	remLocRound[src] = DvGetRound(hv);
+
+	// joining queue
+	QueueJoin(bfsQueue, src);
+	while (*foundPath == false && QueueIsEmpty(bfsQueue) != 1) {
+
+		// new starting location is extracted
+		PlaceId newLocation = QueueLeave(bfsQueue);
+
+		if (newLocation == dest) {
+			*foundPath = true;
+		} else {
+			// advancement of round relative to movement in location is
+			// recorded in an array for GvGetReachable to calculate a path
+			int roundNum = remLocRound[newLocation];
+			PlaceId *travelConnect = GvGetReachable(hv->gameState, hunter, roundNum, 
+			newLocation, &numlocTransport);
+
+			// all locations are added to the queue
+			for (int i = 0; i < numlocTransport; i++) {
+				// incrementing the round counter as new location is scanned in
+				// recording all data for calculating the shortest path
+				if (visitTransport[travelConnect[i]] == UNINITIALISED) {
+					remLocRound[travelConnect[i]] = roundNum + 1;
+					visitTransport[travelConnect[i]] = newLocation;
+					QueueJoin(bfsQueue, travelConnect[i]);
+				}
+			}
+		}
+		roundoffSet++;
+	}
+	dropQueue(bfsQueue);
+}
+
+PlaceId *HvGetShortestPathTo(DraculaView hv, Player hunter, PlaceId dest,
+                             int *pathLength)
+{
+	// player's current location
+	PlaceId src = DvGetPlayerLocation(hv, hunter);
+
+	// needed arrays for conducting calculations and holding data
+	PlaceId transportPath[NUM_REAL_PLACES];
+	PlaceId visitTransport[NUM_REAL_PLACES];
+	bool foundPath = false;
+	HvGetShortestPath(hv, visitTransport, dest, hunter, &foundPath, src); 
+	
+	// path is found
+	if (foundPath == true) {
+		
+		PlaceId pathLink;
+		int numCities = 0;
+		transportPath[numCities] = dest;
+		bool reachedEnd = false;
+		numCities++;
+
+		// calculating the number of locations
+		while (reachedEnd == false) {
+			pathLink = visitTransport[dest];
+			if (pathLink == src) {
+				reachedEnd = true;
+			} else {
+				transportPath[numCities] = pathLink;
+				dest = pathLink;
+				numCities++;
+			}
+		}
+
+		// dynamically allocating the final path of locations
+		PlaceId *finalPath = malloc(sizeof(ConnList) * (numCities - 1));
+		
+		// reading the found path into a dynamically allocated array
+		int j = 0;
+		for (int i = numCities - 1; i >= 0; i--, j++) {
+			finalPath[j] = transportPath[i];
+		}
+
+		if (src == dest) numCities--;
+
+		*pathLength = numCities;
+		return finalPath;
+	}
+
+	return NULL;
+}
+
