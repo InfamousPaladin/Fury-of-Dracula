@@ -30,11 +30,13 @@ typedef struct playerInfo {
 
 // helper functions
 static void randomMove(HunterView hv, Player currPlayer);
-static void headtoCastleDracula(HunterView hv, Player currPlayer);
+static void headtoKlausenberg(HunterView hv, Player currPlayer);
 
 void decideHunterMove(HunterView hv) {
+
 	time_t t;
 	srand((unsigned) time(&t));
+
 	// obtaining round info
 	Round roundNum = HvGetRound(hv);
 	Player currPlayer = HvGetPlayer(hv);
@@ -62,25 +64,25 @@ void decideHunterMove(HunterView hv) {
 
 				char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 															PLAYER_LORD_GODALMING));
-				registerBestPlay(placeAbbrev, "Godalming on the move");
+				registerBestPlay(placeAbbrev, "Godalming resting");
 
 			} else if (currPlayer == PLAYER_DR_SEWARD) {
 
 				char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 															PLAYER_DR_SEWARD));
-				registerBestPlay(placeAbbrev, "Seward on the move");
+				registerBestPlay(placeAbbrev, "Seward resting");
 
 			} else if (currPlayer == PLAYER_VAN_HELSING) {
 
 				char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 															PLAYER_VAN_HELSING));
-				registerBestPlay(placeAbbrev, "Helsing on the move");
+				registerBestPlay(placeAbbrev, "Helsing resting");
 
 			} else if (currPlayer == PLAYER_MINA_HARKER) {
 
 				char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
 															PLAYER_MINA_HARKER));
-				registerBestPlay(placeAbbrev, "Harker on the move");
+				registerBestPlay(placeAbbrev, "Harker resting");
 
 			}
 			
@@ -123,6 +125,7 @@ void decideHunterMove(HunterView hv) {
 			// if Drac's location has been revealed recently, chase him
 			// else given Drac's last known location, find possible places to chase
 			if ((HvGetRound(hv) - lastDracRound) < 2) {
+
 				int pathLength = -1;
 				PlaceId *searchPath = HvGetShortestPathTo(hv, currPlayer, 
 				lastDracLoc, &pathLength);
@@ -135,20 +138,24 @@ void decideHunterMove(HunterView hv) {
 
 		// godalming patrolling Castle Dracula
 		if (currPlayer == PLAYER_LORD_GODALMING) {
-
+			
 			PlaceId godalmingLoc = HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING);
 
-			if (godalmingLoc != CASTLE_DRACULA) {
-				headtoCastleDracula(hv, godalmingLoc);
+			if (godalmingLoc != KLAUSENBURG) {
+				headtoKlausenberg(hv, PLAYER_LORD_GODALMING);
 				return;
 			}
 
 			int patrolLoc = -1;
-			int randIndex = roundNum % 2;
+
+			time_t t;
+			srand((unsigned) time(&t));
+			// 6 because there are 6 locations connected to that place
+			int randIndex = rand() % 6;
 			PlaceId *patrol = HvWhereCanIGo(hv, &patrolLoc);
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(patrol[randIndex]);
-			registerBestPlay(placeAbbrev, "Patrolling Castle Dracula");
+			registerBestPlay(placeAbbrev, "Patrolling Klausenberg's net");
 
 			return;
 		}
@@ -163,14 +170,13 @@ void decideHunterMove(HunterView hv) {
 }
 
 // head to CD
-static void headtoCastleDracula(HunterView hv, Player currPlayer) {
+static void headtoKlausenberg(HunterView hv, Player currPlayer) {
 
 	int pathLength = -1;
-	PlaceId *pathtoCD = HvGetShortestPathTo(hv, currPlayer, CASTLE_DRACULA, 
-																&pathLength);
+	PlaceId *pathtoKL = HvGetShortestPathTo(hv, currPlayer, KLAUSENBURG, &pathLength);
 
-	char *placeAbbrev = (char *) placeIdToAbbrev(pathtoCD[0]);
-	registerBestPlay(placeAbbrev, "Heading to the Devil's den");
+	char *placeAbbrev = (char *) placeIdToAbbrev(pathtoKL[0]);
+	registerBestPlay(placeAbbrev, "Heading to Klausenberg");
 
 	return;
 }
