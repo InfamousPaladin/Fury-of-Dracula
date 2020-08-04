@@ -146,17 +146,16 @@ void decideHunterMove(HunterView hv) {
 				return;
 			}
 
-			int patrolLoc = -1;
-
 			time_t t;
+			int patrolLoc = -1;
 			srand((unsigned) time(&t));
+
 			// 6 because there are 6 locations connected to that place
 			int randIndex = rand() % 6;
 			PlaceId *patrol = HvWhereCanIGo(hv, &patrolLoc);
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(patrol[randIndex]);
 			registerBestPlay(placeAbbrev, "Patrolling Klausenberg's net");
-
 			return;
 		}
 
