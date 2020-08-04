@@ -116,6 +116,23 @@ void decideDraculaMove(DraculaView dv)
 
 	// Round 0
 	if (gameInfo.currRound == 0) {
+		// Start at Castle Dracula if possible
+		bool castle = false;
+
+		for (int i = 0; i < gameInfo.totalLocs; i++) {
+			if (gameInfo.allHunterLocs[i] == CASTLE_DRACULA ||
+				gameInfo.allHunterLocs[i] == KLAUSENBURG ||
+				gameInfo.allHunterLocs[i] == GALATZ || 
+				gameInfo.allHunterLocs[i] == BUCHAREST ||
+				gameInfo.allHunterLocs[i] == SZEGED ||
+				gameInfo.allHunterLocs[i] == CONSTANTA ||
+				gameInfo.allHunterLocs[i] == BELGRADE ||
+				gameInfo.allHunterLocs[i] == SOFIA) {
+				castle = true;
+				break;
+			}
+		}
+
 		// Start near the coast if possible
 		bool englandCoast = false;
 
@@ -150,7 +167,9 @@ void decideDraculaMove(DraculaView dv)
 			}
 		}
 
-		if (!englandCoast) {
+		if (!castle) {
+			registerBestPlay("CD", "leblanc");
+		} else if (!englandCoast) {
 			registerBestPlay("GW", "comp1511 here i come");
 		} else if (!westCoast) {
 			registerBestPlay("VR", "be a hunter");
