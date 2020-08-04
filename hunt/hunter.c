@@ -91,7 +91,7 @@ void decideHunterMove(HunterView hv) {
 
 		// finds Vamp's location and finds the shortest path to kill it
 		if (HvGetVampireLocation(hv) < CITY_UNKNOWN && HvGetVampireLocation(hv) != 
-			NOWHERE && currPlayer == PLAYER_LORD_GODALMING) {
+			NOWHERE && currPlayer == PLAYER_DR_SEWARD) {
 
 			int pathLength = -1;
 			PlaceId *pathtoVampire = HvGetShortestPathTo(hv, currPlayer, 
