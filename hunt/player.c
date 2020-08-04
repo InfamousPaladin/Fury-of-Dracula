@@ -61,7 +61,7 @@ typedef DraculaView View;
 # define ViewFree DvFree
 
 // TODO: dracula test string
-# define xPastPlays "GZA.... SED.... HZU.... MZU...."
+# define xPastPlays "GLS.... SLS.... HLS.... MLS...."
 # define xMsgs { "", "", "", "" }
 
 #else
@@ -95,7 +95,7 @@ typedef HunterView View;
 int main(void)
 {
 	// Replace this with the define instead
-	char *pastPlays = "GAO.... SBC.... HFR.... MMA....";
+	char *pastPlays = "GLE.... SVR.... HCA.... MSW.... DGW.V.. GEC.... SBE.... HLS.... MSW.... DHIT... GLO.... SBC.... HMA.... MLO.... DD1T... GED.... SBC.... HGR.... MLO.... DDUT... GNS.... SBC.... HGR.... MPL.... DIR.... GHA.... SBE.... HAL.... MEC.... DSWT... GHA.... SBE.... HAL.... MEC.... DLVT.V. GNS.... SKL.... HMS.... MLO.... DHIT.M. GED.... SBD.... HAO.... MMN.... DD3T.M. GED.... SBD.... HAO.... MMN.... DLOT.M. GED.... SBD.... HAO.... MMN.... DPLT... GED.... SVI.... HEC.... MLOT... DEC..M. GNS.... SPR.... HAO.... MEC....";
 
 
 				    //   "GSW.... SLS.... HMR.... MHA.... DVI.V.. "
