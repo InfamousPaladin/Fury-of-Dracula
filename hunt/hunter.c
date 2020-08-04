@@ -47,9 +47,9 @@ void decideHunterMove(HunterView hv) {
 	} else if (currPlayer == PLAYER_DR_SEWARD && roundNum == 0) {
 		registerBestPlay("PA", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_VAN_HELSING && roundNum == 0) {
-		registerBestPlay("BR", "LETS GO HUNTERS");
-	} else if (currPlayer == PLAYER_MINA_HARKER && roundNum == 0) {
 		registerBestPlay("MA", "LETS GO HUNTERS");
+	} else if (currPlayer == PLAYER_MINA_HARKER && roundNum == 0) {
+		registerBestPlay("SO", "LETS GO HUNTERS");
 	} else {
 
 		// getting Drac's location
