@@ -153,6 +153,10 @@ PlaceId HvGetLastKnownDraculaLocation(HunterView hv, Round *round);
 PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
                              int *pathLength);
 
+// function from GameView
+PlaceId *HvGetLastMoves(HunterView hv, Player player, int numMoves,
+								int *numReturnedMoves, bool *canFree);
+
 ////////////////////////////////////////////////////////////////////////
 // Making a Move
 
@@ -202,6 +206,10 @@ PlaceId *HvWhereCanIGoByType(HunterView hv, bool road, bool rail,
  */
 PlaceId *HvWhereCanTheyGo(HunterView hv, Player player,
                           int *numReturnedLocs);
+
+// same as above but with a specified location
+PlaceId *HvWhereCanTheyGoFromSrc(HunterView hv, Player player, PlaceId src, 
+								int *numReturnedLocs);
 
 /**
  * Similar to HvWhereCanTheyGo but the caller can restrict the transport

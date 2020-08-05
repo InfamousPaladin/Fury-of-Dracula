@@ -207,6 +207,14 @@ PlaceId *HvGetShortestPathTo(HunterView hv, Player hunter, PlaceId dest,
 	return NULL;
 }
 
+PlaceId *HvGetLastMoves(HunterView hv, Player player, int numMoves,
+										int *numReturnedMoves, bool *canFree) {
+		
+	PlaceId *lastMoves = GvGetLastMoves(hv->view, player, numMoves, 
+													numReturnedMoves, canFree);
+	return lastMoves;
+}
+
 //**************************************************************************//
 //                		    	 Making a Move  		 	                //
 //**************************************************************************//
@@ -237,8 +245,7 @@ PlaceId *HvWhereCanIGoByType(HunterView hv, bool road, bool rail,
 	return reachablebyType;
 }
 
-PlaceId *HvWhereCanTheyGo(HunterView hv, Player player,
-                          int *numReturnedLocs)
+PlaceId *HvWhereCanTheyGo(HunterView hv, Player player, int *numReturnedLocs)
 {	
 	int dracRound = 0;
 	PlaceId playerLoc;
@@ -257,6 +264,23 @@ PlaceId *HvWhereCanTheyGo(HunterView hv, Player player,
 
 	reachableNext = GvGetReachable(hv->view, player, round, playerLoc, 
 																&numLocations);
+
+	*numReturnedLocs = numLocations;
+	return reachableNext;
+}
+
+PlaceId *HvWhereCanTheyGoFromSrc(HunterView hv, Player player, PlaceId src, 
+								int *numReturnedLocs)
+{	
+	int numLocations = 0;
+	PlaceId *reachableNext;
+
+	Round round = HvGetRound(hv);
+	
+	Player currPlayer = GvGetPlayer(hv->view);
+	if (player < currPlayer) round++;
+
+	reachableNext = GvGetReachable(hv->view, player, round, src, &numLocations);
 
 	*numReturnedLocs = numLocations;
 	return reachableNext;
