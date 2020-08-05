@@ -839,3 +839,8 @@ PlaceId *HvGetShortestPathTo(DraculaView hv, Player hunter, PlaceId dest,
 	return NULL;
 }
 
+PlaceId *DvGetLastMoves(DraculaView dv, Player player, int numMoves,
+                        int *numReturnedMoves, bool *canFree)
+{
+	return GvGetLastMoves(dv->gameState, player, numMoves, &*numReturnedMoves, &*canFree);
+}

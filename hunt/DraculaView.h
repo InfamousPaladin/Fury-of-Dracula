@@ -207,5 +207,6 @@ PlaceId *DvGetShortestPathTo(DraculaView dv, PlaceId dest, int *pathLength);
 PlaceId *HvGetShortestPathTo(DraculaView hv, Player hunter, PlaceId dest,
                              int *pathLength);
 
-
+PlaceId *DvGetLastMoves(DraculaView dv, Player player, int numMoves,
+                        int *numReturnedMoves, bool *canFree);
 #endif // !defined(FOD__DRACULA_VIEW_H_)
