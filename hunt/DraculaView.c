@@ -639,7 +639,7 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 		}
 	}
 
-	// First consider that the last move in the trail is valid move
+	// First consider that the last move in the trail is a valid move
 	if (trailSize == TRAIL_SIZE) {
 		for (int i = 0; i < nReach; i++) {
 			if (trailMoves[0] == reachLocs[i]) {
@@ -652,7 +652,7 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 	}
 
 	// Remove invalid rechable locations in reachLocs
-	for (int i = 1; i < trailSize; i++) {
+	for (int i = 0; i < trailSize; i++) {
 		for (int j = 0; j < nReach; j++) {
 			if (trailMoves[i] == reachLocs[j] || reachLocs[j] == currLoc) {
 				reachLocs[j] = INVALID_LOC;

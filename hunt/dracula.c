@@ -37,6 +37,8 @@ typedef struct gameState
 	PlaceId allHunterLocs[NUM_REAL_PLACES * 4];
 	int totalHunterLocs;
 
+	PlaceId dangerHunterLocs[NUM_REAL_PLACES * 4];
+
 	PlaceId currDracLoc;
 
 	PlaceId *DracShouldGoLocs;
@@ -152,7 +154,7 @@ void decideDraculaMove(DraculaView dv)
 			int DracPathLen = 0;
 			PlaceId *pathToCastle = DvGetShortestPathTo(dv, CASTLE_DRACULA, &DracPathLen);
 			// Go to the Castle
-			if (!castleArea(gameInfo) || DracPathLen > 4) {
+			if (!castleArea(gameInfo)) {
 				
 				bool pathExist = false;
 				// Check if the path to CASTLE_DRACULA exists and no players surround the area
@@ -182,6 +184,57 @@ void decideDraculaMove(DraculaView dv)
 		// Case where he can only go to cities that their a potential hunter 
 		// could go
 		else {
+			// Register a random move in case
+			bool goodMove = false;
+			int minEncounter = 5;
+			int repeat = 0;
+			while (!goodMove) {
+				int encounter = 0;
+				PlaceId locID = rand() % gameInfo.nLocs;
+				char *play = (char *) placeIdToAbbrev(gameInfo.dracLocs[locID]);
+				registerBestPlay(play, "yolo v");
+				goodMove = true;
+				for (int i = 0; i < gameInfo.hunterID[0].nReach; i++) {
+					if (gameInfo.hunterID[0].reachable[i] == locID) {
+						encounter++;
+						break;
+					}
+				}
+				for (int i = 0; i < gameInfo.hunterID[1].nReach; i++) {
+					if (gameInfo.hunterID[1].reachable[i] == locID) {
+						encounter++;
+						break;
+					}
+				}
+				for (int i = 0; i < gameInfo.hunterID[2].nReach; i++) {
+					if (gameInfo.hunterID[2].reachable[i] == locID) {
+						encounter++;
+						break;
+					}
+				}
+				for (int i = 0; i < gameInfo.hunterID[3].nReach; i++) {
+					if (gameInfo.hunterID[3].reachable[i] == locID) {
+						encounter++;
+						break;
+					}
+				}
+				if (repeat > LIMIT) break;
+				if (encounter < minEncounter) {
+					minEncounter = encounter;
+				}
+				if (encounter > 1) {
+					goodMove = false;
+					repeat++;
+				}
+				else break;
+			}
+			if (repeat > LIMIT) {
+				PlaceId loc = gameInfo.dracLocs[minEncounter];
+				PlaceId move = DvConvertLocToMove(dv, loc);
+				play = (char *) placeIdToAbbrev(move);
+				registerBestPlay(play, "Come here V2!");
+			}
+
 			// First consider if the reachable locations are on SEA
 			PlaceId seaDracLocs[MAX_REAL_PLACE];
 			int nSeaLocs = 0;
@@ -192,11 +245,53 @@ void decideDraculaMove(DraculaView dv)
 				}
 			}
 
-			if (nSeaLocs > 0) {
+			if (nSeaLocs > 0 && gameInfo.currDracLoc > 25) {
 				goSeaMove(dv, seaDracLocs, nSeaLocs);
 				return;
 			}
 
+			// Try not to go to hunter's current location
+			int nDangerGo = 0;
+			for (int i = 0; i < gameInfo.nLocs; i++) {
+				if (gameInfo.dracLocs[i] == gameInfo.hunterID[0].currLoc ||
+					gameInfo.dracLocs[i] == gameInfo.hunterID[1].currLoc ||
+					gameInfo.dracLocs[i] == gameInfo.hunterID[2].currLoc ||
+					gameInfo.dracLocs[i] == gameInfo.hunterID[3].currLoc) {
+					
+					gameInfo.dangerHunterLocs[nDangerGo] = gameInfo.dracLocs[i];
+					nDangerGo++;
+				}
+			}
+
+
+			// Try to go to castle
+			if (gameInfo.dracHealth <= 30 && nDangerGo > 0) {
+				int DracPathLen = 0;
+				PlaceId *pathToCastle = DvGetShortestPathTo(dv, CASTLE_DRACULA, &DracPathLen);
+				// Go to the Castle
+					
+				bool pathExist = false;
+				// Check if the path to CASTLE_DRACULA exists
+				if (DracPathLen > 0) {
+					for (int i = 0; i < nDangerGo; i++) {
+						if (gameInfo.dangerHunterLocs[i] == pathToCastle[0]) {
+							pathExist = true;
+							break;
+						}
+					}
+				}
+				// Try to go back to CASTLE_DRACULA
+				if (pathExist) {
+					PlaceId loc = pathToCastle[0];
+					PlaceId move = DvConvertLocToMove(dv, loc);
+					play = (char *) placeIdToAbbrev(move);
+					registerBestPlay(play, "Mario?!!!!");
+					free(pathToCastle);
+					return;
+				}
+			} 
+
+			// Try to evade as much as possible
 			// Try to encounter a player with lowest health
 			Player lowPlayer = findLowestHealth(gameInfo);
 
@@ -204,8 +299,9 @@ void decideDraculaMove(DraculaView dv)
 			// TODO: Consider the uniqness of trap locations
 			int nTrapsReach = 0;
 			PlaceId TrapsReachable[MAX_REAL_PLACE];
-			for (int i = 0; i < gameInfo.nTraps; i++) {
-				if (gameInfo.DracShouldGoLocs[i] == gameInfo.activeTrapLocs[i]) {
+			for (int i = 0; i < nDangerGo; i++) {
+				if (gameInfo.dangerHunterLocs[i] == gameInfo.activeTrapLocs[i] &&
+					gameInfo.activeTrapLocs[i] != gameInfo.hunterID[0].currLoc) {
 					TrapsReachable[nTrapsReach] = gameInfo.activeTrapLocs[i];
 					nTrapsReach++;
 				}
@@ -269,97 +365,7 @@ void decideDraculaMove(DraculaView dv)
 				}
 				return;
 			} 
-			else {
-				// Try to avoid much of the hunter encounters if possible and go to
-				// CASTLE_DRACULA to regain health
-				bool castlePossible = false;
-				int pathLen = 0;
-				PlaceId *pathToCastle = DvGetShortestPathTo(dv, CASTLE_DRACULA, &pathLen);
-				for (int i = 0; i < gameInfo.nLocs; i++) {
-					if (gameInfo.dracLocs[i] == CASTLE_DRACULA || gameInfo.dracLocs[i] == pathToCastle[0]) {
-						castlePossible = true;
-					}
-				}
-				
-				// Check for CASTLE_DRACULA
-				int encounter = 0;
-				for (int i = 0; i < gameInfo.hunterID[0].nReach; i++) {
-					if (gameInfo.hunterID[0].reachable[i] == CASTLE_DRACULA) {
-						encounter++;
-						break;
-					}
-				}
-				for (int i = 0; i < gameInfo.hunterID[1].nReach; i++) {
-					if (gameInfo.hunterID[1].reachable[i] == CASTLE_DRACULA) {
-						encounter++;
-						break;
-					}
-				}
-				for (int i = 0; i < gameInfo.hunterID[2].nReach; i++) {
-					if (gameInfo.hunterID[2].reachable[i] == CASTLE_DRACULA) {
-						encounter++;
-						break;
-					}
-				}
-				for (int i = 0; i < gameInfo.hunterID[3].nReach; i++) {
-					if (gameInfo.hunterID[3].reachable[i] == CASTLE_DRACULA) {
-						encounter++;
-						break;
-					}
-				}
-
-				int minEncounter = encounter;
-				bool goodMove = false;
-				int repeat = 0;
-				while (!goodMove && repeat < LIMIT) {
-					encounter = 0;
-					int locID = rand() % gameInfo.nLocs;
-					PlaceId loc = gameInfo.dracLocs[locID];
-					PlaceId move = DvConvertLocToMove(dv, loc);
-					play = (char *) placeIdToAbbrev(move);
-					registerBestPlay(play, "Last Resort!!!!");
-					for (int i = 0; i < gameInfo.hunterID[0].nReach; i++) {
-						if (gameInfo.hunterID[0].reachable[i] == locID) {
-							encounter++;
-							break;
-						}
-					}
-					for (int i = 0; i < gameInfo.hunterID[1].nReach; i++) {
-						if (gameInfo.hunterID[1].reachable[i] == locID) {
-							encounter++;
-							break;
-						}
-					}
-					for (int i = 0; i < gameInfo.hunterID[2].nReach; i++) {
-						if (gameInfo.hunterID[2].reachable[i] == locID) {
-							encounter++;
-							break;
-						}
-					}
-					for (int i = 0; i < gameInfo.hunterID[3].nReach; i++) {
-						if (gameInfo.hunterID[3].reachable[i] == locID) {
-							encounter++;
-							break;
-						}
-					}
-					if (encounter < minEncounter) {
-						minEncounter = encounter;
-						goodMove = true;
-					}
-					if (encounter > 1) repeat++;
-					else {
-						goodMove = true;
-						break;
-					}
-				}
-
-				if (!goodMove && castlePossible) {
-					PlaceId move = DvConvertLocToMove(dv, CASTLE_DRACULA);
-					play = (char *) placeIdToAbbrev(move);
-					registerBestPlay(play, "Lucky!!!!");
-					return;
-				} 
-			}
+			
 		}
 		free(gameInfo.DracShouldGoLocs);
 	}
@@ -400,9 +406,7 @@ bool castleArea(GameState gameInfo)
 			gameInfo.allHunterLocs[i] == GALATZ 		|| 
 			gameInfo.allHunterLocs[i] == BUCHAREST 		||
 			gameInfo.allHunterLocs[i] == SZEGED 		||
-			gameInfo.allHunterLocs[i] == CONSTANTA 		||
-			gameInfo.allHunterLocs[i] == BELGRADE 		||
-			gameInfo.allHunterLocs[i] == SOFIA) 
+			gameInfo.allHunterLocs[i] == CONSTANTA) 
 		{
 			return true;
 		}
