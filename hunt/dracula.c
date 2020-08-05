@@ -247,7 +247,7 @@ void decideDraculaMove(DraculaView dv)
 				}
 			}
 
-			if (nSeaLocs > 0 && gameInfo.currDracLoc > 25) {
+			if (nSeaLocs > 0 && gameInfo.currDracLoc > 40) {
 				goSeaMove(dv, seaDracLocs, nSeaLocs);
 				return;
 			}
