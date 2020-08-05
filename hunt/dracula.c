@@ -191,7 +191,9 @@ void decideDraculaMove(DraculaView dv)
 			while (!goodMove) {
 				int encounter = 0;
 				PlaceId locID = rand() % gameInfo.nLocs;
-				char *play = (char *) placeIdToAbbrev(gameInfo.dracLocs[locID]);
+				PlaceId move = DvConvertLocToMove(dv, gameInfo.dracLocs[locID]);
+				char *play = (char *) placeIdToAbbrev(move);
+
 				registerBestPlay(play, "yolo v");
 				goodMove = true;
 				for (int i = 0; i < gameInfo.hunterID[0].nReach; i++) {

@@ -661,6 +661,7 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 		}
 	}
 
+
 	// Copy valid whats left for rechable locations in reachLocs to 
 	// validMoves array
 	for (int i = 0; i < nReach; i++) {
@@ -669,6 +670,13 @@ static void addReachable(DraculaView dv, PlaceId validMoves[], int *nValid,
 			validIndex++;
 		}
 	}
+
+	// for (int i = 0; i < trailSize; i++) printf(" %d\n", trailMoves[i]);
+	// printf("end\nvalid\n");
+	// for (int i = 0; i < validIndex; i++) printf(" %d\n", validMoves[i]);
+	// printf("end\nreach\n");
+	// for (int i = 0; i < nReach; i++) printf(" %d\n", reachLocs[i]);
+	// printf("end\n");
 
 	if (canFree) {
 		free(trailMoves);
