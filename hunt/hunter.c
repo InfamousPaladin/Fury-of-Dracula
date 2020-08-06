@@ -30,9 +30,9 @@ typedef struct playerInfo {
 
 // helper functions
 static void randomMove(HunterView hv, Player currPlayer);
-static void scatterandSearch(HunterView hv, Player currPlayer);
-static void headtoKlausenberg(HunterView hv, Player currPlayer);
-static void headtoLocation(HunterView hv, Player currPlayer, PlaceId dest);
+// static void scatterandSearch(HunterView hv, Player currPlayer);
+// static void headtoKlausenberg(HunterView hv, Player currPlayer);
+// static void headtoLocation(HunterView hv, Player currPlayer, PlaceId dest);
 
 void decideHunterMove(HunterView hv) {	
 
@@ -60,7 +60,7 @@ void decideHunterMove(HunterView hv) {
 		// handle cases where Dracula's location is unknown
 		// immediately reveal Dracula's 6th location in trail
 		if ((dracLocation == NOWHERE || dracLocation == CITY_UNKNOWN ||
-			dracLocation == SEA_UNKNOWN) && roundNum == 7) {
+			dracLocation == SEA_UNKNOWN) && roundNum % 7 == 0) {
 			
 			if (currPlayer == PLAYER_LORD_GODALMING) {
 
@@ -135,30 +135,10 @@ void decideHunterMove(HunterView hv) {
 				char *placeAbbrev = (char *) placeIdToAbbrev(searchPath[0]);
 				registerBestPlay(placeAbbrev, "We're coming after you");
 				return;
-
-			} else if ((HvGetRound(hv) - lastDracRound) < 4) {		
-
-				PlaceId predLoc;
-				int numLocs = -1;
-				PlaceId *dracposPath = HvWhereCanTheyGo(hv, PLAYER_DRACULA, &numLocs);
-
-				time_t t;
-				srand((unsigned) time(&t));
-				int randLocID = (rand() % HvGetScore(hv)) % (numLocs - 1);
-			
-				// predicts Drac's path given his last known location
-				for (int i = 0; i < (roundNum - lastDracRound); i++) {
-					predLoc = dracposPath[randLocID];
-					dracposPath = HvWhereCanTheyGoFromSrc(hv, PLAYER_DRACULA, predLoc, &numLocs);
-				}
-
-				if (HvGetPlayerLocation(hv, currPlayer) != predLoc) {
-					headtoLocation(hv, currPlayer, predLoc);
-					return;
-				}
 			}
 		}
 
+		/*
 		// godalming patrolling Castle Dracula
 		if (currPlayer == PLAYER_LORD_GODALMING) {
 			
@@ -181,16 +161,17 @@ void decideHunterMove(HunterView hv) {
 			registerBestPlay(placeAbbrev, "Patrolling Klausenberg's net");
 			return;
 		}
+		*/
 
 		// in case Drac's location is still hidden, head to CD 
 		// then make random moves from there to find Dracula
-		scatterandSearch(hv, currPlayer);
+		randomMove(hv, currPlayer);
 		return;
-	}
+	}	
 
 	return;
 }
-
+/*
 // head to CD
 static void headtoKlausenberg(HunterView hv, Player currPlayer) {
 
@@ -213,51 +194,7 @@ static void headtoLocation(HunterView hv, Player currPlayer, PlaceId dest) {
 	registerBestPlay(placeAbbrev, "Heading to location");
 	return;
 }
-
-// look for Dracula by spreading across the map
-static void scatterandSearch(HunterView hv, Player currPlayer) {
-
-	/*
-	// each player is assigned a place to search to 
-	PlaceId currplayerLoc = HvGetPlayerLocation(hv, currPlayer);
-
-	if (currPlayer == PLAYER_DR_SEWARD && (HvGetRound(hv) == 9 || 
-											HvGetRound(hv) == 10 || 
-											HvGetRound(hv) == 11 || 
-											HvGetRound(hv) == 12)) {
-
-		if (currplayerLoc != PARIS) {
-			headtoLocation(hv, currPlayer, PARIS);
-			return;
-		} 
-
-	} else if (currPlayer == PLAYER_VAN_HELSING && (HvGetRound(hv) == 9 || 
-													HvGetRound(hv) == 10 || 
-													HvGetRound(hv) == 11 || 
-													HvGetRound(hv) == 12)) {
-
-		if (currplayerLoc != MADRID) {
-			headtoLocation(hv, currPlayer, MADRID);
-			return;
-		} 
-
-	} else if (currPlayer == PLAYER_MINA_HARKER && (HvGetRound(hv) == 9 || 
-													HvGetRound(hv) == 10 || 
-													HvGetRound(hv) == 11 || 
-													HvGetRound(hv) == 12)) {
-
-		if (currplayerLoc != SOFIA) {
-			headtoLocation(hv, currPlayer, SOFIA);
-			return;
-		} 
-
-	}
-	*/
-
-	// if designated place already reached do random search
-	randomMove(hv, currPlayer);
-	return;
-}
+*/
 
 // random moves until Dracula is found
 // do not revist the locations already visited
@@ -269,17 +206,74 @@ static void randomMove(HunterView hv, Player currPlayer) {
 	bool locFound = false;
 	int actualLocations = -1;
 
-	PlaceId *playerPastMoves = HvGetLastMoves(hv, currPlayer, 4, 
+	Player playerA;
+	Player playerB;
+	Player playerC;
+
+	if (currPlayer == PLAYER_LORD_GODALMING) {
+
+		playerA = PLAYER_DR_SEWARD;
+		playerB = PLAYER_VAN_HELSING;
+		playerC = PLAYER_MINA_HARKER;
+
+	} else if (currPlayer == PLAYER_DR_SEWARD) {
+
+		playerA = PLAYER_LORD_GODALMING;
+		playerB = PLAYER_VAN_HELSING;
+		playerC = PLAYER_MINA_HARKER;
+
+	} else if (currPlayer == PLAYER_VAN_HELSING) {
+
+		playerA = PLAYER_DR_SEWARD;
+		playerB = PLAYER_LORD_GODALMING;
+		playerC = PLAYER_MINA_HARKER;
+
+	} else if (currPlayer == PLAYER_MINA_HARKER) {
+
+		playerA = PLAYER_DR_SEWARD;
+		playerB = PLAYER_VAN_HELSING;
+		playerC = PLAYER_LORD_GODALMING;
+	}
+
+	PlaceId *currPlayerPastMov = HvGetLastMoves(hv, currPlayer, 10, 
 	&actualLocations, &canFree);
+
+	PlaceId *playerAPastMov = HvGetLastMoves(hv, playerA, 10, 
+	&actualLocations, &canFree);
+	PlaceId *playerBPastMov = HvGetLastMoves(hv, playerB, 10, 
+	&actualLocations, &canFree);
+	PlaceId *playerCPastMov = HvGetLastMoves(hv, playerC, 10, 
+	&actualLocations, &canFree);
+
 	PlaceId *possibleLocations = HvWhereCanIGo(hv, &numLocations);
- 
+
+	/*
 	for (int i = 0; i < actualLocations; i++) {
-		for (int j = 0; j < numLocations; j++) {
-			if (possibleLocations[j] != playerPastMoves[i]) {
-				index = j;
-				locFound = true;
+		printf("Past Moves: %s\n", placeIdToName(playerPastMoves[i]));
+	}
+	printf("\n");
+
+	for (int i = 0; i < numLocations; i++) {
+		printf("Where I can go: %s\n", placeIdToName(possibleLocations[i]));
+	}
+	printf("\n");
+	*/
+
+	for (int i = 0; i < numLocations; i++) {
+
+		int j;
+		PlaceId newLoc = possibleLocations[i];
+
+		for (j = 0; j < actualLocations; j++) {
+
+			if (newLoc == currPlayerPastMov[j] || newLoc == playerAPastMov[j]  || newLoc == playerBPastMov[j]  || newLoc == playerCPastMov[j]) {
+				locFound = false;
 				break;
+			} else if (newLoc != currPlayerPastMov[j] && newLoc != playerAPastMov[j] && newLoc != playerBPastMov[j] && newLoc != playerCPastMov[j]) {
+				locFound = true;
+				index = i;
 			}
+
 		}
 
 		if (locFound == true) break;
