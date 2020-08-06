@@ -45,7 +45,7 @@ void decideHunterMove(HunterView hv) {
 
 	// starting positions
 	if (currPlayer == PLAYER_LORD_GODALMING && roundNum == 0) {
-		registerBestPlay("CD", "LETS GO HUNTERS");
+		registerBestPlay("VE", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_DR_SEWARD && roundNum == 0) {
 		registerBestPlay("PA", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_VAN_HELSING && roundNum == 0) {
