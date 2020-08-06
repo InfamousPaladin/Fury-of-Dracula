@@ -31,7 +31,7 @@ typedef struct playerInfo {
 // helper functions
 static void randomMove(HunterView hv, Player currPlayer);
 // static void scatterandSearch(HunterView hv, Player currPlayer);
-// static void headtoKlausenberg(HunterView hv, Player currPlayer);
+static void headtoKlausenberg(HunterView hv, Player currPlayer);
 // static void headtoLocation(HunterView hv, Player currPlayer, PlaceId dest);
 
 void decideHunterMove(HunterView hv) {	
@@ -51,7 +51,7 @@ void decideHunterMove(HunterView hv) {
 	} else if (currPlayer == PLAYER_VAN_HELSING && roundNum == 0) {
 		registerBestPlay("MA", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_MINA_HARKER && roundNum == 0) {
-		registerBestPlay("SO", "LETS GO HUNTERS");
+		registerBestPlay("ED", "LETS GO HUNTERS");
 	} else {
 
 		// getting Drac's location
@@ -138,11 +138,11 @@ void decideHunterMove(HunterView hv) {
 			}
 		}
 
-		/*
 		// godalming patrolling Castle Dracula
 		if (currPlayer == PLAYER_LORD_GODALMING) {
 			
-			PlaceId godalmingLoc = HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING);
+			PlaceId godalmingLoc = HvGetPlayerLocation(hv, 
+			PLAYER_LORD_GODALMING);
 
 			if (godalmingLoc != KLAUSENBURG) {
 				headtoKlausenberg(hv, PLAYER_LORD_GODALMING);
@@ -161,7 +161,6 @@ void decideHunterMove(HunterView hv) {
 			registerBestPlay(placeAbbrev, "Patrolling Klausenberg's net");
 			return;
 		}
-		*/
 
 		// in case Drac's location is still hidden, head to CD 
 		// then make random moves from there to find Dracula
@@ -171,7 +170,7 @@ void decideHunterMove(HunterView hv) {
 
 	return;
 }
-/*
+
 // head to CD
 static void headtoKlausenberg(HunterView hv, Player currPlayer) {
 
@@ -183,7 +182,7 @@ static void headtoKlausenberg(HunterView hv, Player currPlayer) {
 
 	return;
 }
-
+/*
 // head to desired location
 static void headtoLocation(HunterView hv, Player currPlayer, PlaceId dest) {
 
