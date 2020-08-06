@@ -1,0 +1,1 @@
+registerBestPlay("TP", "Goodbye");

@@ -210,7 +210,7 @@ void decideDraculaMove(DraculaView dv)
 				}
 			}
 		}
-		if (nPlayers < 2 && gameInfo.dracHealth > 20) doSouthLoop = true;
+		if (nPlayers == 0 && gameInfo.dracHealth > 20) doSouthLoop = true;
 
 		// Try to execute the loop
 		if (doSouthLoop) {
@@ -604,14 +604,15 @@ void startRoundLoc(GameState gameInfo)
 	//	3) Start near the coasts
 
 
-	bool castleDanger = castleArea(gameInfo);
+	// bool castleDanger = castleArea(gameInfo);
 	bool teleportDanger = teleportArea(gameInfo);
 	bool englandCoastDanger = eastCoastArea(gameInfo);
 	bool westCoastDanger = westCoastArea(gameInfo);
 
-	if (!castleDanger) {
-		registerBestPlay("CD", "DC");
-	} else if (!teleportDanger) {
+	// if (!castleDanger) {
+	// 	registerBestPlay("CD", "DC");
+	// } else 
+	if (!teleportDanger) {
 		registerBestPlay("TS", "CD");
 	} else if (!englandCoastDanger) {
 		registerBestPlay("GW", "comp1511 here i come");
