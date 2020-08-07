@@ -1,1 +1,0 @@
-registerBestPlay("TP", "Goodbye");
