@@ -93,14 +93,16 @@ void decideDraculaMove(DraculaView dv)
         // Get a random location
 		bool goodMove = false;
 		int move = maxScoreIndex(allMovesScore, NUM_REAL_PLACES);
+        int maxScore = allMovesScore[move];
 		int repeat = 0;
-		int i;
+        int scoreNum = 0;
 		while (!goodMove && repeat < 100) {
-			i = rand() % NUM_REAL_PLACES;
-			if (allMovesScore[move] == allMovesScore[i]) break;
+			scoreNum = rand() % NUM_REAL_PLACES;
+			if (allMovesScore[scoreNum] == maxScore) break;
 			repeat++;
 		}
-		move = i;
+        if (repeat > 100) move = maxScoreIndex(allMovesScore, NUM_REAL_PLACES);
+        else move = scoreNum;
         char *play = (char *) placeIdToAbbrev(move);
         registerBestPlay(play, "begin");
     }
