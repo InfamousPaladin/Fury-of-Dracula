@@ -95,7 +95,7 @@ typedef HunterView View;
 int main(void)
 {
 	// Replace this with the define instead
-	char *pastPlays ="GVE.... SPA.... HMA.... MED.... DAO.... GVI.... SMR.... HSR.... MMN.... DNS.... GBD.... SLE.... HTO.... MLO.... DAMT... GKL.... SNA.... HCF.... MSW.... DCOT... GBC.... SBO.... HGE.... MLV....";
+	char *pastPlays ="GVE.... SPA.... HMA.... MED.... DAO.... GVI.... SMR.... HSR.... MMN....";
 				    //   "GSW.... SLS.... HMR.... MHA.... DVI.V.. "
 					//   "GLO.... SLS.... HMR.... MHA.... DC?T... " // BD
 					//   "GEC.... SLS.... HMR.... MHA.... DC?T... " // SZ
