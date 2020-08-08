@@ -85,7 +85,7 @@ void decideDraculaMove(DraculaView dv)
                 // free(prev);
             }
             if (placeIsSea(move)) score += 100;
-            if (move == HOSPITAL_PLACE) score -= 10000;
+            if (move == ST_JOSEPH_AND_ST_MARY) score -= 10000;
             if (move == CASTLE_DRACULA) score += 50;
             
             allMovesScore[i] = score;
@@ -98,7 +98,7 @@ void decideDraculaMove(DraculaView dv)
         int scoreNum = 0;
 		while (!goodMove && repeat < 100) {
 			scoreNum = rand() % NUM_REAL_PLACES;
-			if (allMovesScore[scoreNum] == maxScore) break;
+			if (allMovesScore[scoreNum] == maxScore && scoreNum != ST_JOSEPH_AND_ST_MARY) break;
 			repeat++;
 		}
         if (repeat > 100) move = maxScoreIndex(allMovesScore, NUM_REAL_PLACES);
