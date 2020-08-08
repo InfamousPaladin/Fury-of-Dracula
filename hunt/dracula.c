@@ -78,16 +78,16 @@ void decideDraculaMove(DraculaView dv)
             if (move == ST_JOSEPH_AND_ST_MARY) score -= 100000;
             //if (move == CASTLE_DRACULA) score += 1000;
 
-            // for (int i = 0; i < 4; i++) {
-            //     int pathLen = 0;
-            //     PlaceId *pathAway = DvGetShortestPathTo(dv, move, DvGetPlayerLocation(dv, i), &pathLen);
+            for (int i = 0; i < 4; i++) {
+                int pathLen = 0;
+                PlaceId *pathAway = DvGetShortestPathTo(dv, move, DvGetPlayerLocation(dv, i), &pathLen);
                 
-            //     // if (pathLen < 5) score += pathLen * 200;
-            //     // else if (pathLen < 10) score += 1000;
-            //     // else score += 1250;
-            //     score += pathLen * 100;
-            //     free(pathAway);
-            // }
+                // if (pathLen < 5) score += pathLen * 200;
+                // else if (pathLen < 10) score += 1000;
+                // else score += 1250;
+                score += pathLen * 500;
+                free(pathAway);
+            }
 
             if (move == CASTLE_DRACULA && castleArea(gameInfo)) {
                 score -= 10000;
@@ -200,8 +200,9 @@ void decideDraculaMove(DraculaView dv)
                     PlaceId currLoc = DvGetPlayerLocation(dv, i);
                     int pathLen = 0;
                     DvGetShortestPathTo(dv, move, currLoc, &pathLen);
-                    if (pathLen > 7) score += 3600;
-                    else score += pathLen * 500;
+                    // if (pathLen > 7) score += 3600;
+                    // else score += pathLen * 500;
+                    score += pathLen * 500;
                 }
                 if (DvGetHealth(dv, PLAYER_DRACULA) < 20 && move == CASTLE_DRACULA) score += 7000;
 
