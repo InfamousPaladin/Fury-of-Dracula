@@ -339,27 +339,23 @@ void sortDbHide(PlaceId *places, int numPlaces) {
 	qsort(places, (size_t)numPlaces, sizeof(PlaceId), placeIdCmp);
 }
 
-PlaceId *DvGetShortestPathTo(DraculaView dv, PlaceId dest, int *pathLength) {	
+PlaceId *DvGetShortestPathTo(DraculaView dv, PlaceId src, PlaceId dest, int *pathLength) {
+	PlaceId visited[NUM_REAL_PLACES];
+	for (int i = 0; i < NUM_REAL_PLACES; i++) {
+		visited[i] = UNINITIALISED;
+	}
 
-	// player's current location
-	PlaceId src = DvGetPlayerLocation(dv, PLAYER_DRACULA);
-
-	// needed arrays for conducting calculations and holding data
-	PlaceId visitTransport[NUM_REAL_PLACES];
 	bool foundPath = false;
-	int nLocTransport = 0;
 	*pathLength = 0;
 
-	// -1 to indicate not visited
-	for (int i = 0; i < NUM_REAL_PLACES; i++) visitTransport[i] = UNINITIALISED;
-
-	// bfs path find
-	visitTransport[src] = src;
+	// BFS path find
+	visited[src] = src;
 	Queue bfsQueue = newQueue();
 
 	// joining queue
 	QueueJoin(bfsQueue, src);
-	while (foundPath == false && QueueIsEmpty(bfsQueue) != 1) {
+	int turn = 0;
+	while (foundPath == false && !QueueIsEmpty(bfsQueue)) {
 
 		// new starting location is extracted
 		PlaceId newLocation = QueueLeave(bfsQueue);
@@ -369,17 +365,43 @@ PlaceId *DvGetShortestPathTo(DraculaView dv, PlaceId dest, int *pathLength) {
 		} else {
 			// advancement of round relative to movement in location is
 			// recorded in an array for GvGetReachable to calculate a path
-			PlaceId *travelConnect = GvGetReachable(dv->gameState, PLAYER_DRACULA, 
-								dv->currRound, newLocation, &nLocTransport);
-
+			int nConn = 0;
+			PlaceId *adjacent = GvGetReachable(dv->gameState, PLAYER_DRACULA, 
+								dv->currRound, newLocation, &nConn);
+			PlaceId validLocs[NUM_REAL_PLACES];
+			int nLocs = 0;
+			if (turn == 0 && src == DvGetPlayerLocation(dv, PLAYER_DRACULA)) {
+				int nMoves = 0;
+				PlaceId *validMoves = DvGetValidMoves(dv, &nMoves);
+				
+				for (int i = 0; i < nConn; i++) {
+					bool isValid = false;
+					for (int j = 0; j < nMoves; j++) {
+						if (adjacent[i] == validMoves[j]) {
+							isValid = true;
+							break;
+						}
+					}
+					if (isValid) {
+						validLocs[nLocs] = adjacent[i];
+						nLocs++;
+					}
+				}
+			} else {
+				for (int i = 0; i < nConn; i++, nLocs++) {
+					validLocs[nLocs] = adjacent[i];
+				}
+			}
+			
 			// all locations are added to the queue
-			for (int i = 0; i < nLocTransport; i++) {
-				if (visitTransport[travelConnect[i]] == UNINITIALISED) {
-					visitTransport[travelConnect[i]] = newLocation;
-					QueueJoin(bfsQueue, travelConnect[i]);
+			for (int i = 0; i < nLocs; i++) {
+				if (visited[validLocs[i]] == UNINITIALISED) {
+					visited[validLocs[i]] = newLocation;
+					QueueJoin(bfsQueue, validLocs[i]);
 				}
 			}
 		}
+		turn++;
 	}
 	dropQueue(bfsQueue);
 
@@ -393,7 +415,7 @@ PlaceId *DvGetShortestPathTo(DraculaView dv, PlaceId dest, int *pathLength) {
 
 		// calculating the number of locations
 		while (reachedEnd == false) {
-			pathLink = visitTransport[dest];
+			pathLink = visited[dest];
 			if (pathLink == src) {
 				reachedEnd = true;
 			} else {
@@ -417,8 +439,6 @@ PlaceId *DvGetShortestPathTo(DraculaView dv, PlaceId dest, int *pathLength) {
 		return finalPath;
 	}
 	return NULL;
-
-
 }
 
 PlaceId DvConvertLocToMove(DraculaView dv, PlaceId place) 
@@ -732,111 +752,6 @@ static void insertLocs(PlaceId loc, PlaceId validLocs[], int *nValidLocs) {
 	}
 
 	*nValidLocs = nLocs;
-}
-
-
-// Helper function for HvGetShortestPathTo: Uses a breadth first search to
-// travers the graph and determine the shortest path from `src` to `dest`.
-static void HvGetShortestPath(DraculaView hv, PlaceId visitTransport[], 
-								  PlaceId dest, Player hunter, bool *foundPath, 
-								  PlaceId src) {
-	
-	PlaceId remLocRound[NUM_REAL_PLACES];
-	
-	*foundPath = false;
-	int roundoffSet = 0;
-	int numlocTransport = 0;
-
-	// -1 to indicate not visited
-	for (int i = 0; i < NUM_REAL_PLACES; i++) remLocRound[i] = UNINITIALISED;
-	for (int i = 0; i < NUM_REAL_PLACES; i++) visitTransport[i] = UNINITIALISED;
-
-	// bfs path find
-	visitTransport[src] = src;
-	Queue bfsQueue = newQueue();
-	remLocRound[src] = DvGetRound(hv);
-
-	// joining queue
-	QueueJoin(bfsQueue, src);
-	while (*foundPath == false && QueueIsEmpty(bfsQueue) != 1) {
-
-		// new starting location is extracted
-		PlaceId newLocation = QueueLeave(bfsQueue);
-
-		if (newLocation == dest) {
-			*foundPath = true;
-		} else {
-			// advancement of round relative to movement in location is
-			// recorded in an array for GvGetReachable to calculate a path
-			int roundNum = remLocRound[newLocation];
-			PlaceId *travelConnect = GvGetReachable(hv->gameState, hunter, roundNum, 
-			newLocation, &numlocTransport);
-
-			// all locations are added to the queue
-			for (int i = 0; i < numlocTransport; i++) {
-				// incrementing the round counter as new location is scanned in
-				// recording all data for calculating the shortest path
-				if (visitTransport[travelConnect[i]] == UNINITIALISED) {
-					remLocRound[travelConnect[i]] = roundNum + 1;
-					visitTransport[travelConnect[i]] = newLocation;
-					QueueJoin(bfsQueue, travelConnect[i]);
-				}
-			}
-		}
-		roundoffSet++;
-	}
-	dropQueue(bfsQueue);
-}
-
-PlaceId *HvGetShortestPathTo(DraculaView hv, Player hunter, PlaceId dest,
-                             int *pathLength)
-{
-	// player's current location
-	PlaceId src = DvGetPlayerLocation(hv, hunter);
-
-	// needed arrays for conducting calculations and holding data
-	PlaceId transportPath[NUM_REAL_PLACES];
-	PlaceId visitTransport[NUM_REAL_PLACES];
-	bool foundPath = false;
-	HvGetShortestPath(hv, visitTransport, dest, hunter, &foundPath, src); 
-	
-	// path is found
-	if (foundPath == true) {
-		
-		PlaceId pathLink;
-		int numCities = 0;
-		transportPath[numCities] = dest;
-		bool reachedEnd = false;
-		numCities++;
-
-		// calculating the number of locations
-		while (reachedEnd == false) {
-			pathLink = visitTransport[dest];
-			if (pathLink == src) {
-				reachedEnd = true;
-			} else {
-				transportPath[numCities] = pathLink;
-				dest = pathLink;
-				numCities++;
-			}
-		}
-
-		// dynamically allocating the final path of locations
-		PlaceId *finalPath = malloc(sizeof(ConnList) * (numCities - 1));
-		
-		// reading the found path into a dynamically allocated array
-		int j = 0;
-		for (int i = numCities - 1; i >= 0; i--, j++) {
-			finalPath[j] = transportPath[i];
-		}
-
-		if (src == dest) numCities--;
-
-		*pathLength = numCities;
-		return finalPath;
-	}
-
-	return NULL;
 }
 
 PlaceId *DvGetLastMoves(DraculaView dv, Player player, int numMoves,

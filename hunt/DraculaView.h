@@ -181,32 +181,7 @@ PlaceId *DvWhereCanTheyGoByType(DraculaView dv, Player player,
 // TODO
 // Converts Dracala's valid rechable location into a legal move.
 PlaceId DvConvertLocToMove(DraculaView dv, PlaceId place);
-PlaceId *DvGetShortestPathTo(DraculaView dv, PlaceId dest, int *pathLength);
-
-/**
- * Gets  the  shortest  path from the given hunter's current location to
- * the given location, taking into account all connection types and  the
- * fact that hunters can only move once per round.
- *
- * This function should store the path in a dynamically allocated array,
- * and set *pathLength to the length of the path. If there are  multiple
- * shortest  paths, any of them can be returned. The path should exclude
- * the hunter's current location.
- *
- * EXAMPLE: If  the  hunter  is currently at Cadiz (CA) and the shortest
- *          path to Barcelona (BA) was Cadiz -> Madrid -> Barcelona, the
- *          returned array should contain just [Madrid,  Barcelona]  and
- *          *pathLength should be set to 2.
- *
- * NOTE: Since  this function will require a traversal of the map, which
- *       is a lot of work for just a single path, you may  want to store
- *       the  result of the traversal in your HunterView data structure,
- *       so that future calls to this function with the same player will
- *       be less expensive.
- */
-PlaceId *HvGetShortestPathTo(DraculaView hv, Player hunter, PlaceId dest,
-                             int *pathLength);
-
+PlaceId *DvGetShortestPathTo(DraculaView dv, PlaceId src, PlaceId dest, int *pathLength);
 PlaceId *DvGetLastMoves(DraculaView dv, Player player, int numMoves,
                         int *numReturnedMoves, bool *canFree);
 #endif // !defined(FOD__DRACULA_VIEW_H_)
