@@ -1,5 +1,9 @@
 # fury-of-dracula
-COMP2521 ass2
+Repo for COMP2521 20T2 Assignment 2
+
+Due Dates:
+View Phase: 23:59 on Fri 31 July 2020
+Hunt Phase: Final tournament submission is 20:00 on Sun 9 August 2020
 
 Group Name: gabriel-christian-tam-prathamesh
 
