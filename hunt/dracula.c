@@ -263,9 +263,9 @@ void decideDraculaMove(DraculaView dv)
 
                 double deviation = sqrt(variance/4);
                 // printf("%f", deviation);
-                int deviationCal;
-                if (deviation < 0.1) deviationCal = 0;
-                else deviationCal = 100000/deviation;
+                int deviationCal = 1000 * deviation;
+                // if (deviation < 0.1) deviationCal = 0;
+                // else deviationCal = 100000/deviation;
                 // Add score based on mean and deviation
                 score += 8000 * averageDist + deviationCal;
 
