@@ -195,7 +195,6 @@ static void headtoLocation(HunterView hv, Player currPlayer, PlaceId dest) {
 // do not revist the locations already visited
 static void randomMove(HunterView hv, Player currPlayer) {
 
-	int index = 0;
 	bool canFree = false;
 	int numLocations = -1;
 	bool locFound = false;
