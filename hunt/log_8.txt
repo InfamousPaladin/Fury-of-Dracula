@@ -1,0 +1,3253 @@
+[0;36mCreated a temp directory '/tmp/tmp.v6nI0SaaQG' for checking your submission[0m
+[0;36mCopying your files into '/tmp/tmp.v6nI0SaaQG'[0m
+[0;36mChecking that your submission includes all the required files[0m
+[0;36mChecking that your submission does NOT include files that shouldn't be modified[0m
+[0;36mCopying our versions of files that shouldn't be modified into '/tmp/tmp.v6nI0SaaQG'[0m
+[0;36mCopying in the remaining files that you weren't required to modify or submit[0m
+[0;36mCheck your Makefile for 'LIBS'[0m
+[0;36mChecking that your code compiles[0m
+gcc -Wall -Werror -g   -c -o dracula.o dracula.c
+gcc -Wall -Werror -g -DI_AM_DRACULA -c player.c -o playerDracula.o
+gcc -Wall -Werror -g   -c -o DraculaView.o DraculaView.c
+gcc -Wall -Werror -g   -c -o GameView.o GameView.c
+gcc -Wall -Werror -g   -c -o Map.o Map.c
+gcc -Wall -Werror -g   -c -o Places.o Places.c
+gcc   dracula.o playerDracula.o DraculaView.o GameView.o Map.o Places.o Queue.o /usr/lib/x86_64-linux-gnu/libm.so   -o dracula
+gcc -Wall -Werror -g   -c -o hunter.o hunter.c
+gcc -Wall -Werror -g -c player.c -o playerHunter.o
+gcc -Wall -Werror -g   -c -o HunterView.o HunterView.c
+gcc   hunter.o playerHunter.o HunterView.o GameView.o Map.o Places.o Queue.o /usr/lib/x86_64-linux-gnu/libm.so   -o hunter
+[0;32mCompilation succeeded![0m
+
+[0;32mDryrun succeeded![0m
+gcc -Wall -Werror -g   -c -o dracula.o dracula.c
+gcc -Wall -Werror -g -DI_AM_DRACULA -c player.c -o playerDracula.o
+gcc -Wall -Werror -g   -c -o DraculaView.o DraculaView.c
+gcc -Wall -Werror -g   -c -o GameView.o GameView.c
+gcc -Wall -Werror -g   -c -o Map.o Map.c
+gcc -Wall -Werror -g   -c -o Places.o Places.c
+gcc -Wall -Werror -g   -c -o Queue.o Queue.c
+gcc   dracula.o playerDracula.o DraculaView.o GameView.o Map.o Places.o Queue.o /usr/lib/x86_64-linux-gnu/libm.so /usr/lib/x86_64-linux-gnu/libdl.so /usr/lib/x86_64-linux-gnu/libjansson.so   -o dracula
+gcc -Wall -Werror -g   -c -o hunter.o hunter.c
+gcc -Wall -Werror -g -c player.c -o playerHunter.o
+gcc -Wall -Werror -g   -c -o HunterView.o HunterView.c
+gcc   hunter.o playerHunter.o HunterView.o GameView.o Map.o Places.o Queue.o /usr/lib/x86_64-linux-gnu/libm.so /usr/lib/x86_64-linux-gnu/libdl.so /usr/lib/x86_64-linux-gnu/libjansson.so   -o hunter
+   The FURY of DRACULA   
+          _..._          
+        .'     '.        
+       ; __   __ ;       
+       |/  \ /  \|       
+     |\| -- ' -- |/|     
+     |(| \o| |o/ |)|     
+     _\|    U    |/_     
+  .-'  | ,.___., |  '-.  
+  \    ;  V'-'V  ;    /  
+   `\   \       /   /`   
+     `\  '-...-'  /`     
+       `\  / \  /`       
+         `\\_//`         
+...........................
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": ""
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "LG - Forward",
+  "move": "VE",
+  "timer": 45
+}
+> Game score: 366
+> Moving from: undefined
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: LG - Forward
+  move: VE
+  timer: 45
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "DS - Forward",
+  "move": "TO",
+  "timer": 46
+}
+> Game score: 366
+> Moving from: undefined
+> Life Points: 9
+> Player 1 made move:
+> +++
+  message: DS - Forward
+  move: TO
+  timer: 46
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "MN",
+  "message": "VH - Forward",
+  "timer": 46
+}
+> Game score: 366
+> Moving from: undefined
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: MN
+  message: VH - Forward
+  timer: 46
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SO",
+  "timer": 47,
+  "message": "MH - Forward"
+}
+> Game score: 366
+> Moving from: undefined
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SO
+  timer: 47
+  message: MH - Forward
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "TS",
+  "message": "I dare you to hunt me :D",
+  "timer": 49
+}
+> Game score: 366
+> Moving from: undefined
+> Blood Points: 40
+> Player 4 made move:
+> +++
+  move: TS
+  message: I dare you to hunt me :D
+  timer: 49
+> ---
+> End of Round:  0
+> Starting Round:  1
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VI",
+  "message": "Heading to Klausenberg",
+  "timer": 99
+}
+> Game score: 365
+> Moving from: VE
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: VI
+  message: Heading to Klausenberg
+  timer: 99
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "CF",
+  "message": "Searching for Dracula Edition",
+  "timer": 58
+}
+> Game score: 365
+> Moving from: TO
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: CF
+  message: Searching for Dracula Edition
+  timer: 58
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "ED",
+  "message": "Searching for Dracula Edition",
+  "timer": 64
+}
+> Game score: 365
+> Moving from: MN
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: ED
+  message: Searching for Dracula Edition
+  timer: 64
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "Searching for Dracula Edition",
+  "move": "VR",
+  "timer": 70
+}
+> Game score: 365
+> Moving from: SO
+> Life Points: 9
+> Player 3 made move:
+> +++
+  message: Searching for Dracula Edition
+  move: VR
+  timer: 70
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "NP",
+  "message": "luck",
+  "timer": 1254
+}
+> Game score: 365
+> Moving from: TS
+> Blood Points: 38
+> Legal Drac moves: CG GO NP RO MS IO D1
+> Player 4 made move:
+> +++
+  move: NP
+  message: luck
+  timer: 1254
+> ---
+> End of Round:  1
+> Starting Round:  2
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 92,
+  "move": "BD",
+  "message": "Heading to Klausenberg"
+}
+> Game score: 364
+> Moving from: VI
+> Life Points: 9
+> Player 0 made move:
+> +++
+  timer: 92
+  move: BD
+  message: Heading to Klausenberg
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GE",
+  "message": "Searching for Dracula Edition",
+  "timer": 77
+}
+> Game score: 364
+> Moving from: CF
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: GE
+  message: Searching for Dracula Edition
+  timer: 77
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 74,
+  "move": "NS",
+  "message": "Searching for Dracula Edition"
+}
+> Game score: 364
+> Moving from: ED
+> Life Points: 9
+> Player 2 made move:
+> +++
+  timer: 74
+  move: NS
+  message: Searching for Dracula Edition
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "CN",
+  "message": "Searching for Dracula Edition",
+  "timer": 76
+}
+> Game score: 364
+> Moving from: VR
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: CN
+  message: Searching for Dracula Edition
+  timer: 76
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "HI",
+  "message": "luck",
+  "timer": 833
+}
+> Game score: 364
+> Moving from: NP
+> Blood Points: 38
+> Legal Drac moves: BI RO D1 D2 HI
+> Player 4 made move:
+> +++
+  move: HI
+  message: luck
+  timer: 833
+> ---
+> End of Round:  2
+> Starting Round:  3
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "Heading to Klausenberg",
+  "timer": 89
+}
+> Game score: 363
+> Moving from: BD
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: KL
+  message: Heading to Klausenberg
+  timer: 89
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "PA",
+  "message": "Searching for Dracula Edition",
+  "timer": 78
+}
+> Game score: 363
+> Moving from: GE
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: PA
+  message: Searching for Dracula Edition
+  timer: 78
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "AO",
+  "message": "Searching for Dracula Edition",
+  "timer": 79
+}
+> Game score: 363
+> Moving from: NS
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: AO
+  message: Searching for Dracula Edition
+  timer: 79
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "timer": 87,
+  "message": "Searching for Dracula Edition"
+}
+> Game score: 363
+> Moving from: CN
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: GA
+  timer: 87
+  message: Searching for Dracula Edition
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "D1",
+  "message": "luck",
+  "timer": 971
+}
+> Game score: 363
+> Moving from: NP
+> Blood Points: 38
+> Legal Drac moves: BI RO D1 D2 D3
+> Player 4 made move:
+> +++
+  move: D1
+  message: luck
+  timer: 971
+> ---
+> End of Round:  3
+> Starting Round:  4
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "We're coming after you",
+  "move": "GA",
+  "timer": 86
+}
+> Game score: 362
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: We're coming after you
+  move: GA
+  timer: 86
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "ST",
+  "timer": 99,
+  "message": "Searching for Dracula Edition"
+}
+> Game score: 362
+> Moving from: PA
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: ST
+  timer: 99
+  message: Searching for Dracula Edition
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 99,
+  "move": "EC",
+  "message": "Searching for Dracula Edition"
+}
+> Game score: 362
+> Moving from: AO
+> Life Points: 9
+> Player 2 made move:
+> +++
+  timer: 99
+  move: EC
+  message: Searching for Dracula Edition
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BE",
+  "message": "Searching for Dracula Edition",
+  "timer": 102
+}
+> Game score: 362
+> Moving from: GA
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: BE
+  message: Searching for Dracula Edition
+  timer: 102
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BI",
+  "message": "Safe Keeping!",
+  "timer": 434
+}
+> Game score: 362
+> Moving from: NP
+> Blood Points: 38
+> Legal Drac moves: BI RO
+> Player 4 made move:
+> +++
+  move: BI
+  message: Safe Keeping!
+  timer: 434
+> ---
+> End of Round:  4
+> Starting Round:  5
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "Heading to Klausenberg",
+  "timer": 115
+}
+> Game score: 361
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: KL
+  message: Heading to Klausenberg
+  timer: 115
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "MI",
+  "message": "Searching for Dracula Edition",
+  "timer": 108
+}
+> Game score: 361
+> Moving from: ST
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: MI
+  message: Searching for Dracula Edition
+  timer: 108
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "LO",
+  "message": "Searching for Dracula Edition",
+  "timer": 125
+}
+> Game score: 361
+> Moving from: EC
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: LO
+  message: Searching for Dracula Edition
+  timer: 125
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SJ",
+  "message": "Searching for Dracula Edition",
+  "timer": 121
+}
+> Game score: 361
+> Moving from: BE
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SJ
+  message: Searching for Dracula Edition
+  timer: 121
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "AS",
+  "message": "luck",
+  "timer": 613
+}
+> Game score: 361
+> Moving from: BI
+> Blood Points: 38
+> Legal Drac moves: RO AS
+> Player 4 made move:
+> +++
+  move: AS
+  message: luck
+  timer: 613
+> ---
+> End of Round:  5
+> Starting Round:  6
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "message": "We're coming after you",
+  "timer": 126
+}
+> Game score: 360
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: GA
+  message: We're coming after you
+  timer: 126
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "FL",
+  "message": "Searching for Dracula Edition",
+  "timer": 126
+}
+> Game score: 360
+> Moving from: MI
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: FL
+  message: Searching for Dracula Edition
+  timer: 126
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SW",
+  "message": "Searching for Dracula Edition",
+  "timer": 135
+}
+> Game score: 360
+> Moving from: LO
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: SW
+  message: Searching for Dracula Edition
+  timer: 135
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VA",
+  "message": "Searching for Dracula Edition",
+  "timer": 143
+}
+> Game score: 360
+> Moving from: SJ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: VA
+  message: Searching for Dracula Edition
+  timer: 143
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "IO",
+  "message": "luck",
+  "timer": 612
+}
+> Game score: 360
+> Moving from: AS
+> Blood Points: 36
+> Legal Drac moves: VE IO
+> Player 4 made move:
+> +++
+  move: IO
+  message: luck
+  timer: 612
+> ---
+> End of Round:  6
+> Starting Round:  7
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "message": "Resting",
+  "timer": 140
+}
+> Game score: 359
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: GA
+  message: Resting
+  timer: 140
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "FL",
+  "message": "Resting",
+  "timer": 130
+}
+> Game score: 359
+> Moving from: FL
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: FL
+  message: Resting
+  timer: 130
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SW",
+  "message": "Resting",
+  "timer": 137
+}
+> Game score: 359
+> Moving from: SW
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: SW
+  message: Resting
+  timer: 137
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DC?T... GBD.... SGE.... HNS.... MCN.... DC?T... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VA",
+  "message": "Resting",
+  "timer": 140
+}
+> Game score: 359
+> Moving from: VA
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: VA
+  message: Resting
+  timer: 140
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BS",
+  "message": "luck",
+  "timer": 1186
+}
+> Game score: 359
+> Moving from: IO
+> Blood Points: 34
+> Legal Drac moves: AT SA VA TS BS
+> Player 4 made move:
+> +++
+  move: BS
+  message: luck
+  timer: 1186
+> ---
+> End of Round:  7
+> Starting Round:  8
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "Heading to Klausenberg",
+  "timer": 165
+}
+> Game score: 358
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: KL
+  message: Heading to Klausenberg
+  timer: 165
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "RO",
+  "message": "Searching for Dracula Edition",
+  "timer": 194
+}
+> Game score: 358
+> Moving from: FL
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: RO
+  message: Searching for Dracula Edition
+  timer: 194
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "LV",
+  "message": "Searching for Dracula Edition",
+  "timer": 168
+}
+> Game score: 358
+> Moving from: SW
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: LV
+  message: Searching for Dracula Edition
+  timer: 168
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "AT",
+  "timer": 182,
+  "message": "Searching for Dracula Edition"
+}
+> Game score: 358
+> Moving from: VA
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: AT
+  timer: 182
+  message: Searching for Dracula Edition
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VR",
+  "timer": 399,
+  "message": "Safe Keeping!"
+}
+> Game score: 358
+> Moving from: BS
+> Blood Points: 32
+> Legal Drac moves: CN VR
+> Player 4 made move:
+> +++
+  move: VR
+  timer: 399
+  message: Safe Keeping!
+> ---
+> End of Round:  8
+> Starting Round:  9
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "timer": 167,
+  "message": "We're coming after you"
+}
+> Game score: 357
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: GA
+  timer: 167
+  message: We're coming after you
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DC?T... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BI",
+  "timer": 180,
+  "message": "Searching for Dracula Edition"
+}
+> Game score: 357
+> Moving from: RO
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: BI
+  timer: 180
+  message: Searching for Dracula Edition
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "MN",
+  "message": "Searching for Dracula Edition",
+  "timer": 163
+}
+> Game score: 357
+> Moving from: LV
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: MN
+  message: Searching for Dracula Edition
+  timer: 163
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "IO",
+  "message": "Searching for Dracula Edition",
+  "timer": 163
+}
+> Game score: 357
+> Moving from: AT
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: IO
+  message: Searching for Dracula Edition
+  timer: 163
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "luck",
+  "move": "HI",
+  "timer": 1084
+}
+> Game score: 357
+> Moving from: VR
+> Blood Points: 32
+> Legal Drac moves: CN SO D1 D2 HI
+> Player 4 made move:
+> +++
+  message: luck
+  move: HI
+  timer: 1084
+> ---
+> End of Round:  9
+> Starting Round:  10
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "Heading to Klausenberg",
+  "move": "KL",
+  "timer": 186
+}
+> Game score: 356
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: Heading to Klausenberg
+  move: KL
+  timer: 186
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 259,
+  "move": "AS",
+  "message": "We're coming after you"
+}
+> Game score: 356
+> Moving from: BI
+> Life Points: 7
+> Player 1 made move:
+> +++
+  timer: 259
+  move: AS
+  message: We're coming after you
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "ED",
+  "message": "Searching for Dracula Edition",
+  "timer": 184
+}
+> Game score: 356
+> Moving from: MN
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: ED
+  message: Searching for Dracula Edition
+  timer: 184
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SA",
+  "message": "Searching for Dracula Edition",
+  "timer": 193
+}
+> Game score: 356
+> Moving from: IO
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SA
+  message: Searching for Dracula Edition
+  timer: 193
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "CN",
+  "message": "luck",
+  "timer": 1167
+}
+> Game score: 356
+> Moving from: VR
+> Blood Points: 32
+> Legal Drac moves: CN SO D1 D2 D3
+> Player 4 made move:
+> +++
+  move: CN
+  message: luck
+  timer: 1167
+> ---
+> End of Round:  10
+> Starting Round:  11
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "message": "We're coming after you",
+  "timer": 214
+}
+> Game score: 355
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: GA
+  message: We're coming after you
+  timer: 214
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VE",
+  "message": "Searching for Dracula Edition",
+  "timer": 207
+}
+> Game score: 355
+> Moving from: AS
+> Life Points: 7
+> Player 1 made move:
+> +++
+  move: VE
+  message: Searching for Dracula Edition
+  timer: 207
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "NS",
+  "message": "Searching for Dracula Edition",
+  "timer": 236
+}
+> Game score: 355
+> Moving from: ED
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: NS
+  message: Searching for Dracula Edition
+  timer: 236
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SO",
+  "message": "Searching for Dracula Edition",
+  "timer": 208
+}
+> Game score: 355
+> Moving from: SA
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SO
+  message: Searching for Dracula Edition
+  timer: 208
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "D4",
+  "timer": 1619,
+  "message": "luck"
+}
+> Game score: 355
+> Moving from: CN
+> Blood Points: 32
+> Legal Drac moves: BC GA D1 D2 D3 D4
+> Player 4 made move:
+> +++
+  move: D4
+  timer: 1619
+  message: luck
+> ---
+> End of Round:  11
+> Starting Round:  12
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "Heading to Klausenberg",
+  "timer": 248
+}
+> Game score: 354
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: KL
+  message: Heading to Klausenberg
+  timer: 248
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "MU",
+  "message": "Searching for Dracula Edition",
+  "timer": 255
+}
+> Game score: 354
+> Moving from: VE
+> Life Points: 7
+> Player 1 made move:
+> +++
+  move: MU
+  message: Searching for Dracula Edition
+  timer: 255
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "AO",
+  "message": "Searching for Dracula Edition",
+  "timer": 235
+}
+> Game score: 354
+> Moving from: NS
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: AO
+  message: Searching for Dracula Edition
+  timer: 235
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BD",
+  "message": "Searching for Dracula Edition",
+  "timer": 238
+}
+> Game score: 354
+> Moving from: SO
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: BD
+  message: Searching for Dracula Edition
+  timer: 238
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 399,
+  "move": "IO",
+  "message": "Safe Keeping!"
+}
+> Game score: 354
+> Moving from: BS
+> Blood Points: 30
+> Legal Drac moves: IO
+> Player 4 made move:
+> +++
+  timer: 399
+  move: IO
+  message: Safe Keeping!
+> ---
+> End of Round:  12
+> Starting Round:  13
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "message": "We're coming after you",
+  "timer": 273
+}
+> Game score: 353
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: GA
+  message: We're coming after you
+  timer: 273
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "Searching for Dracula Edition",
+  "move": "VI",
+  "timer": 280
+}
+> Game score: 353
+> Moving from: MU
+> Life Points: 7
+> Player 1 made move:
+> +++
+  message: Searching for Dracula Edition
+  move: VI
+  timer: 280
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "EC",
+  "message": "Searching for Dracula Edition",
+  "timer": 266
+}
+> Game score: 353
+> Moving from: AO
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: EC
+  message: Searching for Dracula Edition
+  timer: 266
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "ZA",
+  "message": "Searching for Dracula Edition",
+  "timer": 256
+}
+> Game score: 353
+> Moving from: BD
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: ZA
+  message: Searching for Dracula Edition
+  timer: 256
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "AT",
+  "message": "Safe Keeping!",
+  "timer": 1128
+}
+> Game score: 353
+> Moving from: IO
+> Blood Points: 28
+> Legal Drac moves: AT SA VA TS AS BS
+> Player 4 made move:
+> +++
+  move: AT
+  message: Safe Keeping!
+  timer: 1128
+> ---
+> End of Round:  13
+> Starting Round:  14
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "timer": 309,
+  "message": "Resting"
+}
+> Game score: 352
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: GA
+  timer: 309
+  message: Resting
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VI",
+  "message": "Resting",
+  "timer": 322
+}
+> Game score: 352
+> Moving from: VI
+> Life Points: 7
+> Player 1 made move:
+> +++
+  move: VI
+  message: Resting
+  timer: 322
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "EC",
+  "message": "Resting",
+  "timer": 336
+}
+> Game score: 352
+> Moving from: EC
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: EC
+  message: Resting
+  timer: 336
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DC?T.M. GGA.... SBIT... HMN.... MIO.... DC?T.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "ZA",
+  "message": "Resting",
+  "timer": 305
+}
+> Game score: 352
+> Moving from: ZA
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: ZA
+  message: Resting
+  timer: 305
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VA",
+  "timer": 405,
+  "message": "Safe Keeping!"
+}
+> Game score: 352
+> Moving from: AT
+> Blood Points: 28
+> Legal Drac moves: VA
+> Player 4 made move:
+> +++
+  move: VA
+  timer: 405
+  message: Safe Keeping!
+> ---
+> End of Round:  14
+> Starting Round:  15
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "Heading to Klausenberg",
+  "timer": 344
+}
+> Game score: 351
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: KL
+  message: Heading to Klausenberg
+  timer: 344
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "PR",
+  "timer": 364,
+  "message": "Searching for Dracula Edition"
+}
+> Game score: 351
+> Moving from: VI
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: PR
+  timer: 364
+  message: Searching for Dracula Edition
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL.... SPR...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "Searching for Dracula Edition",
+  "move": "LO",
+  "timer": 376
+}
+> Game score: 351
+> Moving from: EC
+> Life Points: 9
+> Player 2 made move:
+> +++
+  message: Searching for Dracula Edition
+  move: LO
+  timer: 376
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL.... SPR.... HLO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "JM",
+  "message": "Searching for Dracula Edition",
+  "timer": 351
+}
+> Game score: 351
+> Moving from: ZA
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: JM
+  message: Searching for Dracula Edition
+  timer: 351
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SA",
+  "message": "luck",
+  "timer": 1563
+}
+> Game score: 351
+> Moving from: VA
+> Blood Points: 28
+> Legal Drac moves: SA SJ SO HI
+> Player 4 made move:
+> +++
+  move: SA
+  message: luck
+  timer: 1563
+> ---
+> End of Round:  15
+> Starting Round:  16
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL.... SPR.... HLO.... MJM.... DC?T.M."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "message": "We're coming after you",
+  "timer": 378
+}
+> Game score: 350
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: GA
+  message: We're coming after you
+  timer: 378
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BR",
+  "message": "Searching for Dracula Edition",
+  "timer": 452
+}
+> Game score: 350
+> Moving from: PR
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: BR
+  message: Searching for Dracula Edition
+  timer: 452
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SW",
+  "message": "Searching for Dracula Edition",
+  "timer": 384
+}
+> Game score: 350
+> Moving from: LO
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: SW
+  message: Searching for Dracula Edition
+  timer: 384
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SJ",
+  "message": "Searching for Dracula Edition",
+  "timer": 422
+}
+> Game score: 350
+> Moving from: JM
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SJ
+  message: Searching for Dracula Edition
+  timer: 422
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 1066,
+  "move": "HI",
+  "message": "luck"
+}
+> Game score: 350
+> Moving from: SA
+> Blood Points: 28
+> Legal Drac moves: SO HI
+> Player 4 made move:
+> +++
+  timer: 1066
+  move: HI
+  message: luck
+> ---
+> End of Round:  16
+> Starting Round:  17
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "Heading to Klausenberg",
+  "timer": 462
+}
+> Game score: 349
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: KL
+  message: Heading to Klausenberg
+  timer: 462
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "NU",
+  "message": "Searching for Dracula Edition",
+  "timer": 463
+}
+> Game score: 349
+> Moving from: BR
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: NU
+  message: Searching for Dracula Edition
+  timer: 463
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "LV",
+  "message": "Searching for Dracula Edition",
+  "timer": 416
+}
+> Game score: 349
+> Moving from: SW
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: LV
+  message: Searching for Dracula Edition
+  timer: 416
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DC?T.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 416,
+  "move": "VA",
+  "message": "Searching for Dracula Edition"
+}
+> Game score: 349
+> Moving from: SJ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  timer: 416
+  move: VA
+  message: Searching for Dracula Edition
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "D5",
+  "message": "luck",
+  "timer": 2184
+}
+> Game score: 349
+> Moving from: SA
+> Blood Points: 28
+> Legal Drac moves: SO D1 D2 D3 D5
+> Player 4 made move:
+> +++
+  move: D5
+  message: luck
+  timer: 2184
+> ---
+> End of Round:  17
+> Starting Round:  18
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "We're coming after you",
+  "move": "GA",
+  "timer": 462
+}
+> Game score: 348
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: We're coming after you
+  move: GA
+  timer: 462
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "CO",
+  "message": "Searching for Dracula Edition",
+  "timer": 462
+}
+> Game score: 348
+> Moving from: NU
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: CO
+  message: Searching for Dracula Edition
+  timer: 462
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 429,
+  "move": "MN",
+  "message": "Searching for Dracula Edition"
+}
+> Game score: 348
+> Moving from: LV
+> Life Points: 9
+> Player 2 made move:
+> +++
+  timer: 429
+  move: MN
+  message: Searching for Dracula Edition
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "IO",
+  "message": "We're coming after you",
+  "timer": 490
+}
+> Game score: 348
+> Moving from: VA
+> Life Points: 7
+> Player 3 made move:
+> +++
+  move: IO
+  message: We're coming after you
+  timer: 490
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BS",
+  "message": "Safe Keeping!",
+  "timer": 1188
+}
+> Game score: 348
+> Moving from: IO
+> Blood Points: 26
+> Legal Drac moves: TS AS BS IO
+> Player 4 made move:
+> +++
+  move: BS
+  message: Safe Keeping!
+  timer: 1188
+> ---
+> End of Round:  18
+> Starting Round:  19
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "Heading to Klausenberg",
+  "timer": 475
+}
+> Game score: 347
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: KL
+  message: Heading to Klausenberg
+  timer: 475
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BU",
+  "message": "Searching for Dracula Edition",
+  "timer": 441
+}
+> Game score: 347
+> Moving from: CO
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: BU
+  message: Searching for Dracula Edition
+  timer: 441
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "ED",
+  "message": "Searching for Dracula Edition",
+  "timer": 448
+}
+> Game score: 347
+> Moving from: MN
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: ED
+  message: Searching for Dracula Edition
+  timer: 448
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DC?.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "AT",
+  "message": "Searching for Dracula Edition",
+  "timer": 448
+}
+> Game score: 347
+> Moving from: IO
+> Life Points: 7
+> Player 3 made move:
+> +++
+  move: AT
+  message: Searching for Dracula Edition
+  timer: 448
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VR",
+  "message": "Safe Keeping!",
+  "timer": 938
+}
+> Game score: 347
+> Moving from: BS
+> Blood Points: 24
+> Legal Drac moves: CN VR IO
+> Player 4 made move:
+> +++
+  move: VR
+  message: Safe Keeping!
+  timer: 938
+> ---
+> End of Round:  19
+> Starting Round:  20
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "message": "We're coming after you",
+  "timer": 505
+}
+> Game score: 346
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: GA
+  message: We're coming after you
+  timer: 505
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "LE",
+  "message": "Searching for Dracula Edition",
+  "timer": 469
+}
+> Game score: 346
+> Moving from: BU
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: LE
+  message: Searching for Dracula Edition
+  timer: 469
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "Searching for Dracula Edition",
+  "move": "NS",
+  "timer": 516
+}
+> Game score: 346
+> Moving from: ED
+> Life Points: 9
+> Player 2 made move:
+> +++
+  message: Searching for Dracula Edition
+  move: NS
+  timer: 516
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VA",
+  "message": "Searching for Dracula",
+  "timer": 469
+}
+> Game score: 346
+> Moving from: AT
+> Life Points: 7
+> Player 3 made move:
+> +++
+  move: VA
+  message: Searching for Dracula
+  timer: 469
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "CN",
+  "message": "luck",
+  "timer": 1568
+}
+> Game score: 346
+> Moving from: VR
+> Blood Points: 24
+> Legal Drac moves: CN SO
+> Player 4 made move:
+> +++
+  move: CN
+  message: luck
+  timer: 1568
+> ---
+> End of Round:  20
+> Starting Round:  21
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "Resting",
+  "move": "GA",
+  "timer": 486
+}
+> Game score: 345
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: Resting
+  move: GA
+  timer: 486
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "LE",
+  "message": "Resting",
+  "timer": 497
+}
+> Game score: 345
+> Moving from: LE
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: LE
+  message: Resting
+  timer: 497
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "NS",
+  "message": "Resting",
+  "timer": 497
+}
+> Game score: 345
+> Moving from: NS
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: NS
+  message: Resting
+  timer: 497
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DC?T.M. GGA.... SBR.... HSW.... MSJ.... DC?T.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 502,
+  "move": "VA",
+  "message": "Resting"
+}
+> Game score: 345
+> Moving from: VA
+> Life Points: 7
+> Player 3 made move:
+> +++
+  timer: 502
+  move: VA
+  message: Resting
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BC",
+  "timer": 1427,
+  "message": "luck"
+}
+> Game score: 345
+> Moving from: CN
+> Blood Points: 24
+> Legal Drac moves: BC GA
+> Player 4 made move:
+> +++
+  move: BC
+  timer: 1427
+  message: luck
+> ---
+> End of Round:  21
+> Starting Round:  22
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "timer": 539,
+  "message": "Heading to Klausenberg"
+}
+> Game score: 344
+> Moving from: GA
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: KL
+  timer: 539
+  message: Heading to Klausenberg
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SR",
+  "message": "Searching for Dracula Edition",
+  "timer": 541
+}
+> Game score: 344
+> Moving from: LE
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SR
+  message: Searching for Dracula Edition
+  timer: 541
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "AO",
+  "message": "Searching for Dracula Edition",
+  "timer": 534
+}
+> Game score: 344
+> Moving from: NS
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: AO
+  message: Searching for Dracula Edition
+  timer: 534
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SO",
+  "message": "Searching for Dracula Edition",
+  "timer": 539
+}
+> Game score: 344
+> Moving from: VA
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SO
+  message: Searching for Dracula Edition
+  timer: 539
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA.... DBCT.M. GKL.... SSR.... HAO.... MSO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 2976,
+  "move": "GA",
+  "message": "luck"
+}
+> Game score: 344
+> Moving from: BC
+> Blood Points: 24
+> Legal Drac moves: BE GA KL SO HI
+> Player 4 made move:
+> +++
+  timer: 2976
+  move: GA
+  message: luck
+> ---
+> End of Round:  22
+> Starting Round:  23
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DC?T.M."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "message": "We're coming after you",
+  "timer": 557
+}
+> Game score: 343
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: GA
+  message: We're coming after you
+  timer: 557
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 533,
+  "move": "TO",
+  "message": "We're coming after you"
+}
+> Game score: 343
+> Moving from: SR
+> Life Points: 9
+> Player 1 made move:
+> +++
+  timer: 533
+  move: TO
+  message: We're coming after you
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "We're coming after you",
+  "move": "NS",
+  "timer": 594
+}
+> Game score: 343
+> Moving from: AO
+> Life Points: 9
+> Player 2 made move:
+> +++
+  message: We're coming after you
+  move: NS
+  timer: 594
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BE",
+  "message": "We're coming after you",
+  "timer": 537
+}
+> Game score: 343
+> Moving from: SO
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: BE
+  message: We're coming after you
+  timer: 537
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA.... DBCT.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "CD",
+  "message": "luck",
+  "timer": 3483
+}
+> Game score: 343
+> Moving from: GA
+> Blood Points: 14
+> Legal Drac moves: CD KL D1 D2 D3 HI
+> Player 4 made move:
+> +++
+  move: CD
+  message: luck
+  timer: 3483
+> ---
+> End of Round:  23
+> Starting Round:  24
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "CD",
+  "message": "We're coming after you",
+  "timer": 499
+}
+> Game score: 342
+> Moving from: GA
+> Life Points: 3
+> Player 0 made move:
+> +++
+  move: CD
+  message: We're coming after you
+  timer: 499
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "MR",
+  "message": "We're coming after you",
+  "timer": 563
+}
+> Game score: 336
+> Moving from: TO
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: MR
+  message: We're coming after you
+  timer: 563
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "We're coming after you",
+  "move": "HA",
+  "timer": 587
+}
+> Game score: 336
+> Moving from: NS
+> Life Points: 9
+> Player 2 made move:
+> +++
+  message: We're coming after you
+  move: HA
+  timer: 587
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "message": "We're coming after you",
+  "timer": 496
+}
+> Game score: 336
+> Moving from: BE
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: GA
+  message: We're coming after you
+  timer: 496
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA.... DBCT.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "HI",
+  "message": "luck",
+  "timer": 2191
+}
+> Game score: 336
+> Moving from: CD
+> Blood Points: 14
+> Legal Drac moves: KL D1 D2 HI
+> Player 4 made move:
+> +++
+  move: HI
+  message: luck
+  timer: 2191
+> ---
+> End of Round:  24
+> Starting Round:  25
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 545,
+  "move": "SZ",
+  "message": "We're coming after you"
+}
+> Game score: 335
+> Moving from: JM
+> Life Points: 9
+> Player 0 made move:
+> +++
+  timer: 545
+  move: SZ
+  message: We're coming after you
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "We're coming after you",
+  "move": "ZU",
+  "timer": 608
+}
+> Game score: 335
+> Moving from: MR
+> Life Points: 9
+> Player 1 made move:
+> +++
+  message: We're coming after you
+  move: ZU
+  timer: 608
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VI",
+  "message": "We're coming after you",
+  "timer": 588
+}
+> Game score: 335
+> Moving from: HA
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: VI
+  message: We're coming after you
+  timer: 588
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "We're coming after you",
+  "move": "CD",
+  "timer": 534
+}
+> Game score: 335
+> Moving from: GA
+> Life Points: 9
+> Player 3 made move:
+> +++
+  message: We're coming after you
+  move: CD
+  timer: 534
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA.... DBCT.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "D1",
+  "message": "luck",
+  "timer": 2173
+}
+> Game score: 335
+> Moving from: CD
+> Blood Points: 14
+> Legal Drac moves: KL D1 D2 D3
+> Player 4 made move:
+> +++
+  move: D1
+  message: luck
+  timer: 2173
+> ---
+> End of Round:  25
+> Starting Round:  26
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "Heading to Klausenberg",
+  "timer": 590
+}
+> Game score: 334
+> Moving from: SZ
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: KL
+  message: Heading to Klausenberg
+  timer: 590
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "RO",
+  "message": "Searching for Dracula Edition",
+  "timer": 584
+}
+> Game score: 334
+> Moving from: ZU
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: RO
+  message: Searching for Dracula Edition
+  timer: 584
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "timer": 634,
+  "move": "MU",
+  "message": "Searching for Dracula Edition"
+}
+> Game score: 334
+> Moving from: VI
+> Life Points: 9
+> Player 2 made move:
+> +++
+  timer: 634
+  move: MU
+  message: Searching for Dracula Edition
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "GA",
+  "message": "We're coming after you",
+  "timer": 732
+}
+> Game score: 334
+> Moving from: CD
+> Life Points: 3
+> Player 3 made move:
+> +++
+  move: GA
+  message: We're coming after you
+  timer: 732
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA.... DBCT.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "luck",
+  "timer": 1059
+}
+> Game score: 334
+> Moving from: CD
+> Blood Points: 24
+> Legal Drac moves: KL
+> Player 4 made move:
+> +++
+  move: KL
+  message: luck
+  timer: 1059
+> ---
+> End of Round:  26
+> Starting Round:  27
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "We're coming after you",
+  "timer": 587
+}
+> Game score: 333
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: KL
+  message: We're coming after you
+  timer: 587
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "FL",
+  "timer": 637,
+  "message": "We're coming after you"
+}
+> Game score: 333
+> Moving from: RO
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: FL
+  timer: 637
+  message: We're coming after you
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "ZA",
+  "message": "We're coming after you",
+  "timer": 666
+}
+> Game score: 333
+> Moving from: MU
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: ZA
+  message: We're coming after you
+  timer: 666
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "We're coming after you",
+  "timer": 643
+}
+> Game score: 333
+> Moving from: GA
+> Life Points: 3
+> Player 3 made move:
+> +++
+  move: KL
+  message: We're coming after you
+  timer: 643
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA.... DBCT.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BC",
+  "message": "luck",
+  "timer": 2881
+}
+> Game score: 327
+> Moving from: KL
+> Blood Points: 4
+> Legal Drac moves: BE BC BD SZ
+> Player 4 made move:
+> +++
+  move: BC
+  message: luck
+  timer: 2881
+> ---
+> End of Round:  27
+> Starting Round:  28
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DC?T.M."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "KL",
+  "message": "Resting",
+  "timer": 635
+}
+> Game score: 326
+> Moving from: KL
+> Life Points: 8
+> Player 0 made move:
+> +++
+  move: KL
+  message: Resting
+  timer: 635
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DC?T.M. GKL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "FL",
+  "timer": 630,
+  "message": "Resting"
+}
+> Game score: 326
+> Moving from: FL
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: FL
+  timer: 630
+  message: Resting
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DC?T.M. GKL.... SFL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "ZA",
+  "timer": 701,
+  "message": "Resting"
+}
+> Game score: 326
+> Moving from: ZA
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: ZA
+  timer: 701
+  message: Resting
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DC?T.M. GKL.... SFL.... HZA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "JM",
+  "message": "Resting",
+  "timer": 606
+}
+> Game score: 326
+> Moving from: JM
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: JM
+  message: Resting
+  timer: 606
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA.... DBCT.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "CN",
+  "timer": 2513,
+  "message": "luck"
+}
+> Game score: 326
+> Moving from: BC
+> Blood Points: 4
+> Legal Drac moves: BE CN GA SO
+> Player 4 made move:
+> +++
+  move: CN
+  timer: 2513
+  message: luck
+> ---
+> End of Round:  28
+> Starting Round:  29
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DC?T.M. GKL.... SFL.... HZA.... MJM.... DC?T..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "We're coming after you",
+  "move": "BC",
+  "timer": 950
+}
+> Game score: 325
+> Moving from: KL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: We're coming after you
+  move: BC
+  timer: 950
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM.... DC?T... GBCT..."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "Searching for Dracula Edition",
+  "move": "GE",
+  "timer": 691
+}
+> Game score: 325
+> Moving from: FL
+> Life Points: 9
+> Player 1 made move:
+> +++
+  message: Searching for Dracula Edition
+  move: GE
+  timer: 691
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM.... DC?T... GBCT... SGE...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "Searching for Dracula Edition",
+  "move": "SJ",
+  "timer": 729
+}
+> Game score: 325
+> Moving from: ZA
+> Life Points: 9
+> Player 2 made move:
+> +++
+  message: Searching for Dracula Edition
+  move: SJ
+  timer: 729
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM.... DC?T... GBCT... SGE.... HSJ...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "ZA",
+  "timer": 649,
+  "message": "Searching for Dracula"
+}
+> Game score: 325
+> Moving from: JM
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: ZA
+  timer: 649
+  message: Searching for Dracula
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA.... DBCT.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM.... DCNT... GBCT... SGE.... HSJ.... MZA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BS",
+  "message": "luck",
+  "timer": 1909
+}
+> Game score: 325
+> Moving from: CN
+> Blood Points: 4
+> Legal Drac moves: GA VR BS
+> Player 4 made move:
+> +++
+  move: BS
+  message: luck
+  timer: 1909
+> ---
+> End of Round:  29
+> Starting Round:  30
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM.... DC?T... GBCT... SGE.... HSJ.... MZA.... DS?...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BE",
+  "message": "We're coming after you",
+  "timer": 903
+}
+> Game score: 324
+> Moving from: BC
+> Life Points: 7
+> Player 0 made move:
+> +++
+  move: BE
+  message: We're coming after you
+  timer: 903
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM.... DC?T... GBCT... SGE.... HSJ.... MZA.... DS?.... GBE...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "PA",
+  "message": "Searching for Dracula Edition",
+  "timer": 752
+}
+> Game score: 324
+> Moving from: GE
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: PA
+  message: Searching for Dracula Edition
+  timer: 752
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM.... DC?T... GBCT... SGE.... HSJ.... MZA.... DS?.... GBE.... SPA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "VA",
+  "message": "Searching for Dracula Edition",
+  "timer": 809
+}
+> Game score: 324
+> Moving from: SJ
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: VA
+  message: Searching for Dracula Edition
+  timer: 809
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DS?.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?.... GGA.... SFL.... HSW.... MVA.... DS?..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DC?T... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DS?.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DS?.... GKL.... SBU.... HED.... MATV... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T... GGA.... SLE.... HNS.... MVA.... DC?T.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM.... DC?T... GBCT... SGE.... HSJ.... MZA.... DS?.... GBE.... SPA.... HVA...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BD",
+  "message": "Searching for Dracula Edition",
+  "timer": 728
+}
+> Game score: 324
+> Moving from: ZA
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: BD
+  message: Searching for Dracula Edition
+  timer: 728
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA.... DBCT.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM.... DCNT... GBCT... SGE.... HSJ.... MZA.... DBS.... GBE.... SPA.... HVA.... MBD...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "IO",
+  "message": "luck",
+  "timer": 1793
+}
+> Game score: 324
+> Moving from: BS
+> Blood Points: 2
+> Legal Drac moves: VR IO
+> Player 4 made move:
+> +++
+  move: IO
+  message: luck
+  timer: 1793
+> ---
+> End of Round:  30
+> Starting Round:  31
+--------------------------------------------------------------------------
+> End of game: 
+> +++
+  score: 323
+  revealedPastPlays: GVE.... STO.... HMN.... MSO.... DTS.... GVI.... SCF.... HED.... MVR.... DNPT... GBD.... SGE.... HNS.... MCN.... DHIT... GKL.... SPA.... HAO.... MGA.... DD1T... GGA.... SST.... HEC.... MBE.... DBIT... GKL.... SMI.... HLO.... MSJ.... DAS.... GGA.... SFL.... HSW.... MVA.... DIO.... GGA.... SFL.... HSW.... MVA.... DBS..M. GKL.... SRO.... HLV.... MAT.... DVRT.M. GGA.... SBIT... HMN.... MIO.... DHIT.M. GKL.... SAS.... HED.... MSA.... DCNT... GGA.... SVE.... HNS.... MSO.... DD4.... GKL.... SMU.... HAO.... MBD.... DIO.... GGA.... SVI.... HEC.... MZA.... DAT.V.. GGA.... SVI.... HEC.... MZA.... DVAT.M. GKL.... SPR.... HLO.... MJM.... DSAT.M. GGA.... SBR.... HSW.... MSJ.... DHIT.M. GKL.... SNU.... HLV.... MVAT... DD5.... GGA.... SCO.... HMN.... MIO.... DBS.... GKL.... SBU.... HED.... MATV... DVRT... GGA.... SLE.... HNS.... MVA.... DCNT... GGA.... SLE.... HNS.... MVA.... DBCT.M. GKL.... SSR.... HAO.... MSO.... DGAT.M. GGATD.. STO.... HNS.... MBE.... DCDT... GCDTD.. SMR.... HHA.... MGA.... DHIT... GSZ.... SZU.... HVI.... MCDTD.. DD1T.M. GKL.... SRO.... HMU.... MGA.... DKL.VM. GKLVD.. SFL.... HZA.... MKLD... DBCT.M. GKL.... SFL.... HZA.... MJM.... DCNT... GBCT... SGE.... HSJ.... MZA.... DBS.... GBE.... SPA.... HVA.... MBD.... DIO....
+  messages: ["LG - Forward","DS - Forward","VH - Forward","MH - Forward","I dare you to hunt me :D","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","Safe Keeping!","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","Resting","Resting","Resting","Resting","luck","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","Safe Keeping!","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","Heading to Klausenberg","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","luck","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","Safe Keeping!","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","Safe Keeping!","Resting","Resting","Resting","Resting","Safe Keeping!","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","We're coming after you","Safe Keeping!","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","Safe Keeping!","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula","luck","Resting","Resting","Resting","Resting","luck","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck","We're coming after you","We're coming after you","We're coming after you","We're coming after you","luck","We're coming after you","We're coming after you","We're coming after you","We're coming after you","luck","We're coming after you","We're coming after you","We're coming after you","We're coming after you","luck","Heading to Klausenberg","Searching for Dracula Edition","Searching for Dracula Edition","We're coming after you","luck","We're coming after you","We're coming after you","We're coming after you","We're coming after you","luck","Resting","Resting","Resting","Resting","luck","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula","luck","We're coming after you","Searching for Dracula Edition","Searching for Dracula Edition","Searching for Dracula Edition","luck"]
+> ---
+> Game Over
+323
+31
+Final score: 323
+Final round: 31

@@ -1,21 +1,100 @@
 ====== Game 1 ======
-Final score: 255
-Final round: 59
+Final score: 155
+Final round: 120
 
 ====== Game 2 ======
-Final score: -5
-Final round: 189
+Final score: 168
+Final round: 120
 
 ====== Game 3 ======
-Final score: -5
-Final round: 189
+Final score: 244
+Final round: 64
 
 ====== Game 4 ======
-Final score: 255
-Final round: 59
+Final score: 133
+Final round: 149
 
 ====== Game 5 ======
-Final score: -5
-Final round: 189
+Final score: 253
+Final round: 75
 
 ====== Game 6 ======
+Final score: 178
+Final round: 123
+
+====== Game 7 ======
+Final score: -11
+Final round: 215
+
+====== Game 8 ======
+Final score: 323
+Final round: 31
+
+====== Game 9 ======
+Final score: 63
+Final round: 160
+
+====== Game 10 ======
+Final score: 229
+Final round: 98
+
+====== Game 11 ======
+Final score: 165
+Final round: 123
+
+====== Game 12 ======
+Final score: 104
+Final round: 145
+
+====== Game 13 ======
+Final score: 270
+Final round: 70
+
+====== Game 14 ======
+Final score: 295
+Final round: 52
+
+====== Game 15 ======
+Final score: 269
+Final round: 71
+
+====== Game 16 ======
+Final score: 270
+Final round: 70
+
+====== Game 17 ======
+Final score: 57
+Final round: 173
+
+====== Game 18 ======
+Final score: 66
+Final round: 170
+
+====== Game 19 ======
+Final score: 233
+Final round: 94
+
+====== Game 20 ======
+Final score: 234
+Final round: 80
+
+====== Game 21 ======
+Final score: 94
+Final round: 151
+
+====== Game 22 ======
+Final score: 142
+Final round: 133
+
+====== Game 23 ======
+Final score: 243
+Final round: 78
+
+====== Game 24 ======
+Final score: 202
+Final round: 114
+
+====== Game 25 ======
+Final score: 248
+Final round: 73
+

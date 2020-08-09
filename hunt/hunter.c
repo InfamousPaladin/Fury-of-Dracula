@@ -197,7 +197,6 @@ static void randomMove(HunterView hv, Player currPlayer) {
 
 	bool canFree = false;
 	int numLocations = -1;
-	bool locFound = false;
 	int actualLocations = -1;
 
 	Player playerA;
@@ -229,13 +228,13 @@ static void randomMove(HunterView hv, Player currPlayer) {
 		playerC = PLAYER_LORD_GODALMING;
 	}
 
-	PlaceId *currPlayerPastMov = HvGetLastMoves(hv, currPlayer, 6, 
+	PlaceId *currPlayerPastMov = HvGetLastMoves(hv, currPlayer, 8, 
 									&actualLocations, &canFree);
-	PlaceId *playerAPastMov = HvGetLastMoves(hv, playerA, 6, 
+	PlaceId *playerAPastMov = HvGetLastMoves(hv, playerA, 8, 
 									&actualLocations, &canFree);
-	PlaceId *playerBPastMov = HvGetLastMoves(hv, playerB, 6, 
+	PlaceId *playerBPastMov = HvGetLastMoves(hv, playerB, 8, 
 									&actualLocations, &canFree);
-	PlaceId *playerCPastMov = HvGetLastMoves(hv, playerC, 6, 
+	PlaceId *playerCPastMov = HvGetLastMoves(hv, playerC, 8, 
 									&actualLocations, &canFree);
 
 	PlaceId *possibleLocations = HvWhereCanIGo(hv, &numLocations);
@@ -254,15 +253,14 @@ static void randomMove(HunterView hv, Player currPlayer) {
 
 	int nGoodLocs = 0;
 	int goodLocs[NUM_REAL_PLACES];
-
 	for (int i = 0; i < numLocations; i++) {
-
-		int j;
+		bool locFound = false;
 		PlaceId newLoc = possibleLocations[i];
 
-		for (j = 0; j < actualLocations; j++) {
+		for (int j = 0; j < actualLocations; j++) {
 			if (newLoc == currPlayerPastMov[j] || newLoc == playerAPastMov[j]  || newLoc == playerBPastMov[j]  || newLoc == playerCPastMov[j]) {
 				locFound = true;
+				break;
 			}
 		}
 

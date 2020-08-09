@@ -2,7 +2,7 @@
 touch test.txt
 i=1;
 rm test.txt > /dev/null;
-while test $i -le 100; do 
+while test $i -le 25; do 
     echo "====== Game $i ======" >> test.txt;
     rm log_$i.txt 2> /dev/null;
     touch log_$i.txt;
