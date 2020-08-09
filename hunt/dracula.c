@@ -171,7 +171,7 @@ void decideDraculaMove(DraculaView dv)
             char *play = (char *) placeIdToAbbrev(move);
             registerBestPlay(play, "Safe Keeping!");
         } else {
-            #if 0
+            #if 1
             MoveCalc moveData[nDracPlays];
             for (int i = 0; i < nDracPlays; i++) {
                 PlaceId move = dracPlays[i];
