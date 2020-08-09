@@ -5,7 +5,7 @@
 # 2018-12-31	v1.0	Team Dracula <cs2521@cse.unsw.edu.au>
 # 2020-07-10	v2.0	Team Dracula <cs2521@cse.unsw.edu.au>
 
-CC = gcc
+CC = gcc -lm
 CFLAGS = -Wall -Werror -g
 
 # do not change the following line

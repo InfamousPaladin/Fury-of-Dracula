@@ -95,7 +95,7 @@ typedef HunterView View;
 int main(void)
 {
 	// Replace this with the define instead
-	char *pastPlays ="GVE.... SPA.... HMA.... MED.... DAO.... GVI.... SMR.... HSR.... MMN.... DIR.... GBD.... SLE.... HTO.... MLO.... DD2.... GKL.... SNA.... HCF.... MSW.... DGWT... GBD.... SBO.... HGE.... MLV.... DHIT... GKL.... SBA.... HMI.... MIR.... DDUT... GBD.... SAL.... HZU.... MDUTD.. DTPT... GKL.... SGR.... HST.... MGWTT.. DGAT... GBD.... SCA.... HFR.... MZA.... DCNT... GKL.... SLS.... HLI.... MSZ.... DD1T... GBD.... SSN.... HNU.... MBC.... DVRT... GKL.... SMA.... HMU.... MGAT... DHIT... GBD.... SSR.... HVI.... MCNTT.. DBS..M. GKL.... SPA.... HVE.... MVRTT.. DIO.... GKL.... SPA.... HVE.... MJM.... DVAT... GBD.... SNA.... HGO.... MSJ.... DSJT... GZA.... SPA.... HMI.... MSJTD.. DD2T... GSZ.... SMR.... HZU.... MVATTD. DHIT... GKL.... SLE.... HST.... MBE.... DSAT... GBD.... SBU.... HFR.... MSO.... DIO.... GKL.... SCO.... HLI.... MSAT... DBS.... GKL.... SCO.... HLI.... MSA.... DVRT... GBD.... SNU.... HHA.... MIO.... DD2.... GKL.... SPR.... HBR.... MTS.... DCNT.M. GBD.... SVI.... HBR.... MRO....";
+	char *pastPlays ="GVE.... STO.... HMN.... MSO....";
 				    //   "GSW.... SLS.... HMR.... MHA.... DVI.V.. "
 					//   "GLO.... SLS.... HMR.... MHA.... DC?T... " // BD
 					//   "GEC.... SLS.... HMR.... MHA.... DC?T... " // SZ

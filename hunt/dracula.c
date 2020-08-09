@@ -16,18 +16,15 @@
 #include <stdlib.h>
 #include <time.h> 
 #include <stdio.h>
+#include <math.h>
 
-#define DONT 	-1000
-#define LIMIT	100
 #define START_SCORE 1000
 
-typedef struct hunter
-{
-	PlaceId currLoc;					// current location of player
-	int health;							// current player health
-	PlaceId *reachable;
-	int nReach;
-} hunterInfo;
+// Written in the month of August 2020 for COMP2521 T2 Assignment 2.
+
+// This is the implementation file for the Dracula AI. This implementation aims 
+// to find the safest move away from the hunters by considering the path 
+// distance and its standard deviation.
 
 typedef struct gameState 
 {
@@ -36,93 +33,149 @@ typedef struct gameState
 
 } GameState;
 
+typedef struct moveCalc 
+{
+	double mean;
+    double deviation;
+    PlaceId move;
+} MoveCalc;
+
+
 int maxScoreIndex(int scoreMove[], int nDracPlays);
 bool isDbHide(DraculaView dv, PlaceId loc);
 bool castleArea(GameState gameInfo);
 bool hunterNotMove(DraculaView dv, Player player);
-bool doSouthLoop(GameState gameInfo);
 
 void decideDraculaMove(DraculaView dv)
 {
 	registerBestPlay("TS", "Default");
-	GameState gameInfo;
-	time_t t;
-	srand((unsigned) time(&t));
+	// GameState gameInfo;
+	// gameInfo.dv = dv;
 
-	gameInfo.dv = dv;
-    gameInfo.map = MapNew();
+    // gameInfo.map = MapNew();
 
     if (DvGetRound(dv) == 0) {
-        int allMovesScore[NUM_REAL_PLACES];
-        for (int i = 0; i < NUM_REAL_PLACES; i++) {
-            // Scoring Factors
+        registerBestPlay("AO", "I dare you to hunt me :D");
+        return;
+    }
 
-            // 1) Check if hunter and dracula loc overlap
-			PlaceId move = i;
-			int score = START_SCORE;
-			// Check how many hunters can go to that location
-			int hunterInLoc = 0;
-			for (int i = 0; i < 4; i++) {
-				int nPlays = 0;
-				PlaceId *hunterPlays = DvWhereCanTheyGo(dv, i, &nPlays);
-				for (int j = 0; j < nPlays; j++) {
-					if (move == hunterPlays[j] && placeIsLand(move)) {
-						score -= 20000;
-						hunterInLoc++;
-					}
-				}
-				free(hunterPlays);
-			}
+    int nDracPlays = 0;
+    PlaceId *dracPlays = DvWhereCanIGo(dv, &nDracPlays);
 
-            if (placeIsSea(move)) score += 1000;
-            if (move == ST_JOSEPH_AND_ST_MARY) score -= 100000;
-            //if (move == CASTLE_DRACULA) score += 1000;
-
-            for (int i = 0; i < 4; i++) {
-                int pathLen = 0;
-                PlaceId *pathAway = DvGetShortestPathTo(dv, move, DvGetPlayerLocation(dv, i), &pathLen);
-                
-                // if (pathLen < 5) score += pathLen * 200;
-                // else if (pathLen < 10) score += 1000;
-                // else score += 1250;
-                score += pathLen * 500;
-                free(pathAway);
-            }
-
-            if (move == CASTLE_DRACULA && castleArea(gameInfo)) {
-                score -= 10000;
-            }
-            
-            allMovesScore[i] = score;
-        }
-        // Get a random location
-		bool goodMove = false;
-		int move = maxScoreIndex(allMovesScore, NUM_REAL_PLACES);
-        int maxScore = allMovesScore[move];
-		int repeat = 0;
-        int scoreNum = 0;
-		while (!goodMove && repeat < 100) {
-			scoreNum = rand() % NUM_REAL_PLACES;
-			if (allMovesScore[scoreNum] == maxScore && scoreNum != ST_JOSEPH_AND_ST_MARY) break;
-			repeat++;
-		}
-        if (repeat > 100) move = maxScoreIndex(allMovesScore, NUM_REAL_PLACES);
-        else move = scoreNum;
-        char *play = (char *) placeIdToAbbrev(move);
-        registerBestPlay(play, "begin");
-        // registerBestPlay("TS", "stan");
+    // No more valid moves
+    if (nDracPlays == 0) {
+        registerBestPlay("TP", "Goodbye!");
     }
     else {
-        int nDracPlays = 0;
-        PlaceId *dracPlays = DvWhereCanIGo(dv, &nDracPlays);
-
-        // No more valid moves
-        if (nDracPlays == 0) {
-            registerBestPlay("TP", "Goodbye");
+        // Check which moves are completely safe
+        bool allGoodMoves = true;
+        for (int i = 0; i < nDracPlays; i++) {
+            PlaceId move = dracPlays[i];
+            for (int player = 0; player < 4; player++) {
+                int nPlays = 0;
+                PlaceId *huntPlays = DvWhereCanTheyGo(dv, player, &nPlays);
+                for (int j = 0; j < nPlays; j++) {
+                    if (move == huntPlays[j] && placeIsLand(huntPlays[j])) {
+                        allGoodMoves = false;
+                        break;
+                    }
+                }
+                free(huntPlays);
+                if (!allGoodMoves) break;
+            }
+            if (isDbHide(dv, move)) allGoodMoves = false;
+            if (!allGoodMoves) break;
         }
-        else {
-            // Calculate how each valid move does
+
+        // Case where all valid moves have no risks
+        if (allGoodMoves) {
+            MoveCalc moveData[nDracPlays];
+            // The following method to calculate the best moves uses these 
+            // techniques:
+            // 1) For each move, find the path distance to all player's 
+            // current location -> thus finding the mean of how many cities 
+            // it would take to reach that move by other players
+            // 2) Calculate the standard deviation to see whether selected 
+            // move have players reletively the same distance to reach that 
+            // move
+            // 3) Higher mean means more distance. Lower deviation mean that
+            // values are closer to the mean. Therefore, find the highest 
+            // mean with the lowest standard deviation for best move.
+            for (int i = 0; i < nDracPlays; i++) {
+                PlaceId move = dracPlays[i];
+                // printf("Move: %d\n", move);
+
+                int distToPlayer[4];
+                double distance = 0;
+                for (int i = 0; i < 4; i++) {
+                    int hunterPathLen = 0;
+
+                    #if 1
+                        DvGetShortestPathTo(dv, move, DvGetPlayerLocation(dv, i), 
+                                            &hunterPathLen);
+                    #else
+                        HvGetShortestPathTo(dv, i, move, &hunterPathLen);
+                    #endif
+
+                    distToPlayer[i] = hunterPathLen;
+                    distance += hunterPathLen;
+                    
+                    // for (int i = 0; i < hunterPathLen; i++) {
+                    //     printf("%s ->", placeIdToAbbrev(locs[i]));
+                    // }
+                    // printf("\nDist for Player %d: %d\n\n", i, hunterPathLen);
+
+                }
+                moveData[i].mean = distance/4;
+
+                double variance = 0;
+                for(int i = 0; i < 4; i++) {
+                    variance += (distToPlayer[i] - moveData[i].mean) * 
+                                (distToPlayer[i] - moveData[i].mean);
+                }
+
+                moveData[i].deviation = sqrt(variance/4);
+                moveData[i].move = move;
+            }
+
+            // Order the array with the highest mean at the beginning using
+            // bubble sort
+            int nSwaps = 0;
+            for (int i = 0; i < nDracPlays; i++) {
+                nSwaps = 0;
+                for (int j = nDracPlays; j > i; j--) {
+                    if (moveData[j].mean > moveData[j - 1].mean) {
+                        MoveCalc tmp = moveData[j - 1];
+                        moveData[j - 1] = moveData[j];
+                        moveData[j] = tmp;
+                        nSwaps++;
+                    }
+                }
+                if (nSwaps == 0) break;
+            }
+
+            // for (int i = 0; i < nDracPlays; i++) 
+            //     printf("Mean: %f\n", moveData[i].mean);
+
+            int min = moveData[0].deviation;
+            int minIndex = 0;
+            int max = 0.5 * nDracPlays;
+            for (int i = 0; i < max; i++) {
+                if (min > moveData[i].deviation) {
+                    min = moveData[i].deviation;
+                    minIndex = i;
+                }
+            }
+
+            PlaceId move = DvConvertLocToMove(dv, moveData[minIndex].move);
+            char *play = (char *) placeIdToAbbrev(move);
+            registerBestPlay(play, "Safe Keeping!");
+        } else {
+            // Calculate how each valid move does using a score system
+
             int scoreMove[nDracPlays];
+            // MoveCalc moveData[nDracPlays];
+            
             for (int i = 0; i < nDracPlays; i++) {
                 PlaceId move = dracPlays[i];
                 int score = START_SCORE;
@@ -133,8 +186,8 @@ void decideDraculaMove(DraculaView dv)
                     int nPlays = 0;
                     PlaceId *huntPlays = DvWhereCanTheyGo(dv, player, &nPlays);
                     for (int j = 0; j < nPlays; j++) {
-                        if (move == huntPlays[j]) {
-                            score -= 10000;
+                        if (move == huntPlays[j] && placeIsLand(move)) {
+                            score -= 25000;
                             hunterInMove++;
                         }
                     }
@@ -143,16 +196,17 @@ void decideDraculaMove(DraculaView dv)
                 // This means that this is a good move where hunter cant reach
                 // drac.
                 if (hunterInMove == 0) {
-                    score += 100000;
+                    if (placeIsSea(move)) score -= 2000;
+                    if (isDbHide(dv, move)) score -= 1000;  
 
-                    if (placeIsLand(move)) score += 1000;
-                    if (isDbHide(dv, move)) score -= 3000;    
-                    if (placeIsLand(move) && DvGetRound(dv) % 13 == 0) score += 1000;  
-                    if (DvGetHealth(dv, PLAYER_DRACULA) > 30 && placeIsSea(move)) score += 2000;              
-
+                    if (placeIsLand(move) && DvGetRound(dv) % 13 == 0) 
+                        score += 1000;  
                 } else {
-                    // 1) Consider how many traps are in that location if there are 
-                    // hunters in the location
+                    if (placeIsSea(move)) score -= 2000;
+                    if (isDbHide(dv, move)) score -= 1000;  
+
+                    // 1) Consider how many traps are in that location if there 
+                    // are hunters in the location
                     int nTraps = 0;
                     PlaceId *traps = DvGetTrapLocations(dv, &nTraps);
                     for (int i = 0; i < nTraps; i++) {
@@ -173,76 +227,73 @@ void decideDraculaMove(DraculaView dv)
                     for (int i = 0; i < 4; i++) {
                         if (hunterNotMove(dv, i) && DvGetPlayerLocation(dv, i) != move
                             && hunterInMove == 0 && placeIsLand(move)) {
-                            score += 3000;
-                        } else if (hunterNotMove(dv, i) && DvGetPlayerLocation(dv, i) != move
-                            && hunterInMove == 0 && placeIsSea(move)) {
-                            score += 1500;
+                            score += 5000;
+                        } else if ( hunterNotMove(dv, i) && 
+                                    DvGetPlayerLocation(dv, i) != move && 
+                                    hunterInMove == 0 && 
+                                    placeIsSea(move)) {
+                            score += 2500;
                         }
                     }
-
-                    // 4) Type of move scoring factors
-                    if (placeIsLand(move) && DvGetRound(dv) % 13 == 0 && hunterInMove == 1) score += 1000;
-                    if (isDbHide(dv, move)) score -= 2000;
-                    if (placeIsLand(move) && DvGetHealth(dv, PLAYER_DRACULA) <= 30) score += 2000;
-                    if (placeIsSea(move) && DvGetHealth(dv, PLAYER_DRACULA) > 30) score += 2000;
                 }
 
-                // Check for health emergency
-                int pathLen = 0;
-                PlaceId *pathToCastle = DvGetShortestPathTo(dv, DvGetPlayerLocation(dv, PLAYER_DRACULA),
-                CASTLE_DRACULA, &pathLen);
-
-                if (pathLen > 0 && DvGetHealth(dv, PLAYER_DRACULA) < 20 && pathToCastle[0] == move) score += 30000;
-                free(pathToCastle);
-
+                // Calculate best move based on standard deviation
                 // Check distance to current locs of hunters
+                int distToPlayer[4];
+                double averageDist = 0;
                 for (int i = 0; i < 4; i++) {
-                    PlaceId currLoc = DvGetPlayerLocation(dv, i);
-                    int pathLen = 0;
-                    DvGetShortestPathTo(dv, move, currLoc, &pathLen);
-                    // if (pathLen > 7) score += 3600;
-                    // else score += pathLen * 500;
-                    score += pathLen * 500;
+                    int hunterPathLen = 0;
+                    #if 1
+                        DvGetShortestPathTo(dv, move, DvGetPlayerLocation(dv, i), 
+                                            &hunterPathLen);
+                    #else
+                        HvGetShortestPathTo(dv, i, move, &hunterPathLen);
+                    #endif
+                    distToPlayer[i] = hunterPathLen;
+                    averageDist += hunterPathLen;
                 }
-                if (DvGetHealth(dv, PLAYER_DRACULA) < 20 && move == CASTLE_DRACULA) score += 7000;
+                
+                averageDist /= 4;
+                double variance = 0;
+
+                for(int i = 0; i < 4; i++) {
+                    variance += (distToPlayer[i] - averageDist) *
+                                (distToPlayer[i] - averageDist);
+                }
+
+                double deviation = sqrt(variance/4);
+                
+                // Add score based on mean and deviation
+                score += 8000 * averageDist + 10000/deviation;
+
+                // TODO: Check for health emergency
+                // int pathLen = 0;
+                // PlaceId *pathToCastle = DvGetShortestPathTo(dv, 
+                //                         DvGetPlayerLocation(dv, PLAYER_DRACULA),
+                //                         CASTLE_DRACULA, &pathLen);
+                // if (pathLen > 0 && DvGetHealth(dv, PLAYER_DRACULA) < 20 && 
+                //     pathToCastle[0] == move) 
+                //     score += 30000;
+                // free(pathToCastle);
+
+                // if (DvGetHealth(dv, PLAYER_DRACULA) < 20 && 
+                //     move == CASTLE_DRACULA) 
+                //     score += 7000;
 
                 scoreMove[i] = score;
             }
+
             int i = maxScoreIndex(scoreMove, nDracPlays);
             PlaceId move = DvConvertLocToMove(dv, dracPlays[i]);
             char *play = (char *) placeIdToAbbrev(move);
             registerBestPlay(play, "luck");
         }
-        free(dracPlays);
-	}
-    MapFree(gameInfo.map);
-	return;
-}
-bool doSouthLoop(GameState gameInfo) {
-    // Strategy One: Go to LS CA GR AL MA SN then repeat
-    bool doSouthLoop = true;
-    if (DvGetRound(gameInfo.dv) >= TRAIL_SIZE) {
-        for (int i = PLAYER_LORD_GODALMING; i < PLAYER_DRACULA; i++) {
-			int nPlays = 0;
-			PlaceId *hunterPlays = DvWhereCanTheyGo(gameInfo.dv, i, &nPlays);
-            for (int j = 0; j < nPlays; j++) {
-                if (hunterPlays[j] == LISBON ||
-                hunterPlays[j] == CADIZ ||
-                hunterPlays[j] == GRANADA ||
-                hunterPlays[j] == ALICANTE ||
-                hunterPlays[j] == MADRID ||
-                hunterPlays[j] == SANTANDER ||
-                hunterPlays[j] == SARAGOSSA ||
-                hunterPlays[j] == BARCELONA ||
-                hunterPlays[j] == BORDEAUX ||
-                hunterPlays[j] == TOULOUSE) {
-                    doSouthLoop = false;
-                    break;
-                }
-            }
-        }
     }
-    return doSouthLoop;
+
+    free(dracPlays);
+    // MapFree(gameInfo.map);
+
+	return;
 }
 
 

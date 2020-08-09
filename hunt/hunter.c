@@ -47,11 +47,11 @@ void decideHunterMove(HunterView hv) {
 	if (currPlayer == PLAYER_LORD_GODALMING && roundNum == 0) {
 		registerBestPlay("VE", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_DR_SEWARD && roundNum == 0) {
-		registerBestPlay("PA", "LETS GO HUNTERS");
+		registerBestPlay("TO", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_VAN_HELSING && roundNum == 0) {
-		registerBestPlay("MA", "LETS GO HUNTERS");
+		registerBestPlay("MN", "LETS GO HUNTERS");
 	} else if (currPlayer == PLAYER_MINA_HARKER && roundNum == 0) {
-		registerBestPlay("ED", "LETS GO HUNTERS");
+		registerBestPlay("SO", "LETS GO HUNTERS");
 	} else {
 
 		// getting Drac's location
@@ -121,21 +121,17 @@ void decideHunterMove(HunterView hv) {
 		// if Drac's location has been found, find all possible locations
 		// he can go to and send a hunter to each of those locations and invoke
 		// the random move function from there to find Dracula
-		if ((lastDracLoc < CITY_UNKNOWN) && (lastDracLoc != NOWHERE) &&
-			(lastDracLoc != UNKNOWN_PLACE)) {
-
+		if (lastDracLoc >= 0 && lastDracLoc < NUM_REAL_PLACES && 
+			(HvGetRound(hv) - lastDracRound) < 2) {
 			// if Drac's location has been revealed recently, chase him
 			// else given Drac's last known location, find possible places to chase
-			if ((HvGetRound(hv) - lastDracRound) < 2) {
+			int pathLength = -1;
+			PlaceId *searchPath = HvGetShortestPathTo(hv, currPlayer, 
+			lastDracLoc, &pathLength);
 
-				int pathLength = -1;
-				PlaceId *searchPath = HvGetShortestPathTo(hv, currPlayer, 
-				lastDracLoc, &pathLength);
-
-				char *placeAbbrev = (char *) placeIdToAbbrev(searchPath[0]);
-				registerBestPlay(placeAbbrev, "We're coming after you");
-				return;
-			}
+			char *placeAbbrev = (char *) placeIdToAbbrev(searchPath[0]);
+			registerBestPlay(placeAbbrev, "We're coming after you");
+			return;
 		}
 
 		// godalming patrolling Castle Dracula
