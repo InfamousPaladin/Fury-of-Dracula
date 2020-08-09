@@ -262,9 +262,12 @@ void decideDraculaMove(DraculaView dv)
                 }
 
                 double deviation = sqrt(variance/4);
-                
+                // printf("%f", deviation);
+                int deviationCal;
+                if (deviation < 0.1) deviationCal = 0;
+                else deviationCal = 100000/deviation;
                 // Add score based on mean and deviation
-                score += 8000 * averageDist + 10000/deviation;
+                score += 8000 * averageDist + deviationCal;
 
                 // TODO: Check for health emergency
                 // int pathLen = 0;
@@ -283,6 +286,7 @@ void decideDraculaMove(DraculaView dv)
                 scoreMove[i] = score;
             }
 
+            // for (int i = 0; i < nDracPlays; i++) printf("%d - ", scoreMove[i]);
             int i = maxScoreIndex(scoreMove, nDracPlays);
             PlaceId move = DvConvertLocToMove(dv, dracPlays[i]);
             char *play = (char *) placeIdToAbbrev(move);

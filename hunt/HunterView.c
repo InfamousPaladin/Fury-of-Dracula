@@ -296,10 +296,20 @@ PlaceId *HvWhereCanTheyGoByType(HunterView hv, Player player,
 	Round round = HvGetRound(hv);
 	Player currPlayer = GvGetPlayer(hv->view);
 	if (player < currPlayer) round++;
-	reachableNextType = GvGetReachableByType(hv->view, player, 
+	if (player != PLAYER_DRACULA) {	
+		reachableNextType = GvGetReachableByType(hv->view, player, 
 							round, HvGetPlayerLocation(hv, player), 
 							road, rail, boat, &numLocations);
-
+	} else {
+		int roundFound = 0;
+		if (HvGetLastKnownDraculaLocation(hv, &roundFound) == NOWHERE) {
+			reachableNextType = NULL;
+		} else {
+			reachableNextType = GvGetReachableByType(hv->view, player, 
+							round, HvGetLastKnownDraculaLocation(hv, &roundFound), 
+							road, rail, boat, &numLocations);
+		}
+	}
 	*numReturnedLocs = numLocations;
 	return reachableNextType;
 }

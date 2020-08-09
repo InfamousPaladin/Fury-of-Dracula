@@ -46,125 +46,146 @@ void decideHunterMove(HunterView hv) {
 	// starting positions
 	if (currPlayer == PLAYER_LORD_GODALMING && roundNum == 0) {
 		registerBestPlay("VE", "LETS GO HUNTERS");
+		return;
 	} else if (currPlayer == PLAYER_DR_SEWARD && roundNum == 0) {
 		registerBestPlay("TO", "LETS GO HUNTERS");
+		return;
 	} else if (currPlayer == PLAYER_VAN_HELSING && roundNum == 0) {
 		registerBestPlay("MN", "LETS GO HUNTERS");
+		return;
 	} else if (currPlayer == PLAYER_MINA_HARKER && roundNum == 0) {
 		registerBestPlay("SO", "LETS GO HUNTERS");
-	} else {
+		return;
+	} 
 
-		// getting Drac's location
-		PlaceId dracLocation = HvGetPlayerLocation(hv, PLAYER_DRACULA);
+	// getting Drac's location
+	PlaceId dracLocation = HvGetPlayerLocation(hv, PLAYER_DRACULA);
 
-		// handle cases where Dracula's location is unknown
-		// immediately reveal Dracula's 6th location in trail
-		if ((dracLocation == NOWHERE || dracLocation == CITY_UNKNOWN ||
-			dracLocation == SEA_UNKNOWN) && roundNum % 7 == 0) {
-			
-			if (currPlayer == PLAYER_LORD_GODALMING) {
+	// handle cases where Dracula's location is unknown have everyone
+	// immediately reveal Dracula's 6th location in trail using reseacrh
+	if (!placeIsReal(dracLocation) && roundNum % 7 == 0) {
+		char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
+														currPlayer));
+		if (currPlayer == PLAYER_LORD_GODALMING) {
+			registerBestPlay(placeAbbrev, "Godalming resting");
+		} else if (currPlayer == PLAYER_DR_SEWARD) {
+			registerBestPlay(placeAbbrev, "Seward resting");
+		} else if (currPlayer == PLAYER_VAN_HELSING) {
+			registerBestPlay(placeAbbrev, "Helsing resting");
+		} else if (currPlayer == PLAYER_MINA_HARKER) {
+			registerBestPlay(placeAbbrev, "Harker resting");
+		}
+		return;
+	} 
 
-				char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
-															PLAYER_LORD_GODALMING));
-				registerBestPlay(placeAbbrev, "Godalming resting");
 
-			} else if (currPlayer == PLAYER_DR_SEWARD) {
+	// ? Recover health case
+	// If Hunter is on 2 health or less, make them rest unless they are dead
+	if (HvGetHealth(hv, currPlayer) < 3 && 
+		HvGetPlayerLocation(hv, currPlayer) != HOSPITAL_PLACE) {
 
-				char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
-															PLAYER_DR_SEWARD));
-				registerBestPlay(placeAbbrev, "Seward resting");
+		char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
+															currPlayer));
+		registerBestPlay(placeAbbrev, "Resting for health");
+		return;
+	}
 
-			} else if (currPlayer == PLAYER_VAN_HELSING) {
+	// ? VAMPIRE CASE
 
-				char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
-															PLAYER_VAN_HELSING));
-				registerBestPlay(placeAbbrev, "Helsing resting");
+	// store path length to immature vampire
+	int distToVamp[4];
+	for (int i = 0; i < 4; i++) {
+		int pathLength = -1;
+		PlaceId *pathtoVampire = HvGetShortestPathTo(hv, currPlayer, 
+									HvGetVampireLocation(hv), &pathLength);
+		distToVamp[i] = pathLength;
+		free(pathtoVampire);
+	}
 
-			} else if (currPlayer == PLAYER_MINA_HARKER) {
+	// find which player is close to vampire
+	int min = distToVamp[0];
+	int minIndex = 0;
+	for (int i = 0; i < 4; i++) {
+		if (min > distToVamp[i]) {
+			min = distToVamp[i];
+			minIndex = i;
+		}
+	}
 
-				char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
-															PLAYER_MINA_HARKER));
-				registerBestPlay(placeAbbrev, "Harker resting");
+	// Closest player go after vampire
+	if (currPlayer == minIndex) {
+		int pathLength = -1;
+		PlaceId *pathtoVampire = HvGetShortestPathTo(hv, currPlayer, 
+									HvGetVampireLocation(hv), &pathLength);
+		char *placeAbbrev = (char *) placeIdToAbbrev(pathtoVampire[0]);
+		registerBestPlay(placeAbbrev, "Found a vampire, I'm gonna kill it");
+		free(pathtoVampire);
+		return;
+	}
 
-			}
-			
-			return;
-		} 
+	// ? Have godalming patrolling Castle Dracula
+	if (currPlayer == PLAYER_LORD_GODALMING) {
+		
+		PlaceId godalmingLoc = HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING);
 
-		// finds Vamp's location and finds the shortest path to kill it
-		if (HvGetVampireLocation(hv) < CITY_UNKNOWN && HvGetVampireLocation(hv) != 
-			NOWHERE && currPlayer == PLAYER_DR_SEWARD) {
-
-			int pathLength = -1;
-			PlaceId *pathtoVampire = HvGetShortestPathTo(hv, currPlayer, 
-										HvGetVampireLocation(hv), &pathLength);
-
-			char *placeAbbrev = (char *) placeIdToAbbrev(pathtoVampire[0]);
-			registerBestPlay(placeAbbrev, "Found a vampire, I'm gonna kill it");
+		if (godalmingLoc != KLAUSENBURG) {
+			headtoKlausenberg(hv, PLAYER_LORD_GODALMING);
 			return;
 		}
+		// time_t t;
+		// int patrolLoc = -1;
+		// srand((unsigned) time(&t));
 
-		int lastDracRound = -1;
-		PlaceId lastDracLoc = HvGetLastKnownDraculaLocation(hv, &lastDracRound);
+		// // 6 because there are 6 locations connected to that place
+		// int randIndex = rand() % 6;
+		// PlaceId *patrol = HvWhereCanIGo(hv, &patrolLoc);
 
-		// if Hunter is on 2 health or less, make them rest unless they are dead
-		if (HvGetHealth(hv, currPlayer) < 3 && 
-			(HvGetPlayerLocation(hv, currPlayer) != HOSPITAL_PLACE)) {
+		// char *placeAbbrev = (char *) placeIdToAbbrev(patrol[randIndex]);
+		registerBestPlay("GA", "Patrolling Klausenberg's net");
+		return;
+	}
 
-			char *placeAbbrev = (char *) placeIdToAbbrev(HvGetPlayerLocation(hv, 
-																currPlayer));
+	// ? Dracula trail is found case
 
-			registerBestPlay(placeAbbrev, "Resting for health");
-			return;
-		}
+	int lastDracRound = -1;
+	PlaceId lastDracLoc = HvGetLastKnownDraculaLocation(hv, &lastDracRound);
 
-		// if Drac's location has been found, find all possible locations
-		// he can go to and send a hunter to each of those locations and invoke
-		// the random move function from there to find Dracula
-		if (lastDracLoc >= 0 && lastDracLoc < NUM_REAL_PLACES && 
-			(HvGetRound(hv) - lastDracRound) < 2) {
-			// if Drac's location has been revealed recently, chase him
-			// else given Drac's last known location, find possible places to chase
+	// if (placeIsReal(lastDracLoc) && HvGetRound(hv) - lastDracRound < 2 && 
+	// 	currPlayer == lastDracLoc) {
+	// 	int nLocs = -1;
+	// 	HvWhereCanTheyGoByType(hv, PLAYER_DRACULA, true, false, false, &nLocs);
+	// }
+
+	// If Drac's location has been found, find all possible locations
+	// he can go to and send a hunter to each of those locations and invoke
+	// the random move function from there to find Dracula
+	if (placeIsReal(lastDracLoc) && HvGetRound(hv) - lastDracRound < 2) {
+		// if Drac's location has been revealed recently, chase him
+		if (currPlayer == PLAYER_DR_SEWARD) {
 			int pathLength = -1;
 			PlaceId *searchPath = HvGetShortestPathTo(hv, currPlayer, 
-			lastDracLoc, &pathLength);
+											lastDracLoc, &pathLength);
 
 			char *placeAbbrev = (char *) placeIdToAbbrev(searchPath[0]);
 			registerBestPlay(placeAbbrev, "We're coming after you");
 			return;
-		}
-
-		// godalming patrolling Castle Dracula
-		if (currPlayer == PLAYER_LORD_GODALMING) {
-			
-			PlaceId godalmingLoc = HvGetPlayerLocation(hv, 
-			PLAYER_LORD_GODALMING);
-
-			if (godalmingLoc != KLAUSENBURG) {
-				headtoKlausenberg(hv, PLAYER_LORD_GODALMING);
-				return;
-			}
-
-			time_t t;
-			int patrolLoc = -1;
-			srand((unsigned) time(&t));
-
-			// 6 because there are 6 locations connected to that place
-			int randIndex = rand() % 6;
-			PlaceId *patrol = HvWhereCanIGo(hv, &patrolLoc);
-
-			char *placeAbbrev = (char *) placeIdToAbbrev(patrol[randIndex]);
-			registerBestPlay(placeAbbrev, "Patrolling Klausenberg's net");
+		} 
+		// Else have other players go to the main player
+		else {
+			int pathLength = -1;
+			PlaceId *searchPath = HvGetShortestPathTo(hv, currPlayer, 
+				HvGetPlayerLocation(hv, PLAYER_LORD_GODALMING), &pathLength);
+			char *placeAbbrev = (char *) placeIdToAbbrev(searchPath[0]);
+			registerBestPlay(placeAbbrev, "We're coming after you");
 			return;
 		}
+	}
 
-		// in case Drac's location is still hidden, head to CD 
-		// then make random moves from there to find Dracula
-		randomMove(hv, currPlayer);
-		return;
-	}	
-
+	// in case Drac's location is still hidden, head to CD 
+	// then make random moves from there to find Dracula
+	randomMove(hv, currPlayer);
 	return;
+
 }
 
 // head to CD
