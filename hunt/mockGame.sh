@@ -9,6 +9,8 @@ while test $i -le 25; do
     ./rungame.sh DraculaView.* HunterView.* GameView.* hunter.c dracula.c Queue.* Item.h Makefile | tee log_$i.txt | tail -2 >> test.txt;
     if egrep "dis" log_$i.txt > /dev/null; then
         echo "Game $i has a diaqualification!"
+    else
+        rm log_$i.txt;
     fi
     i=`expr $i + 1`;
     echo "" >> test.txt;

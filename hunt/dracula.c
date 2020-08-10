@@ -55,7 +55,7 @@ void decideDraculaMove(DraculaView dv)
     // gameInfo.map = MapNew();
 
     if (DvGetRound(dv) == 0) {
-        registerBestPlay("TS", "I dare you to hunt me :D");
+        registerBestPlay("AO", "I dare you to hunt me :D");
         return;
     }
 
@@ -171,97 +171,6 @@ void decideDraculaMove(DraculaView dv)
             char *play = (char *) placeIdToAbbrev(move);
             registerBestPlay(play, "Safe Keeping!");
         } else {
-            #if 1
-            MoveCalc moveData[nDracPlays];
-            for (int i = 0; i < nDracPlays; i++) {
-                PlaceId move = dracPlays[i];
-                // printf("Move: %d\n", move);
-
-                int distToPlayer[4];
-                double distance = 0;
-                for (int i = 0; i < 4; i++) {
-                    int hunterPathLen = 0;
-
-                    #if 1
-                        DvGetShortestPathTo(dv, move, DvGetPlayerLocation(dv, i), 
-                                            &hunterPathLen);
-                    #else
-                        HvGetShortestPathTo(dv, i, move, &hunterPathLen);
-                    #endif
-
-                    distToPlayer[i] = hunterPathLen;
-                    distance += hunterPathLen;
-                    
-                    // for (int i = 0; i < hunterPathLen; i++) {
-                    //     printf("%s ->", placeIdToAbbrev(locs[i]));
-                    // }
-                    // printf("\nDist for Player %d: %d\n\n", i, hunterPathLen);
-
-                }
-                moveData[i].mean = distance/4;
-
-                double variance = 0;
-                for(int i = 0; i < 4; i++) {
-                    variance += (distToPlayer[i] - moveData[i].mean) * 
-                                (distToPlayer[i] - moveData[i].mean);
-                }
-
-                moveData[i].deviation = sqrt(variance/4);
-                moveData[i].move = move;
-
-                // Find how many hunters can reach the given move.
-                for (int player = 0; player < 4; player++) {
-                    int nPlays = 0;
-                    PlaceId *huntPlays = DvWhereCanTheyGo(dv, player, &nPlays);
-                    for (int j = 0; j < nPlays; j++) {
-                        if (move == huntPlays[j] && placeIsLand(move)) {
-                            moveData[i].mean -= 10;
-                        }
-                    }
-                    if (placeIsSea(moveData[i].move)) {
-                        moveData[i].mean -= 5;
-                    }
-                    if (isDbHide(dv, moveData[i].move)) {
-                        moveData[i].mean -= 3;
-                    }
-                }
-
-            }
-
-            // Order the array with the highest mean at the beginning using
-            // bubble sort
-            int nSwaps = 0;
-            for (int i = 0; i < nDracPlays; i++) {
-                nSwaps = 0;
-                for (int j = nDracPlays; j > i; j--) {
-                    if (moveData[j].mean > moveData[j - 1].mean) {
-                        MoveCalc tmp = moveData[j - 1];
-                        moveData[j - 1] = moveData[j];
-                        moveData[j] = tmp;
-                        nSwaps++;
-                    }
-                }
-                if (nSwaps == 0) break;
-            }
-
-            for (int i = 0; i < nDracPlays; i++) 
-                printf("Mean: %f\n", moveData[i].mean);
-
-            int min = moveData[0].deviation;
-            int minIndex = 0;
-            int max = 0.30 * nDracPlays;
-            for (int i = 0; i < max; i++) {
-                if (min > moveData[i].deviation) {
-                    min = moveData[i].deviation;
-                    minIndex = i;
-                }
-            }
-
-            PlaceId move = DvConvertLocToMove(dv, moveData[minIndex].move);
-            char *play = (char *) placeIdToAbbrev(move);
-            registerBestPlay(play, "Blasting Away!");
-
-            #else
             // Calculate how each valid move does using a score system
 
             int scoreMove[nDracPlays];
@@ -353,37 +262,31 @@ void decideDraculaMove(DraculaView dv)
                 }
 
                 double deviation = sqrt(variance/4);
-                // printf("%f", deviation);
-                if (deviation < 0.1) deviation = 0.1;
-                int deviationCal = 1000/deviation;
-                // if (deviation < 0.1) deviationCal = 0;
-                // else deviationCal = 100000/deviation;
+                
                 // Add score based on mean and deviation
-                score += 8000 * averageDist + deviationCal;
+                score += 8000 * averageDist + 10000/deviation;
 
                 // TODO: Check for health emergency
-                int pathLen = 0;
-                PlaceId *pathToCastle = DvGetShortestPathTo(dv, 
-                                        DvGetPlayerLocation(dv, PLAYER_DRACULA),
-                                        CASTLE_DRACULA, &pathLen);
-                if (pathLen > 0 && DvGetHealth(dv, PLAYER_DRACULA) < 10 && 
-                    pathToCastle[0] == move) 
-                    score += 20000;
-                free(pathToCastle);
+                // int pathLen = 0;
+                // PlaceId *pathToCastle = DvGetShortestPathTo(dv, 
+                //                         DvGetPlayerLocation(dv, PLAYER_DRACULA),
+                //                         CASTLE_DRACULA, &pathLen);
+                // if (pathLen > 0 && DvGetHealth(dv, PLAYER_DRACULA) < 20 && 
+                //     pathToCastle[0] == move) 
+                //     score += 30000;
+                // free(pathToCastle);
 
-                if (DvGetHealth(dv, PLAYER_DRACULA) < 10 && 
-                    move == CASTLE_DRACULA) 
-                    score += 7000;
+                // if (DvGetHealth(dv, PLAYER_DRACULA) < 20 && 
+                //     move == CASTLE_DRACULA) 
+                //     score += 7000;
 
                 scoreMove[i] = score;
             }
 
-            // for (int i = 0; i < nDracPlays; i++) printf("%d - ", scoreMove[i]);
             int i = maxScoreIndex(scoreMove, nDracPlays);
             PlaceId move = DvConvertLocToMove(dv, dracPlays[i]);
             char *play = (char *) placeIdToAbbrev(move);
             registerBestPlay(play, "luck");
-            #endif
         }
     }
 
